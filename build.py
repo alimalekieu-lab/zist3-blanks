@@ -182,17 +182,24 @@ def build(pdf_path):
     skipped_no_letter = 0
     for pno in range(doc.page_count):
         lines = extract_lines(doc[pno])
-        objs = []
+        # خط‌های دارای حرف را نگه می‌داریم (خط بدون حرف = شماره صفحه و… کنار می‌رود)
+        kept = []
         for _, ln in lines:
-            if not HAS_LETTER.search(ln):   # فقط خط بدون هیچ حرف (شماره صفحه و…)
+            if HAS_LETTER.search(ln):
+                kept.append(ln)
+            else:
                 skipped_no_letter += 1
-                continue
-            # اگر داخل خط نقطه/علامت پایان بود، به عبارت‌ها بشکن؛ وگرنه کل خط یک عبارت
-            parts = split_sentences(ln) or [ln]
-            for p in parts:
-                o = make_item(p)
-                if o:
-                    objs.append(o)
+        if not kept:
+            continue
+        # خط‌ها را به هم می‌چسبانیم تا جمله‌های شکسته‌شده روی چند خط، کامل بازخوانده شوند،
+        # سپس بر اساس نقطه/علامت پایان به جمله می‌شکنیم. هیچ جمله‌ای حذف نمی‌شود.
+        paragraph = re.sub(r"\s+", " ", " ".join(kept)).strip()
+        parts = split_sentences(paragraph) or [paragraph]
+        objs = []
+        for p in parts:
+            o = make_item(p)
+            if o:
+                objs.append(o)
         if objs:
             pages_out.append({"page": pno + 1, "sentences": objs})
             total_sent += len(objs)
