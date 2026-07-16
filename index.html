@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>زیست‌شناسی ۳ — تمرین جای خالی</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo">🧬</span>
+      <div>
+        <h1>زیست‌شناسی ۳</h1>
+        <p class="sub">تمرین جای خالی</p>
+      </div>
+    </div>
+    <div class="tools">
+      <input id="search" type="search" placeholder="جست‌وجوی صفحه…" inputmode="numeric" />
+      <button id="themeBtn" class="icon-btn" title="حالت شب/روز">🌙</button>
+    </div>
+  </header>
+
+  <nav class="pager">
+    <button id="prevBtn" class="nav-btn">→ قبلی</button>
+    <label class="page-select">
+      صفحه
+      <select id="pageSelect"></select>
+    </label>
+    <button id="nextBtn" class="nav-btn">بعدی ←</button>
+    <div class="progress-wrap"><div id="progress" class="progress"></div></div>
+  </nav>
+
+  <main id="content" class="content"><!-- جمله‌ها اینجا ساخته می‌شوند --></main>
+
+  <div class="actionbar">
+    <button id="checkBtn" class="primary">بررسی این صفحه</button>
+    <button id="revealBtn">نمایش پاسخ‌ها</button>
+    <button id="clearBtn">پاک کردن</button>
+    <span id="score" class="score"></span>
+  </div>
+
+  <footer class="foot">
+    <span>ابزار شخصی مطالعه — بدون نیاز به سرور</span>
+  </footer>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

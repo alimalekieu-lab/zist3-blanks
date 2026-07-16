@@ -1,0 +1,111 @@
+:root{
+  --bg:#f4f6f9; --panel:#ffffff; --ink:#1f2733; --muted:#6b7686;
+  --line:#e4e8ee; --brand:#0e9f6e; --brand-d:#0b7d57;
+  --ok:#0e9f6e; --ok-bg:#e6f6ef; --bad:#e02424; --bad-bg:#fdecec;
+  --shadow:0 1px 3px rgba(16,24,40,.06),0 1px 2px rgba(16,24,40,.04);
+  --radius:14px;
+}
+[data-theme="dark"]{
+  --bg:#0f141a; --panel:#161d26; --ink:#e7edf3; --muted:#93a1b2;
+  --line:#26313d; --brand:#22c58b; --brand-d:#1aa574;
+  --ok:#22c58b; --ok-bg:#12332a; --bad:#ff6b6b; --bad-bg:#3a1d1d;
+  --shadow:0 1px 3px rgba(0,0,0,.4);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  font-family:Vazirmatn,"IRANSans",Tahoma,system-ui,sans-serif;
+  background:var(--bg); color:var(--ink); line-height:2;
+  font-size:17px; padding-bottom:90px;
+}
+h1{font-size:1.25rem;margin:0}
+.sub{margin:0;color:var(--muted);font-size:.8rem}
+
+/* Top bar */
+.topbar{
+  position:sticky; top:0; z-index:20;
+  display:flex; justify-content:space-between; align-items:center; gap:12px;
+  padding:12px 18px; background:var(--panel);
+  border-bottom:1px solid var(--line); box-shadow:var(--shadow);
+}
+.brand{display:flex; align-items:center; gap:12px}
+.logo{font-size:1.8rem}
+.tools{display:flex; align-items:center; gap:8px}
+#search{
+  padding:9px 12px; border:1px solid var(--line); border-radius:10px;
+  background:var(--bg); color:var(--ink); width:150px; font-family:inherit;
+}
+.icon-btn{
+  border:1px solid var(--line); background:var(--bg); color:var(--ink);
+  width:40px;height:40px;border-radius:10px;cursor:pointer;font-size:1.1rem;
+}
+
+/* Pager */
+.pager{
+  position:sticky; top:65px; z-index:15;
+  display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+  padding:10px 18px; background:var(--panel); border-bottom:1px solid var(--line);
+}
+.nav-btn{
+  padding:8px 14px; border:1px solid var(--line); border-radius:10px;
+  background:var(--bg); color:var(--ink); cursor:pointer; font-family:inherit; font-size:.95rem;
+}
+.nav-btn:hover{border-color:var(--brand)}
+.page-select{display:flex;align-items:center;gap:6px;color:var(--muted);font-size:.9rem}
+#pageSelect{
+  padding:7px 10px;border:1px solid var(--line);border-radius:10px;
+  background:var(--bg);color:var(--ink);font-family:inherit;
+}
+.progress-wrap{flex:1;min-width:120px;height:8px;background:var(--line);border-radius:99px;overflow:hidden}
+.progress{height:100%;width:0;background:var(--brand);transition:width .3s}
+
+/* Content */
+.content{max-width:900px;margin:22px auto;padding:0 16px;display:flex;flex-direction:column;gap:14px}
+.card{
+  background:var(--panel); border:1px solid var(--line);
+  border-radius:var(--radius); padding:16px 18px; box-shadow:var(--shadow);
+}
+.card .num{
+  display:inline-block; min-width:26px; height:26px; line-height:26px; text-align:center;
+  background:var(--bg); color:var(--muted); border-radius:8px; font-size:.8rem; margin-left:8px;
+}
+.sentence{display:inline}
+
+/* Blank inputs */
+.blank{
+  display:inline-block; min-width:70px; max-width:220px;
+  padding:2px 8px; margin:0 2px; text-align:center;
+  border:none; border-bottom:2px dashed var(--brand);
+  background:transparent; color:var(--ink);
+  font-family:inherit; font-size:1rem; line-height:1.6;
+  transition:all .15s;
+}
+.blank:focus{outline:none;border-bottom-style:solid;background:var(--ok-bg)}
+.blank.correct{border-bottom-color:var(--ok);background:var(--ok-bg);color:var(--ok);font-weight:600}
+.blank.wrong{border-bottom-color:var(--bad);background:var(--bad-bg);color:var(--bad)}
+.answer-hint{color:var(--ok);font-weight:600}
+
+/* Action bar */
+.actionbar{
+  position:fixed; bottom:0; right:0; left:0; z-index:20;
+  display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+  padding:12px 18px; background:var(--panel); border-top:1px solid var(--line);
+  box-shadow:0 -2px 8px rgba(16,24,40,.05);
+}
+.actionbar button{
+  padding:10px 18px; border-radius:10px; border:1px solid var(--line);
+  background:var(--bg); color:var(--ink); cursor:pointer; font-family:inherit; font-size:.95rem;
+}
+.actionbar .primary{background:var(--brand);border-color:var(--brand);color:#fff;font-weight:600}
+.actionbar .primary:hover{background:var(--brand-d)}
+.score{margin-right:auto;color:var(--muted);font-weight:600}
+.score b{color:var(--brand)}
+
+.foot{text-align:center;color:var(--muted);font-size:.8rem;padding:18px}
+
+@media (max-width:600px){
+  body{font-size:16px}
+  #search{width:110px}
+  .brand h1{font-size:1.05rem}
+  .content{margin:14px auto}
+}
