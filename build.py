@@ -21,9 +21,8 @@ try:
 except ImportError:
     sys.exit("PyMuPDF نصب نیست. اجرا کنید: pip install pymupdf")
 
-MIN_BLANKS = 3            # حداقل جای خالی در هر جمله
-MIN_WORDS_IN_SENTENCE = 5 # جمله‌های کوتاه‌تر از این نادیده گرفته می‌شوند
-OUTPUT = "data.js"
+MIN_BLANKS = 3            # هدفِ جای خالی در هر عبارت (اگر ممکن نبود، کمتر)
+OUTPUT = "data.js"        # هیچ عبارتی حذف نمی‌شود؛ فقط خط‌های بدون حرف کنار می‌روند
 
 # ------------------------------------------------------------------ #
 #  ۱) پاکسازی نویسه‌ها
@@ -152,46 +151,52 @@ def pick_blanks(tokens):
             score += 2
         scored.append((score, i))
     scored.sort(reverse=True)
-    # حداقل MIN_BLANKS واژه؛ اگر جمله بلند بود بیشتر (تا حدود ۳۰٪ واژه‌ها) با سقف ۸
+    # هدف: حداقل MIN_BLANKS؛ برای عبارت‌های بلند تا ۳۰٪ واژه‌ها با سقف ۸.
+    # اگر واژه‌ی مناسب کمتر بود، هرچه هست جای خالی می‌شود (چیزی رد نمی‌شود).
     n = max(MIN_BLANKS, round(len(tokens) * 0.30))
     n = min(n, 8, len(scored))
-    idx = sorted(i for _, i in scored[:n])
-    return idx
+    idx = [i for _, i in scored[:n]]
+    if not idx:
+        # هیچ واژه‌ی «کلیدی» نبود: بلندترین واژه (>=۲ حرف) را جای خالی کن
+        cand = [(len(t.replace(ZWNJ, "")), i) for i, t in enumerate(tokens)
+                if len(t.replace(ZWNJ, "")) >= 2]
+        if cand:
+            idx = [max(cand)[1]]
+    return sorted(idx)
 
-def make_sentence_obj(sentence: str):
-    tokens = sentence.split(" ")
-    tokens = [t for t in tokens if t]
-    if len(tokens) < MIN_WORDS_IN_SENTENCE:
+def make_item(text: str):
+    tokens = [t for t in text.split(" ") if t]
+    if not tokens:
         return None
-    blanks = pick_blanks(tokens)
-    if len(blanks) < MIN_BLANKS:
-        return None
-    return {"t": tokens, "b": blanks}
+    return {"t": tokens, "b": pick_blanks(tokens)}
 
 # ------------------------------------------------------------------ #
 #  ۶) پردازش کل کتاب
 # ------------------------------------------------------------------ #
+HAS_LETTER = re.compile(r"[A-Za-z؀-ۿ]")
+
 def build(pdf_path):
     doc = fitz.open(pdf_path)
     pages_out = []
     total_sent = 0
+    skipped_no_letter = 0
     for pno in range(doc.page_count):
         lines = extract_lines(doc[pno])
-        clean = [ln for _, ln in lines if not is_noise(ln)]
-        if not clean:
-            continue
-        # خطوط را به یک متن پیوسته تبدیل و بعد جمله‌بندی کن
-        paragraph = " ".join(clean)
-        paragraph = re.sub(r"\s+", " ", paragraph)
-        sentences = split_sentences(paragraph)
         objs = []
-        for s in sentences:
-            o = make_sentence_obj(s)
-            if o:
-                objs.append(o)
+        for _, ln in lines:
+            if not HAS_LETTER.search(ln):   # فقط خط بدون هیچ حرف (شماره صفحه و…)
+                skipped_no_letter += 1
+                continue
+            # اگر داخل خط نقطه/علامت پایان بود، به عبارت‌ها بشکن؛ وگرنه کل خط یک عبارت
+            parts = split_sentences(ln) or [ln]
+            for p in parts:
+                o = make_item(p)
+                if o:
+                    objs.append(o)
         if objs:
             pages_out.append({"page": pno + 1, "sentences": objs})
             total_sent += len(objs)
+    print(f"  خط‌های بدون حرف که کنار گذاشته شد (شماره صفحه و…): {skipped_no_letter}")
     data = {
         "title": "زیست‌شناسی ۳ — تمرین جای خالی",
         "pages": pages_out,
