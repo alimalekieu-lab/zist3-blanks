@@ -49,6 +49,37 @@ def normalize(s: str) -> str:
 # ------------------------------------------------------------------ #
 HAIR = " "
 LEAD_PUNCT = re.compile(r"^([.!؟،؛:]+)(.+)$")
+WORD_RE = re.compile(r"[ء-ی]+")
+
+# نگاشتِ تصحیح لیگاتورِ «لا» که در این PDF برعکس ذخیره شده («اخالق»→«اخلاق»).
+# به‌صورت خودکار از روی نشانه‌ی هندسی (حرف «ا»ی عرض‌صفر پیش از «ل») ساخته می‌شود.
+LIG_MAP = {}
+
+def build_ligature_map(doc):
+    mapping = {}
+    for pno in range(doc.page_count):
+        d = doc[pno].get_text("rawdict")
+        for b in d.get("blocks", []):
+            for ln in b.get("lines", []):
+                for s in ln.get("spans", []):
+                    chars = s["chars"]
+                    raw = [c["c"] for c in chars]
+                    cor = raw[:]
+                    changed = False
+                    for i in range(len(chars) - 1):
+                        w = chars[i]["bbox"][2] - chars[i]["bbox"][0]
+                        if raw[i] == "ا" and w < 0.5 and raw[i + 1] == "ل":
+                            cor[i], cor[i + 1] = cor[i + 1], cor[i]  # ال → لا
+                            changed = True
+                    if not changed:
+                        continue
+                    rw = WORD_RE.findall(normalize("".join(raw)))
+                    cw = WORD_RE.findall(normalize("".join(cor)))
+                    if len(rw) == len(cw):
+                        for a, b2 in zip(rw, cw):
+                            if a != b2:
+                                mapping[a] = b2
+    return mapping
 
 def reconstruct_line(raw_line: str) -> str:
     runs = raw_line.split(HAIR)
@@ -62,7 +93,10 @@ def reconstruct_line(raw_line: str) -> str:
         if m:
             r = m.group(2).strip() + m.group(1)
         fixed.append(r)
-    return ZWNJ.join(reversed(fixed)).strip()
+    text = ZWNJ.join(reversed(fixed)).strip()
+    if LIG_MAP:
+        text = WORD_RE.sub(lambda mm: LIG_MAP.get(mm.group(), mm.group()), text)
+    return text
 
 def extract_lines(page):
     lines = []
@@ -164,7 +198,10 @@ def make_item(text: str):
 HAS_LETTER = re.compile(r"[A-Za-z؀-ۿ]")
 
 def build(pdf_path):
+    global LIG_MAP
     doc = fitz.open(pdf_path)
+    LIG_MAP = build_ligature_map(doc)
+    print(f"  کلمات تصحیح‌شده‌ی لیگاتور «لا»: {len(LIG_MAP)}")
     pages_out = []
     total_sent = 0
     skipped_no_letter = 0
