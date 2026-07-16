@@ -105,6 +105,7 @@ button{font-family:inherit;cursor:pointer;touch-action:manipulation}
 .slot.sel{border-color:var(--gold);box-shadow:0 0 0 3px rgba(255,200,0,.25)}
 .slot.correct{border-color:var(--green);background:var(--ok-bg);color:var(--ok-ink)}
 .slot.wrong{border-color:var(--red);background:var(--bad-bg);color:var(--bad-ink);text-decoration:line-through}
+.slot.revealed{border-style:solid;border-color:var(--gold);background:var(--panel);color:var(--ink);font-weight:800}
 input.slot{outline:none;font-family:inherit;font-size:1rem}
 
 /* word bank */
@@ -139,6 +140,7 @@ input.slot{outline:none;font-family:inherit;font-size:1rem}
 .feedback .ans b{font-weight:800}
 .footer .row{max-width:640px;margin:0 auto;display:flex;gap:12px;align-items:center}
 .footer .row .btn{flex:1;padding:15px 20px;font-size:1.05rem}
+.footer .row #hintBtn{flex:0 0 auto;padding:15px 14px;font-size:.95rem}
 
 /* ===== Complete screen ===== */
 .complete{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:30px;gap:6px}

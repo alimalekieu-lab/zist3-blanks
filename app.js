@@ -101,12 +101,49 @@
   var L;  // وضعیت درس جاری
   function startLesson(idx) {
     var lesson = LESSONS[idx];
+    // مخزنِ کلماتِ همین درس (برای گزینه‌های انحرافیِ هم‌موضوع)
+    var seen = {}, pool = [];
+    lesson.items.forEach(function (it) {
+      it.b.forEach(function (i) {
+        var w = clean(it.t[i]), k = norm(w);
+        if (w && !seen[k]) { seen[k] = 1; pool.push(w); }
+      });
+    });
     L = {
-      idx: idx, page: lesson.page, items: lesson.items,
+      idx: idx, page: lesson.page, items: lesson.items, pool: pool,
       pos: 0, hearts: 5, correct: 0, total: lesson.items.length,
-      earned: 0, answered: false, slots: [], selSlot: null
+      earned: 0, answered: false, slots: [], selSlot: null, hintUsed: false
     };
     renderExercise();
+  }
+
+  /* گزینه‌های انحرافی: اولویت با کلماتِ همین درس و هم‌طولِ پاسخ‌ها */
+  function pickDistractors(answers, need) {
+    var ansN = {}, chosen = [], chosenN = {};
+    answers.forEach(function (a) { ansN[norm(a.word)] = 1; });
+    var lens = answers.map(function (a) { return a.word.replace(/‌/g, "").length; });
+    function closeLen(w) {
+      var l = w.replace(/‌/g, "").length, m = 99;
+      lens.forEach(function (x) { m = Math.min(m, Math.abs(x - l)); });
+      return m;
+    }
+    function isClean(w) {
+      var c = w.replace(/‌/g, "");
+      return /^[ء-ی]+$/.test(c) || /^[A-Za-z][A-Za-z0-9]*$/.test(c); // فارسیِ خالص یا لاتینِ خالص
+    }
+    function tryAdd(list, maxDiff) {
+      for (var i = 0; i < list.length && chosen.length < need; i++) {
+        var w = list[i], k = norm(w);
+        if (!k || ansN[k] || chosenN[k] || !isClean(w)) continue;
+        if (maxDiff != null && closeLen(w) > maxDiff) continue;
+        chosen.push(w); chosenN[k] = 1;
+      }
+    }
+    var lp = shuffle(L.pool.slice());
+    tryAdd(lp, 2); tryAdd(lp, null);          // هم‌درس (هم‌طول، سپس هر طول)
+    var gp = shuffle(POOL.slice());
+    tryAdd(gp, 2); tryAdd(gp, null);          // سراسری
+    return chosen;
   }
 
   function currentAnswers() {
@@ -117,7 +154,7 @@
   }
 
   function renderExercise() {
-    L.answered = false; L.selSlot = null; L.slots = [];
+    L.answered = false; L.selSlot = null; L.slots = []; L.hintUsed = false;
     var it = L.items[L.pos];
     var answers = currentAnswers();
     var pct = (L.pos / L.total) * 100;
@@ -154,12 +191,8 @@
     // بانک کلمات
     if (MODE === "bank") {
       var chips = answers.map(function (a) { return a.word; });
-      var need = Math.min(6, Math.max(2, Math.round(answers.length * 0.6)));
-      var pool = shuffle(POOL.slice());
-      for (var i = 0; i < pool.length && chips.length < answers.length + need; i++) {
-        if (chips.indexOf(pool[i]) === -1 && norm(pool[i]) && answers.every(function (a) { return norm(a.word) !== norm(pool[i]); }))
-          chips.push(pool[i]);
-      }
+      var need = Math.min(6, Math.max(3, answers.length));
+      chips = chips.concat(pickDistractors(answers, need));
       shuffle(chips);
       h += '<div class="bank" id="bank">';
       chips.forEach(function (c, ci) { h += '<button class="chip" data-w="' + esc(c) + '" data-ci="' + ci + '">' + esc(c) + '</button>'; });
@@ -172,13 +205,17 @@
 
     // فوتر بازخورد
     h += '<div class="footer" id="footer"><div class="feedback" id="feedback"></div>' +
-      '<div class="row"><button class="btn wide" id="checkBtn" disabled>بررسی</button></div></div>';
+      '<div class="row">' +
+        '<button class="btn ghost" id="hintBtn" title="راهنما">💡 راهنما</button>' +
+        '<button class="btn wide" id="checkBtn" disabled>بررسی</button>' +
+      '</div></div>';
     h += '</div>';
     app.innerHTML = h;
 
     document.getElementById("closeBtn").onclick = function () { if (confirm("از درس خارج می‌شوی؟")) renderHome(); };
     document.getElementById("modeBtn").onclick = function () { MODE = MODE === "bank" ? "type" : "bank"; store.set("mode", MODE); renderExercise(); };
     document.getElementById("checkBtn").onclick = onCheck;
+    document.getElementById("hintBtn").onclick = revealNext;
 
     // اتصال جای خالی‌ها
     L.slots = [].map.call(document.querySelectorAll(".slot"), function (el) {
@@ -203,6 +240,7 @@
   /* ---------- تعامل بانک کلمات ---------- */
   function selectSlot(si) {
     var s = L.slots[si];
+    if (s.revealed) return;           // جای خالیِ رونماشده قفل است
     if (s.word) { // خالی کردن
       if (s.chip) s.chip.classList.remove("used");
       s.word = ""; s.chip = null; s.el.textContent = ""; s.el.classList.remove("filled");
@@ -229,6 +267,32 @@
     document.getElementById("checkBtn").disabled = !all || L.answered;
   }
 
+  /* ---------- راهنما: رونماییِ یک جای خالیِ درست ---------- */
+  function revealNext() {
+    if (L.answered) return;
+    var target = null;
+    for (var i = 0; i < L.slots.length; i++) {
+      var s = L.slots[i];
+      if (!s.revealed && norm(s.word) !== norm(s.answer)) { target = s; break; }
+    }
+    if (!target) return;               // چیزی برای رونمایی نمانده
+    if (MODE === "bank" && target.chip) target.chip.classList.remove("used");
+    target.word = target.answer; target.revealed = true; L.hintUsed = true;
+    if (MODE === "type") {
+      target.el.value = target.answer; target.el.readOnly = true;
+    } else {
+      target.el.textContent = target.answer; target.el.classList.add("filled");
+      var chip = [].filter.call(document.querySelectorAll(".chip"), function (c) {
+        return !c.classList.contains("used") && norm(c.dataset.w) === norm(target.answer);
+      })[0];
+      if (chip) { chip.classList.add("used"); target.chip = chip; }
+    }
+    target.el.classList.remove("sel", "wrong");
+    target.el.classList.add("revealed");
+    if (L.selSlot != null) { L.selSlot = null; L.slots.forEach(function (x) { x.el.classList.remove("sel"); }); }
+    refreshCheck();
+  }
+
   /* ---------- بررسی پاسخ ---------- */
   function onCheck() {
     if (L.answered) return; L.answered = true;
@@ -243,10 +307,14 @@
 
     var footer = document.getElementById("footer");
     var fb = document.getElementById("feedback");
+    var hintBtn = document.getElementById("hintBtn"); if (hintBtn) hintBtn.style.display = "none";
     fb.style.display = "block";
     if (allOk) {
-      L.correct++; L.earned += 10; XP += 10; STREAK++;
-      var combo = STREAK >= 3 ? ' <span style="color:#ff9600">🔥 ' + STREAK + 'تایی!</span>' : '';
+      var reward = L.hintUsed ? 5 : 10;
+      L.correct++; L.earned += reward; XP += reward;
+      var combo = "";
+      if (L.hintUsed) { STREAK = 0; combo = ' <span style="color:var(--muted)">(با راهنما +' + reward + ')</span>'; }
+      else { STREAK++; if (STREAK >= 3) combo = ' <span style="color:#ff9600">🔥 ' + STREAK + 'تایی!</span>'; }
       footer.className = "footer correct";
       fb.innerHTML = '<div class="head">✅ ' + praise() + combo + '</div>';
       beep(true);

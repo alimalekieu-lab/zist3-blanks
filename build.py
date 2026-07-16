@@ -184,7 +184,9 @@ def pick_blanks(tokens):
     for i, tok in enumerate(tokens):
         core = tok.strip(PUNCT)
         plain = core.replace(ZWNJ, "")
-        if not plain or len(plain) < 3 or plain in HARD_STOP:
+        if not plain or len(plain) < 2 or plain in HARD_STOP:
+            continue
+        if is_verb(tok):                                  # فعل هرگز جای خالی نشود
             continue
         score = float(len(plain))
         if re.search(r"[A-Za-z]", core):                 # اصطلاح/فرمول لاتین
@@ -193,11 +195,11 @@ def pick_blanks(tokens):
             score += 7
         if ZWNJ in core:                                  # واژه‌ی مرکبِ تخصصی
             score += 3
-        score += min(TERM_FREQ.get(plain, 0), 10) * 0.8   # مفهومِ پرتکرارِ کتاب
+        score += min(TERM_FREQ.get(plain, 0), 10) * 0.9   # مفهومِ پرتکرارِ کتاب
+        if len(plain) == 2:                               # واژه‌ی کوتاه فقط اگر پرتکرار/تخصصی
+            score -= 2
         if plain in SOFT_LOW:                             # کلمه‌ی عمومی
             score -= 6
-        if is_verb(tok):                                  # فعل
-            score -= 9
         scored.append((score, i))
     scored.sort(key=lambda x: (-x[0], x[1]))
     # تراکم مثل قبل: هدف ~۳۰٪ واژه‌ها، حداقل MIN_BLANKS، سقف ۸ (کم نمی‌شود)
@@ -218,7 +220,7 @@ def count_terms(tokens):
     """واژه‌های محتوایی هر جمله را برای شمارشِ سراسری برمی‌گرداند."""
     for tok in tokens:
         plain = tok.strip(PUNCT).replace(ZWNJ, "")
-        if len(plain) >= 3 and plain not in HARD_STOP and not is_verb(tok):
+        if len(plain) >= 2 and plain not in HARD_STOP and not is_verb(tok):
             TERM_FREQ[plain] += 1
 
 # ------------------------------------------------------------------ #
