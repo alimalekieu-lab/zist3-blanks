@@ -41,49 +41,37 @@ def normalize(s: str) -> str:
     s = re.sub(r"[ \t]+", " ", s)
     return s.strip()
 
-# چسباندن نیم‌فاصله برای پیشوند/پسوندهای رایج
-PREFIX_JOIN = {"می", "نمی"}
-SUFFIX_JOIN = {"ها", "های", "هایی", "هایم", "هایت", "هایش",
-               "تر", "تری", "ترین", "ام", "ات", "اش", "مان", "تان", "شان"}
-
-def join_zwnj(tokens):
-    out = []
-    i = 0
-    while i < len(tokens):
-        t = tokens[i]
-        # پیشوند می/نمی به کلمه‌ی بعد بچسبد
-        if t in PREFIX_JOIN and i + 1 < len(tokens):
-            out.append(t + ZWNJ + tokens[i + 1])
-            i += 2
-            continue
-        # پسوندهای رایج به کلمه‌ی قبل بچسبند
-        if out and t in SUFFIX_JOIN:
-            out[-1] = out[-1] + ZWNJ + t
-            i += 1
-            continue
-        out.append(t)
-        i += 1
-    return out
-
 # ------------------------------------------------------------------ #
 #  ۲) استخراج خط‌به‌خط با ترتیب درست
+#     در این PDF هر خطِ راست‌به‌چپ با «فاصله‌ی مویی» (U+200A) به چند «قطعه»
+#     شکسته شده و قطعه‌ها معکوس ذخیره شده‌اند. با معکوس‌کردنِ قطعه‌ها و
+#     چسباندنشان با نیم‌فاصله، جمله‌ی درست و خوانا بازسازی می‌شود.
 # ------------------------------------------------------------------ #
+HAIR = " "
+LEAD_PUNCT = re.compile(r"^([.!؟،؛:]+)(.+)$")
+
+def reconstruct_line(raw_line: str) -> str:
+    runs = raw_line.split(HAIR)
+    fixed = []
+    for r in runs:
+        r = normalize(r)
+        if not r:
+            continue
+        # علامت پایانی که در RTL به ابتدای قطعه چسبیده را به انتهای همان قطعه ببر
+        m = LEAD_PUNCT.match(r)
+        if m:
+            r = m.group(2).strip() + m.group(1)
+        fixed.append(r)
+    return ZWNJ.join(reversed(fixed)).strip()
+
 def extract_lines(page):
-    words = page.get_text("words")  # x0,y0,x1,y1,text,block,line,word
-    if not words:
-        return []
-    groups = defaultdict(list)
-    for w in words:
-        groups[(round(w[1]), w[5], w[6])].append(w)
     lines = []
-    for key in sorted(groups.keys(), key=lambda k: (k[0], k[1], k[2])):
-        ws = sorted(groups[key], key=lambda x: -x[0])  # راست به چپ
-        toks = [normalize(w[4]) for w in ws]
-        toks = [t for t in toks if t]
-        toks = join_zwnj(toks)
-        line = normalize(" ".join(toks))
-        if line:
-            lines.append((key[0], line))
+    for rl in page.get_text().split("\n"):
+        if not rl.strip():
+            continue
+        t = reconstruct_line(rl)
+        if t:
+            lines.append(t)
     return lines
 
 # ------------------------------------------------------------------ #
@@ -184,7 +172,7 @@ def build(pdf_path):
         lines = extract_lines(doc[pno])
         # خط‌های دارای حرف را نگه می‌داریم (خط بدون حرف = شماره صفحه و… کنار می‌رود)
         kept = []
-        for _, ln in lines:
+        for ln in lines:
             if HAS_LETTER.search(ln):
                 kept.append(ln)
             else:
