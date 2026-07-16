@@ -20,10 +20,11 @@ html,body{margin:0;padding:0;height:100%}
 body{
   font-family:Vazirmatn,"IRANSans",Tahoma,system-ui,sans-serif;
   background:var(--bg); color:var(--ink);
-  font-size:17px; overscroll-behavior:none;
+  font-size:17px; overscroll-behavior:none; overflow-x:hidden;
+  -webkit-text-size-adjust:100%;
 }
-button{font-family:inherit;cursor:pointer}
-#app{min-height:100%;display:flex;flex-direction:column}
+button{font-family:inherit;cursor:pointer;touch-action:manipulation}
+#app{min-height:100dvh;display:flex;flex-direction:column;overflow-x:hidden}
 
 /* ===== 3D buttons (Duolingo) ===== */
 .btn{
@@ -44,7 +45,8 @@ button{font-family:inherit;cursor:pointer}
 .home{padding:0 0 40px}
 .home-top{
   position:sticky;top:0;z-index:5;background:var(--panel);border-bottom:2px solid var(--line);
-  padding:14px 18px;display:flex;align-items:center;justify-content:space-between;
+  padding:calc(12px + env(safe-area-inset-top)) 16px 12px;
+  display:flex;align-items:center;justify-content:space-between;gap:8px;
 }
 .home-top .title{display:flex;align-items:center;gap:10px}
 .home-top .logo{font-size:1.8rem}
@@ -62,10 +64,11 @@ button{font-family:inherit;cursor:pointer}
   max-width:520px;margin:22px auto 8px;padding:10px 18px;border-radius:14px;
   background:var(--green);color:#fff;font-weight:800;display:flex;justify-content:space-between;align-items:center;
 }
-.lessons{max-width:520px;margin:0 auto;padding:0 14px;display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:14px}
+.lessons{max-width:520px;margin:0 auto;padding:0 16px;display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media (min-width:480px){.lessons{grid-template-columns:repeat(4,1fr)}}
 .lesson{
   aspect-ratio:1;border:none;border-radius:50%;background:var(--green);
-  box-shadow:0 5px 0 var(--green-d);color:#fff;font-weight:800;font-size:1.05rem;
+  box-shadow:0 6px 0 var(--green-d);color:#fff;font-weight:800;font-size:1.2rem;
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
   transition:transform .05s,box-shadow .05s;position:relative;
 }
@@ -76,8 +79,8 @@ button{font-family:inherit;cursor:pointer}
 .lesson .crown{position:absolute;top:-8px;font-size:.9rem}
 
 /* ===== Lesson screen ===== */
-.lesson-view{display:flex;flex-direction:column;flex:1;min-height:100vh}
-.lesson-head{display:flex;align-items:center;gap:14px;padding:14px 18px}
+.lesson-view{display:flex;flex-direction:column;flex:1;min-height:100dvh}
+.lesson-head{display:flex;align-items:center;gap:12px;padding:calc(12px + env(safe-area-inset-top)) 16px 12px}
 .close-btn{border:none;background:none;font-size:1.6rem;color:var(--muted);font-weight:800;line-height:1}
 .pbar{flex:1;height:16px;background:var(--line);border-radius:99px;overflow:hidden}
 .pbar>div{height:100%;background:var(--green);width:0;border-radius:99px;transition:width .3s}
@@ -94,8 +97,8 @@ button{font-family:inherit;cursor:pointer}
 
 /* blanks */
 .slot{
-  display:inline-block;min-width:78px;height:38px;line-height:34px;vertical-align:middle;
-  margin:0 3px;padding:0 8px;text-align:center;border-radius:10px;
+  display:inline-block;min-width:82px;height:44px;line-height:40px;vertical-align:middle;
+  margin:2px 3px;padding:0 8px;text-align:center;border-radius:10px;
   border:2px dashed var(--blue);color:var(--ink);background:var(--panel);font-weight:700;
 }
 .slot.filled{border-style:solid;border-color:var(--blue);background:var(--panel)}
@@ -108,7 +111,8 @@ input.slot{outline:none;font-family:inherit;font-size:1rem}
 .bank{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:18px}
 .chip{
   border:2px solid var(--line);border-bottom-width:4px;border-radius:12px;
-  background:var(--panel);color:var(--ink);font-weight:700;font-size:1rem;padding:9px 15px;
+  background:var(--panel);color:var(--ink);font-weight:700;font-size:1.05rem;
+  min-height:48px;padding:0 16px;display:inline-flex;align-items:center;
   transition:transform .05s;
 }
 .chip:active{transform:translateY(2px)}
@@ -123,7 +127,7 @@ input.slot{outline:none;font-family:inherit;font-size:1rem}
 /* ===== Feedback footer ===== */
 .footer{
   position:sticky;bottom:0;border-top:2px solid var(--line);background:var(--panel);
-  padding:16px 20px;transition:background .2s;
+  padding:16px 18px calc(16px + env(safe-area-inset-bottom));transition:background .2s;
 }
 .footer.correct{background:var(--ok-bg);border-color:transparent}
 .footer.wrong{background:var(--bad-bg);border-color:transparent}
@@ -134,7 +138,7 @@ input.slot{outline:none;font-family:inherit;font-size:1rem}
 .feedback .ans{margin-top:4px;font-size:.95rem;color:var(--ink)}
 .feedback .ans b{font-weight:800}
 .footer .row{max-width:640px;margin:0 auto;display:flex;gap:12px;align-items:center}
-.footer .row .btn{flex:1;max-width:320px;margin-inline-start:auto}
+.footer .row .btn{flex:1;padding:15px 20px;font-size:1.05rem}
 
 /* ===== Complete screen ===== */
 .complete{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:30px;gap:6px}
