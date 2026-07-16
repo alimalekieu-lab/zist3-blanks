@@ -14,7 +14,7 @@
 """
 
 import sys, os, re, json, unicodedata
-from collections import defaultdict
+from collections import defaultdict, Counter
 
 try:
     import fitz  # PyMuPDF
@@ -144,53 +144,82 @@ def split_sentences(paragraph: str):
 # ------------------------------------------------------------------ #
 #  ۵) انتخاب جای خالی
 # ------------------------------------------------------------------ #
-STOPWORDS = set("""
-و در به از که را این آن با یا است بود شد شده می نمی برای هر تا یک دو سه چهار
-هم اما ولی پس چون زیرا اگر نیز باید تواند توانند دارد دارند داشت داشته کرد کند
-کنند کردن شود شوند های ها یک را بر نه بی هیچ آنها اینها همه چند وقتی هنگامی
-مانند مثل مثلاً یعنی همچنین بنابراین درون بیرون روی زیر بالا پایین کنار میان
-بین طور طوری گونه انواع نوع دیگر دیگری خود آنچه چه کدام کجا چگونه بعد قبل هنگام
+# واژه‌های نقشی که هرگز نباید جای خالی شوند
+HARD_STOP = set("""
+و در به از که را این آن با یا هم اما ولی پس چون زیرا اگر تا یک بر نه بی هیچ
+آنها اینها آنان ایشان او وی ما شما من تو خود خویش یکدیگر همدیگر آنچه آنکه کسی
+هرگاه وقتی هنگامی چنانچه یعنی یا نیز فقط تنها حتی مگر بلکه خواه اینکه چنین چنان
+همین همان دیگر دیگری هرچه هر چند برخی بعضی سایر همه تمام کل بیشتر کمتر
 """.split())
 
+# کلمات محتوایی ولی کم‌ارزش برای کنکور (جریمه می‌شوند، نه حذف)
+SOFT_LOW = set("""
+مانند مثل همانند مثلا مختلف گوناگون متفاوت معمولا اغلب اکثر همواره همیشه اکنون
+سپس آنگاه دارای شامل وجود ایجاد انجام دچار طریق وسیله کمک همراه جهت مورد موارد
+عنوان حدود قسمت بخش حالت زمان هنگام صورت طور طوری گونه امکان توجه نسبت ممکن لازم
+بهتر زیاد بسیار خیلی نوعی طبق اساس روی زیر بالا پایین کنار میان بین بعد قبل درون بیرون
+""".split())
+
+# فعل‌های پرتکرار که ارزش جای‌خالی ندارند (جریمه می‌شوند)
+VERB_SET = set("""
+است هست هستند نیست نیستند بود بودند باشد باشند شد شدند شده شود می‌شود می‌شوند
+شوند کرد کردند کند کنند کرده می‌کند می‌کنند دارد دارند داشت داشته می‌دهد دهد
+دهند داده گیرد می‌گیرد گیرند گرفته آید می‌آید رود می‌رود یابد می‌یابد یافته
+خواهد باید نامند می‌نامند گویند می‌گویند دیده شده‌اند می‌شد می‌توان می‌تواند
+تواند توانند بردارد می‌ماند ماند رسد می‌رسد افتد می‌افتد آورد می‌آورد شویم
+""".split())
+
+PUNCT = "()[]{}،؛:«»\"'.؟!ـ-–—…"
+TERM_FREQ = Counter()
+
+def is_verb(tok: str) -> bool:
+    if tok.startswith("می" + ZWNJ) or tok.startswith("نمی" + ZWNJ):
+        return True
+    plain = tok.strip(PUNCT)
+    return plain in VERB_SET
+
 def pick_blanks(tokens):
-    """اندیس واژه‌هایی که باید جای خالی شوند را برمی‌گرداند (حداقل MIN_BLANKS)."""
+    """اندیسِ واژه‌هایی که جای خالی می‌شوند؛ با اولویتِ ارزشِ کنکوری."""
     scored = []
     for i, tok in enumerate(tokens):
-        core = tok.strip("()[]،؛:«»\"'.")
-        core_plain = core.replace(ZWNJ, "")
-        if not core_plain:
+        core = tok.strip(PUNCT)
+        plain = core.replace(ZWNJ, "")
+        if not plain or len(plain) < 3 or plain in HARD_STOP:
             continue
-        if core_plain in STOPWORDS:
-            continue
-        if len(core_plain) < 3:
-            continue
-        score = len(core_plain)
-        if re.search(r"[A-Za-z]", core):      # اصطلاح لاتین/فرمول
-            score += 5
-        if re.search(r"\d", core):            # عدد مهم
-            score += 4
-        if ZWNJ in core:                       # واژه‌ی مرکب
-            score += 2
+        score = float(len(plain))
+        if re.search(r"[A-Za-z]", core):                 # اصطلاح/فرمول لاتین
+            score += 8
+        if re.search(r"[0-9۰-۹]", core):                 # عدد
+            score += 7
+        if ZWNJ in core:                                  # واژه‌ی مرکبِ تخصصی
+            score += 3
+        score += min(TERM_FREQ.get(plain, 0), 10) * 0.8   # مفهومِ پرتکرارِ کتاب
+        if plain in SOFT_LOW:                             # کلمه‌ی عمومی
+            score -= 6
+        if is_verb(tok):                                  # فعل
+            score -= 9
         scored.append((score, i))
-    scored.sort(reverse=True)
-    # هدف: حداقل MIN_BLANKS؛ برای عبارت‌های بلند تا ۳۰٪ واژه‌ها با سقف ۸.
-    # اگر واژه‌ی مناسب کمتر بود، هرچه هست جای خالی می‌شود (چیزی رد نمی‌شود).
+    scored.sort(key=lambda x: (-x[0], x[1]))
+    # تراکم مثل قبل: هدف ~۳۰٪ واژه‌ها، حداقل MIN_BLANKS، سقف ۸ (کم نمی‌شود)
     n = max(MIN_BLANKS, round(len(tokens) * 0.30))
     n = min(n, 8, len(scored))
     idx = [i for _, i in scored[:n]]
     if not idx:
-        # هیچ واژه‌ی «کلیدی» نبود: بلندترین واژه (>=۲ حرف) را جای خالی کن
         cand = [(len(t.replace(ZWNJ, "")), i) for i, t in enumerate(tokens)
                 if len(t.replace(ZWNJ, "")) >= 2]
         if cand:
             idx = [max(cand)[1]]
     return sorted(idx)
 
-def make_item(text: str):
-    tokens = [t for t in text.split(" ") if t]
-    if not tokens:
-        return None
-    return {"t": tokens, "b": pick_blanks(tokens)}
+def tokens_of(text: str):
+    return [t for t in text.split(" ") if t]
+
+def count_terms(tokens):
+    """واژه‌های محتوایی هر جمله را برای شمارشِ سراسری برمی‌گرداند."""
+    for tok in tokens:
+        plain = tok.strip(PUNCT).replace(ZWNJ, "")
+        if len(plain) >= 3 and plain not in HARD_STOP and not is_verb(tok):
+            TERM_FREQ[plain] += 1
 
 # ------------------------------------------------------------------ #
 #  ۶) پردازش کل کتاب
@@ -202,33 +231,37 @@ def build(pdf_path):
     doc = fitz.open(pdf_path)
     LIG_MAP = build_ligature_map(doc)
     print(f"  کلمات تصحیح‌شده‌ی لیگاتور «لا»: {len(LIG_MAP)}")
-    pages_out = []
-    total_sent = 0
+
+    # گذر اول: استخراج جمله‌ها و شمارشِ سراسریِ واژه‌ها (برای ارزش‌گذاری کنکوری)
+    raw_pages = []
     skipped_no_letter = 0
     for pno in range(doc.page_count):
-        lines = extract_lines(doc[pno])
-        # خط‌های دارای حرف را نگه می‌داریم (خط بدون حرف = شماره صفحه و… کنار می‌رود)
         kept = []
-        for ln in lines:
+        for ln in extract_lines(doc[pno]):
             if HAS_LETTER.search(ln):
                 kept.append(ln)
             else:
                 skipped_no_letter += 1
         if not kept:
             continue
-        # خط‌ها را به هم می‌چسبانیم تا جمله‌های شکسته‌شده روی چند خط، کامل بازخوانده شوند،
-        # سپس بر اساس نقطه/علامت پایان به جمله می‌شکنیم. هیچ جمله‌ای حذف نمی‌شود.
         paragraph = re.sub(r"\s+", " ", " ".join(kept)).strip()
         parts = split_sentences(paragraph) or [paragraph]
-        objs = []
-        for p in parts:
-            o = make_item(p)
-            if o:
-                objs.append(o)
-        if objs:
-            pages_out.append({"page": pno + 1, "sentences": objs})
-            total_sent += len(objs)
+        items = [tokens_of(p) for p in parts]
+        items = [t for t in items if t]
+        if items:
+            raw_pages.append((pno + 1, items))
+            for toks in items:
+                count_terms(toks)
     print(f"  خط‌های بدون حرف که کنار گذاشته شد (شماره صفحه و…): {skipped_no_letter}")
+    print(f"  واژه‌های محتواییِ یکتا (برای ارزش‌گذاری): {len(TERM_FREQ)}")
+
+    # گذر دوم: انتخاب جای خالی‌ها با ارزش کنکوری
+    pages_out = []
+    total_sent = 0
+    for pno, items in raw_pages:
+        sents = [{"t": toks, "b": pick_blanks(toks)} for toks in items]
+        pages_out.append({"page": pno, "sentences": sents})
+        total_sent += len(sents)
     data = {
         "title": "زیست‌شناسی ۳ — تمرین جای خالی",
         "pages": pages_out,
