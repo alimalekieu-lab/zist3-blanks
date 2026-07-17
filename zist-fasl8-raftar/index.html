@@ -1,0 +1,1121 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>فصل ۸ — رفتارهای جانوران | راهنمای کامل نهایی و کنکور</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&family=Lalezar&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FBF8F1;
+  --paper2:#F3EFE3;
+  --ink:#22302A;
+  --muted:#5c6b61;
+  --line:#e7e1d2;
+  --green:#1E7A54;
+  --green-deep:#12563A;
+  --amber:#DE8A2A;
+
+  /* category colors */
+  --c-instinct:#C9761A;   --c-instinct-bg:#FBEEDA;
+  --c-learn:#1E88A8;      --c-learn-bg:#E1F1F5;
+  --c-habit:#2AA08F;      --c-habit-bg:#DFF3EF;
+  --c-classic:#3B7FC4;    --c-classic-bg:#E4EEF9;
+  --c-operant:#6E63C6;    --c-operant-bg:#EBE9FA;
+  --c-problem:#C0568F;    --c-problem-bg:#FAE6F0;
+  --c-imprint:#D9772E;    --c-imprint-bg:#FBEBDC;
+  --c-nature:#2E8B57;     --c-nature-bg:#E1F2E8;
+  --c-repro:#B0479B;      --c-repro-bg:#F8E6F4;
+  --c-forage:#C85C3C;     --c-forage-bg:#FBE7E0;
+  --c-territory:#B98A1F;  --c-territory-bg:#F8EFCF;
+  --c-migrate:#2F80B8;    --c-migrate-bg:#E2EFF8;
+  --c-sleep:#5E7CB8;      --c-sleep-bg:#E7EDF8;
+  --c-comm:#178A73;       --c-comm-bg:#DDF2ED;
+  --c-group:#7A9A2E;      --c-group-bg:#EEF4DC;
+  --c-altru:#D65A6E;      --c-altru-bg:#FBE4E8;
+
+  --trap:#D14343; --trap-bg:#FCEAE7;
+  --tip:#2E8B57;  --tip-bg:#E3F3EA;
+  --radius:16px;
+  --shadow:0 6px 22px rgba(30,60,45,.08);
+  --shadow-hover:0 12px 34px rgba(30,60,45,.16);
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:"Vazirmatn",system-ui,sans-serif;
+  color:var(--ink);
+  background:
+    radial-gradient(1200px 600px at 90% -10%, #f7f0dd 0, transparent 60%),
+    radial-gradient(900px 500px at -10% 10%, #e9f2ea 0, transparent 55%),
+    var(--paper);
+  line-height:1.95;
+  font-size:16.5px;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4{line-height:1.5;margin:0}
+p{margin:.5em 0}
+a{color:var(--green-deep)}
+b,strong{font-weight:800}
+
+/* ---------- top nav ---------- */
+.nav{
+  position:sticky;top:0;z-index:50;
+  background:rgba(251,248,241,.86);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+}
+.nav-inner{
+  max-width:1080px;margin:0 auto;padding:10px 18px;
+  display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:center;
+}
+.nav .brand{font-family:"Lalezar";font-size:1.15rem;color:var(--green-deep);margin-inline-end:auto}
+.nav a{
+  text-decoration:none;color:var(--ink);font-size:.86rem;font-weight:600;
+  padding:6px 12px;border-radius:999px;background:#fff;border:1px solid var(--line);
+  transition:.2s;white-space:nowrap;
+}
+.nav a:hover{background:var(--green);color:#fff;border-color:var(--green);transform:translateY(-1px)}
+
+.wrap{max-width:1080px;margin:0 auto;padding:0 18px 90px}
+
+/* ---------- hero ---------- */
+.hero{
+  position:relative;overflow:hidden;border-radius:0 0 34px 34px;
+  background:linear-gradient(180deg,#2b3a63 0%, #5b4a78 42%, #b06a54 78%, #e2a15c 100%);
+  color:#fff;text-align:center;padding:64px 22px 74px;margin-bottom:26px;
+  box-shadow:0 20px 50px rgba(40,40,80,.28);
+}
+.hero .birds{position:absolute;inset:0;pointer-events:none;opacity:.9}
+.hero .b{position:absolute;width:5px;height:5px;background:#1b2333;border-radius:50%;opacity:.55;
+  animation:float 7s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+.hero .kick{font-size:.95rem;letter-spacing:2px;opacity:.9;font-weight:600}
+.hero h1{font-family:"Lalezar";font-size:clamp(2.4rem,7vw,4.2rem);margin:.1em 0 .12em;
+  text-shadow:0 4px 18px rgba(0,0,0,.3)}
+.hero .thesis{max-width:640px;margin:8px auto 0;font-size:1.05rem;opacity:.96;font-weight:400}
+.hero .chapmark{
+  display:inline-block;margin-bottom:6px;background:rgba(255,255,255,.16);
+  border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:5px 18px;font-weight:700;font-size:.9rem;
+}
+
+/* ---------- legend ---------- */
+.legend{background:#fff;border:1px solid var(--line);border-radius:var(--radius);
+  padding:16px 18px;box-shadow:var(--shadow);margin:-46px auto 30px;max-width:960px;position:relative;z-index:3}
+.legend h3{font-size:1rem;margin-bottom:10px;color:var(--green-deep)}
+.legend-grid{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;align-items:center;gap:7px;font-size:.82rem;font-weight:700;
+  padding:5px 12px;border-radius:999px;border:1.5px solid}
+.dot{width:11px;height:11px;border-radius:50%}
+
+/* ---------- section shells ---------- */
+.sec{margin:44px 0 0}
+.sec-head{display:flex;align-items:center;gap:14px;margin-bottom:18px}
+.sec-num{font-family:"Lalezar";font-size:1.9rem;color:#fff;width:58px;height:58px;flex:0 0 58px;
+  display:grid;place-items:center;border-radius:18px;box-shadow:var(--shadow)}
+.sec-title{font-size:1.5rem;font-weight:900}
+.sec-sub{color:var(--muted);font-size:.95rem;font-weight:500}
+
+.g1 .sec-num{background:linear-gradient(135deg,#2AA08F,#1E88A8)}
+.g2 .sec-num{background:linear-gradient(135deg,#2E8B57,#1E7A54)}
+.g3 .sec-num{background:linear-gradient(135deg,#178A73,#7A9A2E)}
+
+/* ---------- cards ---------- */
+.card{
+  background:#fff;border:1px solid var(--line);border-radius:var(--radius);
+  padding:20px 22px;margin:16px 0;box-shadow:var(--shadow);
+  border-inline-start:7px solid var(--green);
+}
+.card h3{font-size:1.2rem;display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.card h3 .en{font-family:system-ui;font-size:.72rem;font-weight:600;color:var(--muted);
+  background:var(--paper2);border-radius:6px;padding:2px 8px;letter-spacing:.3px}
+.card h4{font-size:1.02rem;margin-top:14px;color:var(--green-deep)}
+.tag{display:inline-block;font-size:.72rem;font-weight:800;padding:3px 11px;border-radius:999px;color:#fff}
+
+.def{background:var(--paper2);border-radius:12px;padding:12px 16px;margin:12px 0;
+  font-weight:600;border-inline-start:4px dashed var(--green)}
+.def b{color:var(--green-deep)}
+
+/* colored variants */
+.k-instinct{border-inline-start-color:var(--c-instinct)} .k-instinct .tag{background:var(--c-instinct)}
+.k-learn{border-inline-start-color:var(--c-learn)} .k-learn .tag{background:var(--c-learn)}
+.k-habit{border-inline-start-color:var(--c-habit)} .k-habit .tag{background:var(--c-habit)}
+.k-classic{border-inline-start-color:var(--c-classic)} .k-classic .tag{background:var(--c-classic)}
+.k-operant{border-inline-start-color:var(--c-operant)} .k-operant .tag{background:var(--c-operant)}
+.k-problem{border-inline-start-color:var(--c-problem)} .k-problem .tag{background:var(--c-problem)}
+.k-imprint{border-inline-start-color:var(--c-imprint)} .k-imprint .tag{background:var(--c-imprint)}
+.k-nature{border-inline-start-color:var(--c-nature)} .k-nature .tag{background:var(--c-nature)}
+.k-repro{border-inline-start-color:var(--c-repro)} .k-repro .tag{background:var(--c-repro)}
+.k-forage{border-inline-start-color:var(--c-forage)} .k-forage .tag{background:var(--c-forage)}
+.k-territory{border-inline-start-color:var(--c-territory)} .k-territory .tag{background:var(--c-territory)}
+.k-migrate{border-inline-start-color:var(--c-migrate)} .k-migrate .tag{background:var(--c-migrate)}
+.k-sleep{border-inline-start-color:var(--c-sleep)} .k-sleep .tag{background:var(--c-sleep)}
+.k-comm{border-inline-start-color:var(--c-comm)} .k-comm .tag{background:var(--c-comm)}
+.k-group{border-inline-start-color:var(--c-group)} .k-group .tag{background:var(--c-group)}
+.k-altru{border-inline-start-color:var(--c-altru)} .k-altru .tag{background:var(--c-altru)}
+
+/* experiment / info boxes */
+.exp,.more,.trapbox,.tipbox{border-radius:12px;padding:13px 16px;margin:13px 0;font-size:.95rem}
+.exp{background:#FFF9EC;border:1px solid #f0dfb4}
+.exp .lbl{font-weight:800;color:#a9770f;font-size:.82rem;display:flex;align-items:center;gap:6px;margin-bottom:4px}
+.more{background:#eef4f8;border:1px solid #d5e4ee}
+.more .lbl{font-weight:800;color:#2a6d8a;font-size:.82rem;margin-bottom:4px}
+.trapbox{background:var(--trap-bg);border:1px solid #f2c4bd}
+.trapbox .lbl{font-weight:800;color:var(--trap);font-size:.82rem;margin-bottom:4px}
+.tipbox{background:var(--tip-bg);border:1px solid #bfe2cd}
+.tipbox .lbl{font-weight:800;color:var(--tip);font-size:.82rem;margin-bottom:4px}
+
+ul.clean{margin:.5em 0;padding-inline-start:1.2em}
+ul.clean li{margin:.35em 0}
+
+/* ---------- concept map ---------- */
+.map{background:#fff;border:1px solid var(--line);border-radius:20px;padding:22px;box-shadow:var(--shadow);overflow-x:auto}
+.map .root{text-align:center;margin-bottom:6px}
+.node{display:inline-block;font-weight:800;color:#fff;padding:8px 16px;border-radius:12px;font-size:.95rem;box-shadow:var(--shadow)}
+.branchrow{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin-top:14px}
+.branch{flex:1;min-width:230px;background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:12px}
+.branch>.node{display:block;text-align:center;margin-bottom:10px}
+.leaf{display:block;background:#fff;border:1.5px solid var(--line);border-radius:10px;padding:7px 11px;margin:6px 0;font-size:.85rem;font-weight:600;
+  border-inline-start:5px solid #ccc}
+.leaf small{color:var(--muted);font-weight:500;display:block;font-size:.76rem}
+
+/* ---------- tables ---------- */
+.tablewrap{overflow-x:auto;border-radius:16px;box-shadow:var(--shadow);border:1px solid var(--line);margin:16px 0}
+table{border-collapse:collapse;width:100%;min-width:560px;background:#fff}
+th,td{padding:12px 14px;text-align:right;border-bottom:1px solid var(--line);vertical-align:top;font-size:.92rem}
+thead th{background:var(--green-deep);color:#fff;font-weight:800;position:sticky;top:0}
+tbody tr:nth-child(even){background:#faf8f1}
+td:first-child{font-weight:800;color:var(--green-deep)}
+.mini{font-family:system-ui;font-size:.72rem;color:var(--muted)}
+
+/* two-col compare table styling */
+.cmp thead th:nth-child(2){background:#1E88A8}
+.cmp thead th:nth-child(3){background:#C85C3C}
+
+/* ---------- flashcards ---------- */
+.fc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px;margin-top:10px}
+.fc{perspective:1200px;height:170px;cursor:pointer;border:none;background:none;padding:0;font-family:inherit;text-align:center}
+.fc-in{position:relative;width:100%;height:100%;transition:transform .6s;transform-style:preserve-3d}
+.fc.flip .fc-in{transform:rotateY(180deg)}
+.fc-face{position:absolute;inset:0;backface-visibility:hidden;border-radius:16px;display:grid;place-items:center;
+  padding:16px;box-shadow:var(--shadow)}
+.fc-front{background:linear-gradient(135deg,#fff,#f6f2e7);border:1px solid var(--line)}
+.fc-front .q{font-weight:800;font-size:1rem}
+.fc-front .hint{position:absolute;bottom:10px;font-size:.72rem;color:var(--muted)}
+.fc-back{background:linear-gradient(135deg,#1E7A54,#12563A);color:#fff;transform:rotateY(180deg);font-weight:600;font-size:.92rem}
+.fc-badge{position:absolute;top:9px;inset-inline-start:9px;font-size:.66rem;font-weight:800;background:rgba(255,255,255,.85);color:#12563A;padding:2px 8px;border-radius:999px}
+
+/* ---------- activities ---------- */
+details.act{background:#fff;border:1px solid var(--line);border-inline-start:6px solid var(--amber);
+  border-radius:14px;margin:12px 0;box-shadow:var(--shadow);overflow:hidden}
+details.act>summary{cursor:pointer;padding:14px 18px;font-weight:800;list-style:none;display:flex;align-items:center;gap:10px}
+details.act>summary::-webkit-details-marker{display:none}
+details.act>summary .q{font-weight:600;color:var(--muted);font-size:.9rem}
+details.act .plus{margin-inline-start:auto;width:26px;height:26px;border-radius:50%;background:var(--amber);color:#fff;
+  display:grid;place-items:center;font-weight:900;transition:.3s}
+details.act[open] .plus{transform:rotate(45deg)}
+.ans{padding:0 18px 18px;border-top:1px dashed var(--line);margin-top:4px}
+.ans p:first-child{margin-top:12px}
+.ans .ansl{font-weight:800;color:var(--green-deep)}
+
+/* section anchor offset */
+.anchor{scroll-margin-top:70px}
+
+/* footer */
+.foot{margin-top:60px;text-align:center;color:var(--muted);font-size:.9rem;
+  border-top:1px solid var(--line);padding-top:26px}
+.method{background:#fff;border:1px solid var(--line);border-radius:20px;padding:22px;box-shadow:var(--shadow);text-align:right}
+.method ol{padding-inline-start:1.2em;margin:.5em 0}
+.method li{margin:.4em 0}
+
+.callh{font-family:"Lalezar";font-size:1.35rem;color:var(--green-deep);margin:34px 0 4px;display:flex;align-items:center;gap:10px}
+.callh .ic{font-size:1.4rem}
+.subtle{color:var(--muted);font-size:.92rem;margin-bottom:8px}
+
+@media (max-width:560px){
+  body{font-size:15.5px}
+  .card{padding:16px 15px}
+  .sec-num{width:48px;height:48px;flex-basis:48px;font-size:1.5rem}
+  th,td{padding:9px 10px;font-size:.85rem}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+}
+
+/* ============ DARK MODE ============ */
+body.dark{
+  --paper:#0e1317; --paper2:#1b232a; --ink:#e7edf0; --muted:#9fb0a8;
+  --line:#2b353c; --green:#37a074; --green-deep:#6fcfa0; --amber:#e6a244;
+  background:
+    radial-gradient(1200px 600px at 90% -10%, #1a2233 0, transparent 60%),
+    radial-gradient(900px 500px at -10% 10%, #10211a 0, transparent 55%),
+    #0e1317;
+}
+body.dark .nav{background:rgba(14,19,23,.86)}
+body.dark .nav a{background:#161d23;color:var(--ink)}
+body.dark .card,
+body.dark .legend,
+body.dark .map,
+body.dark .leaf,
+body.dark table,
+body.dark details.act,
+body.dark .method,
+body.dark .fc-badge{color:var(--ink)}
+body.dark .card{background:#161d23}
+body.dark .legend{background:#161d23}
+body.dark .map{background:#161d23}
+body.dark .branch{background:#11171c}
+body.dark .leaf{background:#161d23}
+body.dark table{background:#161d23}
+body.dark tbody tr:nth-child(even){background:#1b232a}
+body.dark thead th{background:#0f3d2b}
+body.dark .cmp thead th:nth-child(2){background:#1a5f79}
+body.dark .cmp thead th:nth-child(3){background:#8a3d26}
+body.dark .fc-front{background:linear-gradient(135deg,#1c242b,#161d23)}
+body.dark details.act{background:#161d23}
+body.dark .method{background:#161d23}
+body.dark .exp{background:#241f10;border-color:#4c411d}
+body.dark .exp .lbl{color:#e6c169}
+body.dark .more{background:#10212b;border-color:#264656}
+body.dark .more .lbl{color:#7fc4e0}
+body.dark .trapbox{background:#2a1411;border-color:#5c261f}
+body.dark .trapbox .lbl{color:#ff9084}
+body.dark .tipbox{background:#122318;border-color:#284f37}
+body.dark .scientists td[colspan],
+body.dark td[colspan]{background:#10212b !important;color:#7fc4e0 !important}
+
+/* ============ ANNOTATION TOOLBAR + CANVAS ============ */
+#annot{position:absolute;top:0;left:0;z-index:40;pointer-events:none;touch-action:auto}
+body.drawing #annot{pointer-events:auto;touch-action:none}
+body.drawing{-webkit-user-select:none;user-select:none}
+body.drawing a,body.drawing .fc{cursor:crosshair}
+
+#toolbar{
+  position:fixed;bottom:16px;left:50%;transform:translateX(-50%);z-index:60;
+  display:flex;gap:6px;align-items:center;flex-wrap:wrap;justify-content:center;max-width:94vw;
+  background:rgba(255,255,255,.94);backdrop-filter:blur(12px);
+  border:1px solid var(--line);border-radius:999px;padding:8px 12px;
+  box-shadow:0 12px 34px rgba(0,0,0,.20);
+}
+body.dark #toolbar{background:rgba(22,29,35,.94)}
+.tbtn{
+  width:42px;height:42px;border-radius:50%;border:1px solid var(--line);background:#fff;
+  font-size:1.15rem;cursor:pointer;display:grid;place-items:center;transition:.15s;line-height:1;padding:0;
+}
+body.dark .tbtn{background:#0f151a;color:#e7edf0}
+.tbtn:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+.tbtn:focus-visible{outline:3px solid var(--green);outline-offset:2px}
+.tbtn[aria-pressed="true"]{background:var(--green);border-color:var(--green);color:#fff;box-shadow:0 0 0 3px rgba(55,160,116,.28)}
+.tsep{width:1px;height:26px;background:var(--line);margin:0 2px}
+.swatch{width:27px;height:27px;border-radius:50%;border:2px solid #fff;cursor:pointer;padding:0;
+  box-shadow:0 0 0 1px var(--line);transition:.15s}
+.swatch:hover{transform:scale(1.14)}
+.swatch:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+.swatch.sel{box-shadow:0 0 0 3px var(--ink)}
+.tbar-hint{position:fixed;bottom:66px;left:50%;transform:translateX(-50%);z-index:59;
+  font-size:.78rem;color:#fff;background:rgba(20,30,25,.85);padding:5px 14px;border-radius:999px;
+  opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap}
+.tbar-hint.show{opacity:1}
+@media print{#toolbar,#annot,.tbar-hint,.nav{display:none!important}}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <span class="brand">🐦 رفتارهای جانوران</span>
+    <a href="#map">نقشه</a>
+    <a href="#g1">گفتار ۱</a>
+    <a href="#g2">گفتار ۲</a>
+    <a href="#g3">گفتار ۳</a>
+    <a href="#compare">جدول تمایز</a>
+    <a href="#examples">مثال‌ها</a>
+    <a href="#scientists">دانشمندان</a>
+    <a href="#cards">فلش‌کارت</a>
+    <a href="#acts">فعالیت‌ها</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="birds" id="birds"></div>
+  <div class="chapmark">فصل ۸ — زیست‌شناسی</div>
+  <div class="kick">راهنمای کامل مطالعه • امتحان نهایی و کنکور</div>
+  <h1>رفتارهای جانوران</h1>
+  <p class="thesis">این فصل در واقع یک <b>رده‌بندی از رفتارهاست</b>: هر رفتار = تعریفِ دقیق + مثال شاخص + معمولاً یک آزمایش + گاهی یک دانشمند. کل این راهنما همین سه چیز را برای تو مرتب، رنگی و قابل‌مرور کرده است.</p>
+</header>
+
+<div class="wrap">
+
+  <!-- LEGEND -->
+  <section class="legend anchor" id="top">
+    <h3>🎨 راهنمای رنگ‌ها — هر رفتار یک رنگ دارد تا در ذهنت جا بیفتد</h3>
+    <div class="legend-grid">
+      <span class="chip" style="color:var(--c-instinct);border-color:var(--c-instinct)"><span class="dot" style="background:var(--c-instinct)"></span>غریزی</span>
+      <span class="chip" style="color:var(--c-learn);border-color:var(--c-learn)"><span class="dot" style="background:var(--c-learn)"></span>یادگیری</span>
+      <span class="chip" style="color:var(--c-nature);border-color:var(--c-nature)"><span class="dot" style="background:var(--c-nature)"></span>انتخاب طبیعی</span>
+      <span class="chip" style="color:var(--c-repro);border-color:var(--c-repro)"><span class="dot" style="background:var(--c-repro)"></span>زادآوری</span>
+      <span class="chip" style="color:var(--c-forage);border-color:var(--c-forage)"><span class="dot" style="background:var(--c-forage)"></span>غذایابی</span>
+      <span class="chip" style="color:var(--c-territory);border-color:var(--c-territory)"><span class="dot" style="background:var(--c-territory)"></span>قلمروخواهی</span>
+      <span class="chip" style="color:var(--c-migrate);border-color:var(--c-migrate)"><span class="dot" style="background:var(--c-migrate)"></span>مهاجرت</span>
+      <span class="chip" style="color:var(--c-sleep);border-color:var(--c-sleep)"><span class="dot" style="background:var(--c-sleep)"></span>خواب/رکود</span>
+      <span class="chip" style="color:var(--c-comm);border-color:var(--c-comm)"><span class="dot" style="background:var(--c-comm)"></span>ارتباط</span>
+      <span class="chip" style="color:var(--c-group);border-color:var(--c-group)"><span class="dot" style="background:var(--c-group)"></span>زندگی گروهی</span>
+      <span class="chip" style="color:var(--c-altru);border-color:var(--c-altru)"><span class="dot" style="background:var(--c-altru)"></span>دگرخواهی</span>
+    </div>
+    <p class="subtle" style="margin-top:10px">💡 <b>سه مهارت امتحانی:</b> ۱) بازآوری تعریف دقیق &nbsp;•&nbsp; ۲) دسته‌بندی یک مثالِ ناآشنا در گروه درست &nbsp;•&nbsp; ۳) تفکیک مفاهیم شبیه‌به‌هم. جعبه‌های قرمز «⚠️ دام کنکور» دقیقاً همین دام‌ها را نشانه گرفته‌اند.</p>
+  </section>
+
+  <!-- مقدمه -->
+  <div class="card k-nature">
+    <h3>📖 مقدمهٔ فصل</h3>
+    <p>هزاران سال است انسان رفتار جانوران را مشاهده می‌کند و در پی یافتن <b>علت</b> و <b>چگونگی</b> این رفتارهاست. زندگی انسان به داشتن اطلاعات دربارهٔ رفتار جانوران وابسته است:</p>
+    <ul class="clean">
+      <li>دانستن دربارهٔ چگونگی <b>زادآوری یک حشرهٔ آفت</b> → یافتن راه‌هایی برای مبارزه با آن.</li>
+      <li>دانستن دربارهٔ <b>مهاجرت یا تغذیهٔ یک جانور در معرض خطر انقراض</b> → راه‌هایی برای حفظ آن گونه و حفاظت از تنوع زیستی.</li>
+    </ul>
+    <p>در این فصل انواع رفتارهای جانوران، چگونگی انجام آن‌ها و علت این رفتارها را <b>از دیدگاه انتخاب طبیعی</b> بررسی می‌کنیم. (تصویر آغازین فصل: پرواز گروهی سارها)</p>
+  </div>
+
+  <!-- CONCEPT MAP -->
+  <h2 class="callh anchor" id="map"><span class="ic">🗺️</span> نقشهٔ مفهومی فصل — اول اسکلت را ببین</h2>
+  <p class="subtle">قبل از جزئیات، این درخت را جلوی چشمت نگه دار تا در انبوه مطالب غرق نشوی.</p>
+  <div class="map">
+    <div class="root"><span class="node" style="background:var(--ink)">رفتار = واکنش جانور به محرک(ها)</span></div>
+    <div class="branchrow">
+      <!-- گفتار 1 -->
+      <div class="branch">
+        <span class="node" style="background:var(--c-learn)">گفتار ۱ · اساس رفتار</span>
+        <span class="leaf" style="border-inline-start-color:var(--c-instinct)">رفتار غریزی <small>ژنی، ارثی، در همهٔ افراد گونه یکسان</small></span>
+        <span class="leaf" style="border-inline-start-color:var(--c-learn)"><b>یادگیری</b> <small>تغییر نسبتاً پایدار در اثر تجربه</small></span>
+        <span class="leaf" style="border-inline-start-color:var(--c-habit)">۱) خوگیری (عادی شدن)</span>
+        <span class="leaf" style="border-inline-start-color:var(--c-classic)">۲) شرطی شدن کلاسیک</span>
+        <span class="leaf" style="border-inline-start-color:var(--c-operant)">۳) شرطی شدن فعال</span>
+        <span class="leaf" style="border-inline-start-color:var(--c-problem)">۴) حل مسئله</span>
+        <span class="leaf" style="border-inline-start-color:var(--c-imprint)">۵) نقش‌پذیری</span>
+        <span class="leaf" style="border-inline-start-color:var(--ink)">برهم‌کنش غریزه و یادگیری</span>
+      </div>
+      <!-- گفتار 2 -->
+      <div class="branch">
+        <span class="node" style="background:var(--c-nature)">گفتار ۲ · انتخاب طبیعی و رفتار</span>
+        <span class="leaf" style="border-inline-start-color:var(--c-nature)">دو پرسش: چگونه؟ / چرا؟</span>
+        <span class="leaf" style="border-inline-start-color:var(--c-nature)">رفتار سازگارکننده <small>مثال: بیرون‌انداختن پوستهٔ تخم</small></span>
+        <span class="leaf" style="border-inline-start-color:var(--c-repro)">زادآوری: انتخاب جفت + نظام جفت‌گیری</span>
+        <span class="leaf" style="border-inline-start-color:var(--c-forage)">غذایابی (بهینه)</span>
+        <span class="leaf" style="border-inline-start-color:var(--c-territory)">قلمروخواهی</span>
+        <span class="leaf" style="border-inline-start-color:var(--c-migrate)">مهاجرت + جهت‌یابی</span>
+        <span class="leaf" style="border-inline-start-color:var(--c-sleep)">خواب زمستانی و رکود تابستانی</span>
+      </div>
+      <!-- گفتار 3 -->
+      <div class="branch">
+        <span class="node" style="background:var(--c-comm)">گفتار ۳ · ارتباط و زندگی گروهی</span>
+        <span class="leaf" style="border-inline-start-color:var(--c-comm)">ارتباط بین جانوران <small>مثال: رقص زنبور عسل</small></span>
+        <span class="leaf" style="border-inline-start-color:var(--c-group)">زندگی گروهی <small>مورچه، گرگ</small></span>
+        <span class="leaf" style="border-inline-start-color:var(--c-altru)">رفتار دگرخواهی</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ گفتار 1 ============ -->
+  <section class="sec g1 anchor" id="g1">
+    <div class="sec-head">
+      <div class="sec-num">۱</div>
+      <div>
+        <div class="sec-title">گفتار ۱ — اساس رفتار</div>
+        <div class="sec-sub">رفتار چیست؟ فرق غریزه و یادگیری، و پنج نوع یادگیری</div>
+      </div>
+    </div>
+
+    <div class="card k-learn">
+      <h3>تعریف رفتار و محرک‌ها</h3>
+      <p>نمونه‌های رفتار: قمری‌های خانگی با شاخه‌های نازک لانه می‌سازند و زادآوری می‌کنند • گوزن‌ها از شکارچی‌ها می‌گریزند • خرس‌های قطبی خواب زمستانی دارند • سارها برای زمستان‌گذرانی مهاجرت می‌کنند.</p>
+      <div class="def"><b>رفتار:</b> واکنش یا مجموعه واکنش‌هایی است که جانور در پاسخ به یک <b>محرک</b> یا محرک‌ها انجام می‌دهد.</div>
+      <h4>محرک‌هایی که موجب بروز رفتار می‌شوند:</h4>
+      <p>بو • رنگ • صدا • تغییر میزان هورمون‌ها یا گلوکز در بدن جانور • تغییر دمای محیط • تغییر طول روز.</p>
+    </div>
+
+    <!-- غریزی -->
+    <div class="card k-instinct">
+      <h3><span class="tag">غریزی</span> رفتار غریزی <span class="en">Instinctive Behavior</span></h3>
+      <div class="def"><b>رفتار غریزی:</b> رفتاری که اساس آن در همهٔ افراد یک گونه <b>یکسان</b> است، زیرا <b>ژنی و ارثی</b> است.</div>
+      <p><b>مثال جوجه کاکایی:</b> جوجه برای دریافت غذا به منقار والد نوک می‌زند و والد بخشی از غذای خورده‌شده را برمی‌گرداند تا جوجه بخورد. دریافت غذای کافی برای <b>بقا و رشد</b> جوجه اهمیت دارد. جوجه <b>پس از بیرون آمدن از تخم</b> می‌تواند نوک بزند (شکل ۱).</p>
+      <p>پرسش: منشأ این رفتار چیست؟ آیا مثل ویژگی‌های بدنی، <b>ژنی</b> است؟</p>
+
+      <div class="exp">
+        <div class="lbl">🔬 پژوهش موش ماده — ژن B (اثبات ژنی‌بودن رفتار)</div>
+        <ul class="clean">
+          <li>موش ماده طبیعی اجازه نمی‌دهد بچه‌موش‌ها از او دور شوند؛ اگر دور شوند، مادر آن‌ها را می‌گیرد و به سمت خود می‌کشد (شکل ۲).</li>
+          <li>مادر ابتدا نوزادان را <b>وارسی</b> می‌کند → اطلاعات از راه حواس به مغز می‌رسد → ژن <b>B</b> در یاخته‌هایی از مغز مادر فعال می‌شود → دستور ساخت پروتئینی می‌دهد که آنزیم‌ها و ژن‌های دیگر را فعال می‌کند → فرایندهای پیچیده در مغز → بروز <b>رفتار مراقبت مادری</b>.</li>
+          <li><b>آزمایش کلیدی:</b> پژوهشگران با ایجاد <b>جهش</b>، ژن B را غیرفعال کردند. موش‌های جهش‌یافته ابتدا بچه‌ها را وارسی کردند ولی بعد آن‌ها را <b>نادیده گرفتند</b> و مراقبت نشان ندادند.</li>
+          <li><b>نتیجه:</b> رفتار مراقبت مادری در موش <b>اساس ژنی</b> دارد.</li>
+        </ul>
+      </div>
+      <div class="more">
+        <div class="lbl">➕ بیشتر بدانید</div>
+        آنچه «ژن B» نامیدیم، به اختصار ژن <b>FosB</b> است. این ژن در بخشی از <b>زیرنهنج (هیپوتالاموس)</b> مغز موش مادر که در رفتار مادرانه نقش حیاتی دارد، بیان می‌شود.
+      </div>
+      <h4>نمونه‌های دیگر رفتار غریزی:</h4>
+      <p>رفتار موش مادر • درخواست غذای جوجه کاکایی • <b>لانه‌سازی</b> پرندگان • رفتار <b>مکیدن</b> در شیرخواران.</p>
+      <div class="trapbox">
+        <div class="lbl">⚠️ دام کنکور</div>
+        همهٔ رفتارهای غریزی <b>هنگام تولد به‌طور کامل ایجاد نشده‌اند</b>؛ ممکن است بعداً با تجربه اصلاح شوند (مثل نوک‌زدن جوجه کاکایی). پس «غریزی» یعنی «ژنی/ارثی»، نه لزوماً «کامل از بدو تولد».
+      </div>
+      <div class="more">
+        <div class="lbl">➕ بیشتر بدانید — رفتارشناسی</div>
+        <b>رفتارشناسی:</b> علم مطالعهٔ رفتارهای جانوران در آزمایشگاه یا طبیعت. سه دانشمند <b>نیکولاس تین‌برگن</b> (هلندی)، <b>کنراد لورنز</b> و <b>کارل فون فریش</b> (اتریشی) در مشاهدهٔ رفتار جانوران در طبیعت نقش مهمی داشتند و <b>جایزهٔ نوبل فیزیولوژی و پزشکی سال ۱۹۷۳</b> را گرفتند. رویکرد اصلی امروزی: <b>بوم‌شناسی رفتاری</b> = علم بررسی رفتار جانوران در محیط طبیعی و از دیدگاه انتخاب طبیعی.
+      </div>
+    </div>
+
+    <!-- یادگیری -->
+    <div class="card k-learn">
+      <h3><span class="tag">یادگیری</span> یادگیری و رفتار</h3>
+      <p>در رفتار درخواست غذا، نوک‌زدن جوجه کاکایی <b>در ابتدا دقیق نیست</b> ولی به‌تدریج و با تمرین دقیق‌تر می‌شود. هرچه دقیق‌تر نوک بزند، والد سریع‌تر پاسخ می‌دهد. پس جوجه <b>تجربه</b> به دست می‌آورد و رفتار غریزی‌اش تغییر می‌کند و اصلاح می‌شود (شکل ۳).</p>
+      <div class="def"><b>یادگیری:</b> تغییرِ <b>نسبتاً پایدارِ</b> رفتار که در اثر <b>تجربه</b> به وجود می‌آید.</div>
+      <p class="subtle">در ادامه، پنج نوع یادگیری را جداگانه می‌بینیم:</p>
+    </div>
+
+    <!-- خوگیری -->
+    <div class="card k-habit">
+      <h3><span class="tag">یادگیری ۱</span> خوگیری (عادی شدن) <span class="en">Habituation</span></h3>
+      <p>جوجهٔ پرندگان اجسام گوناگون (مثل برگ‌های در حال افتادن) را بالای سر می‌بینند. ابتدا با پایین آوردن سر و آرام ماندن پاسخ می‌دهند؛ اما با دیدن مکرر اجسامِ در حال حرکت، یاد می‌گیرند این‌ها برایشان <b>خطر یا فایده‌ای ندارد</b> و دیگر پاسخ نمی‌دهند.</p>
+      <div class="def"><b>خوگیری:</b> کاهش پاسخ جانور به یک محرک <b>تکراری</b> که سود یا زیانی برای او <b>ندارد</b>؛ جانور می‌آموزد به برخی محرک‌ها پاسخ ندهد.</div>
+      <p><b>فایدهٔ سازگارکننده:</b> جانور با چشم‌پوشی از محرک‌های <b>بی‌اهمیت</b>، انرژی خود را برای فعالیت‌های حیاتی حفظ می‌کند (پاسخ‌دادن به همهٔ محرک‌ها انرژی زیادی می‌خواهد).</p>
+      <div class="more">
+        <div class="lbl">➕ بیشتر بدانید</div>
+        چند گونه از خانوادهٔ کاکایی‌ها در ایران زندگی می‌کنند؛ از جمله <b>کاکایی پازرد (خزری)</b> <span class="mini">Larus cachinnans</span> و <b>کاکایی سرسیاه</b> <span class="mini">Larus ridibundus</span>. بیشتر آزمایش‌های این فصل روی <b>کاکایی سرسیاه</b> انجام شده است.
+      </div>
+    </div>
+
+    <!-- شرطی کلاسیک -->
+    <div class="card k-classic">
+      <h3><span class="tag">یادگیری ۲</span> شرطی شدن کلاسیک <span class="en">Classical Conditioning</span></h3>
+      <p>وقتی سگ غذا می‌بیند یا بویش را حس می‌کند، بزاقش ترشح می‌شود. اینجا غذا = <b>محرک</b> و ترشح بزاق = <b>پاسخ غریزی / بازتاب طبیعی</b>.</p>
+      <div class="exp">
+        <div class="lbl">🔬 آزمایش پاولوف</div>
+        هم‌زمان با دادن پودر گوشت به سگ گرسنه، زنگی را به صدا درآورد. با <b>تکرار</b>، سگ بین صدای زنگ و غذا ارتباط برقرار کرد؛ طوری‌که بزاقش با شنیدن زنگ و <b>حتی بدون دریافت غذا</b> ترشح می‌شد (شکل ۴).
+      </div>
+      <div class="def"><b>محرک شرطی</b> (صدای زنگ): محرکی که ابتدا <b>بی‌اثر</b> است و فقط درصورتی موجب پاسخ می‌شود که با یک <b>محرک طبیعی</b> (غذا) همراه شود. این نوع یادگیری = <b>شرطی شدن کلاسیک</b>.</div>
+      <div class="more">
+        <div class="lbl">➕ تاریخ علم — پاولوف</div>
+        <b>ایوان پتروویچ پاولوف</b> (۱۸۴۹–۱۹۳۶)، فیزیولوژیست روسی؛ برندهٔ <b>نوبل فیزیولوژی و پزشکی ۱۹۰۴</b>. بیشتر به‌علت پژوهش دربارهٔ <b>بازتاب شرطی</b> مشهور است.
+      </div>
+    </div>
+
+    <!-- شرطی فعال -->
+    <div class="card k-operant">
+      <h3><span class="tag">یادگیری ۳</span> شرطی شدن فعال <span class="en">Operant Conditioning</span></h3>
+      <p>نوعی دیگر از شرطی شدن، معروف به <b>یادگیری با آزمون و خطا</b>.</p>
+      <div class="exp">
+        <div class="lbl">🔬 آزمایش اسکینر (جعبهٔ اسکینر)</div>
+        موش گرسنه را در جعبه‌ای گذاشتند که درونش <b>اهرمی</b> بود (شکل ۵). موش هنگام حرکت، <b>به‌طور تصادفی</b> اهرم را فشار می‌داد و تکه‌ای غذا به درون جعبه می‌افتاد. پس از چند بار تکرار، موش به ارتباط بین <b>فشار دادن اهرم</b> و <b>پاداش (غذا)</b> پی برد و از آن پس <b>عمداً</b> اهرم را فشار می‌داد.
+      </div>
+      <div class="def"><b>شرطی شدن فعال:</b> جانور می‌آموزد بین <b>رفتار خود</b> و <b>پاداش یا تنبیهی</b> که دریافت می‌کند ارتباط برقرار کند، و در آینده رفتاری را <b>تکرار</b> یا از انجام آن <b>خودداری</b> کند.</div>
+      <div class="more">
+        <div class="lbl">➕ تاریخ علم — اسکینر</div>
+        <b>بوروس فردریک اسکینر</b> (۱۹۰۴–۱۹۹۰)، روان‌شناس آمریکایی و از بنیان‌گذاران یادگیری از دیدگاه <b>رفتارگرایی</b>. <b>جعبهٔ اسکینر</b> از اختراعات خود اوست.
+      </div>
+      <div class="trapbox">
+        <div class="lbl">⚠️ دام کنکور — کلاسیک vs فعال</div>
+        <b>کلاسیک (پاولوف):</b> جانور <u>منفعل</u> است؛ دو محرک با هم جفت می‌شوند (زنگ + غذا) و پاسخ یک <b>بازتاب</b> است. &nbsp;|&nbsp; <b>فعال (اسکینر):</b> جانور <u>فعال</u> است؛ ابتدا رفتاری انجام می‌دهد و بعد بر اساس <b>پاداش/تنبیه</b> آن را تکرار یا حذف می‌کند.
+      </div>
+    </div>
+
+    <!-- حل مسئله -->
+    <div class="card k-problem">
+      <h3><span class="tag">یادگیری ۴</span> حل مسئله <span class="en">Problem Solving</span></h3>
+      <div class="def"><b>حل مسئله:</b> جانور بین <b>تجربه‌های گذشته</b> و <b>موقعیت جدید</b> ارتباط برقرار می‌کند و با استفاده از آن‌ها برای حل مسئلهٔ جدید، <b>آگاهانه برنامه‌ریزی</b> می‌کند.</div>
+      <ul class="clean">
+        <li><b>شامپانزه:</b> در اتاقی که موز از سقف آویزان بود و چند جعبهٔ چوبی داشت، پس از چند بار پریدن ناموفق، جعبه‌ها را روی هم گذاشت، بالا رفت و به موز رسید (شکل ۶).</li>
+        <li><b>در طبیعت:</b> شامپانزه‌ها برگِ شاخهٔ نازک را جدا و درون لانهٔ موریانه فرو می‌کنند تا موریانه‌ها را بیرون بکشند؛ و از چوب/سنگ مانند <b>سندان و چکش</b> برای شکستن پوستهٔ سخت میوه استفاده می‌کنند.</li>
+        <li><b>کلاغ سیاه (شکل ۷):</b> هر بار بخشی از نخ را با منقار بالا می‌کشد و روی آن پنجه می‌گذارد تا سرانجام به تکه گوشتِ آویزان برسد.</li>
+      </ul>
+    </div>
+
+    <!-- نقش‌پذیری -->
+    <div class="card k-imprint">
+      <h3><span class="tag">یادگیری ۵</span> نقش‌پذیری <span class="en">Imprinting</span></h3>
+      <div class="def"><b>نقش‌پذیری:</b> نوعی یادگیری که فقط در <b>دورهٔ مشخص و حساسی</b> از زندگی جانور انجام می‌شود؛ جوجه غاز پس از خروج از تخم، <b>نخستین جسم متحرکی</b> را که می‌بیند (معمولاً مادر) دنبال می‌کند و با او <b>پیوند</b> می‌سازد.</div>
+      <ul class="clean">
+        <li>نقش‌پذیری جوجه‌غازها <b>طی چند ساعت</b> پس از خروج از تخم رخ می‌دهد؛ این «دورهٔ حساس» زمانی است که نقش‌پذیری با بیشترین موفقیت انجام می‌شود.</li>
+        <li><b>اهمیت:</b> جوجه با نقش‌پذیری مادرش را می‌شناسد؛ این شناسایی برای <b>بقا</b> حیاتی است (بدون آن، تحت مراقبت مادر قرار نمی‌گیرد و ممکن است بمیرد). جوجه رفتارهای اساسی مثل <b>جست‌وجوی غذا</b> را هم از مادر یاد می‌گیرد.</li>
+        <li><b>در پستانداران هم دیده می‌شود:</b> بره‌ای که مادرش را از دست داده و انسان پرورشش داده، دنبال او راه می‌افتد و تمایلی به ارتباط با گوسفندهای دیگر ندارد.</li>
+        <li><b>کاربرد در حفاظت:</b> برای پرورش جوجه‌پرندگانِ در خطر انقراض، <b>صدای پرندگان همان گونه</b> پخش می‌شود و پرورش‌دهندگان <b>ظاهر و رفتار خود را شبیه آن پرنده</b> می‌کنند.</li>
+      </ul>
+      <div class="more">
+        <div class="lbl">➕ تاریخ علم — لورنز</div>
+        بررسی نقش‌پذیری در غازها از پژوهش‌های <b>کنراد لورنز</b> اتریشی (۱۹۰۳–۱۹۸۹) است. او جوجه‌غازها را در دستگاه جوجه‌کشی پرورش داد و <b>نخستین جسمی بود که جوجه‌ها پس از خروج از تخم دیدند</b>؛ آن‌ها لورنز را دنبال کردند و نسبت به او نقش‌پذیر شدند.
+      </div>
+    </div>
+
+    <!-- برهم‌کنش -->
+    <div class="card k-nature">
+      <h3><span class="tag" style="background:var(--ink)">جمع‌بندی</span> برهم‌کنش غریزه و یادگیری</h3>
+      <p>بیشتر رفتارهای جانوران محصول <b>برهم‌کنش ژن‌ها و اثرهای محیطی</b> است. رفتار غریزیِ درخواست غذا در جوجهٔ تازه از تخم‌درآمده <b>به‌طور کامل بروز نمی‌کند</b>؛ برای شکل‌گیری کاملش، برهم‌کنش جوجه و والدین و <b>کسب تجربه</b> لازم است.</p>
+      <p>جانور اساس ژنیِ لازم را دارد و همچنان که رشد می‌کند، آموخته‌هایش را برای <b>اصلاح رفتار قبلی</b> به‌کار می‌برد. چون محیط جانوران <b>همواره در حال تغییر</b> است، یادگیری برای بقا لازم است؛ برهم‌کنش ژن‌ها و یادگیری امکان <b>سازگار شدن</b> جانور با تغییرات را فراهم می‌آورد.</p>
+    </div>
+  </section>
+
+  <!-- ============ گفتار 2 ============ -->
+  <section class="sec g2 anchor" id="g2">
+    <div class="sec-head">
+      <div class="sec-num">۲</div>
+      <div>
+        <div class="sec-title">گفتار ۲ — انتخاب طبیعی و رفتار</div>
+        <div class="sec-sub">چرا جانور رفتاری را انجام می‌دهد؟ رفتارِ سازگارکننده، زادآوری، غذایابی، قلمرو، مهاجرت، خواب</div>
+      </div>
+    </div>
+
+    <div class="card k-nature">
+      <h3>دو نوع پرسش پژوهشگران</h3>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>پرسش</th><th>به چه چیزی می‌پردازد؟</th></tr></thead>
+          <tbody>
+            <tr><td>۱) <b>چگونه</b> جانور رفتار را انجام می‌دهد؟</td><td>فرایندهای ژنی، رشد و نمو، و عملکرد بدن جانور</td></tr>
+            <tr><td>۲) <b>چرا</b> جانور رفتار را انجام می‌دهد؟</td><td>مربوط به دیدگاه <b>انتخاب طبیعی</b></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card k-nature">
+      <h3>مثال کلیدی: بیرون‌انداختن پوستهٔ تخم در کاکایی (رفتار سازگارکننده)</h3>
+      <p>پرندهٔ کاکایی پس از خروج جوجه‌ها، پوسته‌های تخم را از لانه بیرون می‌اندازد. جوجه‌ها و تخم‌های کاکایی میان علف‌ها به‌خوبی <b>استتار</b> می‌شوند، اما <b>رنگ سفید داخل پوستهٔ شکسته بسیار مشخص</b> است (شکل ۹).</p>
+      <div class="exp">
+        <div class="lbl">🔬 آزمایش (تین‌برگن)</div>
+        تخم‌مرغ خانگی را شبیه تخم کاکایی رنگ‌آمیزی و در محل آشیانه‌سازی کاکایی‌ها گذاشتند. <b>کنار تعدادی</b> از این تخم‌ها، پوستهٔ تخم شکستهٔ کاکایی هم قرار دادند. نتیجه: کلاغ‌ها بیشترِ تخم‌مرغ‌هایی را که <b>کنار پوستهٔ سفید</b> بودند پیدا و خوردند → رنگ سفید داخل پوسته، <b>راهنمای کلاغ‌ها</b> بود.
+      </div>
+      <div class="def"><b>رفتار سازگارکننده:</b> رفتاری که با کاهش احتمال دسترسی شکارچی و افزایش احتمال <b>بقای زاده‌ها</b>، به سود پرنده و زاده‌های اوست. رفتارهای سازگارکننده با <b>سازوکار انتخاب طبیعی برگزیده</b> می‌شوند.</div>
+      <p>پژوهش با دیدگاه انتخاب طبیعی، نقش <b>سازگارکنندگی</b> رفتارها را در <b>بقا و زادآوری بیشتر</b> بررسی می‌کند؛ این کار با سنجش <b>سود و هزینهٔ</b> رفتار انجام می‌شود.</p>
+    </div>
+
+    <!-- زادآوری -->
+    <div class="card k-repro">
+      <h3><span class="tag">زادآوری</span> زادآوری (تولیدمثل) — انتخاب جفت</h3>
+      <div class="def">معیار موفقیت زادآوری = داشتن <b>بیشترین تعداد زاده‌های سالم</b>. یکی از رفتارهای زادآوری، <b>انتخاب جفت</b> است: جانور ابتدا ویژگی‌های جفت را بررسی و سپس تصمیم می‌گیرد.</div>
+
+      <h4>🦚 مثال طاووس (ماده انتخاب‌گر است)</h4>
+      <ul class="clean">
+        <li>در فصل زادآوری، دم طاووس <b>نر</b> پرهای پرنقش‌ونگار پیدا می‌کند و آن را مانند بادبزن می‌گستراند تا در دید ماده قرار گیرد.</li>
+        <li>طاووس <b>ماده</b> نری را انتخاب می‌کند که <b>رنگ درخشان‌تر</b> و <b>لکه‌های چشم‌مانند بیشتری</b> روی دم داشته باشد (شکل ۱۰).</li>
+      </ul>
+      <h4>چرا معمولاً ماده‌ها انتخاب می‌کنند؟</h4>
+      <p>چون جانور ماده معمولاً <b>زمان و انرژی بیشتری</b> صرف می‌کند (نگهداری از تخم و جوجه در پرندگان؛ بارداری و شیردهی در پستانداران). پس تولیدمثل برای ماده <b>پرهزینه‌تر</b> است و باید با دقت جفت انتخاب کند تا موفقیت تولیدمثلی‌اش تضمین شود.</p>
+      <h4>پرهای زینتی چه ربطی به موفقیت زادآوری دارند؟</h4>
+      <ul class="clean">
+        <li><b>درخشان بودن رنگ</b> نشانهٔ <b>سلامت و کیفیت رژیم غذایی</b> نر است → جفت‌گیری با او سلامت ماده و زاده‌ها را تضمین می‌کند.</li>
+        <li>ویژگی ظاهری نر، نشانهٔ داشتن <b>ژن‌های صفات سازگارکننده</b> نیز هست: گرچه دم بلند و زینتی حرکت را دشوار و جانور را در برابر شکارچی <b>آسیب‌پذیرتر</b> می‌کند، ولی <b>بقای جانور با این ویژگی</b> نشان می‌دهد او <b>سازگارتر</b> است. زاده‌ها علاوه بر ظاهر، این ژن‌های سازگارتر را هم به ارث می‌برند.</li>
+        <li><b>صفات ثانویهٔ جنسی:</b> دم زینتی طاووس نر یا <b>شاخ گوزن نر</b> — که هنگام جفت‌یابی و رقابت با نرهای دیگر به‌کار می‌روند.</li>
+      </ul>
+      <div class="trapbox">
+        <div class="lbl">⚠️ استثنای مهم — جیرجیرک (نر انتخاب‌گر است!)</div>
+        در نوعی جیرجیرک، <b>نر</b> هزینهٔ بیشتری می‌پردازد و بنابراین <b>او</b> انتخاب می‌کند: نر زامه‌هایش را درون کیسه‌ای همراه با <b>مواد مغذی</b> به ماده می‌دهد؛ این کیسه بخش قابل‌توجهی از وزن بدن نر است. نر جیرجیرکِ <b>بزرگ‌تر</b> را انتخاب می‌کند چون بزرگ‌تر بودن = تخمک بیشتر = زادهٔ بیشتر. اینجا <b>ماده‌ها برای انتخاب‌شدن رقابت می‌کنند</b>. → قاعدهٔ کلی: هر جنسی که هزینهٔ بیشتری بپردازد، انتخاب‌گر است.
+      </div>
+
+      <h4>نظام‌های جفت‌گیری</h4>
+      <div class="tablewrap">
+        <table class="cmp">
+          <thead><tr><th>ویژگی</th><th>چندهمسری</th><th>تک‌همسری</th></tr></thead>
+          <tbody>
+            <tr><td>مثال</td><td>طاووس نر • بیشتر <b>پستانداران</b></td><td>قمری خانگی • بیشتر <b>پرندگان</b></td></tr>
+            <tr><td>پرورش زاده‌ها</td><td><b>یک والد</b> انجام می‌دهد (طاووس نر نقشی ندارد؛ فقط با دفاع از قلمرو/منابع به‌طور <b>غیرمستقیم</b> کمک می‌کند)</td><td><b>هر دو والد</b> هزینهٔ پرورش را می‌پردازند</td></tr>
+            <tr><td>سهم در انتخاب جفت</td><td>نابرابر</td><td>نر و ماده سهم <b>مساوی</b> دارند</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- غذایابی -->
+    <div class="card k-forage">
+      <h3><span class="tag">غذایابی</span> غذایابی <span class="en">Foraging</span></h3>
+      <div class="def"><b>غذایابی:</b> مجموعهٔ رفتارهای جانور برای <b>جست‌وجو و به‌دست آوردن غذا</b>.</div>
+      <p>غذای بزرگ‌تر انرژی بیشتری دارد اما ممکن است <b>کمیاب‌تر</b> و <b>سخت‌تر</b> به دست آید. پس <b>سود</b> (انرژی غذا) و <b>هزینهٔ</b> به‌دست آوردن و مصرف آن مهم است.</p>
+      <div class="def"><b>غذایابی بهینه</b> <span class="en" style="margin-inline-start:6px">Optimal Foraging</span>: موازنه بین محتوای انرژی غذا و هزینهٔ به‌دست آوردن آن. انتخاب طبیعی رفتاری را برمی‌گزیند که جانور در هر بار غذایابی <b>بیشترین انرژی خالص</b> را دریافت کند.</div>
+      <ul class="clean">
+        <li><b>مثال خرچنگ ساحلی:</b> صدف‌های با <b>اندازهٔ متوسط</b> را ترجیح می‌دهد؛ صدف بزرگ‌تر انرژی بیشتری دارد ولی برای شکستنش باید انرژی بیشتری صرف شود → پس صدف متوسط بیشترین انرژی خالص را می‌دهد.</li>
+        <li><b>موازنه با خطر:</b> هنگام وجود شکارچی یا رقیب، جانور رفتار غذایابی‌اش را تغییر می‌دهد و <b>آماده و گوش‌به‌زنگ</b> غذا می‌خورد (موازنه بین بیشترین انرژی و کمترین خطر).</li>
+        <li><b>مثال طوطی (شکل ۱۲):</b> خاک رس می‌خورد؛ خاک رس انرژی چندانی ندارد اما <b>مواد سمی</b> غذاهای گیاهی را در لولهٔ گوارش <b>خنثی</b> می‌کند.</li>
+      </ul>
+    </div>
+
+    <!-- قلمروخواهی -->
+    <div class="card k-territory">
+      <h3><span class="tag">قلمرو</span> قلمروخواهی <span class="en">Territorial Behavior</span></h3>
+      <div class="def"><b>قلمرو:</b> بخشی از محدودهٔ جغرافیایی که جانور در آن زندگی می‌کند. <b>قلمروخواهی:</b> دفاع جانور از قلمرو در برابر افراد هم‌گونه یا گونه‌های دیگر.</div>
+      <p>جانور با <b>اجرای نمایش</b> یا <b>تهاجم</b> اعلام می‌کند قلمرو متعلق به اوست. مثلاً پرنده با <b>آواز خواندن</b> از ورود مزاحم جلوگیری می‌کند؛ اگر آواز مؤثر نبود، ممکن است <b>حمله</b> کند (شکل ۱۳).</p>
+      <div class="tablewrap">
+        <table class="cmp">
+          <thead><tr><th></th><th>هزینه‌ها</th><th>فایده‌ها</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>قلمروخواهی</td>
+              <td>صرف زمان و انرژی • احتمال آسیب‌دیدن در تهاجم • آواز ممکن است موقعیت پرنده را برای شکارچی آشکار کند</td>
+              <td>استفادهٔ اختصاصی از منابع (↑ غذا و انرژی) • ↑ امکان جفت‌یابی • ↑ دسترسی به پناهگاه برای در امان ماندن از شکارچی</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- مهاجرت -->
+    <div class="card k-migrate">
+      <h3><span class="tag">مهاجرت</span> مهاجرت</h3>
+      <p>هر پاییز، پرندگان مهاجر از سیبری و اروپا به تالاب‌ها و آبگیرهای شمال ایران می‌آیند و پس از زمستان‌گذرانی، اوایل بهار بازمی‌گردند.</p>
+      <div class="def"><b>مهاجرت:</b> جابه‌جایی <b>طولانی و رفت‌وبرگشتی</b> جانوران. علت: تغییر فصل، نامساعد شدن محیط و کاهش منابع → حرکت به سوی زیستگاه مناسب‌تر برای تغذیه، بقا و زادآوری.</div>
+      <ul class="clean">
+        <li>مهاجرت رفتاری <b>غریزی</b> است که <b>یادگیری هم در آن نقش دارد</b>: سارهایی که <b>تجربهٔ مهاجرت</b> دارند، بهتر از سارهای بار اولی مسیر را تشخیص می‌دهند.</li>
+      </ul>
+      <h4>جهت‌یابی</h4>
+      <ul class="clean">
+        <li>جانوران از <b>نشانه‌های محیطی</b> استفاده می‌کنند: <b>روز</b> → موقعیت خورشید • <b>شب</b> → موقعیت ستاره‌ها.</li>
+      </ul>
+      <div class="exp">
+        <div class="lbl">🔬 آزمایش میدان مغناطیسی (روز ابری)</div>
+        در روز ابری، آهنربای کوچکی روی سر کبوتر خانگی گذاشتند؛ پرنده <b>نتوانست</b> مسیر درست را بیابد و به لانه برگردد. → نتیجه: کبوتر می‌تواند موقعیت خود را نسبت به <b>میدان مغناطیسی زمین</b> احساس و با آن جهت‌یابی کند. در سر بعضی پرندگان <b>ذرات آهن مغناطیسی‌شده</b> یافته‌اند.
+      </div>
+      <p><b>لاک‌پشت‌های دریایی:</b> ماده‌ها پس از مسافت طولانی برای تخم‌گذاری به ساحل می‌آیند و بازمی‌گردند؛ به‌نظر می‌رسد میدان مغناطیسی زمین در جهت‌یابی آن‌ها هم نقش دارد.</p>
+    </div>
+
+    <!-- خواب و رکود -->
+    <div class="card k-sleep">
+      <h3><span class="tag">خواب/رکود</span> خواب زمستانی و رکود تابستانی</h3>
+      <div class="tablewrap">
+        <table class="cmp">
+          <thead><tr><th>ویژگی</th><th>خواب زمستانی <span class="mini">Hibernation</span></th><th>رکود تابستانی <span class="mini">Aestivation</span></th></tr></thead>
+          <tbody>
+            <tr><td>فصل / شرایط</td><td>زمستان (سرما)</td><td>جاهای به‌شدت گرم مثل بیابان؛ در پاسخ به <b>نبود غذا یا خشک‌سالی</b></td></tr>
+            <tr><td>ماهیت</td><td>خواب عمیق و دورهٔ کاهش فعالیت</td><td>دورهٔ کاهش فعالیت</td></tr>
+            <tr><td>چه چیزی کاهش می‌یابد</td><td>دمای بدن، مصرف اکسیژن، تعداد تنفس، نیاز به انرژی</td><td>سوخت‌وساز جانور</td></tr>
+            <tr><td>آماده‌سازی</td><td>پیش از خواب، غذای زیاد می‌خورد و <b>چربی ذخیره</b> می‌کند تا هنگام خواب مصرف شود</td><td>—</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="more">
+        <div class="lbl">➕ بیشتر بدانید — خرس قهوه‌ای <span class="mini">Ursus arctos</span></div>
+        در ایران زندگی می‌کند. برخی حالتی <b>شبیه</b> خواب زمستانی دارند و گاهی وقتی هوا گرم‌تر است بیدار می‌شوند. معمولاً از انسان دوری می‌کنند، ولی خرس‌هایی که تازه از خواب بیدار شده‌اند ممکن است <b>تهاجمی</b> باشند.
+      </div>
+      <div class="more">
+        <div class="lbl">➕ بیشتر بدانید — لاک‌پشت منقار عقابی <span class="mini">Eretmochelys imbricata</span></div>
+        به‌شدت در خطر انقراض. فصل زادآوری از <b>اسفند تا تیر</b> برای تخم‌گذاری به آب‌های خلیج‌فارس و دریای عمان مهاجرت می‌کند. مناطق مهم لانه‌سازی: پناهگاه حیات‌وحش و تالاب بین‌المللی شیدور و جزیرهٔ هندورابی (هرمزگان) و جزایر ام‌الکرم و نخیلو (بوشهر). پروژهٔ ردیابی ماهواره‌ای در <b>فروردین ۱۳۸۹</b> با نصب <b>پنج ردیاب</b> روی لاک‌پشت‌ها در جزیرهٔ شیدور انجام شد.
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ گفتار 3 ============ -->
+  <section class="sec g3 anchor" id="g3">
+    <div class="sec-head">
+      <div class="sec-num">۳</div>
+      <div>
+        <div class="sec-title">گفتار ۳ — ارتباط و زندگی گروهی</div>
+        <div class="sec-sub">ارتباط بین جانوران، مزایای زندگی گروهی، و رفتار دگرخواهی</div>
+      </div>
+    </div>
+
+    <div class="card k-comm">
+      <h3><span class="tag">ارتباط</span> ارتباط بین جانوران</h3>
+      <p>جانوران از راه‌های گوناگون ارتباط برقرار و اطلاعات مبادله می‌کنند: <b>تولید صدا</b> • <b>علامت‌های دیداری</b> • <b>بو (فرومون)</b> • <b>لمس کردن</b>. در نتیجهٔ ارتباط، رفتار آن‌ها تغییر می‌کند. مثال: صدای جیرجیرک نر، اطلاعاتی مانند <b>گونه و جنسیت</b> را به ماده می‌رساند؛ جوجه کاکایی با <b>لمس منقار</b> والد، غذا درخواست می‌کند.</p>
+      <div class="exp">
+        <div class="lbl">🐝 ارتباط در زنبورهای عسل (رقص زنبور)</div>
+        زنبورِ <b>یابنده</b> پس از یافتن منبع غذایی جدید، با انجام <b>حرکات ویژه‌ای</b> اطلاعات را به زنبورهای دیگر می‌دهد. زنبورهای کارگر از این حرکات، <b>فاصلهٔ تقریبی</b> و <b>جهت</b> منبع را درمی‌یابند (هرچه حرکت طولانی‌تر، منبع دورتر). زنبور یابنده هنگام حرکت <b>صدای وزوز متفاوتی</b> هم دارد. کارگرها با این اطلاعات کلی به سمت منبع پرواز و با <b>بویایی</b> محل دقیق را پیدا می‌کنند.
+        <br><b>مزیت:</b> با داشتن اطلاعات پیش از جست‌وجو، غذا را با <b>انرژی کمتر و در زمان کوتاه‌تر</b> پیدا می‌کنند.
+      </div>
+      <div class="more">
+        <div class="lbl">➕ بیشتر بدانید</div>
+        زنبور یابنده با انجام حرکات در <b>زاویه‌ای مشخص نسبت به خط عمود</b>، زاویهٔ بین منبع غذا، کندو و <b>خورشید</b> را نشان می‌دهد. کشف روش ارتباط زنبورها از پژوهش‌های <b>کارل فون فریش</b> (۱۸۸۶–۱۹۸۲) است.
+      </div>
+    </div>
+
+    <div class="card k-group">
+      <h3><span class="tag">گروهی</span> زندگی گروهی</h3>
+      <p>برخی جانوران مانند <b>مورچه و گرگ</b> گروهی زندگی می‌کنند و همکاری دارند.</p>
+      <h4>سه فایدهٔ زندگی گروهی:</h4>
+      <ul class="clean">
+        <li>↓ <b>احتمال شکار شدن</b>: نگهبان‌های گروه محیط را زیر نظر می‌گیرند.</li>
+        <li>↑ <b>دسترسی به غذا</b>: جانور می‌تواند دربارهٔ محل منبع غذا از دیگر اعضای گروه اطلاعات بگیرد (مثل زنبورها).</li>
+        <li>↑ <b>موفقیت شکار گروهی</b>: افراد گروه می‌توانند شکار بزرگ‌تری را به دام بیندازند.</li>
+      </ul>
+      <h4>نمونه: مورچه‌های برگ‌بُر</h4>
+      <p>اجتماع مورچه از گروه‌هایی با <b>اندازه، شکل و کار متفاوت</b> تشکیل شده (تقسیم کار): بعضی برگ‌ها را برش و به لانه حمل می‌کنند و بعضی <b>دفاع</b> می‌کنند (شکل ۱۵). این مورچه‌ها قطعه‌های برگ را به‌عنوان <b>کود</b> برای پرورش نوعی <b>قارچ</b> که از آن تغذیه می‌کنند به‌کار می‌برند.</p>
+    </div>
+
+    <div class="card k-altru">
+      <h3><span class="tag">دگرخواهی</span> رفتار دگرخواهی <span class="en">Altruism</span></h3>
+      <div class="def"><b>دگرخواهی:</b> رفتاری که در آن یک جانور، بقا و موفقیت تولیدمثلی <b>جانور دیگری</b> را <b>با هزینهٔ کاسته‌شدن از احتمال بقا و تولیدمثل خودش</b> افزایش می‌دهد.</div>
+      <p><b>مثال‌ها:</b> جانور <b>نگهبان</b> با تولید صدا حضور شکارچی را هشدار می‌دهد (توجه شکارچی را به خود جلب و بقای خود را کم می‌کند — شکل ۱۶) • <b>زنبورهای کارگر نازا</b> که زاده‌های ملکه را پرورش می‌دهند.</p>
+      <h4>چرا دگرخواهی برگزیده می‌شود؟ (دو دلیل)</h4>
+      <div class="tablewrap">
+        <table class="cmp">
+          <thead><tr><th>سازوکار</th><th>دگرخواهی نسبت به خویشاوند</th><th>دگرخواهی متقابل (بین ناخویشاوندان)</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>ایده</td>
+              <td>نگهبان‌ها و زنبورهای کارگر رفتار دگرخواهی را نسبت به <b>خویشاوندان</b> انجام می‌دهند که <b>ژن مشترک</b> دارند</td>
+              <td>خفاش خون‌آشام غذا را با یکدیگر <b>به اشتراک</b> می‌گذارد و لطف جبران می‌شود</td>
+            </tr>
+            <tr>
+              <td>مثال</td>
+              <td>زنبور کارگر خودش زاده ندارد، ولی خویشاوندان زادآوری کرده و ژن‌های مشترک را به نسل بعد می‌رسانند</td>
+              <td>خفاشِ سیر کمی از خون خورده‌شده را بالا می‌آورد تا خفاش گرسنه نمیرد؛ خفاش دریافت‌کننده بعداً <b>جبران</b> می‌کند. اگر جبران نکند، از اشتراک غذا <b>کنار گذاشته</b> می‌شود</td>
+            </tr>
+            <tr>
+              <td>نکته</td>
+              <td>بر اساس انتخاب طبیعی برگزیده شده</td>
+              <td>این خفاش‌ها <b>لزوماً خویشاوند نیستند</b>؛ رفتار دگرخواهیِ برگزیده‌شده به <b>بقای آن‌ها</b> منجر می‌شود</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <h4>دگرخواهیِ به نفع خودِ فرد — پرندگان یاریگر</h4>
+      <p>گاهی دگرخواهی به نفع خود فرد است: <b>یاریگرها</b> (اغلب پرنده‌های جوان) در پرورش زاده‌ها به والدین کمک می‌کنند و بقای زاده‌ها را افزایش می‌دهند. سود خودشان: <b>کسب تجربه</b> برای پرورش زاده‌های خود در آینده، یا <b>تصاحب قلمرو</b> جفت‌های زادآور در صورت مرگ احتمالی آن‌ها و زادآوری خودشان.</p>
+    </div>
+
+    <details class="act">
+      <summary>📊 فعالیت ۶ — تفسیر نمودار مزیت زندگی گروهی <span class="plus">+</span></summary>
+      <div class="ans">
+        <p class="q">نمودار: محور افقی = تعداد کبوترها در گروه (۱ ، ۱۰–۲ ، ۵۰–۱۱ ، ۵۰+) • محور عمودی = درصد موفقیت حملهٔ شکارچی.</p>
+        <p><span class="ansl">تفسیر:</span> هرچه تعداد کبوترها در گروه <b>بیشتر</b> می‌شود، <b>درصد موفقیت حملهٔ شکارچی کاهش</b> می‌یابد (از حدود ۸۰٪ برای یک کبوتر تا کمتر از ۱۰٪ برای گروه‌های ۵۰+). دلیل: در گروه بزرگ‌تر، تعداد بیشتری چشمِ نگهبان محیط را زیر نظر دارند و شکارچی زودتر شناسایی می‌شود؛ پس <b>احتمال شکار شدن هر فرد کمتر</b> است. این نمودار به‌طور کمّی نشان می‌دهد که زندگی گروهی برای کاهش خطر شکار <b>مزیت</b> دارد.</p>
+      </div>
+    </details>
+  </section>
+
+  <!-- ============ COMPARE TABLES ============ -->
+  <h2 class="callh anchor" id="compare"><span class="ic">⚖️</span> جدول‌های تمایز — مهم‌ترین بخش برای کنکور</h2>
+  <p class="subtle">بیشترِ دام‌ها از تفاوت مفاهیم شبیه‌به‌هم می‌آیند. این جدول‌ها را حفظ کن.</p>
+
+  <div class="tablewrap">
+    <table class="cmp">
+      <thead><tr><th>مفهوم</th><th>ویژگی کلیدی</th><th>تمایز از هم‌خانواده‌اش</th></tr></thead>
+      <tbody>
+        <tr><td>غریزی</td><td>ژنی، ارثی، در همهٔ افراد گونه یکسان</td><td>ممکن است بعداً با تجربه اصلاح شود؛ لزوماً از بدو تولد کامل نیست</td></tr>
+        <tr><td>یادگیری</td><td>تغییر <b>نسبتاً پایدار</b> در اثر <b>تجربه</b></td><td>برخلاف غریزی، ارثی نیست و در همهٔ افراد یکسان نیست</td></tr>
+        <tr><td>خوگیری</td><td><b>کاهش</b> پاسخ به محرک تکراریِ بی‌سود/بی‌زیان</td><td>در شرطی‌شدن پاسخ‌ها تغییر و افزوده می‌شوند؛ در خوگیری پاسخ حذف می‌شود</td></tr>
+        <tr><td>شرطی کلاسیک</td><td>جفت‌شدن دو محرک (زنگ+غذا)؛ جانور منفعل؛ پاسخ = بازتاب</td><td>محرک شرطی جای محرک طبیعی را می‌گیرد</td></tr>
+        <tr><td>شرطی فعال</td><td>آزمون‌وخطا؛ جانور فعال؛ ارتباط رفتار با پاداش/تنبیه</td><td>در کلاسیک جانور کاری نمی‌کند؛ اینجا خودِ رفتار جانور سرآغاز است</td></tr>
+        <tr><td>حل مسئله</td><td>ربط دادن تجربهٔ گذشته به موقعیت جدید + برنامه‌ریزی <b>آگاهانه</b></td><td>پیچیده‌ترین یادگیری؛ نیازمند تفکر، نه صرفاً تکرار</td></tr>
+        <tr><td>نقش‌پذیری</td><td>فقط در <b>دورهٔ حساس</b>؛ دنبال‌کردن نخستین جسم متحرک</td><td>محدود به بازهٔ زمانی کوتاه (چند ساعت پس از تولد)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="tablewrap">
+    <table class="cmp">
+      <thead><tr><th>موضوع</th><th>مورد اول</th><th>مورد دوم</th></tr></thead>
+      <tbody>
+        <tr><td>انتخاب جفت</td><td><b>طاووس:</b> ماده انتخاب می‌کند (هزینهٔ ماده بیشتر)</td><td><b>جیرجیرک:</b> نر انتخاب می‌کند (هزینهٔ نر بیشتر)</td></tr>
+        <tr><td>نظام جفت‌گیری</td><td><b>چندهمسری:</b> یک والد پرورش می‌دهد • بیشتر پستانداران</td><td><b>تک‌همسری:</b> هر دو والد • بیشتر پرندگان (قمری)</td></tr>
+        <tr><td>خواب/رکود</td><td><b>خواب زمستانی:</b> سرمای زمستان؛ ↓ دما، اکسیژن، تنفس، انرژی</td><td><b>رکود تابستانی:</b> گرمای شدید/خشک‌سالی؛ ↓ سوخت‌وساز</td></tr>
+        <tr><td>دگرخواهی</td><td><b>خویشاوندی:</b> ژن مشترک به نسل بعد می‌رسد (زنبور کارگر)</td><td><b>متقابل:</b> جبران لطف بین ناخویشاوندان (خفاش خون‌آشام)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ============ ALL EXAMPLES ============ -->
+  <h2 class="callh anchor" id="examples"><span class="ic">🔎</span> جدول همهٔ مثال‌ها ← کدام رفتار؟</h2>
+  <p class="subtle">این جدول را از هر دو جهت تمرین کن: از مثال به مفهوم، و از مفهوم به مثال. سؤال طراح دقیقاً همین است.</p>
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th>مثال / موقعیت</th><th>رفتار مربوطه</th><th>نکته</th></tr></thead>
+      <tbody>
+        <tr><td>نوک‌زدن جوجه کاکایی برای غذا</td><td>غریزی (که بعد با تجربه اصلاح می‌شود)</td><td>نمونهٔ برهم‌کنش غریزه و یادگیری</td></tr>
+        <tr><td>مراقبت مادری موش (ژن FosB)</td><td>غریزی</td><td>اثبات با جهش ژن B</td></tr>
+        <tr><td>لانه‌سازی پرندگان • مکیدن شیرخوار</td><td>غریزی</td><td>—</td></tr>
+        <tr><td>جوجه به برگ‌های در حال افتادن دیگر پاسخ نمی‌دهد</td><td>خوگیری</td><td>محرک بی‌سود/بی‌زیان</td></tr>
+        <tr><td>ترشح بزاق سگ با صدای زنگ</td><td>شرطی کلاسیک (پاولوف)</td><td>محرک شرطی = زنگ</td></tr>
+        <tr><td>موش اهرم را برای غذا فشار می‌دهد</td><td>شرطی فعال (اسکینر)</td><td>پاداش = غذا</td></tr>
+        <tr><td>پرنده پس از تهوعِ خوردن پروانهٔ مونارک، دیگر آن را نمی‌خورد</td><td>شرطی فعال (آزمون‌وخطا با تنبیه)</td><td>فعالیت ۲</td></tr>
+        <tr><td>شامپانزه جعبه‌ها را روی هم می‌گذارد تا به موز برسد</td><td>حل مسئله</td><td>برنامه‌ریزی آگاهانه</td></tr>
+        <tr><td>کلاغ نخ را بالا می‌کشد تا به گوشت برسد</td><td>حل مسئله</td><td>شکل ۷</td></tr>
+        <tr><td>جوجه‌غاز نخستین جسم متحرک را دنبال می‌کند</td><td>نقش‌پذیری</td><td>لورنز؛ دورهٔ حساس</td></tr>
+        <tr><td>کاکایی پوستهٔ سفید تخم را از لانه بیرون می‌اندازد</td><td>رفتار سازگارکننده (انتخاب طبیعی)</td><td>تین‌برگن</td></tr>
+        <tr><td>طاووس ماده نرِ درخشان‌تر را انتخاب می‌کند</td><td>انتخاب جفت (زادآوری)</td><td>صفت ثانویهٔ جنسی</td></tr>
+        <tr><td>خرچنگ صدف اندازهٔ متوسط را ترجیح می‌دهد</td><td>غذایابی بهینه</td><td>بیشترین انرژی خالص</td></tr>
+        <tr><td>طوطی خاک رس می‌خورد</td><td>غذایابی</td><td>خنثی‌کردن مواد سمی گیاهی</td></tr>
+        <tr><td>پرنده با آواز از قلمرو دفاع می‌کند</td><td>قلمروخواهی</td><td>موازنهٔ سود/هزینه</td></tr>
+        <tr><td>کبوتر با آهنربا مسیر را گم می‌کند</td><td>مهاجرت / جهت‌یابی مغناطیسی</td><td>میدان مغناطیسی زمین</td></tr>
+        <tr><td>رقص زنبور یابنده در کندو</td><td>ارتباط بین جانوران</td><td>فون فریش</td></tr>
+        <tr><td>مورچه‌های برگ‌بُر با تقسیم‌کار</td><td>زندگی گروهی</td><td>پرورش قارچ</td></tr>
+        <tr><td>خفاش خون‌آشام خون را به اشتراک می‌گذارد</td><td>دگرخواهی (متقابل)</td><td>لزوماً خویشاوند نیست</td></tr>
+        <tr><td>زنبور کارگر نازا زاده‌های ملکه را بزرگ می‌کند</td><td>دگرخواهی (خویشاوندی)</td><td>ژن مشترک</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ============ SCIENTISTS ============ -->
+  <h2 class="callh anchor" id="scientists"><span class="ic">🧑‍🔬</span> دانشمندان و شکل‌ها</h2>
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th>دانشمند</th><th>ملیت / سال</th><th>موضوع / کار</th></tr></thead>
+      <tbody>
+        <tr><td>نیکولاس تین‌برگن</td><td>هلندی</td><td>رفتار کاکایی و آزمایش بیرون‌انداختن پوستهٔ تخم (۱۹۰۷–۱۹۸۸)</td></tr>
+        <tr><td>کنراد لورنز</td><td>اتریشی (۱۹۰۳–۱۹۸۹)</td><td>نقش‌پذیری در جوجه‌غازها</td></tr>
+        <tr><td>کارل فون فریش</td><td>اتریشی (۱۸۸۶–۱۹۸۲)</td><td>کشف روش ارتباط (رقص) زنبورهای عسل</td></tr>
+        <tr><td colspan="3" style="background:#eef4f8;color:#2a6d8a;font-weight:700">↑ این سه نفر (تین‌برگن، لورنز، فون فریش) نوبل فیزیولوژی و پزشکی ۱۹۷۳ را گرفتند — بنیان‌گذاران رفتارشناسی</td></tr>
+        <tr><td>ایوان پاولوف</td><td>روسی (۱۸۴۹–۱۹۳۶)</td><td>شرطی شدن کلاسیک / بازتاب شرطی؛ نوبل ۱۹۰۴</td></tr>
+        <tr><td>بی. اف. اسکینر</td><td>آمریکایی (۱۹۰۴–۱۹۹۰)</td><td>شرطی شدن فعال؛ مخترع جعبهٔ اسکینر؛ رفتارگرایی</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ============ FLASHCARDS ============ -->
+  <h2 class="callh anchor" id="cards"><span class="ic">🃏</span> فلش‌کارت‌ها — یادگیری فعال</h2>
+  <p class="subtle">روی هر کارت کلیک کن تا برگردد. اول جواب را در ذهنت بگو، بعد چک کن. (روی موبایل هم لمس کن.)</p>
+  <div class="fc-grid" id="fcgrid"></div>
+
+  <!-- ============ ACTIVITIES ============ -->
+  <h2 class="callh anchor" id="acts"><span class="ic">📝</span> فعالیت‌های کتاب + پاسخ نمونه</h2>
+  <p class="subtle">این فعالیت‌ها عملاً سؤال‌های تشریحیِ آماده‌اند. اول خودت جواب بده، بعد باز کن.</p>
+
+  <details class="act">
+    <summary>فعالیت ۱ — خوگیری و مترسک <span class="q">(الف: توضیح شکل • ب: قوطی فلزی روی مترسک)</span> <span class="plus">+</span></summary>
+    <div class="ans">
+      <p><span class="ansl">الف)</span> در ابتدا کلاغ‌ها از مترسک می‌ترسند و به آن نزدیک نمی‌شوند (پاسخ به محرک). اما با تکرار و دیدنِ اینکه مترسک <b>خطری ندارد</b>، به‌تدریج به آن <b>خو می‌گیرند</b> و دیگر واکنش نشان نمی‌دهند و کنارش می‌نشینند — این همان <b>خوگیری</b> است.</p>
+      <p><span class="ansl">ب)</span> قوطی‌های فلزی با باد <b>حرکت می‌کنند و صدا</b> تولید می‌کنند؛ یعنی محرک را <b>تازه و متغیر</b> نگه می‌دارند و از خوگیریِ پرندگان <b>جلوگیری</b> می‌کنند. بنابراین پرندگان دیرتر عادت می‌کنند و مترسک مدت بیشتری کارآمد می‌ماند.</p>
+    </div>
+  </details>
+
+  <details class="act">
+    <summary>فعالیت ۲ — پرنده و پروانهٔ مونارک <span class="q">(توضیح بر اساس شرطی شدن)</span> <span class="plus">+</span></summary>
+    <div class="ans">
+      <p>این <b>شرطی شدن فعال</b> (آزمون‌وخطا) است: پرنده رفتاری انجام می‌دهد (خوردن پروانه) و <b>نتیجهٔ ناخوشایند / تنبیه</b> می‌گیرد (تهوع). پس بین <b>رفتار خود</b> و <b>پیامد آن</b> ارتباط برقرار می‌کند و در آینده از <b>تکرار</b> آن رفتار خودداری می‌کند (دیگر این حشره را نمی‌خورد).</p>
+    </div>
+  </details>
+
+  <details class="act">
+    <summary>فعالیت ۳ — شقایق دریایی و رام‌کنندگان سیرک <span class="plus">+</span></summary>
+    <div class="ans">
+      <p><span class="ansl">الف)</span> شقایق در برابر تحریک مکانیکیِ <b>تماس</b> بازوهایش را جمع می‌کند، اما به حرکت <b>مداوم و تکراری آب</b> پاسخ نمی‌دهد؛ چون این محرکِ تکراری برایش <b>سود یا زیانی ندارد</b> و به آن <b>خو گرفته</b> است (خوگیری) — و این‌گونه انرژی خود را برای پاسخ به محرک‌های مهم حفظ می‌کند.</p>
+      <p><span class="ansl">ب)</span> رام‌کنندگان از <b>شرطی شدن فعال</b> استفاده می‌کنند: پس از انجام درست حرکت نمایشی، به جانور <b>پاداش</b> (مثلاً غذا) می‌دهند؛ جانور بین <b>رفتار</b> و <b>پاداش</b> ارتباط برقرار می‌کند و آن حرکت را تکرار می‌کند.</p>
+    </div>
+  </details>
+
+  <details class="act">
+    <summary>فعالیت ۴ — آزمایش پوستهٔ تخم کاکایی <span class="plus">+</span></summary>
+    <div class="ans">
+      <p><span class="ansl">الف) فرضیه:</span> رنگ سفیدِ داخل پوستهٔ تخم‌های شکسته، <b>توجه شکارچیان را جلب</b> می‌کند و احتمال شکار شدن جوجه‌ها/تخم‌ها را بالا می‌برد؛ پس بیرون‌انداختن پوسته، یک <b>رفتار سازگارکننده</b> برای کاهش خطر شکار و افزایش بقای زاده‌هاست.</p>
+      <p><span class="ansl">ب)</span> برای اینکه اثرِ <b>خودِ پوستهٔ سفید</b> سنجیده شود، باید دو گروه مقایسه شوند: تخم‌مرغ‌هایی که <b>کنارشان پوستهٔ شکسته هست</b> و تخم‌مرغ‌هایی که <b>نیست</b> (گروه شاهد). اگر کنار همه پوسته می‌گذاشت، امکان <b>مقایسه</b> از بین می‌رفت و نمی‌شد نشان داد پوستهٔ سفید عاملِ جلبِ شکارچی است.</p>
+    </div>
+  </details>
+
+  <details class="act">
+    <summary>فعالیت ۵ — چرا رکود تابستانی رفتاری ژنی است؟ <span class="plus">+</span></summary>
+    <div class="ans">
+      <p>لاک‌پشت حتی وقتی در <b>آزمایشگاه</b> است و <b>غذا و آب کافی</b> دارد (یعنی محرک‌های محیطیِ نبود غذا/خشکی وجود ندارند)، باز هم رکود تابستانی نشان می‌دهد. چون این رفتار <b>مستقل از شرایط محیطی</b> و به‌طور <b>درونی</b> بروز می‌کند، پس اساس <b>ژنی (غریزی)</b> دارد.</p>
+    </div>
+  </details>
+
+  <!-- ============ STUDY METHOD ============ -->
+  <h2 class="callh"><span class="ic">🎯</span> روش مطالعهٔ پیشنهادی (۶ مرحله)</h2>
+  <div class="method">
+    <ol>
+      <li><b>اول اسکلت، بعد جزئیات:</b> نقشهٔ مفهومی بالای صفحه را جلوی چشمت نگه دار.</li>
+      <li><b>خواندن فعال گفتار به گفتار:</b> برای هر مفهومِ رنگی، تعریف دقیق + مثال + دانشمند/آزمایش + دام را بنویس. کلمات تعریف را <b>دقیق</b> حفظ کن («نسبتاً پایدار»، «با هزینهٔ کاسته‌شدن»...).</li>
+      <li><b>جدول‌های تمایز:</b> جفت‌های شبیه‌به‌هم را حفظ کن (خوگیری↔شرطی، کلاسیک↔فعال، خواب↔رکود، طاووس↔جیرجیرک، خویشاوندی↔متقابل).</li>
+      <li><b>مثال‌محوری + معکوس:</b> از جدول مثال‌ها هر دو جهت را تمرین کن؛ به خودت موقعیت ناآشنا بده و دسته‌بندی کن.</li>
+      <li><b>دانشمندان و شکل‌ها + فلش‌کارت:</b> با مرور فاصله‌دار تکرار کن.</li>
+      <li><b>تثبیت:</b> فعالیت‌ها را کامل جواب بده و درس را با صدای بلند برای خودت «تدریس» کن؛ هرجا گیر کردی، همان‌جا هنوز کامل یاد نگرفته‌ای.</li>
+    </ol>
+    <p class="subtle" style="margin-top:10px">📌 نکته: بخش‌های «➕ بیشتر بدانید» (مثل نام FosB یا پروژهٔ ردیابی لاک‌پشت‌ها) معمولاً در محدودهٔ امتحان نهایی نیستند ولی برای درک کامل و گاهی کنکور مفیدند؛ محدودهٔ دقیق را با دبیر خودت هماهنگ کن.</p>
+  </div>
+
+  <div class="foot">
+    <p>راهنمای کامل فصل ۸ — رفتارهای جانوران • ساخته‌شده برای مطالعهٔ امتحان نهایی و کنکور 🌿</p>
+    <p class="subtle">تمام محتوا مطابق متن کتاب درسی حفظ شده است. موفق باشی!</p>
+  </div>
+
+</div>
+
+<canvas id="annot" aria-hidden="true"></canvas>
+<div class="tbar-hint" id="tbarHint"></div>
+<div id="toolbar" role="toolbar" aria-label="ابزار مطالعه و حاشیه‌نویسی">
+  <button class="tbtn" id="t-select" title="حالت عادی (بدون قلم)" aria-pressed="true">🖱️</button>
+  <button class="tbtn" id="t-pen" title="قلم (نوشتن)" aria-pressed="false">✏️</button>
+  <button class="tbtn" id="t-hl" title="هایلایت (ماژیک)" aria-pressed="false">🖍️</button>
+  <button class="tbtn" id="t-erase" title="پاک‌کن" aria-pressed="false">🧹</button>
+  <span class="tsep"></span>
+  <button class="swatch" data-color="#e23b3b" style="background:#e23b3b" title="قرمز" aria-label="رنگ قرمز"></button>
+  <button class="swatch" data-color="#f5a623" style="background:#f5a623" title="نارنجی" aria-label="رنگ نارنجی"></button>
+  <button class="swatch" data-color="#1e9e57" style="background:#1e9e57" title="سبز" aria-label="رنگ سبز"></button>
+  <button class="swatch" data-color="#2b7fd6" style="background:#2b7fd6" title="آبی" aria-label="رنگ آبی"></button>
+  <button class="swatch" data-color="#9b51e0" style="background:#9b51e0" title="بنفش" aria-label="رنگ بنفش"></button>
+  <span class="tsep"></span>
+  <button class="tbtn" id="t-clear" title="پاک کردن همهٔ خط‌ها">🗑️</button>
+  <button class="tbtn" id="t-theme" title="حالت تیره / روشن">🌙</button>
+</div>
+
+<script>
+// birds in hero
+(function(){
+  var box=document.getElementById('birds');
+  if(!box)return;
+  for(var i=0;i<26;i++){
+    var b=document.createElement('span');
+    b.className='b';
+    b.style.left=(Math.random()*100)+'%';
+    b.style.top=(10+Math.random()*70)+'%';
+    b.style.animationDelay=(Math.random()*7)+'s';
+    b.style.transform='scale('+(0.6+Math.random()*1.1)+')';
+    box.appendChild(b);
+  }
+})();
+
+// flashcards data
+var CARDS=[
+  {b:'تعریف', q:'رفتار چیست؟', a:'واکنش یا مجموعه‌واکنش‌هایی که جانور در پاسخ به یک محرک یا محرک‌ها انجام می‌دهد.'},
+  {b:'تعریف', q:'رفتار غریزی؟', a:'رفتاری که در همهٔ افراد یک گونه یکسان است چون ژنی و ارثی است.'},
+  {b:'تعریف', q:'یادگیری؟', a:'تغییرِ نسبتاً پایدارِ رفتار که در اثر تجربه به‌وجود می‌آید.'},
+  {b:'یادگیری', q:'خوگیری؟', a:'کاهش پاسخ به محرک تکراری که سود یا زیانی ندارد؛ حفظ انرژی برای فعالیت‌های حیاتی.'},
+  {b:'یادگیری', q:'شرطی کلاسیک؟', a:'جفت‌شدن یک محرک بی‌اثر (زنگ) با محرک طبیعی (غذا)؛ محرک شرطی به‌تنهایی پاسخ می‌دهد. (پاولوف)'},
+  {b:'یادگیری', q:'شرطی فعال؟', a:'یادگیری با آزمون‌وخطا؛ ربط رفتار به پاداش/تنبیه؛ تکرار یا حذف رفتار. (اسکینر)'},
+  {b:'یادگیری', q:'حل مسئله؟', a:'ربط تجربهٔ گذشته به موقعیت جدید + برنامه‌ریزی آگاهانه. (شامپانزه، کلاغ)'},
+  {b:'یادگیری', q:'نقش‌پذیری؟', a:'یادگیری در دورهٔ حساس؛ دنبال‌کردن نخستین جسم متحرک. (جوجه‌غاز، لورنز)'},
+  {b:'انتخاب طبیعی', q:'رفتار سازگارکننده؟', a:'رفتاری که بقا و زادآوری را افزایش می‌دهد و با انتخاب طبیعی برگزیده می‌شود.'},
+  {b:'زادآوری', q:'چرا معمولاً ماده انتخاب می‌کند؟', a:'چون هزینهٔ تولیدمثل (زمان/انرژی) برای ماده بیشتر است.'},
+  {b:'زادآوری', q:'استثنای جیرجیرک؟', a:'نر هزینهٔ بیشتری می‌پردازد (کیسهٔ مغذی)، پس نر انتخاب می‌کند و ماده‌ها رقابت می‌کنند.'},
+  {b:'زادآوری', q:'صفت ثانویهٔ جنسی؟', a:'مثل دم زینتی طاووس نر و شاخ گوزن نر؛ برای جفت‌یابی و رقابت با نرها.'},
+  {b:'زادآوری', q:'تک‌همسری vs چندهمسری؟', a:'تک‌همسری: هر دو والد (بیشتر پرندگان). چندهمسری: یک والد (بیشتر پستانداران).'},
+  {b:'غذایابی', q:'غذایابی بهینه؟', a:'موازنهٔ انرژی غذا و هزینهٔ به‌دستش؛ بیشترین انرژی خالص. (خرچنگ→صدف متوسط)'},
+  {b:'قلمرو', q:'دو فایدهٔ قلمروخواهی؟', a:'استفادهٔ اختصاصی از منابع، امکان جفت‌یابی، دسترسی به پناهگاه.'},
+  {b:'مهاجرت', q:'مهاجرت؟', a:'جابه‌جایی طولانی و رفت‌وبرگشتی؛ غریزی که یادگیری هم در آن نقش دارد.'},
+  {b:'مهاجرت', q:'جهت‌یابی؟', a:'روز: خورشید • شب: ستاره‌ها • ابری: میدان مغناطیسی زمین (ذرات آهن).'},
+  {b:'خواب/رکود', q:'رکود تابستانی؟', a:'کاهش سوخت‌وساز در گرمای شدید/خشک‌سالی؛ رفتاری ژنی (بیابان).'},
+  {b:'ارتباط', q:'رقص زنبور چه می‌گوید؟', a:'فاصله و جهت منبع غذا نسبت به خورشید. (فون فریش)'},
+  {b:'دگرخواهی', q:'دگرخواهی؟', a:'افزایش بقا/تولیدمثل دیگری با هزینهٔ کاسته‌شدن از بقای خود.'},
+  {b:'دگرخواهی', q:'چرا برگزیده می‌شود؟', a:'خویشاوندی (ژن مشترک به نسل بعد) یا دگرخواهی متقابل (جبران؛ خفاش خون‌آشام).'},
+  {b:'دانشمند', q:'نوبل ۱۹۷۳ برای چه کسانی؟', a:'تین‌برگن، لورنز، فون فریش — بنیان‌گذاران رفتارشناسی.'}
+];
+var grid=document.getElementById('fcgrid');
+CARDS.forEach(function(c){
+  var btn=document.createElement('button');
+  btn.className='fc';btn.type='button';
+  btn.setAttribute('aria-label','فلش‌کارت: '+c.q);
+  btn.innerHTML='<div class="fc-in">'+
+    '<div class="fc-face fc-front"><span class="fc-badge">'+c.b+'</span><span class="q">'+c.q+'</span><span class="hint">برای پاسخ کلیک کن ↻</span></div>'+
+    '<div class="fc-face fc-back">'+c.a+'</div></div>';
+  btn.addEventListener('click',function(){btn.classList.toggle('flip');});
+  grid.appendChild(btn);
+});
+
+/* ===================== DARK MODE + ANNOTATION ===================== */
+(function(){
+  var body=document.body;
+
+  /* --- hint bubble --- */
+  var hintEl=document.getElementById('tbarHint'), hintT;
+  function hint(msg){
+    hintEl.textContent=msg; hintEl.classList.add('show');
+    clearTimeout(hintT); hintT=setTimeout(function(){hintEl.classList.remove('show');},1600);
+  }
+
+  /* --- theme toggle --- */
+  var themeBtn=document.getElementById('t-theme');
+  themeBtn.addEventListener('click',function(){
+    var dark=body.classList.toggle('dark');
+    themeBtn.textContent=dark?'☀️':'🌙';
+    themeBtn.title=dark?'حالت روشن':'حالت تیره';
+    hint(dark?'حالت تیره روشن شد 🌙':'حالت روشن ☀️');
+  });
+
+  /* --- canvas setup --- */
+  var canvas=document.getElementById('annot');
+  var ctx=canvas.getContext('2d');
+  var dpr=Math.max(1,window.devicePixelRatio||1);
+  var tool='select', color='#e23b3b', drawing=false, last=null;
+
+  function docW(){return Math.max(document.documentElement.scrollWidth, window.innerWidth);}
+  function docH(){return Math.max(document.documentElement.scrollHeight, window.innerHeight);}
+
+  function sizeCanvas(){
+    var w=docW(), h=docH(), snap=null;
+    if(canvas.width>0 && canvas.height>0){
+      snap=document.createElement('canvas');
+      snap.width=canvas.width; snap.height=canvas.height;
+      snap.getContext('2d').drawImage(canvas,0,0);
+    }
+    canvas.style.width=w+'px'; canvas.style.height=h+'px';
+    canvas.width=Math.floor(w*dpr); canvas.height=Math.floor(h*dpr);
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    ctx.lineCap='round'; ctx.lineJoin='round';
+    if(snap){ ctx.save(); ctx.setTransform(1,0,0,1,0,0); ctx.drawImage(snap,0,0); ctx.restore(); }
+  }
+  sizeCanvas();
+
+  var rz;
+  window.addEventListener('resize',function(){clearTimeout(rz);rz=setTimeout(sizeCanvas,150);});
+  document.querySelectorAll('details.act').forEach(function(d){
+    d.addEventListener('toggle',function(){setTimeout(sizeCanvas,60);});
+  });
+
+  /* --- tool selection --- */
+  function setTool(t,quiet){
+    tool=t;
+    ['select','pen','hl','erase'].forEach(function(id){
+      var el=document.getElementById('t-'+id);
+      if(el) el.setAttribute('aria-pressed',(id===t)?'true':'false');
+    });
+    body.classList.toggle('drawing', t!=='select');
+    if(!quiet){
+      var m={select:'حالت عادی — حالا می‌توانی بخوانی و کلیک کنی',
+             pen:'قلم فعال شد ✏️ روی متن بنویس',
+             hl:'هایلایت فعال شد 🖍️ روی متن بکش',
+             erase:'پاک‌کن فعال شد 🧹'};
+      hint(m[t]);
+    }
+  }
+  document.getElementById('t-select').addEventListener('click',function(){setTool('select');});
+  document.getElementById('t-pen').addEventListener('click',function(){setTool('pen');});
+  document.getElementById('t-hl').addEventListener('click',function(){setTool('hl');});
+  document.getElementById('t-erase').addEventListener('click',function(){setTool('erase');});
+
+  document.getElementById('t-clear').addEventListener('click',function(){
+    ctx.save(); ctx.setTransform(1,0,0,1,0,0);
+    ctx.clearRect(0,0,canvas.width,canvas.height); ctx.restore();
+    hint('همهٔ خط‌ها پاک شد 🗑️');
+  });
+
+  /* --- color swatches --- */
+  var swatches=document.querySelectorAll('.swatch');
+  function selColor(c,el){
+    color=c;
+    swatches.forEach(function(s){s.classList.remove('sel');});
+    if(el) el.classList.add('sel');
+    if(tool==='select'||tool==='erase') setTool('pen',true);
+  }
+  swatches.forEach(function(s){ s.addEventListener('click',function(){selColor(s.dataset.color,s);}); });
+  swatches[0].classList.add('sel'); // pre-select red, stay in 'select' mode
+
+  /* --- stroke style per tool --- */
+  function applyStyle(){
+    if(tool==='erase'){ ctx.globalCompositeOperation='destination-out'; ctx.globalAlpha=1; ctx.lineWidth=28; }
+    else if(tool==='hl'){ ctx.globalCompositeOperation='source-over'; ctx.globalAlpha=0.30; ctx.strokeStyle=color; ctx.lineWidth=18; }
+    else { ctx.globalCompositeOperation='source-over'; ctx.globalAlpha=1; ctx.strokeStyle=color; ctx.lineWidth=3.2; }
+  }
+
+  function pt(e){ return {x:e.pageX, y:e.pageY}; }
+
+  canvas.addEventListener('pointerdown',function(e){
+    if(tool==='select') return;
+    drawing=true; try{canvas.setPointerCapture(e.pointerId);}catch(_){}
+    applyStyle(); last=pt(e);
+    ctx.beginPath(); ctx.moveTo(last.x,last.y); ctx.lineTo(last.x+0.01,last.y+0.01); ctx.stroke();
+    e.preventDefault();
+  });
+  canvas.addEventListener('pointermove',function(e){
+    if(!drawing) return;
+    var p=pt(e);
+    ctx.beginPath(); ctx.moveTo(last.x,last.y); ctx.lineTo(p.x,p.y); ctx.stroke();
+    last=p; e.preventDefault();
+  });
+  function endDraw(e){ if(drawing){ drawing=false; try{canvas.releasePointerCapture(e.pointerId);}catch(_){} } }
+  canvas.addEventListener('pointerup',endDraw);
+  canvas.addEventListener('pointercancel',endDraw);
+
+  setTool('select',true);
+})();
+</script>
+</body>
+</html>
