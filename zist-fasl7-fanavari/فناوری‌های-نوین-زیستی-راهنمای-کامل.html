@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>فصل ۷ — فناوری‌های نوین زیستی | کارگاه یادگیری</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&family=Lalezar&display=swap" rel="stylesheet">
+<style>
+/* ============ TOKENS ============ */
+:root{
+  --paper:#eef3f1; --surface:#ffffff; --surface-2:#f5f8f6;
+  --ink:#12262b; --muted:#5a6f72; --faint:#8698995e;
+  --line:#dbe5e2; --line-strong:#c3d3ce;
+  --gfp:#0ca678;      /* bioluminescent green (GFP) */
+  --gfp-soft:#d6f3e8;
+  --coral:#e64980;    /* antibiotic-resistance red */
+  --coral-soft:#fbe0ec;
+  --violet:#6741d9;   /* DNA / vector */
+  --violet-soft:#e7e2fb;
+  --amber:#e8a13a;
+  --amber-soft:#fbeed3;
+  --sky:#1c7ed6;
+  --sky-soft:#d9ecfb;
+  --shadow:0 10px 30px -12px rgba(18,38,43,.22);
+  --shadow-lg:0 24px 60px -20px rgba(18,38,43,.30);
+  --glow:0 0 0 rgba(12,166,120,0);
+  --radius:20px;
+}
+[data-theme="dark"]{
+  --paper:#081317; --surface:#0f2229; --surface-2:#122a32;
+  --ink:#e7f1ee; --muted:#93aca9; --faint:#8fb2ad33;
+  --line:#1d3b43; --line-strong:#28525c;
+  --gfp:#38efa2; --gfp-soft:#0d3730;
+  --coral:#ff7bab; --coral-soft:#3a1626;
+  --violet:#a98bff; --violet-soft:#241a3f;
+  --amber:#ffc46b; --amber-soft:#382a13;
+  --sky:#6db7ff; --sky-soft:#0f2c40;
+  --shadow:0 12px 34px -14px rgba(0,0,0,.6);
+  --shadow-lg:0 26px 70px -24px rgba(0,0,0,.75);
+  --glow:0 0 24px rgba(56,239,162,.35);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{
+  margin:0; font-family:"Vazirmatn",system-ui,sans-serif;
+  background:var(--paper); color:var(--ink);
+  line-height:1.95; font-size:16.5px; font-weight:400;
+  -webkit-font-smoothing:antialiased;
+  transition:background .4s ease,color .4s ease;
+  overflow-x:hidden;
+}
+h1,h2,h3,h4{line-height:1.5;font-weight:800}
+p{margin:0 0 1em}
+a{color:var(--gfp);text-decoration:none}
+::selection{background:var(--gfp);color:#fff}
+:focus-visible{outline:3px solid var(--gfp);outline-offset:3px;border-radius:6px}
+
+/* subtle lab-grid backdrop */
+body::before{
+  content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.5;
+  background-image:radial-gradient(circle at 1px 1px, var(--faint) 1px, transparent 0);
+  background-size:26px 26px;
+  mask-image:radial-gradient(ellipse 120% 90% at 50% 0%, #000 30%, transparent 75%);
+}
+
+/* ============ LAYOUT ============ */
+.wrap{position:relative;z-index:1;max-width:980px;margin:0 auto;padding:0 20px}
+section{position:relative;z-index:1}
+
+/* ============ HEADER / HERO ============ */
+.hero{
+  position:relative;overflow:hidden;
+  padding:74px 0 56px;
+  background:
+    radial-gradient(120% 130% at 85% -10%, var(--gfp-soft) 0%, transparent 55%),
+    radial-gradient(90% 90% at 10% 0%, var(--violet-soft) 0%, transparent 50%);
+}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:9px;
+  font-weight:700;font-size:13px;letter-spacing:.5px;color:var(--gfp);
+  background:var(--surface);border:1.5px solid var(--line-strong);
+  padding:7px 15px;border-radius:100px;box-shadow:var(--shadow)
+}
+.eyebrow .dot{width:9px;height:9px;border-radius:50%;background:var(--gfp);box-shadow:var(--glow)}
+.hero h1{
+  font-family:"Lalezar",cursive;font-weight:400;
+  font-size:clamp(44px,9vw,88px);line-height:1.08;margin:22px 0 6px;
+  letter-spacing:.5px;
+}
+.hero h1 .glow{color:var(--gfp);text-shadow:var(--glow)}
+.hero .lead{max-width:640px;font-size:18px;color:var(--muted);font-weight:500}
+.qbox{
+  margin-top:30px;display:grid;gap:12px;grid-template-columns:1fr 1fr;
+}
+@media(max-width:640px){.qbox{grid-template-columns:1fr}}
+.qcard{
+  background:var(--surface);border:1.5px solid var(--line);border-radius:16px;
+  padding:16px 18px;box-shadow:var(--shadow);font-weight:600;font-size:15px;
+  display:flex;gap:12px;align-items:flex-start;
+}
+.qcard .qi{flex:0 0 auto;color:var(--violet);font-size:22px;line-height:1}
+
+/* hero floating molecules */
+.floaters{position:absolute;inset:0;pointer-events:none;z-index:0}
+.floaters svg{position:absolute;opacity:.9}
+@keyframes float{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-14px) rotate(6deg)}}
+.f1{top:8%;left:4%;width:70px;animation:float 7s ease-in-out infinite}
+.f2{top:58%;left:2%;width:54px;animation:float 9s ease-in-out infinite}
+.f3{top:14%;right:3%;width:60px;animation:float 8s ease-in-out infinite .5s}
+
+/* ============ NAV / TOC ============ */
+.toc{
+  position:sticky;top:0;z-index:40;
+  background:color-mix(in srgb, var(--paper) 82%, transparent);
+  backdrop-filter:blur(12px);
+  border-bottom:1.5px solid var(--line);
+  padding:10px 0;
+}
+.toc-inner{display:flex;gap:8px;flex-wrap:wrap;align-items:center;justify-content:center}
+.toc a{
+  font-weight:700;font-size:13.5px;color:var(--muted);
+  padding:7px 14px;border-radius:100px;border:1.5px solid transparent;
+  transition:.2s;display:inline-flex;gap:7px;align-items:center
+}
+.toc a:hover{color:var(--ink);border-color:var(--line-strong);background:var(--surface)}
+
+/* ============ SECTIONS ============ */
+.gaftar{padding:56px 0 20px}
+.gaftar-head{display:flex;align-items:center;gap:18px;margin-bottom:28px}
+.gnum{
+  flex:0 0 auto;width:64px;height:64px;border-radius:20px;
+  display:grid;place-items:center;font-family:"Lalezar";font-size:38px;color:#fff;
+  box-shadow:var(--shadow);
+}
+.g1 .gnum{background:linear-gradient(135deg,var(--gfp),#0b8a63)}
+.g2 .gnum{background:linear-gradient(135deg,var(--violet),#5230c0)}
+.g3 .gnum{background:linear-gradient(135deg,var(--coral),#c02f66)}
+.gaftar-head h2{font-size:clamp(24px,4.5vw,34px);margin:0}
+.gaftar-head .sub{color:var(--muted);font-weight:600;font-size:14.5px;margin-top:2px}
+
+.block{margin:34px 0}
+.block > h3{
+  font-size:22px;display:flex;align-items:center;gap:11px;margin:0 0 14px;
+}
+.block > h3 .ic{width:34px;height:34px;flex:0 0 auto}
+.card{
+  background:var(--surface);border:1.5px solid var(--line);border-radius:var(--radius);
+  padding:22px 24px;box-shadow:var(--shadow);
+}
+.card + .card{margin-top:16px}
+.lead-accent{border-right:5px solid var(--gfp);}
+.g2 .lead-accent{border-color:var(--violet)}
+.g3 .lead-accent{border-color:var(--coral)}
+
+/* key terms */
+.term{
+  font-weight:800;color:var(--gfp);
+  background:var(--gfp-soft);padding:1px 7px;border-radius:7px;
+  white-space:nowrap;
+}
+.term.v{color:var(--violet);background:var(--violet-soft)}
+.term.c{color:var(--coral);background:var(--coral-soft)}
+b{font-weight:800}
+
+/* definition / fact tiles */
+.grid{display:grid;gap:14px}
+.g-2{grid-template-columns:1fr 1fr}
+.g-3{grid-template-columns:repeat(3,1fr)}
+@media(max-width:720px){.g-2,.g-3{grid-template-columns:1fr}}
+.tile{
+  background:var(--surface);border:1.5px solid var(--line);border-radius:16px;
+  padding:18px;box-shadow:var(--shadow);position:relative;overflow:hidden
+}
+.tile h4{margin:0 0 6px;font-size:16.5px;display:flex;gap:9px;align-items:center}
+.tile h4 .ic{width:28px;height:28px}
+.tile p{margin:0;font-size:14.5px;color:var(--muted);font-weight:500}
+.tile .tag{position:absolute;top:0;inset-inline-start:0;height:100%;width:5px}
+
+/* colored branches (شاخه‌ها) */
+.branches{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.branch{border-radius:15px;padding:16px;color:#fff;font-weight:600;box-shadow:var(--shadow);min-height:118px;display:flex;flex-direction:column;gap:6px}
+.branch b{font-size:16px}
+.branch small{font-size:13px;opacity:.95;font-weight:500;line-height:1.7}
+.br-green{background:linear-gradient(135deg,#12b886,#0b8a63)}
+.br-red{background:linear-gradient(135deg,#f06595,#c02f66)}
+.br-gray{background:linear-gradient(135deg,#868e96,#495057)}
+.br-white{background:linear-gradient(135deg,#adb5bd,#748296);}
+.br-blue{background:linear-gradient(135deg,#4dabf7,#1c6fc9)}
+
+/* timeline / process steps */
+.flow{position:relative;margin:8px 0;padding-inline-start:0}
+.step{
+  display:grid;grid-template-columns:52px 1fr;gap:16px;position:relative;padding-bottom:22px;
+}
+.step:not(:last-child)::before{
+  content:"";position:absolute;top:52px;bottom:-6px;
+  inset-inline-start:25px;width:3px;
+  background:linear-gradient(var(--line-strong),var(--line-strong));border-radius:3px
+}
+.step .num{
+  width:52px;height:52px;border-radius:16px;flex:0 0 auto;
+  display:grid;place-items:center;font-weight:800;font-size:20px;color:#fff;
+  background:linear-gradient(135deg,var(--gfp),#0b8a63);box-shadow:var(--shadow);z-index:1
+}
+.g2 .step .num{background:linear-gradient(135deg,var(--violet),#5230c0)}
+.g3 .step .num{background:linear-gradient(135deg,var(--coral),#c02f66)}
+.step .body{
+  background:var(--surface);border:1.5px solid var(--line);border-radius:16px;
+  padding:14px 18px;box-shadow:var(--shadow)
+}
+.step .body h4{margin:0 0 4px;font-size:16.5px}
+.step .body p{margin:0;font-size:14.5px;color:var(--muted);font-weight:500}
+
+/* diagram frame */
+figure{margin:20px 0;background:var(--surface);border:1.5px solid var(--line);border-radius:var(--radius);
+  padding:20px;box-shadow:var(--shadow);overflow:hidden}
+figure svg{display:block;width:100%;height:auto}
+figcaption{margin-top:12px;text-align:center;font-weight:700;font-size:14px;color:var(--gfp)}
+.g2 figcaption{color:var(--violet)}.g3 figcaption{color:var(--coral)}
+
+/* "بیشتر بدانید" callout */
+.aside{
+  background:linear-gradient(135deg,var(--amber-soft),var(--surface));
+  border:1.5px solid var(--amber);border-radius:16px;padding:18px 20px;margin:18px 0;
+  box-shadow:var(--shadow);position:relative
+}
+.aside .k{
+  display:inline-flex;gap:8px;align-items:center;font-weight:800;color:var(--amber);
+  font-size:14px;margin-bottom:6px
+}
+.aside p{margin:0;font-size:14.5px;font-weight:500}
+
+/* reveal Q cards (active recall) */
+.quiz{background:var(--surface);border:1.5px dashed var(--gfp);border-radius:16px;padding:16px 18px;margin:16px 0;box-shadow:var(--shadow)}
+.g2 .quiz{border-color:var(--violet)}.g3 .quiz{border-color:var(--coral)}
+.quiz .q{font-weight:800;display:flex;gap:10px;align-items:flex-start}
+.quiz .q .qm{color:var(--gfp);font-size:20px;line-height:1.4}
+.g2 .quiz .q .qm{color:var(--violet)}.g3 .quiz .q .qm{color:var(--coral)}
+.quiz .a{max-height:0;overflow:hidden;transition:max-height .45s ease,margin .3s;opacity:0}
+.quiz.open .a{max-height:400px;opacity:1;margin-top:12px}
+.quiz .a p{margin:0;font-size:14.5px;color:var(--muted);font-weight:500;
+  border-top:1.5px solid var(--line);padding-top:12px}
+.quiz button.reveal{
+  margin-top:10px;font-family:inherit;font-weight:700;font-size:13px;cursor:pointer;
+  background:var(--gfp-soft);color:var(--gfp);border:none;padding:7px 14px;border-radius:100px
+}
+.g2 .quiz button.reveal{background:var(--violet-soft);color:var(--violet)}
+.g3 .quiz button.reveal{background:var(--coral-soft);color:var(--coral)}
+
+ul.clean{list-style:none;padding:0;margin:.4em 0}
+ul.clean li{position:relative;padding-inline-start:26px;margin-bottom:9px;font-weight:500;color:var(--ink)}
+ul.clean li::before{content:"";position:absolute;inset-inline-start:0;top:11px;width:11px;height:11px;border-radius:4px;background:var(--gfp);box-shadow:var(--glow)}
+.g2 ul.clean li::before{background:var(--violet)}.g3 ul.clean li::before{background:var(--coral)}
+
+.mono{font-family:ui-monospace,"Vazirmatn",monospace;letter-spacing:2px;direction:ltr;display:inline-block}
+
+/* footer */
+footer{padding:50px 0 130px;text-align:center;color:var(--muted);font-weight:500;font-size:14px}
+footer .heart{color:var(--coral)}
+
+/* ============ THEME TOGGLE ============ */
+.theme-btn{
+  position:fixed;top:14px;inset-inline-start:14px;z-index:60;
+  width:52px;height:52px;border-radius:16px;border:1.5px solid var(--line-strong);
+  background:var(--surface);color:var(--ink);cursor:pointer;box-shadow:var(--shadow-lg);
+  display:grid;place-items:center;font-size:22px;transition:.25s
+}
+.theme-btn:hover{transform:translateY(-2px)}
+
+/* ============ DRAW TOOLBAR ============ */
+#annot{position:absolute;top:0;inset-inline-start:0;z-index:35;pointer-events:none;touch-action:auto}
+#annot.active{pointer-events:auto;touch-action:none;cursor:crosshair}
+#annot.hidden{display:none}
+
+.dock{
+  position:fixed;bottom:16px;left:50%;transform:translateX(-50%);
+  z-index:70;display:flex;align-items:center;gap:6px;
+  background:var(--surface);border:1.5px solid var(--line-strong);
+  border-radius:18px;padding:8px;box-shadow:var(--shadow-lg);
+  max-width:calc(100vw - 24px);flex-wrap:wrap;justify-content:center
+}
+.dock .tool,.dock .swatch{
+  width:42px;height:42px;border-radius:12px;border:1.5px solid var(--line);
+  background:var(--surface-2);cursor:pointer;display:grid;place-items:center;
+  font-size:19px;color:var(--ink);transition:.15s;position:relative;flex:0 0 auto
+}
+.dock .tool:hover{transform:translateY(-2px);border-color:var(--line-strong)}
+.dock .tool.on{background:var(--gfp);color:#fff;border-color:var(--gfp);box-shadow:var(--glow)}
+.dock .sep{width:1.5px;height:30px;background:var(--line);margin:0 3px}
+.dock .swatch{padding:0}
+.dock .swatch span{width:22px;height:22px;border-radius:50%;border:2px solid #ffffff88}
+.dock .swatch.on{outline:3px solid var(--ink);outline-offset:1px}
+.dock .thick{display:flex;align-items:center;gap:7px;padding:0 8px}
+.dock .thick input{width:78px;accent-color:var(--gfp)}
+.dock .thick .prev{width:26px;height:26px;display:grid;place-items:center}
+.dock .thick .prev i{display:block;border-radius:50%;background:var(--ink)}
+.dock .label{font-size:11px;color:var(--muted);font-weight:700;padding:0 4px}
+@media(max-width:560px){
+  .dock .label{display:none}
+  .dock .thick input{width:58px}
+}
+.hint{
+  position:fixed;bottom:74px;left:50%;transform:translateX(-50%);
+  background:var(--ink);color:var(--paper);font-size:12.5px;font-weight:600;
+  padding:7px 14px;border-radius:100px;z-index:69;box-shadow:var(--shadow-lg);
+  opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap
+}
+.hint.show{opacity:1}
+
+.tt{position:relative}
+.tt::after{
+  content:attr(data-tip);position:absolute;bottom:118%;left:50%;transform:translateX(-50%);
+  background:var(--ink);color:var(--paper);font-size:11px;font-weight:600;
+  padding:4px 9px;border-radius:8px;white-space:nowrap;opacity:0;pointer-events:none;transition:.15s
+}
+.tt:hover::after{opacity:1}
+</style>
+</head>
+<body>
+
+<!-- THEME TOGGLE -->
+<button class="theme-btn tt" id="themeBtn" data-tip="روشن / تاریک" aria-label="تغییر حالت روشن و تاریک">🌙</button>
+
+<!-- ANNOTATION CANVAS -->
+<canvas id="annot" aria-hidden="true"></canvas>
+
+<!-- ===================== HERO ===================== -->
+<header class="hero">
+  <div class="floaters" aria-hidden="true">
+    <svg class="f1" viewBox="0 0 100 100"><g fill="none" stroke="var(--gfp)" stroke-width="4" stroke-linecap="round"><path d="M25 10c50 15 0 35 50 50M75 10c-50 15 0 35-50 50"/><path d="M30 22h40M28 40h44M28 58h44M30 76h40" stroke-width="3"/></g></svg>
+    <svg class="f2" viewBox="0 0 100 100"><circle cx="50" cy="50" r="34" fill="none" stroke="var(--violet)" stroke-width="7"/><rect x="20" y="44" width="24" height="12" rx="6" fill="var(--coral)"/></svg>
+    <svg class="f3" viewBox="0 0 100 100"><ellipse cx="50" cy="50" rx="40" ry="26" fill="none" stroke="var(--amber)" stroke-width="6"/><circle cx="42" cy="46" r="4" fill="var(--ink)"/><circle cx="58" cy="46" r="4" fill="var(--ink)"/><path d="M40 60q10 8 20 0" fill="none" stroke="var(--ink)" stroke-width="4" stroke-linecap="round"/></svg>
+  </div>
+  <div class="wrap">
+    <span class="eyebrow"><span class="dot"></span>فصل ۷ · زیست‌شناسی</span>
+    <h1>فناوری‌های <span class="glow">نوین زیستی</span></h1>
+    <p class="lead">آیا تاکنون دربارهٔ تولید پلاستیک‌های قابل تجزیهٔ زیستی شنیده‌اید؟ امروزه به کمک روش‌های زیست‌فناوری، تولید پلاستیک‌های قابل‌تجزیه با صرف هزینهٔ کمتر ممکن شده است — این کار با وارد کردن ژن‌های تولیدکننده از باکتری به گیاه امکان‌پذیر است. در این فصل با این فناوری‌ها آشنا می‌شویم.</p>
+    <div class="qbox">
+      <div class="qcard"><span class="qi">◆</span>چگونه می‌توان از فناوری‌های زیستی برای بهبود زندگی انسان و حفظ محیط‌زیست استفاده کرد؟</div>
+      <div class="qcard"><span class="qi">◆</span>آیا می‌توان با استفاده از آن‌ها همهٔ مشکلات بشر را حل کرد؟</div>
+      <div class="qcard"><span class="qi">◆</span>انسان از نظر اخلاقی تا چه حد می‌تواند این فناوری‌ها را به خدمت بگیرد؟</div>
+      <div class="qcard"><span class="qi">◆</span>در آخر، به بخشی از پرسش‌های مطرح‌شده در مورد این فناوری‌ها پاسخ می‌دهیم.</div>
+    </div>
+  </div>
+</header>
+
+<!-- ===================== TOC ===================== -->
+<nav class="toc">
+  <div class="wrap toc-inner">
+    <a href="#g1">🧬 گفتار ۱ · مهندسی ژنتیک</a>
+    <a href="#g2">🧫 گفتار ۲ · مهندسی پروتئین و بافت</a>
+    <a href="#g3">🌱 گفتار ۳ · کاربردها</a>
+  </div>
+</nav>
+
+<!-- ===================== گفتار ۱ ===================== -->
+<section class="gaftar g1" id="g1">
+  <div class="wrap">
+    <div class="gaftar-head">
+      <div class="gnum">۱</div>
+      <div>
+        <h2>زیست‌فناوری و مهندسی ژنتیک</h2>
+        <div class="sub">از تعریف زیست‌فناوری تا ساختن دنای نوترکیب مرحله‌به‌مرحله</div>
+      </div>
+    </div>
+
+    <!-- تعریف -->
+    <div class="block">
+      <h3><svg class="ic" viewBox="0 0 40 40"><rect x="5" y="8" width="30" height="24" rx="6" fill="none" stroke="var(--gfp)" stroke-width="3"/><path d="M12 20h16M12 26h10" stroke="var(--gfp)" stroke-width="3" stroke-linecap="round"/></svg> زیست‌فناوری چیست؟</h3>
+      <div class="card lead-accent">
+        <p>به‌طورکلی به <span class="term">هرگونه فعالیت هوشمندانهٔ آدمی در تولید و بهبود محصولات گوناگون با استفاده از موجود زنده</span>، زیست‌فناوری (Biotechnology) گویند.</p>
+        <p style="margin:0">زیست‌فناوری قلمروی بسیار گسترده دارد و روش‌هایی مانند <b>مهندسی ژنتیک، مهندسی پروتئین و بافت</b> را دربرمی‌گیرد و از گرایش‌های علمی متعددی مانند علوم زیستی، فیزیک، ریاضیات و علوم مهندسی بهره می‌برد.</p>
+      </div>
+      <div class="aside">
+        <div class="k">💡 بیشتر بدانید · تعریف فرهنگستان</div>
+        <p>فرهنگستان علوم جمهوری اسلامی ایران زیست‌فناوری را چنین تعریف می‌کند: «<b>تولید فراورده‌ها از طریق فرایند زیستی که مستلزم فنون مهندسی است</b>».</p>
+      </div>
+    </div>
+
+    <!-- تاریخچه -->
+    <div class="block">
+      <h3><svg class="ic" viewBox="0 0 40 40"><circle cx="20" cy="20" r="15" fill="none" stroke="var(--gfp)" stroke-width="3"/><path d="M20 11v9l6 4" fill="none" stroke="var(--gfp)" stroke-width="3" stroke-linecap="round"/></svg> تاریخچهٔ زیست‌فناوری — سه دوره</h3>
+      <div class="grid g-3">
+        <div class="tile"><span class="tag" style="background:var(--amber)"></span>
+          <h4><span class="ic">🍞</span>سنّتی</h4>
+          <p>تولید محصولات تخمیری مانند <b>سرکه، نان و فراورده‌های لبنی</b> با فرایندهای زیستی مربوط به این دوره است.</p></div>
+        <div class="tile"><span class="tag" style="background:var(--sky)"></span>
+          <h4><span class="ic">🧪</span>کلاسیک</h4>
+          <p>با روش‌های <b>تخمیر و کشت ریزجانداران</b> (میکروارگانیسم‌ها) تولید موادی مانند <b>پادزیست‌ها، آنزیم‌ها و مواد غذایی</b> ممکن شد.</p></div>
+        <div class="tile"><span class="tag" style="background:var(--gfp)"></span>
+          <h4><span class="ic">🧬</span>نوین</h4>
+          <p>با <b>انتقال ژن از یک ریزجاندار به ریزجاندار دیگر</b> آغاز شد؛ تولید ترکیبات جدید با مقادیر بیشتر و کارایی بالاتر.</p></div>
+      </div>
+    </div>
+
+    <!-- شاخه‌های رنگی -->
+    <div class="block">
+      <h3><svg class="ic" viewBox="0 0 40 40"><circle cx="20" cy="20" r="6" fill="var(--gfp)"/><g stroke="var(--muted)" stroke-width="2.4"><path d="M20 14V6M20 26v8M14 20H6M26 20h8"/></g></svg> شاخه‌های رنگی زیست‌فناوری</h3>
+      <div class="branches">
+        <div class="branch br-green"><b>🌿 سبز</b><small>زیست‌فناوری کشاورزی؛ بهره‌برداری از گیاهانِ دستورزی‌شده ژنتیکی.</small></div>
+        <div class="branch br-red"><b>❤️ قرمز</b><small>زیست‌فناوری پزشکی؛ بهره‌برداری از یاخته‌های دستورزی‌شده برای درمان، تولید دارو و مسائل قضایی.</small></div>
+        <div class="branch br-gray"><b>🌫️ خاکستری</b><small>زیست‌فناوری محیط‌زیست؛ جلوگیری و رفع مشکلات محیط‌زیست.</small></div>
+        <div class="branch br-white"><b>⚙️ سفید</b><small>زیست‌فناوری صنعتی؛ استفاده از موجودات زنده در مسائل صنعتی مثلاً ساخت مواد شیمیایی.</small></div>
+        <div class="branch br-blue"><b>🌊 آبی</b><small>زیست‌فناوری دریایی؛ بهره‌وری از فرایندهای دریایی و موجودات آبزی.</small></div>
+      </div>
+    </div>
+
+    <!-- مهندسی ژنتیک -->
+    <div class="block">
+      <h3><svg class="ic" viewBox="0 0 40 40"><g fill="none" stroke="var(--gfp)" stroke-width="3" stroke-linecap="round"><path d="M12 6c22 6 0 16 22 22M28 6C6 12 28 22 6 28"/><path d="M15 11h11M13 20h14M15 29h10" stroke-width="2.4"/></g></svg> مهندسی ژنتیک</h3>
+      <div class="card lead-accent">
+        <p>یکی از روش‌های مؤثر در زیست‌فناوری نوین، مهندسی ژنتیک است. در آن قطعه‌ای از <b>دنای یک یاخته توسط ناقل به یاخته‌ای دیگر انتقال می‌یابد</b>؛ یاختهٔ دریافت‌کننده دچار <b>دستورزی ژنتیکی</b> و دارای صفت جدید می‌شود.</p>
+        <p style="margin:0">به جانداری که از این راه ترکیب ژنتیکی جدیدی پیدا کند، <span class="term">جاندار تغییریافتهٔ ژنتیکی (Genetically Modified Organism)</span> یا <span class="term">تراژنی (Transgenic)</span> می‌گویند.</p>
+      </div>
+
+      <h4 style="margin:22px 0 10px;font-size:17px">مراحل ایجاد گیاهان زراعی تراژنی</h4>
+      <div class="flow">
+        <div class="step"><div class="num">۱</div><div class="body"><h4>تعیین صفت یا صفات مطلوب</h4><p>تصمیم می‌گیریم چه ویژگی‌ای را وارد گیاه کنیم.</p></div></div>
+        <div class="step"><div class="num">۲</div><div class="body"><h4>استخراج ژن صفت موردنظر</h4><p>ژن یا ژن‌های مربوط به صفت جدا می‌شوند.</p></div></div>
+        <div class="step"><div class="num">۳</div><div class="body"><h4>آماده‌سازی و انتقال ژن به گیاه</h4><p>ژن به یاختهٔ گیاهی وارد می‌شود.</p></div></div>
+        <div class="step"><div class="num">۴</div><div class="body"><h4>تولید گیاه تراژنی</h4><p>از یاختهٔ نوترکیب، گیاه کامل پرورش می‌یابد.</p></div></div>
+        <div class="step"><div class="num">۵</div><div class="body"><h4>بررسی دقیق ایمنی زیستی</h4><p>اثبات بی‌خطر بودن برای سلامت انسان و محیط‌زیست.</p></div></div>
+        <div class="step"><div class="num">۶</div><div class="body"><h4>تکثیر و کشت گیاه تراژنی</h4><p>با رعایت اصول ایمنی زیستی.</p></div></div>
+      </div>
+
+      <!-- شکل ۱ -->
+      <figure>
+        <svg viewBox="0 0 760 200" role="img" aria-label="تولید یک گیاه تراژنی">
+          <!-- باکتری با دیسک و فام‌تن -->
+          <rect x="14" y="60" width="120" height="80" rx="40" fill="var(--gfp-soft)" stroke="var(--gfp)" stroke-width="2.5"/>
+          <circle cx="55" cy="100" r="18" fill="none" stroke="var(--coral)" stroke-width="4"/>
+          <text x="55" y="150" text-anchor="middle" font-size="11" fill="var(--coral)" font-family="Vazirmatn">دیسک</text>
+          <path d="M85 88c22 4 0 12 22 20" fill="none" stroke="var(--violet)" stroke-width="3.5"/>
+          <text x="98" y="150" text-anchor="middle" font-size="11" fill="var(--violet)" font-family="Vazirmatn">فام‌تن</text>
+          <text x="74" y="48" text-anchor="middle" font-size="11" fill="var(--ink)" font-family="Vazirmatn">ژن خارجی</text>
+          <!-- arrow -->
+          <path d="M150 100h44" stroke="var(--muted)" stroke-width="3" marker-end="url(#ar1)"/>
+          <!-- یاخته گیاه -->
+          <rect x="210" y="62" width="86" height="76" rx="12" fill="var(--gfp-soft)" stroke="var(--gfp)" stroke-width="2.5"/>
+          <circle cx="253" cy="100" r="15" fill="var(--gfp)" opacity=".35"/>
+          <circle cx="240" cy="78" r="7" fill="none" stroke="var(--coral)" stroke-width="3"/>
+          <text x="253" y="152" text-anchor="middle" font-size="11" fill="var(--ink)" font-family="Vazirmatn">یاختهٔ گیاه</text>
+          <path d="M310 100h40" stroke="var(--muted)" stroke-width="3" marker-end="url(#ar1)"/>
+          <!-- یاخته نوترکیب -->
+          <rect x="366" y="62" width="86" height="76" rx="12" fill="var(--violet-soft)" stroke="var(--violet)" stroke-width="2.5"/>
+          <circle cx="409" cy="100" r="15" fill="var(--violet)" opacity=".35"/>
+          <text x="409" y="152" text-anchor="middle" font-size="11" fill="var(--ink)" font-family="Vazirmatn">یاختهٔ نوترکیب</text>
+          <path d="M466 100h40" stroke="var(--muted)" stroke-width="3" marker-end="url(#ar1)"/>
+          <!-- کشت -->
+          <ellipse cx="565" cy="100" rx="52" ry="24" fill="var(--gfp-soft)" stroke="var(--gfp)" stroke-width="2.5"/>
+          <circle cx="548" cy="96" r="5" fill="var(--gfp)"/><circle cx="572" cy="104" r="5" fill="var(--gfp)"/><circle cx="580" cy="90" r="5" fill="var(--gfp)"/>
+          <text x="565" y="150" text-anchor="middle" font-size="11" fill="var(--ink)" font-family="Vazirmatn">یاخته‌های کشت‌شده</text>
+          <!-- گیاه تراژن -->
+          <path d="M690 130v-26" stroke="#7a9a3a" stroke-width="4"/>
+          <path d="M690 108c-16-6-22 6-22 6 12 6 22-6 22-6zM690 100c16-6 22 6 22 6-12 6-22-6-22-6z" fill="var(--gfp)"/>
+          <path d="M676 138h28l-4 20h-20z" fill="var(--amber)"/>
+          <text x="690" y="176" text-anchor="middle" font-size="11" fill="var(--gfp)" font-family="Vazirmatn" font-weight="700">گیاه تراژن</text>
+          <path d="M617 118c30 14 44 8 60 4" stroke="var(--muted)" stroke-width="3" fill="none" marker-end="url(#ar1)"/>
+          <defs><marker id="ar1" markerWidth="9" markerHeight="9" refX="6" refY="4.5" orient="auto"><path d="M0 0l7 4.5L0 9z" fill="var(--muted)"/></marker></defs>
+        </svg>
+        <figcaption>شکل ۱ — تولید یک گیاه تراژنی: از باکتریِ حاوی ژن خارجی تا گیاه کامل</figcaption>
+      </figure>
+    </div>
+
+    <!-- همسانه‌سازی -->
+    <div class="block">
+      <h3><svg class="ic" viewBox="0 0 40 40"><circle cx="14" cy="20" r="9" fill="none" stroke="var(--gfp)" stroke-width="3"/><circle cx="27" cy="14" r="9" fill="none" stroke="var(--gfp)" stroke-width="3"/><circle cx="27" cy="27" r="9" fill="none" stroke="var(--gfp)" stroke-width="3"/></svg> مراحل مهندسی ژنتیک · همسانه‌سازی دنا</h3>
+      <div class="card">
+        <p>یکی از اهداف مهندسی ژنتیک <b>تولید انبوه ژن و فراورده‌های آن</b> است. جداسازی یک یا چند ژن و تکثیر آن‌ها را <span class="term">همسانه‌سازی دنا (DNA Cloning)</span> می‌گویند. در این کار مادهٔ وراثتی با ابزارهای مختلف در خارج از یاخته تهیه و به‌وسیلهٔ یک <span class="term v">ناقل همسانه‌سازی (Cloning Vector)</span> به درون ژنوم میزبان منتقل می‌شود.</p>
+      </div>
+
+      <!-- گام ۱ برش -->
+      <h4 style="margin:24px 0 10px;font-size:17px">۱) جداسازی قطعه‌ای از دنا — آنزیم‌های برش‌دهنده ✂️</h4>
+      <div class="card">
+        <p>این کار به‌وسیلهٔ <span class="term c">آنزیم‌های برش‌دهنده (Restriction Enzyme)</span> انجام می‌شود. این آنزیم‌ها در باکتری‌ها وجود دارند و بخشی از سامانهٔ دفاعی آن‌ها هستند. آن‌ها توالی‌های نوکلئوتیدی خاصی را در دنا تشخیص و برش می‌دهند. مثلاً آنزیم <b>EcoR۱</b> توالی شش‌جفت‌نوکلئوتیدی <span class="mono">GAATTC</span> را می‌شناسد؛ به این توالی <span class="term c">جایگاه تشخیص آنزیم</span> گفته می‌شود.</p>
+        <p style="margin:0">این آنزیم پیوند فسفودی‌استر بین نوکلئوتید گوانین‌دار و آدنین‌دار را می‌برد؛ درنتیجه انتهایی ایجاد می‌شود که یک رشتهٔ آن بلندتر از رشتهٔ مقابل است و به آن <span class="term c">انتهای چسبنده</span> می‌گویند. برای تشکیل چنین انتهایی، علاوه بر پیوند فسفودی‌استر، <b>پیوندهای هیدروژنی</b> بین دو رشته نیز شکسته می‌شوند.</p>
+      </div>
+
+      <!-- شکل ۲ برش EcoR1 -->
+      <figure>
+        <svg viewBox="0 0 720 260" role="img" aria-label="برش مولکول دنا توسط آنزیم EcoR۱">
+          <text x="360" y="22" text-anchor="middle" font-size="13" font-weight="700" fill="var(--coral)" font-family="Vazirmatn">جایگاه تشخیص آنزیم</text>
+          <!-- before -->
+          <g font-family="ui-monospace,monospace" font-size="18" font-weight="700">
+            <rect x="210" y="34" width="300" height="34" rx="8" fill="var(--gfp-soft)" stroke="var(--gfp)" stroke-width="2"/>
+            <text x="360" y="58" text-anchor="middle" fill="var(--ink)" letter-spacing="6" direction="ltr">G A A T T C</text>
+            <rect x="210" y="76" width="300" height="34" rx="8" fill="var(--gfp-soft)" stroke="var(--gfp)" stroke-width="2"/>
+            <text x="360" y="100" text-anchor="middle" fill="var(--ink)" letter-spacing="6" direction="ltr">C T T A A G</text>
+            <!-- base pairs -->
+            <g stroke="var(--muted)" stroke-width="2"><path d="M240 68v8M270 68v8M300 68v8M330 68v8M360 68v8M390 68v8M420 68v8M450 68v8M480 68v8"/></g>
+          </g>
+          <path d="M360 116v18" stroke="var(--coral)" stroke-width="3" marker-end="url(#ar2)"/>
+          <text x="360" y="150" text-anchor="middle" font-size="12" fill="var(--coral)" font-weight="700" font-family="Vazirmatn">با استفاده از EcoR۱</text>
+          <!-- after: sticky ends -->
+          <g font-family="ui-monospace,monospace" font-size="17" font-weight="700">
+            <!-- left fragment -->
+            <rect x="150" y="164" width="60" height="30" rx="7" fill="var(--gfp-soft)" stroke="var(--gfp)" stroke-width="2"/>
+            <text x="180" y="185" text-anchor="middle" fill="var(--ink)" direction="ltr">G</text>
+            <rect x="150" y="204" width="210" height="30" rx="7" fill="var(--gfp-soft)" stroke="var(--gfp)" stroke-width="2"/>
+            <text x="255" y="225" text-anchor="middle" fill="var(--ink)" letter-spacing="4" direction="ltr">C T T A A</text>
+            <!-- right fragment -->
+            <rect x="360" y="164" width="210" height="30" rx="7" fill="var(--gfp-soft)" stroke="var(--gfp)" stroke-width="2"/>
+            <text x="465" y="185" text-anchor="middle" fill="var(--ink)" letter-spacing="4" direction="ltr">A A T T C</text>
+            <rect x="510" y="204" width="60" height="30" rx="7" fill="var(--gfp-soft)" stroke="var(--gfp)" stroke-width="2"/>
+            <text x="540" y="225" text-anchor="middle" fill="var(--ink)" direction="ltr">G</text>
+          </g>
+          <text x="360" y="252" text-anchor="middle" font-size="12" fill="var(--coral)" font-weight="700" font-family="Vazirmatn">انتهای چسبنده ← یک رشته بلندتر از رشتهٔ مقابل</text>
+          <defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="5" refY="7" orient="auto"><path d="M0 0l4.5 7L9 0z" fill="var(--coral)"/></marker></defs>
+        </svg>
+        <figcaption>شکل ۲ — برش مولکول دنا توسط آنزیم EcoR۱ و ایجاد «انتهای چسبنده»</figcaption>
+      </figure>
+
+      <div class="quiz" data-quiz>
+        <div class="q"><span class="qm">؟</span><span>چرا باید همان آنزیمی که ژن را جدا کرد، دیسک را هم برش دهد؟</span></div>
+        <button class="reveal">نمایش پاسخ</button>
+        <div class="a"><p>چون برش با یک آنزیم مشخص، <b>انتهای چسبندهٔ مکمل</b> ایجاد می‌کند. تنها در این صورت انتهای قطعهٔ ژن و انتهای بازِ دیسک با هم مکمل می‌شوند و می‌توانند به‌درستی به یکدیگر بچسبند.</p></div>
+      </div>
+
+      <!-- گام ۲ اتصال به ناقل -->
+      <h4 style="margin:24px 0 10px;font-size:17px">۲) اتصال قطعه به ناقل — تشکیل دنای نوترکیب 🔗</h4>
+      <div class="card">
+        <p>ناقل، توالی دنایی است که در خارج از فام‌تن اصلی قرار دارد و مستقل از آن تکثیر می‌شود. یکی از این مولکول‌ها <span class="term v">دیسک</span> است: یک مولکول دنای دورشته‌ای و حلقوی و خارج‌فام‌تنی که معمولاً درون باکتری‌ها و بعضی قارچ‌ها مثل مخمرها وجود دارد. دیسک‌ها را <b>فام‌تن‌های کمکی</b> نیز می‌نامند، چون حاوی ژن‌هایی هستند که در فام‌تن اصلی وجود ندارند — مثلاً <span class="term c">ژن مقاومت به پادزیست</span>.</p>
+        <p style="margin:0">برش دیسک با همان آنزیم، دو انتهای چسبنده ایجاد می‌کند. سپس آنزیم <span class="term">لیگاز (اتصال‌دهنده)</span> پیوند فسفودی‌استر بین دو انتهای مکمل را می‌سازد. به مجموعهٔ دنای ناقل و ژن جاگذاری‌شده در آن، <span class="term">دنای نوترکیب (Recombinant DNA)</span> گفته می‌شود.</p>
+      </div>
+
+      <!-- شکل ۳ و ۴ دیسک -->
+      <figure>
+        <svg viewBox="0 0 720 240" role="img" aria-label="طرح ساده‌ای از دیسک و تشکیل دنای نوترکیب">
+          <!-- plasmid A (before) -->
+          <g transform="translate(160,120)">
+            <circle r="70" fill="none" stroke="var(--sky)" stroke-width="16"/>
+            <rect x="-14" y="-84" width="70" height="18" rx="9" fill="var(--gfp)" transform="rotate(28)"/>
+            <text x="0" y="6" text-anchor="middle" font-size="12" fill="var(--gfp)" font-weight="700" font-family="Vazirmatn">جایگاه شروع</text>
+            <text x="0" y="22" text-anchor="middle" font-size="12" fill="var(--gfp)" font-weight="700" font-family="Vazirmatn">همانندسازی</text>
+            <rect x="-70" y="30" width="46" height="20" rx="6" fill="var(--coral)"/>
+            <text x="-108" y="70" font-size="11" fill="var(--coral)" font-weight="700" font-family="Vazirmatn">ژن مقاومت</text>
+            <text x="-108" y="84" font-size="11" fill="var(--coral)" font-weight="700" font-family="Vazirmatn">به پادزیست</text>
+          </g>
+          <text x="160" y="228" text-anchor="middle" font-size="12" fill="var(--muted)" font-weight="700" font-family="Vazirmatn">الف) دیسک بریده‌شده + ژن خارجی</text>
+          <!-- ligase arrow -->
+          <g transform="translate(360,120)">
+            <path d="M-40 0h80" stroke="var(--violet)" stroke-width="3" marker-end="url(#ar3)"/>
+            <text x="0" y="-14" text-anchor="middle" font-size="12" fill="var(--violet)" font-weight="700" font-family="Vazirmatn">لیگاز</text>
+            <text x="0" y="26" text-anchor="middle" font-size="11" fill="var(--muted)" font-family="Vazirmatn">اتصال‌دهنده</text>
+          </g>
+          <!-- plasmid B (recombinant) -->
+          <g transform="translate(560,120)">
+            <circle r="70" fill="none" stroke="var(--sky)" stroke-width="16"/>
+            <path d="M0 -70a70 70 0 0 1 60 34" fill="none" stroke="var(--gfp)" stroke-width="16"/>
+            <rect x="-70" y="30" width="46" height="20" rx="6" fill="var(--coral)"/>
+            <circle r="6" fill="var(--violet)"/>
+          </g>
+          <text x="560" y="228" text-anchor="middle" font-size="12" fill="var(--violet)" font-weight="800" font-family="Vazirmatn">ب) دنای نوترکیب</text>
+          <defs><marker id="ar3" markerWidth="9" markerHeight="9" refX="6" refY="4.5" orient="auto"><path d="M0 0l7 4.5L0 9z" fill="var(--violet)"/></marker></defs>
+        </svg>
+        <figcaption>شکل ۳ و ۴ — دیسک (پلازمید) حاوی ژن مقاومت به پادزیست، و تشکیل دنای نوترکیب پس از تأثیر لیگاز</figcaption>
+      </figure>
+
+      <div class="aside">
+        <div class="k">💡 بیشتر بدانید · باکتری‌خوارها (باکتریوفاژها)</div>
+        <p>ویروس‌های معمولاً دنادار که به باکتری‌ها حمله می‌کنند و آن‌ها را از بین می‌برند. نوکلئیک‌اسید این فاژها از دیسک بزرگ‌تر است؛ مزیت دنای فاژها به‌عنوان ناقل همسانه‌سازی این است که می‌توان <b>قطعات دنای بزرگ‌تری</b> را در آن‌ها جاسازی کرد.</p>
+      </div>
+
+      <!-- گام ۳ ورود به میزبان -->
+      <h4 style="margin:24px 0 10px;font-size:17px">۳) وارد کردن دنای نوترکیب به یاختهٔ میزبان ⚡🔥</h4>
+      <div class="card">
+        <p>در این مرحله دنای نوترکیب را به درون یاختهٔ میزبان (مثلاً باکتری) منتقل می‌کنند. برای این کار باید در دیوارهٔ باکتری <b>منافذی</b> ایجاد شود؛ این منافذ را می‌توان با کمک <span class="term">شوک الکتریکی</span> و یا <span class="term">شوک حرارتی همراه با مواد شیمیایی</span> ایجاد کرد. طبق اطلاعات به‌دست‌آمده، <b>همهٔ باکتری‌ها دنای نوترکیب را دریافت نمی‌کنند</b>؛ بنابراین باید باکتریِ دریافت‌کنندهٔ دیسک از باکتریِ فاقد آن تفکیک شود.</p>
+      </div>
+
+      <figure>
+        <svg viewBox="0 0 720 170" role="img" aria-label="وارد کردن دنای نوترکیب به یاخته میزبان">
+          <rect x="20" y="60" width="120" height="60" rx="30" fill="var(--surface-2)" stroke="var(--muted)" stroke-width="2.5"/>
+          <path d="M60 90c8-8 14 8 22 0" stroke="var(--violet)" stroke-width="3" fill="none"/>
+          <text x="80" y="150" text-anchor="middle" font-size="11" fill="var(--muted)" font-family="Vazirmatn">قراردادن در محیط کشت</text>
+          <path d="M150 90h40" stroke="var(--muted)" stroke-width="3" marker-end="url(#ar4)"/>
+          <!-- shock split -->
+          <text x="270" y="40" text-anchor="middle" font-size="18" font-family="Vazirmatn">🔥</text>
+          <text x="270" y="58" text-anchor="middle" font-size="11" fill="var(--coral)" font-weight="700" font-family="Vazirmatn">شوک گرمایی</text>
+          <text x="270" y="152" text-anchor="middle" font-size="18" font-family="Vazirmatn">⚡</text>
+          <text x="270" y="138" text-anchor="middle" font-size="11" fill="var(--amber)" font-weight="700" font-family="Vazirmatn">شوک الکتریکی</text>
+          <text x="270" y="98" text-anchor="middle" font-size="13" fill="var(--muted)" font-weight="700" font-family="Vazirmatn">یا</text>
+          <path d="M320 90h40" stroke="var(--muted)" stroke-width="3" marker-end="url(#ar4)"/>
+          <rect x="372" y="58" width="120" height="64" rx="32" fill="var(--gfp-soft)" stroke="var(--gfp)" stroke-width="2.5" stroke-dasharray="6 5"/>
+          <circle cx="432" cy="90" r="13" fill="none" stroke="var(--coral)" stroke-width="3"/>
+          <text x="432" y="150" text-anchor="middle" font-size="11" fill="var(--gfp)" font-weight="700" font-family="Vazirmatn">وارد شدن دنای نوترکیب</text>
+          <path d="M502 90h40" stroke="var(--muted)" stroke-width="3" marker-end="url(#ar4)"/>
+          <rect x="554" y="58" width="130" height="64" rx="32" fill="var(--gfp-soft)" stroke="var(--gfp)" stroke-width="3"/>
+          <circle cx="619" cy="90" r="13" fill="none" stroke="var(--coral)" stroke-width="3"/>
+          <circle cx="600" cy="78" r="4" fill="var(--gfp)"/>
+          <text x="619" y="150" text-anchor="middle" font-size="11" fill="var(--gfp)" font-weight="800" font-family="Vazirmatn">باکتری با ویژگی جدید</text>
+          <defs><marker id="ar4" markerWidth="9" markerHeight="9" refX="6" refY="4.5" orient="auto"><path d="M0 0l7 4.5L0 9z" fill="var(--muted)"/></marker></defs>
+        </svg>
+        <figcaption>شکل ۵ — وارد کردن دنای نوترکیب به یاختهٔ میزبان با شوک گرمایی یا الکتریکی</figcaption>
+      </figure>
+
+      <!-- گام ۴ جداسازی -->
+      <h4 style="margin:24px 0 10px;font-size:17px">۴) جداسازی یاخته‌های تراژنی — با ژن مقاومت به پادزیست 💊</h4>
+      <div class="card">
+        <p>یکی از روش‌ها استفاده از دیسکی است که دارای <b>ژن مقاومت به پادزیستی مثل آمپی‌سیلین</b> است. اگر باکتری دنای نوترکیب را دریافت کرده باشد، در محیط حاوی پادزیست <b>رشد می‌کند</b>؛ باکتری‌های فاقد دنای نوترکیب به‌دلیل حساسیت به پادزیست در چنین محیطی <b>از بین می‌روند</b>.</p>
+        <p style="margin:0">در شرایط مناسب، باکتری‌های تراژنی با سرعت بالایی تکثیر می‌شوند و دنای خارجی نیز مستقل از فام‌تن اصلی، نسخه‌های متعددی می‌سازد. پس تعداد زیادی باکتریِ دارای دنای خارجی آماده می‌شود که می‌توان برای <b>تولید فراورده یا استخراج ژن</b> از آن‌ها استفاده کرد.</p>
+      </div>
+
+      <figure>
+        <svg viewBox="0 0 720 220" role="img" aria-label="جداسازی یاخته‌های تراژنی روی محیط کشت">
+          <!-- tube -->
+          <rect x="330" y="10" width="60" height="70" rx="12" fill="var(--amber-soft)" stroke="var(--amber)" stroke-width="2.5"/>
+          <text x="360" y="98" text-anchor="middle" font-size="10.5" fill="var(--muted)" font-family="Vazirmatn">میزبان + دیسک نوترکیب</text>
+          <path d="M340 84l-120 44" stroke="var(--coral)" stroke-width="3" marker-end="url(#ar5)"/>
+          <path d="M380 84l120 44" stroke="var(--coral)" stroke-width="3" marker-end="url(#ar5)"/>
+          <text x="255" y="120" font-size="13" font-weight="800" fill="var(--coral)" font-family="Vazirmatn">۱</text>
+          <text x="470" y="120" font-size="13" font-weight="800" fill="var(--coral)" font-family="Vazirmatn">۲</text>
+          <!-- plate 1: no antibiotic (both grow) -->
+          <ellipse cx="150" cy="165" rx="90" ry="38" fill="var(--surface-2)" stroke="var(--muted)" stroke-width="2.5"/>
+          <g fill="var(--gfp)"><circle cx="110" cy="158" r="4"/><circle cx="135" cy="172" r="4"/><circle cx="160" cy="152" r="4"/><circle cx="180" cy="170" r="4"/><circle cx="120" cy="178" r="4"/><circle cx="195" cy="158" r="4"/></g>
+          <text x="150" y="215" text-anchor="middle" font-size="11.5" fill="var(--muted)" font-weight="700" font-family="Vazirmatn">محیط کشت فاقد پادزیست</text>
+          <!-- plate 2: antibiotic (only recombinant grows) -->
+          <ellipse cx="570" cy="165" rx="90" ry="38" fill="var(--coral-soft)" stroke="var(--coral)" stroke-width="2.5"/>
+          <g fill="var(--gfp)"><circle cx="560" cy="162" r="5"/><circle cx="585" cy="172" r="5"/></g>
+          <text x="570" y="215" text-anchor="middle" font-size="11.5" fill="var(--coral)" font-weight="800" font-family="Vazirmatn">محیط کشت دارای پادزیست</text>
+          <defs><marker id="ar5" markerWidth="9" markerHeight="9" refX="6" refY="4.5" orient="auto"><path d="M0 0l7 4.5L0 9z" fill="var(--coral)"/></marker></defs>
+        </svg>
+        <figcaption>شکل ۶ — فقط باکتری‌های حاوی دنای نوترکیب در محیط دارای پادزیست زنده می‌مانند</figcaption>
+      </figure>
+
+      <div class="quiz" data-quiz>
+        <div class="q"><span class="qm">؟</span><span>چرا بهتر است دیسک فقط یک جایگاه تشخیص برای آنزیم برش‌دهنده داشته باشد؟</span></div>
+        <button class="reveal">نمایش پاسخ</button>
+        <div class="a"><p>اگر دیسک بیش از یک جایگاه تشخیص داشته باشد، آنزیم آن را به چند قطعه می‌برد و حلقه به هم می‌ریزد. با <b>یک جایگاه</b>، دیسک فقط یک بار باز می‌شود و به یک قطعهٔ خطی با دو انتهای چسبنده تبدیل می‌شود که ژن موردنظر دقیقاً در همان‌جا جاسازی می‌شود.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== گفتار ۲ ===================== -->
+<section class="gaftar g2" id="g2">
+  <div class="wrap">
+    <div class="gaftar-head">
+      <div class="gnum">۲</div>
+      <div>
+        <h2>فناوری مهندسی پروتئین و بافت</h2>
+        <div class="sub">تغییر دلخواه پروتئین‌ها، ساخت بافت، یاخته‌های بنیادی و بیوانفورماتیک</div>
+      </div>
+    </div>
+
+    <div class="block">
+      <h3><svg class="ic" viewBox="0 0 40 40"><path d="M8 26c6-14 18-14 24 0" fill="none" stroke="var(--violet)" stroke-width="3" stroke-linecap="round"/><circle cx="8" cy="26" r="4" fill="var(--violet)"/><circle cx="20" cy="14" r="4" fill="var(--coral)"/><circle cx="32" cy="26" r="4" fill="var(--gfp)"/></svg> مهندسی پروتئین</h3>
+      <div class="card lead-accent">
+        <p>روش‌های جدید امکان ایجاد <b>تغییرات دلخواه در توالی آمینواسیدهای یک پروتئین</b> را فراهم کرده‌اند تا ویژگی‌ها و عملکرد آن بهبود یابد. به این کار <span class="term v">مهندسی پروتئین</span> گفته می‌شود که نیازمند شناخت کامل ساختار و عملکرد آن پروتئین است.</p>
+        <ul class="clean">
+          <li><b>تغییر جزئی:</b> تغییر در رمز یک یا چند آمینواسید در مقایسه با پروتئین طبیعی.</li>
+          <li><b>تغییر عمده:</b> برداشتن قسمتی از ژن یک پروتئین تا ترکیب بخش‌هایی از ژن‌های پروتئین‌های متفاوت.</li>
+        </ul>
+        <p style="margin:0">تغییر در توالی آمینواسیدها ممکن است <b>شکل فضایی</b> مولکول و درنتیجه عمل آن را تغییر دهد. از اصلاحات مفید: افزایش پایداری در مقابل گرما و تغییر pH، افزایش حداکثری سرعت واکنش و تمایل آنزیم برای اتصال به پیش‌ماده.</p>
+      </div>
+    </div>
+
+    <div class="block">
+      <h3><svg class="ic" viewBox="0 0 40 40"><path d="M20 6v28M12 12l16 16M28 12L12 28" stroke="var(--violet)" stroke-width="3" stroke-linecap="round"/></svg> افزایش پایداری پروتئین‌ها</h3>
+      <div class="grid g-3">
+        <div class="tile"><span class="tag" style="background:var(--amber)"></span>
+          <h4><span class="ic">🌾</span>آمیلازها</h4>
+          <p>آنزیم‌های پرکاربرد صنعتی که <b>نشاسته را به قطعات کوچک‌تر تجزیه</b> می‌کنند (صنایع غذایی، نساجی، شوینده). چون تولید صنعتی در دمای بالا انجام می‌شود، آمیلازِ <b>مقاوم به گرما</b> لازم است. باکتری‌های گرمادوستِ چشمه‌های آب گرم چنین آمیلازهایی دارند.</p></div>
+        <div class="tile"><span class="tag" style="background:var(--sky)"></span>
+          <h4><span class="ic">🛡️</span>اینترفرون</h4>
+          <p>پروتئین دستگاه ایمنی. وقتی با مهندسی ژنتیک در باکتری ساخته می‌شود، به‌دلیل <b>پیوندهای نادرست</b> فعالیتش کم می‌شود. با تغییر جزئی در رمز یک آمینواسید، فعالیت ضدویروسی و پایداری آن افزایش می‌یابد.</p></div>
+        <div class="tile"><span class="tag" style="background:var(--coral)"></span>
+          <h4><span class="ic">🩸</span>پلاسمین</h4>
+          <p>آنزیمی که لخته را تجزیه می‌کند و کاربرد درمانی دارد، اما مدت اثرش در پلاسما کوتاه است. <b>جانشینی یک آمینواسید</b> باعث می‌شود مدت فعالیت پلاسمایی و اثرات درمانی آن بیشتر شود.</p></div>
+      </div>
+    </div>
+
+    <div class="block">
+      <h3><svg class="ic" viewBox="0 0 40 40"><path d="M20 8c-8 0-12 6-12 12 0 8 12 14 12 14s12-6 12-14c0-6-4-12-12-12z" fill="none" stroke="var(--violet)" stroke-width="3"/></svg> مهندسی بافت 👂</h3>
+      <div class="card">
+        <p>از دست رفتن بافت به‌دلیل آسیب یا بیماری، هزینهٔ بالای اقتصادی و اجتماعی دارد. ثابت شده در پوست یاخته‌هایی وجود دارد که توانایی <b>تکثیر زیاد و تمایز</b> به انواع یاخته‌های پوست را دارند؛ در مهندسی بافت از این یاخته‌ها به‌طور موفقیت‌آمیزی استفاده می‌شود.</p>
+        <p style="margin:0">برای نمونه، جراحانِ بازسازی‌کنندهٔ چهره می‌توانند از <b>بافت غضروف</b> برای بازسازی لالهٔ گوش و بینی استفاده کنند: یاخته‌های غضروفی را در محیط کشت روی <b>داربست مناسب</b> تکثیر و غضروف جدید را برای بازسازی اندام آسیب‌دیده تولید می‌کنند.</p>
+      </div>
+      <div class="aside">
+        <div class="k">🖼️ شکل ۷ — بازسازی غضروف گوش</div>
+        <p>عکس گوش طبیعی، تصویر رقمی (دیجیتالی)، و غضروف گوشِ ساخته‌شده با روش مهندسی بافت پس از دو هفته.</p>
+      </div>
+    </div>
+
+    <!-- یاخته‌های بنیادی -->
+    <div class="block">
+      <h3><svg class="ic" viewBox="0 0 40 40"><circle cx="20" cy="20" r="9" fill="none" stroke="var(--violet)" stroke-width="3"/><circle cx="20" cy="20" r="3.5" fill="var(--violet)"/><g stroke="var(--violet)" stroke-width="2.6"><path d="M29 20h7M20 29v7M11 20H4M20 11V4"/></g></svg> یاخته‌های بنیادی و مهندسی بافت</h3>
+      <div class="card">
+        <p>یاخته‌های تمایزیافته (مانند ماهیچه‌ای) در محیط کشت کم یا اصلاً تکثیر نمی‌شوند؛ به همین دلیل از منابعی که سریع تکثیر می‌شوند استفاده می‌کنند: <span class="term v">یاخته‌های بنیادی جنینی</span> و <span class="term v">یاخته‌های بنیادی بالغ</span>. یاخته‌های بنیادی توانایی <b>تکثیر و به‌وجود آوردن یاخته‌های مشابه خود</b> و نیز <b>تبدیل شدن به سایر یاخته‌ها</b> را دارند.</p>
+      </div>
+      <div class="grid g-2">
+        <div class="tile"><span class="tag" style="background:var(--gfp)"></span>
+          <h4><span class="ic">🦴</span>بنیادی بالغ</h4>
+          <p>در بافت‌های مختلف بدن وجود دارند. مثلاً بنیادی کبد به یاختهٔ کبدی یا مجرای صفراوی تمایز می‌یابند. بنیادی مغز استخوان می‌توانند به <b>رگ‌های خونی، ماهیچهٔ اسکلتی و قلبی</b> تمایز پیدا کنند و از فرد بالغ برداشته می‌شوند.</p></div>
+        <div class="tile"><span class="tag" style="background:var(--coral)"></span>
+          <h4><span class="ic">🥚</span>بنیادی جنینی</h4>
+          <p>نه‌تنها قادر به تشکیل <b>همهٔ بافت‌های بدن جنین</b> هستند، بلکه اگر در مراحل اولیهٔ جنینی جداسازی شوند می‌توانند <b>یک جنین کامل</b> را تشکیل دهند. این یاخته‌ها همان تودهٔ یاخته‌ای درونی هستند.</p></div>
+      </div>
+
+      <!-- شکل ۱۰ رشد جنینی -->
+      <figure>
+        <svg viewBox="0 0 720 180" role="img" aria-label="مسیر یاخته بنیادی جنینی">
+          <g font-family="Vazirmatn" font-size="11" font-weight="700" text-anchor="middle">
+            <circle cx="70" cy="70" r="24" fill="var(--violet-soft)" stroke="var(--violet)" stroke-width="2.5"/><circle cx="70" cy="70" r="7" fill="var(--coral)"/>
+            <text x="70" y="112" fill="var(--ink)">مام‌یاخته + زامه</text>
+            <path d="M100 70h30" stroke="var(--muted)" stroke-width="2.5" marker-end="url(#ar6)"/>
+            <circle cx="170" cy="70" r="24" fill="var(--gfp-soft)" stroke="var(--gfp)" stroke-width="2.5"/>
+            <g fill="var(--gfp)"><circle cx="162" cy="64" r="5"/><circle cx="178" cy="66" r="5"/><circle cx="168" cy="78" r="5"/><circle cx="180" cy="78" r="5"/></g>
+            <text x="170" y="112" fill="var(--ink)">مورولا</text>
+            <path d="M200 70h30" stroke="var(--muted)" stroke-width="2.5" marker-end="url(#ar6)"/>
+            <circle cx="272" cy="70" r="26" fill="var(--amber-soft)" stroke="var(--amber)" stroke-width="2.5"/>
+            <circle cx="272" cy="70" r="15" fill="none" stroke="var(--amber)" stroke-width="2"/>
+            <circle cx="266" cy="76" r="6" fill="var(--coral)"/>
+            <text x="272" y="116" fill="var(--ink)">بلاستولا</text>
+            <text x="272" y="130" fill="var(--muted)" font-size="10">(تودهٔ یاخته‌ای درونی)</text>
+            <path d="M304 70h26" stroke="var(--muted)" stroke-width="2.5" marker-end="url(#ar6)"/>
+            <text x="360" y="66" font-size="26">👶</text>
+            <text x="360" y="112" fill="var(--ink)">جنین</text>
+            <!-- differentiate -->
+            <path d="M400 70c40 0 60 12 90 12" stroke="var(--coral)" stroke-width="2.5" fill="none" marker-end="url(#ar6b)"/>
+            <path d="M400 70c40 0 60 -2 90 -2" stroke="var(--coral)" stroke-width="2.5" fill="none" marker-end="url(#ar6b)"/>
+            <path d="M400 70c40 0 60 26 90 30" stroke="var(--coral)" stroke-width="2.5" fill="none" marker-end="url(#ar6b)"/>
+            <text x="560" y="40" font-size="22">🫀</text><text x="600" y="46" fill="var(--ink)">گردش خون</text>
+            <text x="560" y="82" font-size="22">🧠</text><text x="600" y="88" fill="var(--ink)">عصبی</text>
+            <text x="560" y="122" font-size="22">🛡️</text><text x="600" y="128" fill="var(--ink)">ایمنی</text>
+          </g>
+          <defs>
+            <marker id="ar6" markerWidth="9" markerHeight="9" refX="6" refY="4.5" orient="auto"><path d="M0 0l7 4.5L0 9z" fill="var(--muted)"/></marker>
+            <marker id="ar6b" markerWidth="9" markerHeight="9" refX="6" refY="4.5" orient="auto"><path d="M0 0l7 4.5L0 9z" fill="var(--coral)"/></marker>
+          </defs>
+        </svg>
+        <figcaption>شکل ۱۰ — یاخته‌های بنیادی مورولا و تودهٔ درونی به انواع یاخته‌های بدن جنین متمایز می‌شوند</figcaption>
+      </figure>
+    </div>
+
+    <!-- بیوانفورماتیک -->
+    <div class="block">
+      <h3><svg class="ic" viewBox="0 0 40 40"><rect x="6" y="8" width="28" height="20" rx="4" fill="none" stroke="var(--violet)" stroke-width="3"/><path d="M12 34h16M20 28v6" stroke="var(--violet)" stroke-width="3" stroke-linecap="round"/><path d="M11 14l4 4-4 4M18 22h6" stroke="var(--gfp)" stroke-width="2.4" fill="none" stroke-linecap="round"/></svg> بیوانفورماتیک 💻</h3>
+      <div class="card lead-accent">
+        <p>مهندسی پروتئین و بافت از علمی به نام <span class="term v">بیوانفورماتیک</span> بهره می‌برند. این علم با استفاده از مفاهیم زیست‌شناختی، ریاضی، آمار و علوم رایانه‌ای، مبنایی برای درک، طبقه‌بندی، مدل‌سازی و تجزیه‌وتحلیل <b>داده‌های زیستی</b> فراهم می‌کند و نقش مهمی در تعیین توالی، ساختار سه‌بعدی، پایداری و پیش‌بینی عملکرد پروتئین‌ها دارد.</p>
+        <p style="margin:0"><b>مثال — واکسن کرونا:</b> عامل بیماری، ویروسی از خانوادهٔ ویروس‌های تاجی (Corona Viruses) است. محققان سراسر جهان با دنیاگیری (Pandemic) کرونا، در زمانی کوتاه حجم عظیمی از داده تولید و به اشتراک گذاشتند. پژوهشگران با بیوانفورماتیک توانستند به <b>فرضیه‌های قابل آزمون</b> برسند و به‌جای بررسی همهٔ فرضیه‌ها، تشخیص دهند کدام‌ یک را آزمایش کنند — و واکسنی که ساختش قبلاً چندین سال طول می‌کشید، در چند ماه ساخته شد.</p>
+      </div>
+      <div class="aside">
+        <div class="k">🔬 شکل ۱۱ — ویروس کرونا</div>
+        <p>ویروس کرونا در مشاهده با میکروسکوپ الکترونی (بزرگ‌نمایی ۶۰۰۰۰ برابر).</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== گفتار ۳ ===================== -->
+<section class="gaftar g3" id="g3">
+  <div class="wrap">
+    <div class="gaftar-head">
+      <div class="gnum">۳</div>
+      <div>
+        <h2>کاربردهای زیست‌فناوری</h2>
+        <div class="sub">کشاورزی، پزشکی، جانوران تراژنی، اقتصاد و اخلاق</div>
+      </div>
+    </div>
+
+    <!-- کشاورزی -->
+    <div class="block">
+      <h3><svg class="ic" viewBox="0 0 40 40"><path d="M20 34V16" stroke="#7a9a3a" stroke-width="3.5"/><path d="M20 20c-8-4-12 4-12 4 8 4 12-4 12-4zM20 14c8-4 12 4 12 4-8 4-12-4-12-4z" fill="var(--gfp)"/></svg> کاربرد در کشاورزی — گیاه مقاوم به آفت 🐛</h3>
+      <div class="card lead-accent">
+        <p>یکی از کاربردها <b>تولید گیاهان مقاوم در برابر بعضی آفت‌ها</b> است که مصرف آفت‌کش‌ها را کاهش داده است. برخی باکتری‌های خاک‌زی پروتئینی می‌سازند که حشرات مضر را می‌کُشد؛ این پروتئینِ سمی ابتدا به‌صورت <b>مولکولی غیرفعال (پیش‌سم)</b> است و فقط در بدن حشره فعال می‌شود.</p>
+        <p style="margin:0">برای تولید گیاه مقاوم، ابتدا ژن این سم از ژنوم باکتری جداسازی و پس از همسانه‌سازی به گیاه موردنظر منتقل می‌شود. تاکنون گیاهانی مثل <b>ذرت، پنبه و سویا</b> مقاوم شده‌اند. حشره با خوردن گیاه مقاوم از بین می‌رود و نیاز به سم‌پاشی مزرعه کاهش می‌یابد.</p>
+      </div>
+      <div class="quiz" data-quiz>
+        <div class="q"><span class="qm">؟</span><span>چرا این سم خودِ باکتری را از بین نمی‌برد؟</span></div>
+        <button class="reveal">نمایش پاسخ</button>
+        <div class="a"><p>چون سم در باکتری به‌صورت <b>پیش‌سمِ غیرفعال</b> ساخته می‌شود. این پیش‌سم فقط تحت‌تأثیر <b>آنزیم‌های گوارشیِ لولهٔ گوارش حشره</b> شکسته و فعال می‌شود؛ سمِ فعال، یاخته‌های لولهٔ گوارش حشره را تخریب و آن را می‌کُشد — اما درون باکتری هرگز فعال نمی‌شود.</p></div>
+      </div>
+      <div class="card">
+        <p style="margin:0">زیست‌فناوری کاربردهای دیگری هم در کشاورزی دارد: <b>اصلاح بذر</b>، تولید گیاهان مقاوم به <b>خشکی و شوری</b>، تنظیم سرعت رسیدن میوه‌ها، افزایش ارزش غذایی محصولات و تولید گیاهان مقاوم به <b>علف‌کش‌ها</b>.</p>
+      </div>
+    </div>
+
+    <!-- تولید دارو: انسولین -->
+    <div class="block">
+      <h3><svg class="ic" viewBox="0 0 40 40"><rect x="10" y="6" width="14" height="24" rx="4" fill="none" stroke="var(--coral)" stroke-width="3" transform="rotate(-40 17 18)"/><path d="M26 24l6 6" stroke="var(--coral)" stroke-width="3" stroke-linecap="round"/></svg> کاربرد در پزشکی · ۱) تولید دارو — انسولین 💉</h3>
+      <div class="card">
+        <p>فناوری دنای نوترکیب به‌علت تولید داروهای مطمئن و مؤثر جایگاه ویژه‌ای دارد؛ این داروها برخلاف فراورده‌های مشابهِ منابع غیرانسانی، <b>پاسخ ایمنی</b> ایجاد نمی‌کنند. <span class="term c">انسولین</span> یکی از این داروهاست و دیابت نوع یک را کنترل می‌کند.</p>
+        <p style="margin:0">مولکول انسولین فعال از دو زنجیرهٔ کوتاه پلی‌پپتیدی به نام‌های <b>A و B</b> تشکیل شده که به هم متصل‌اند. در پستانداران، انسولین ابتدا به‌صورت یک <b>پیش‌هورمون</b> (زنجیرهٔ پلی‌پپتیدی واحد) ساخته می‌شود و با جدا شدن بخشی از توالی به‌نام <b>زنجیرهٔ C</b> به هورمون فعال تبدیل می‌شود.</p>
+      </div>
+
+      <!-- شکل ۱۳ زنجیره C -->
+      <figure>
+        <svg viewBox="0 0 720 190" role="img" aria-label="جدا شدن زنجیره C و تبدیل پیش‌انسولین به انسولین">
+          <!-- pre-insulin -->
+          <g>
+            <rect x="70" y="52" width="70" height="26" rx="6" fill="var(--sky)"/><text x="105" y="70" text-anchor="middle" font-size="12" fill="#fff" font-weight="700" font-family="Vazirmatn">A</text>
+            <rect x="70" y="104" width="70" height="26" rx="6" fill="var(--coral)"/><text x="105" y="122" text-anchor="middle" font-size="12" fill="#fff" font-weight="700" font-family="Vazirmatn">B</text>
+            <g stroke="var(--muted)" stroke-width="2.5"><path d="M88 78v26M118 78v26"/></g>
+            <path d="M140 65c60 -6 60 46 0 52" fill="none" stroke="var(--gfp)" stroke-width="4"/>
+            <text x="205" y="90" font-size="12" fill="var(--gfp)" font-weight="800" font-family="Vazirmatn">زنجیرهٔ C</text>
+            <text x="105" y="160" text-anchor="middle" font-size="12.5" fill="var(--violet)" font-weight="800" font-family="Vazirmatn">پیش‌انسولین</text>
+          </g>
+          <path d="M300 90h60" stroke="var(--coral)" stroke-width="3.5" marker-end="url(#ar7)"/>
+          <text x="330" y="78" text-anchor="middle" font-size="11" fill="var(--coral)" font-family="Vazirmatn">جدا شدن C</text>
+          <!-- insulin -->
+          <g transform="translate(430,0)">
+            <rect x="70" y="52" width="70" height="26" rx="6" fill="var(--sky)"/><text x="105" y="70" text-anchor="middle" font-size="12" fill="#fff" font-weight="700" font-family="Vazirmatn">A</text>
+            <rect x="70" y="104" width="70" height="26" rx="6" fill="var(--coral)"/><text x="105" y="122" text-anchor="middle" font-size="12" fill="#fff" font-weight="700" font-family="Vazirmatn">B</text>
+            <g stroke="var(--muted)" stroke-width="2.5"><path d="M88 78v26M118 78v26"/></g>
+            <text x="105" y="160" text-anchor="middle" font-size="12.5" fill="var(--gfp)" font-weight="800" font-family="Vazirmatn">انسولین فعال</text>
+          </g>
+          <defs><marker id="ar7" markerWidth="9" markerHeight="9" refX="6" refY="4.5" orient="auto"><path d="M0 0l7 4.5L0 9z" fill="var(--coral)"/></marker></defs>
+        </svg>
+        <figcaption>شکل ۱۳ — جدا شدن زنجیرهٔ C و تبدیل پیش‌انسولین به انسولین فعال</figcaption>
+      </figure>
+
+      <div class="card">
+        <p style="margin:0">مهم‌ترین مرحله در ساخت انسولین با مهندسی ژنتیک، تبدیل انسولین غیرفعال به فعال است، زیرا <b>تبدیل پیش‌هورمون به هورمون در باکتری انجام نمی‌شود</b>. در سال <b>۱۹۸۳</b> برای اولین بار دو توالی دنا به‌صورت جداگانه برای رمز کردن زنجیره‌های A و B تولید و توسط دیسک به باکتری منتقل شد؛ سپس زنجیره‌های ساخته‌شده جمع‌آوری و در آزمایشگاه با پیوندهای شیمیایی به هم متصل شدند.</p>
+      </div>
+
+      <!-- شکل ۱۴ مراحل انسولین -->
+      <div class="flow" style="margin-top:18px">
+        <div class="step"><div class="num">الف</div><div class="body"><h4>انتقال ژنِ زنجیره‌های A و B</h4><p>به‌طور جداگانه به دیسک منتقل می‌شوند.</p></div></div>
+        <div class="step"><div class="num">ب</div><div class="body"><h4>انتقال دیسک‌های نوترکیب به باکتری</h4><p>و انتخاب یاخته‌های دریافت‌کننده به کمک پادزیست.</p></div></div>
+        <div class="step"><div class="num">پ</div><div class="body"><h4>خالص کردن زنجیره‌ها</h4><p>زیرواحد A و زیرواحد B انسولین جدا و خالص می‌شوند.</p></div></div>
+        <div class="step"><div class="num">ت</div><div class="body"><h4>ترکیب زنجیره‌های A و B</h4><p>با پیوندهای شیمیایی، انسولین فعال تولید می‌شود.</p></div></div>
+      </div>
+    </div>
+
+    <!-- واکسن -->
+    <div class="block">
+      <h3><svg class="ic" viewBox="0 0 40 40"><circle cx="20" cy="20" r="13" fill="none" stroke="var(--coral)" stroke-width="3"/><g stroke="var(--coral)" stroke-width="2.6"><path d="M20 7v-3M20 33v3M7 20H4M33 20h3M11 11l-2-2M29 11l2-2M11 29l-2 2M29 29l2 2"/></g></svg> ۲) تولید واکسن</h3>
+      <div class="card lead-accent">
+        <p>روش‌های قبلی شامل ضعیف‌کردن میکروب‌ها، کشتن آن‌ها یا غیرفعال‌کردن سموم بود؛ اگر در تولید خطایی رخ می‌داد، احتمال <b>بروز بیماری</b> وجود داشت. واکسن‌های مهندسی ژنتیک چنین خطری ندارند: ژن مربوط به <b>پادگن (آنتی‌ژن) سطحیِ</b> عامل بیماری‌زا به یک باکتری یا ویروس <b>غیربیماری‌زا</b> منتقل می‌شود. <b>واکسن نوترکیب ضد هپاتیت B</b> با این روش تولید شده است.</p>
+      </div>
+    </div>
+
+    <!-- ژن درمانی -->
+    <div class="block">
+      <h3><svg class="ic" viewBox="0 0 40 40"><g fill="none" stroke="var(--coral)" stroke-width="3" stroke-linecap="round"><path d="M10 8c22 6 0 18 22 24M30 8C8 14 30 26 8 32"/></g><circle cx="20" cy="20" r="4" fill="var(--gfp)"/></svg> ۳) ژن‌درمانی</h3>
+      <div class="card">
+        <p><span class="term c">ژن‌درمانی</span> یعنی قرار دادن <b>نسخهٔ سالم یک ژن</b> در یاخته‌های فردی که نسخه‌ای ناقص از همان ژن دارد. یاخته‌ها را از بدن بیمار خارج، ژن سالم را با کمک ناقل وارد آن‌ها می‌کنند و یاختهٔ تغییریافته را به بدن بازمی‌گردانند.</p>
+        <p style="margin:0">اولین ژن‌درمانی موفق در سال <b>۱۹۹۰</b> برای یک <b>دختربچهٔ ۴ ساله</b> با نقص ژنی انجام شد؛ ژن جهش‌یافته نمی‌توانست یک <b>آنزیم مهم دستگاه ایمنی</b> بسازد. لنفوسیت‌ها را از خون جدا، نسخهٔ کارآمد ژن را به آن‌ها منتقل و به بدن بازگرداندند. چون لنفوسیت‌ها بقای زیادی ندارند، بیمار باید به‌طور متناوب لنفوسیت‌های مهندسی‌شده دریافت می‌کرد.</p>
+      </div>
+
+      <!-- شکل ۱۵ هفت مرحله -->
+      <div class="flow" style="margin-top:18px">
+        <div class="step"><div class="num">۱</div><div class="body"><h4>یاخته‌ها را از بدن بیمار خارج می‌کنند.</h4></div></div>
+        <div class="step"><div class="num">۲</div><div class="body"><h4>ویروس را در آزمایشگاه طوری تغییر می‌دهند که نتواند تکثیر شود.</h4></div></div>
+        <div class="step"><div class="num">۳</div><div class="body"><h4>ژن درون ویروس جاسازی می‌شود.</h4></div></div>
+        <div class="step"><div class="num">۴</div><div class="body"><h4>ویروس تغییریافته به درون یاختهٔ بیمار منتقل و ژنگان آن با ژنگان یاختهٔ بیمار ترکیب می‌شود.</h4></div></div>
+        <div class="step"><div class="num">۵</div><div class="body"><h4>یاخته‌های بیمار از لحاظ ژنتیکی تغییر یافته‌اند.</h4></div></div>
+        <div class="step"><div class="num">۶</div><div class="body"><h4>یاخته‌های تغییریافته به بیمار تزریق می‌شوند.</h4></div></div>
+        <div class="step"><div class="num">۷</div><div class="body"><h4>یاخته‌های تغییریافتهٔ ژنتیکی، پروتئین یا هورمون موردنظر را تولید می‌کنند.</h4></div></div>
+      </div>
+      <div class="card"><p style="margin:0">برای درمان این افراد می‌توان از روش‌هایی مثل <b>پیوند مغز استخوان</b> یا <b>تزریق آنزیم</b> هم استفاده کرد.</p></div>
+    </div>
+
+    <!-- تشخیص بیماری -->
+    <div class="block">
+      <h3><svg class="ic" viewBox="0 0 40 40"><circle cx="17" cy="17" r="11" fill="none" stroke="var(--coral)" stroke-width="3"/><path d="M25 25l9 9" stroke="var(--coral)" stroke-width="3" stroke-linecap="round"/></svg> ۴) تشخیص بیماری</h3>
+      <div class="card lead-accent">
+        <p>علاوه بر آزمایش خون و ادرار، فناوری‌های مبتنی بر دنا نقش مهمی در تشخیص دارند — به‌ویژه وقتی هنوز <b>علائم ظاهر نشده</b> و میزان عامل بیماری‌زا کم است. با شناسایی <b>نوکلئیک‌اسید عامل بیماری‌زا</b> می‌توان به وجود آن پی برد.</p>
+        <p style="margin:0"><b>مثال ایدز:</b> برای تشخیص زودهنگام، دنای موجود در خون فرد مشکوک استخراج می‌شود؛ این دنا شامل دنای یاخته‌های خود فرد و احتمالاً دنای ساخته‌شده از رنای ویروس است. <b>تشخیص زودهنگام</b> اهمیت زیادی دارد، چون بدون اتلاف وقت اقدامات درمانی و پیشگیری از انتقال ویروس به دیگران انجام می‌شود.</p>
+      </div>
+    </div>
+
+    <!-- جانوران تراژنی -->
+    <div class="block">
+      <h3><svg class="ic" viewBox="0 0 40 40"><ellipse cx="20" cy="22" rx="14" ry="10" fill="none" stroke="var(--coral)" stroke-width="3"/><circle cx="14" cy="20" r="2" fill="var(--coral)"/><circle cx="26" cy="20" r="2" fill="var(--coral)"/><path d="M10 30l-2 5M30 30l2 5" stroke="var(--coral)" stroke-width="2.6" stroke-linecap="round"/></svg> اهمیت تولید جانوران تراژنی 🐑</h3>
+      <div class="card">
+        <p>دلایل متعددی برای تولید جانوران تراژنی وجود دارد:</p>
+        <ul class="clean">
+          <li>مطالعهٔ عملکرد ژن‌های خاص در بدن، مثل ژن‌های عوامل رشد و نقش آن‌ها در رشد بهتر دام‌ها.</li>
+          <li>کاربرد به‌عنوان <b>مدلی</b> برای مطالعهٔ بیماری‌های انسانی مانند انواع سرطان، آلزایمر و بیماری ام.اس.</li>
+          <li>تولید <b>پروتئین‌های انسانی</b> یا داروهای خاص در بدن آن‌ها؛ مثلاً دام‌های تراژنی می‌توانند شیرِ غنی از پروتئین انسانی تولید کنند که برای انسان مناسب‌تر است.</li>
+        </ul>
+      </div>
+
+      <!-- شکل ۱۶ گوسفند -->
+      <div class="flow" style="margin-top:18px">
+        <div class="step"><div class="num">۱</div><div class="body"><h4>ساخت دیسک ناقل حاوی ژن پروتئین انسانی</h4><p>ژن پروتئین انسانی در دیسک ناقل (دارای جایگاه شروع همانندسازی) جاسازی می‌شود.</p></div></div>
+        <div class="step"><div class="num">۲</div><div class="body"><h4>تخمک لقاح‌یافتهٔ گوسفند دیسک نوترکیب را دریافت می‌کند.</h4></div></div>
+        <div class="step"><div class="num">۳</div><div class="body"><h4>گوسفند تراژن، حاصل از تخمک لقاح‌یافتهٔ دارای ژن موردنظر</h4></div></div>
+        <div class="step"><div class="num">۴</div><div class="body"><h4>شیرِ حاوی پروتئین انسانی تولید می‌شود.</h4></div></div>
+        <div class="step"><div class="num">۵</div><div class="body"><h4>پروتئین انسانیِ گرفته‌شده از شیر، استخراج و استفاده می‌شود.</h4></div></div>
+      </div>
+
+      <div class="aside">
+        <div class="k">💡 بیشتر بدانید · موش تراژن GFP 🐭</div>
+        <p>ایران از کشورهایی است که فناوری تولید جانوران تراژن مدل را دارد. موشی که در پژوهشگاه ملی مهندسی ژنتیک و زیست‌فناوری ایران تولید شده، به‌علت وجود <b>پروتئین GFP</b> (پروتئین با فلورسانس سبز) در برابر پرتو فرابنفش <b>درخشش سبز</b> دارد؛ چون ژن این پروتئین در ژنوم تخمک آن جاگذاری شده است.</p>
+      </div>
+      <div class="aside">
+        <div class="k">💡 بیشتر بدانید · انقراض گونه‌ها و مهندسی ژنتیک 🦣</div>
+        <p>در سال ۲۰۰۸ با تعیین توالی ژنیِ یک ماموت، برای اولین بار ژنگان کامل یک گونهٔ جانوری منقرض‌شده مشخص شد. یکی از کاربردهای این فناوری، روش <b>شبیه‌سازی</b> برای جلوگیری از انقراض گونه‌هاست؛ مثلاً موفقیت پژوهشکدهٔ رویان در شبیه‌سازی <b>قوچ وحشی</b>.</p>
+      </div>
+    </div>
+
+    <!-- اقتصاد -->
+    <div class="block">
+      <h3><svg class="ic" viewBox="0 0 40 40"><rect x="6" y="10" width="28" height="22" rx="4" fill="none" stroke="var(--coral)" stroke-width="3"/><path d="M6 18h28" stroke="var(--coral)" stroke-width="3"/><circle cx="26" cy="25" r="3" fill="var(--coral)"/></svg> زیست‌فناوری و اقتصاد — فتوبیوراکتور</h3>
+      <div class="card lead-accent">
+        <p>بهره‌برداری اقتصادی از زیست‌فناوری الزاماً وابسته به دستکاری جانداران نیست؛ صنایع لبنی همچنان با آنزیم‌ها و ریزجانداران محصولات متنوعی تولید می‌کنند. <span class="term c">فتوبیوراکتور</span> (Photobioreactor) نمونه‌ای از فناوری زیستی با کاربرد صنعتی است: محیط‌های کشت وسیعِ جانداران فتوسنتزکننده مانند <b>جلبک‌ها</b>. این جانداران با فتوسنتز موادی می‌سازند که در تولید <b>سوخت زیستی، دارو و مکمل‌های غذایی</b> کاربرد دارد.</p>
+      </div>
+    </div>
+
+    <!-- اخلاق -->
+    <div class="block">
+      <h3><svg class="ic" viewBox="0 0 40 40"><path d="M20 6v28M8 12h24M12 12l-5 12h10zM28 12l-5 12h10z" fill="none" stroke="var(--coral)" stroke-width="2.6" stroke-linejoin="round"/></svg> زیست‌فناوری و اخلاق ⚖️</h3>
+      <div class="card">
+        <p>مانند همهٔ دستاوردهای بشر، استفاده از این علم باید با ملاحظات <b>اخلاقی، اجتماعی و ایمنی زیستی</b> همراه باشد. <span class="term c">ایمنی زیستی</span> شامل مجموعه‌ای از تدابیر، مقررات و روش‌ها برای تضمین بهره‌برداری از این فناوری است. <b>قانون ایمنی زیستی</b> در همهٔ کشورها از جمله ایران تدوین و تصویب شده است.</p>
+        <p style="margin:0">تاکنون هیچ گزارش علمیِ مبتنی بر شواهد دربارهٔ آثار جانبی یا خطرناک بودن محصولات این فناوری ارائه نشده است؛ اما با توجه به حساسیت موضوع، این تحقیقات باید ادامه یابند و نتایج با دقت فراوان تجزیه‌وتحلیل شوند.</p>
+      </div>
+    </div>
+
+    <!-- جمع‌بندی سریع -->
+    <div class="block">
+      <h3><svg class="ic" viewBox="0 0 40 40"><path d="M8 20l8 8 16-18" fill="none" stroke="var(--gfp)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg> نکات پرتکرار برای مرور سریع</h3>
+      <div class="grid g-2">
+        <div class="tile"><h4>📅 تاریخ‌های کلیدی</h4><p>اولین تولید انسولین با مهندسی ژنتیک: <b>۱۹۸۳</b> · اولین ژن‌درمانی موفق: <b>۱۹۹۰</b> · تعیین ژنگان ماموت: <b>۲۰۰۸</b>.</p></div>
+        <div class="tile"><h4>✂️ ابزارها را قاطی نکن</h4><p>آنزیم برش‌دهنده = <b>قیچی</b> (Restriction) · لیگاز = <b>چسب</b> (اتصال‌دهنده) · دیسک = پلازمید = فام‌تن کمکی.</p></div>
+        <div class="tile"><h4>🧬 دنای نوترکیب</h4><p>ناقل + ژن جاگذاری‌شده = دنای نوترکیب. برای برشِ ژن و دیسک باید <b>همان آنزیم</b> استفاده شود.</p></div>
+        <div class="tile"><h4>💊 انتخاب باکتری</h4><p>باکتری تراژن با <b>ژن مقاومت به پادزیست</b> در محیط دارای پادزیست زنده می‌ماند؛ بقیه از بین می‌روند.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    ساخته‌شده برای یادگیری کامل فصل ۷ · فناوری‌های نوین زیستی <span class="heart">♥</span><br>
+    <span style="font-size:12.5px;opacity:.8">با قلم و هایلایتر روی هر بخش یادداشت بگذار · دکمهٔ 🌙 برای حالت تاریک</span>
+  </div>
+</footer>
+
+<!-- ===================== DRAW DOCK ===================== -->
+<div class="hint" id="hint"></div>
+<div class="dock" id="dock" role="toolbar" aria-label="ابزار قلم و یادداشت">
+  <button class="tool tt" data-tool="scroll" data-tip="پیمایش (خواندن)">✋</button>
+  <button class="tool tt" data-tool="pen" data-tip="قلم">✏️</button>
+  <button class="tool tt" data-tool="highlighter" data-tip="هایلایتر">🖊️</button>
+  <button class="tool tt" data-tool="eraser" data-tip="پاک‌کن">🧽</button>
+  <div class="sep"></div>
+  <button class="swatch on tt" data-color="#0ca678" data-tip="سبز"><span style="background:#0ca678"></span></button>
+  <button class="swatch tt" data-color="#e64980" data-tip="صورتی"><span style="background:#e64980"></span></button>
+  <button class="swatch tt" data-color="#6741d9" data-tip="بنفش"><span style="background:#6741d9"></span></button>
+  <button class="swatch tt" data-color="#f5a623" data-tip="زرد"><span style="background:#f5a623"></span></button>
+  <button class="swatch tt" data-color="#1c7ed6" data-tip="آبی"><span style="background:#1c7ed6"></span></button>
+  <button class="swatch tt" data-color="__ink" data-tip="مشکی/سفید"><span id="inkSwatch" style="background:#12262b"></span></button>
+  <div class="sep"></div>
+  <div class="thick">
+    <span class="prev"><i id="thickPrev" style="width:6px;height:6px;background:var(--ink)"></i></span>
+    <input type="range" id="thick" min="2" max="34" value="6" aria-label="ضخامت قلم">
+  </div>
+  <div class="sep"></div>
+  <button class="tool tt" id="undo" data-tip="واگرد">↶</button>
+  <button class="tool tt" id="redo" data-tip="ازنو">↷</button>
+  <button class="tool tt" id="eye" data-tip="نمایش/مخفی یادداشت‌ها">👁️</button>
+  <button class="tool tt" id="clear" data-tip="پاک‌کردن همه">🗑️</button>
+</div>
+
+<script>
+/* ============ THEME ============ */
+const root=document.documentElement, themeBtn=document.getElementById('themeBtn'), inkSwatch=document.getElementById('inkSwatch');
+function applyTheme(t){
+  root.setAttribute('data-theme',t);
+  themeBtn.textContent = t==='dark' ? '☀️' : '🌙';
+  // update ink swatch preview + redraw (ink color depends on theme)
+  const ink = getComputedStyle(root).getPropertyValue('--ink').trim();
+  inkSwatch.style.background = ink;
+  if(state.color==='__ink') render();
+}
+themeBtn.onclick=()=>applyTheme(root.getAttribute('data-theme')==='dark'?'light':'dark');
+
+/* ============ DRAWING ENGINE ============ */
+const canvas=document.getElementById('annot'), ctx=canvas.getContext('2d');
+let dpr=Math.max(1,Math.min(window.devicePixelRatio||1,2.5));
+const state={tool:'scroll', color:'#0ca678', size:6, drawing:false, cur:null};
+let strokes=[], redoStack=[];
+
+function sizeCanvas(){
+  const w=document.documentElement.clientWidth;
+  const h=Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
+  canvas.style.width=w+'px'; canvas.style.height=h+'px';
+  canvas.width=Math.floor(w*dpr); canvas.height=Math.floor(h*dpr);
+  render();
+}
+function resolveColor(c){
+  return c==='__ink' ? getComputedStyle(root).getPropertyValue('--ink').trim() : c;
+}
+function drawStroke(s){
+  const pts=s.points; if(!pts.length) return;
+  ctx.save();
+  ctx.lineJoin='round'; ctx.lineCap='round';
+  if(s.tool==='eraser'){
+    ctx.globalCompositeOperation='destination-out';
+    ctx.strokeStyle='rgba(0,0,0,1)';
+    ctx.lineWidth=s.size*2.4*dpr;
+  }else if(s.tool==='highlighter'){
+    ctx.globalCompositeOperation='source-over';
+    ctx.globalAlpha=0.32;
+    ctx.strokeStyle=resolveColor(s.color);
+    ctx.lineWidth=s.size*2.6*dpr;
+    ctx.lineCap='round';
+  }else{
+    ctx.globalCompositeOperation='source-over';
+    ctx.strokeStyle=resolveColor(s.color);
+    ctx.lineWidth=s.size*dpr;
+  }
+  ctx.beginPath();
+  ctx.moveTo(pts[0].x*dpr, pts[0].y*dpr);
+  if(pts.length===1){ // dot
+    ctx.lineTo(pts[0].x*dpr+0.1, pts[0].y*dpr+0.1);
+  } else {
+    for(let i=1;i<pts.length;i++){
+      const mx=(pts[i-1].x+pts[i].x)/2, my=(pts[i-1].y+pts[i].y)/2;
+      ctx.quadraticCurveTo(pts[i-1].x*dpr, pts[i-1].y*dpr, mx*dpr, my*dpr);
+    }
+    const last=pts[pts.length-1]; ctx.lineTo(last.x*dpr,last.y*dpr);
+  }
+  ctx.stroke();
+  ctx.restore();
+}
+function render(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  for(const s of strokes) drawStroke(s);
+  if(state.cur) drawStroke(state.cur);
+}
+
+/* pointer handling */
+function getPt(e){ return {x:e.pageX, y:e.pageY}; }
+canvas.addEventListener('pointerdown',e=>{
+  if(state.tool==='scroll') return;
+  e.preventDefault();
+  canvas.setPointerCapture(e.pointerId);
+  state.drawing=true; redoStack=[];
+  state.cur={tool:state.tool, color:state.color, size:state.size, points:[getPt(e)]};
+  render();
+});
+canvas.addEventListener('pointermove',e=>{
+  if(!state.drawing||!state.cur) return;
+  e.preventDefault();
+  const p=getPt(e), last=state.cur.points[state.cur.points.length-1];
+  if(Math.hypot(p.x-last.x,p.y-last.y)>1.2){ state.cur.points.push(p); render(); }
+});
+function endStroke(){
+  if(state.cur){ strokes.push(state.cur); state.cur=null; render(); }
+  state.drawing=false;
+}
+canvas.addEventListener('pointerup',endStroke);
+canvas.addEventListener('pointercancel',endStroke);
+canvas.addEventListener('pointerleave',()=>{ if(state.drawing) endStroke(); });
+
+/* ============ DOCK CONTROLS ============ */
+const dock=document.getElementById('dock');
+const toolBtns=[...dock.querySelectorAll('[data-tool]')];
+const swatches=[...dock.querySelectorAll('.swatch')];
+const hint=document.getElementById('hint');
+let hintT;
+function showHint(msg){ hint.textContent=msg; hint.classList.add('show'); clearTimeout(hintT); hintT=setTimeout(()=>hint.classList.remove('show'),1400); }
+
+function setTool(t){
+  state.tool=t;
+  toolBtns.forEach(b=>b.classList.toggle('on', b.dataset.tool===t));
+  const drawing = t!=='scroll';
+  canvas.classList.toggle('active', drawing);
+  const names={scroll:'حالت خواندن — می‌توانی اسکرول کنی',pen:'قلم فعال شد',highlighter:'هایلایتر فعال شد',eraser:'پاک‌کن فعال شد'};
+  showHint(names[t]);
+}
+toolBtns.forEach(b=> b.dataset.tool && (b.onclick=()=>setTool(b.dataset.tool)));
+
+swatches.forEach(b=> b.onclick=()=>{
+  state.color=b.dataset.color;
+  swatches.forEach(s=>s.classList.remove('on')); b.classList.add('on');
+  if(state.tool==='scroll'||state.tool==='eraser') setTool('pen');
+});
+
+const thick=document.getElementById('thick'), thickPrev=document.getElementById('thickPrev');
+function updateThick(){ state.size=+thick.value; const d=Math.max(4,Math.min(26,state.size)); thickPrev.style.width=d+'px'; thickPrev.style.height=d+'px'; }
+thick.oninput=updateThick; updateThick();
+
+document.getElementById('undo').onclick=()=>{ if(strokes.length){ redoStack.push(strokes.pop()); render(); showHint('واگرد'); } };
+document.getElementById('redo').onclick=()=>{ if(redoStack.length){ strokes.push(redoStack.pop()); render(); showHint('ازنو'); } };
+document.getElementById('clear').onclick=()=>{ if(strokes.length && confirm('همهٔ یادداشت‌ها پاک شوند؟')){ strokes=[]; redoStack=[]; render(); showHint('پاک شد'); } };
+const eye=document.getElementById('eye');
+eye.onclick=()=>{ canvas.classList.toggle('hidden'); const hidden=canvas.classList.contains('hidden'); eye.textContent=hidden?'🚫':'👁️'; showHint(hidden?'یادداشت‌ها مخفی شد':'یادداشت‌ها نمایان شد'); };
+
+/* keyboard shortcuts */
+addEventListener('keydown',e=>{
+  if(e.target.tagName==='INPUT') return;
+  if(e.ctrlKey||e.metaKey){ if(e.key==='z'){e.preventDefault();document.getElementById('undo').click();} if(e.key==='y'){e.preventDefault();document.getElementById('redo').click();} return;}
+  const map={p:'pen',h:'highlighter',e:'eraser',s:'scroll',v:'scroll'};
+  if(map[e.key.toLowerCase()]) setTool(map[e.key.toLowerCase()]);
+});
+
+/* ============ QUIZ REVEALS ============ */
+document.querySelectorAll('[data-quiz]').forEach(q=>{
+  const btn=q.querySelector('.reveal');
+  btn.onclick=()=>{ const open=q.classList.toggle('open'); btn.textContent=open?'بستن پاسخ':'نمایش پاسخ'; };
+});
+
+/* ============ RESIZE (debounced, preserves strokes) ============ */
+let rT;
+function onResize(){ clearTimeout(rT); rT=setTimeout(()=>{ dpr=Math.max(1,Math.min(window.devicePixelRatio||1,2.5)); sizeCanvas(); },120); }
+addEventListener('resize',onResize);
+// content can change height after fonts/images; observe
+if(window.ResizeObserver){ new ResizeObserver(()=>{ const h=Math.max(document.body.scrollHeight,document.documentElement.scrollHeight); if(Math.abs(h*dpr-canvas.height)>4) sizeCanvas(); }).observe(document.body); }
+window.addEventListener('load',()=>setTimeout(sizeCanvas,60));
+
+/* initial theme — run last, after state & render are defined */
+if(window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches) applyTheme('dark'); else applyTheme('light');
+sizeCanvas();
+</script>
+</body>
+</html>
