@@ -1,0 +1,1701 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>فصل ۴ — تغییر در اطلاعات وراثتی | جزوه‌ی یادگیری عمیق</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&family=Lalezar&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F5F7F4; --card:#FFFFFF; --card2:#FAFBF9; --th:#EDF1EC;
+  --ink:#14231C; --soft:#4b5b52; --faint:#7d8b83; --line:#E2E7DF;
+  --teal:#0E7A6B; --tealbg:#E4F0ED; --tealink:#08483F;
+  --amber:#A2620C; --amberbg:#FAEFD8; --amberink:#764708;
+  --coral:#B24230; --coralbg:#F9E6E1; --coralink:#7E2B1D;
+  --violet:#554AA0; --violetbg:#EBE9F7; --violetink:#3A3276;
+  --blue:#1B5FA0; --bluebg:#E5EFF9; --blueink:#0E3F6E;
+  --hl:#FFE27A; --sh:rgba(15,49,43,.09);
+  --disp:'Lalezar',system-ui,sans-serif; --body:'Vazirmatn',system-ui,sans-serif;
+}
+:root[data-theme="dark"]{
+  --paper:#0D1512; --card:#151F1B; --card2:#19241F; --th:#1B2622;
+  --ink:#E8EFEA; --soft:#AFBDB5; --faint:#7E8C85; --line:#26332D;
+  --teal:#41B8A4; --tealbg:#0F2E28; --tealink:#A2E0D4;
+  --amber:#DFA744; --amberbg:#2A2210; --amberink:#EFCD8D;
+  --coral:#E08269; --coralbg:#2B1913; --coralink:#F0B4A4;
+  --violet:#9B8FE0; --violetbg:#1C1932; --violetink:#C9C1F0;
+  --blue:#5EA3E0; --bluebg:#111F2E; --blueink:#AFD2F2;
+  --hl:#6E5E1A; --sh:rgba(0,0,0,.45);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--body);background:var(--paper);color:var(--ink);
+  line-height:1.9;font-size:17px;-webkit-font-smoothing:antialiased;
+  transition:background .3s,color .3s;padding-bottom:90px}
+.wrap{max-width:840px;margin:0 auto;padding:0 18px}
+p{margin:0 0 14px;color:var(--soft)}
+strong{color:var(--ink);font-weight:700}
+b{font-weight:700}
+em{font-style:normal;background:var(--tealbg);color:var(--tealink);font-weight:600;padding:1px 6px;border-radius:6px}
+mark.uh{background:var(--hl);color:inherit;padding:0 2px;border-radius:3px}
+code{font-family:ui-monospace,monospace;background:var(--th);padding:1px 6px;border-radius:5px;font-size:.92em;letter-spacing:.5px}
+
+/* ---------- TOOLBAR ---------- */
+#tb{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);z-index:9999;
+  display:flex;gap:6px;align-items:center;background:var(--card);border:1px solid var(--line);
+  border-radius:32px;padding:6px 8px;box-shadow:0 8px 28px var(--sh)}
+#tb button{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);
+  background:transparent;color:var(--ink);cursor:pointer;display:grid;place-items:center;transition:.15s}
+#tb button:hover{border-color:var(--teal)}
+#tb button.on{background:var(--teal);color:#fff;border-color:var(--teal)}
+#tb svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+#tb .sep{width:1px;height:24px;background:var(--line)}
+#penbar{display:none;gap:5px;align-items:center}
+#penbar.show{display:flex}
+.pen{width:22px;height:22px;border-radius:50%;cursor:pointer;box-shadow:0 0 0 1px var(--line)}
+.pen.sel{box-shadow:0 0 0 2px var(--ink)}
+#draw{position:absolute;top:0;left:0;pointer-events:none;z-index:50;display:none}
+body.dw #draw{display:block;pointer-events:auto;cursor:crosshair;touch-action:none}
+.toast{position:fixed;bottom:70px;left:50%;transform:translateX(-50%);background:var(--ink);
+  color:var(--paper);padding:9px 18px;border-radius:20px;font-size:14px;z-index:10000;
+  opacity:0;transition:opacity .3s;pointer-events:none}
+.toast.show{opacity:1}
+
+/* ---------- HERO ---------- */
+.hero{background:#0E2A24;color:#eaf3f0;padding:52px 20px 40px;position:relative;overflow:hidden}
+.hero .wrap{position:relative;z-index:2}
+.kick{font-size:14.5px;color:#79cdbe;font-weight:600;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.kick svg{width:19px;height:19px;stroke:#79cdbe;fill:none;stroke-width:1.8}
+.hero h1{font-family:var(--disp);font-weight:400;font-size:clamp(36px,8.5vw,62px);
+  line-height:1.08;color:#fff;margin-bottom:16px}
+.gold{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);
+  border-radius:14px;padding:16px 18px;margin-top:20px}
+.gold .lb{font-size:13px;color:#79cdbe;font-weight:700;margin-bottom:6px}
+.gold p{color:#d6e8e3;margin:0;font-size:17px}
+.gold b{color:#a5e6d8}
+.hx{position:absolute;top:-20px;left:-40px;opacity:.14;z-index:1}
+@media(max-width:640px){.hx{opacity:.07;left:-100px}}
+
+/* ---------- PROGRESS BAR ---------- */
+#pbar{position:sticky;top:0;z-index:900;background:var(--card);border-bottom:1px solid var(--line);
+  padding:9px 18px;display:flex;align-items:center;gap:12px;font-size:14px;box-shadow:0 2px 10px var(--sh)}
+#pbar .track{flex:1;height:7px;background:var(--th);border-radius:5px;overflow:hidden}
+#pbar .fill{height:100%;background:var(--teal);width:0;transition:width .4s;border-radius:5px}
+#pbar .lbl{color:var(--faint);white-space:nowrap;font-weight:600}
+#pbar .pct{color:var(--teal);font-weight:700;white-space:nowrap}
+
+/* ---------- TOC ---------- */
+.toc{margin:34px 0 10px}
+.toc h3{font-size:19px;font-weight:700;margin-bottom:6px}
+.toc .hint{font-size:14.5px;color:var(--faint);margin-bottom:14px}
+.tgrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+@media(max-width:760px){.tgrid{grid-template-columns:1fr}}
+.tcard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;
+  text-decoration:none;color:inherit;transition:.15s;display:block}
+.tcard:hover{transform:translateY(-2px);box-shadow:0 8px 22px var(--sh)}
+.tcard .tg{font-size:12.5px;font-weight:700;padding:2px 9px;border-radius:20px;display:inline-block;margin-bottom:7px}
+.tcard.a .tg{background:var(--tealbg);color:var(--tealink)}
+.tcard.b .tg{background:var(--violetbg);color:var(--violetink)}
+.tcard.c .tg{background:var(--coralbg);color:var(--coralink)}
+.tcard h4{font-size:17px;font-weight:700;margin-bottom:4px}
+.tcard p{font-size:14px;margin:0;color:var(--faint);line-height:1.6}
+.tcard .mini{margin-top:9px;height:5px;background:var(--th);border-radius:4px;overflow:hidden}
+.tcard .mini i{display:block;height:100%;background:var(--teal);width:0;transition:width .4s}
+
+/* ---------- PART HEADS ---------- */
+.part{margin:56px 0 4px;padding-top:22px;border-top:3px solid var(--ink)}
+.part .pl{font-size:13px;font-weight:700;letter-spacing:1px;color:var(--faint)}
+.part h2{font-family:var(--disp);font-weight:400;font-size:clamp(28px,6vw,44px);line-height:1.15;margin:2px 0 8px}
+.part .pd{font-size:17px;color:var(--soft)}
+.part.A h2{color:var(--teal)} .part.B h2{color:var(--violet)} .part.C h2{color:var(--coral)} .part.D h2{color:var(--blue)}
+
+/* ---------- CHUNK ---------- */
+.chunk{background:var(--card);border:1px solid var(--line);border-radius:18px;
+  padding:22px 22px 16px;margin:20px 0;scroll-margin-top:60px;transition:border-color .3s}
+.chunk.done{border-color:var(--teal)}
+.chunk>h3{font-size:21px;font-weight:700;margin-bottom:4px;display:flex;align-items:flex-start;gap:9px;line-height:1.5}
+.chunk>h3 .no{flex:none;min-width:34px;height:26px;border-radius:7px;background:var(--tealbg);color:var(--tealink);
+  font-size:13.5px;font-weight:700;display:grid;place-items:center;margin-top:6px;padding:0 6px}
+.where{font-size:13.5px;color:var(--faint);background:var(--th);border-radius:8px;
+  padding:7px 12px;margin:8px 0 16px;display:flex;align-items:center;gap:7px}
+.where b{color:var(--soft)}
+h4{font-size:18px;font-weight:700;margin:24px 0 9px;display:flex;align-items:center;gap:8px}
+h4::before{content:"";width:6px;height:19px;background:var(--teal);border-radius:3px;flex:none}
+h5{font-size:16.5px;font-weight:700;margin:18px 0 6px;color:var(--ink)}
+
+/* ---------- NOTES ---------- */
+.n{border-radius:13px;padding:15px 17px 13px;margin:16px 0;border:1px solid}
+.n .tag{display:inline-block;font-weight:700;font-size:13.5px;padding:3px 11px;border-radius:20px;margin-bottom:8px}
+.n p{margin:0 0 8px;font-size:16px}
+.n p:last-child{margin:0}
+.n.mem{background:var(--amberbg);border-color:var(--amber)}
+.n.mem .tag{background:var(--amber);color:#fff} .n.mem p{color:var(--amberink)} .n.mem b{color:var(--amberink)}
+.n.trap{background:var(--coralbg);border-color:var(--coral)}
+.n.trap .tag{background:var(--coral);color:#fff} .n.trap p{color:var(--coralink)} .n.trap b{color:var(--coralink)}
+.n.ex{background:var(--tealbg);border-color:var(--teal)}
+.n.ex .tag{background:var(--teal);color:#fff} .n.ex p{color:var(--tealink)} .n.ex b{color:var(--tealink)}
+.n.plus{background:var(--violetbg);border-color:var(--violet)}
+.n.plus .tag{background:var(--violet);color:#fff} .n.plus p{color:var(--violetink)} .n.plus b{color:var(--violetink)}
+.n.book{background:var(--bluebg);border-color:var(--blue)}
+.n.book .tag{background:var(--blue);color:#fff} .n.book p{color:var(--blueink)} .n.book b{color:var(--blueink)}
+
+/* ---------- FIGURE ---------- */
+.fig{background:var(--card2);border:1px solid var(--line);border-radius:14px;padding:18px;margin:20px 0}
+.fig .ft{font-size:13px;font-weight:700;color:var(--teal);margin-bottom:10px}
+.fig svg{max-width:100%;height:auto;display:block;margin:0 auto}
+.fig .cap{font-size:14.5px;color:var(--faint);margin-top:12px;line-height:1.7;border-top:1px dashed var(--line);padding-top:10px}
+.fig .cap b{color:var(--soft)}
+
+/* ---------- TABLE ---------- */
+table.t{width:100%;border-collapse:collapse;margin:16px 0;background:var(--card);
+  border:1px solid var(--line);border-radius:12px;overflow:hidden;font-size:15.5px}
+table.t th,table.t td{padding:11px 13px;text-align:right;border-bottom:1px solid var(--line);vertical-align:top}
+table.t th{background:var(--th);font-weight:700}
+table.t tr:last-child td{border-bottom:0}
+table.t td:first-child{font-weight:700;color:var(--tealink)}
+.scroller{overflow-x:auto}
+
+ul.b,ol.b{margin:10px 0 14px;padding-right:20px;color:var(--soft)}
+ul.b li,ol.b li{margin-bottom:7px}
+ul.b li::marker{color:var(--teal)}
+
+/* ---------- READ TRACKER ---------- */
+.tracker{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:18px;
+  padding-top:14px;border-top:1px dashed var(--line)}
+.rbtn{border:1.5px solid var(--teal);background:transparent;color:var(--teal);font-family:var(--body);
+  font-size:14.5px;font-weight:700;padding:7px 16px;border-radius:22px;cursor:pointer;transition:.15s}
+.rbtn:hover{background:var(--tealbg)}
+.rbtn.done{background:var(--teal);color:#fff}
+.cnt{font-size:13.5px;color:var(--faint);font-weight:600}
+.cnt b{color:var(--teal)}
+.rev{font-size:13px;color:var(--faint);background:var(--th);padding:4px 11px;border-radius:16px}
+.rst{margin-right:auto;font-size:13px;color:var(--faint);background:none;border:0;
+  cursor:pointer;font-family:var(--body);text-decoration:underline}
+
+/* ---------- QUIZ ---------- */
+details.q{background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:2px 16px;margin:10px 0}
+details.q[open]{border-color:var(--teal)}
+details.q summary{cursor:pointer;font-weight:600;padding:12px 0;list-style:none;font-size:16px;
+  display:flex;justify-content:space-between;align-items:center;gap:10px}
+details.q summary::-webkit-details-marker{display:none}
+details.q summary::after{content:"پاسخ";font-size:12.5px;font-weight:700;color:#fff;background:var(--teal);
+  padding:3px 12px;border-radius:16px;flex:none}
+details.q[open] summary::after{content:"بستن";background:var(--faint)}
+details.q .a{padding:0 0 14px;font-size:15.5px;color:var(--soft);border-top:1px dashed var(--line);padding-top:11px}
+details.q .a b{color:var(--tealink)}
+
+/* ---------- FLASHCARD ---------- */
+.fc{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin:14px 0;text-align:center}
+.fc .qq{font-size:18px;font-weight:700;margin-bottom:12px;min-height:52px;display:grid;place-items:center}
+.fc .aa{font-size:16px;color:var(--soft);background:var(--tealbg);color:var(--tealink);
+  border-radius:10px;padding:12px;margin-bottom:12px;display:none;text-align:right;line-height:1.8}
+.fc .aa.show{display:block}
+.fc .row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.fc button{font-family:var(--body);font-size:14px;font-weight:600;padding:7px 16px;border-radius:20px;
+  border:1.5px solid var(--line);background:transparent;color:var(--ink);cursor:pointer}
+.fc button.pri{background:var(--teal);color:#fff;border-color:var(--teal)}
+.fc .meta{font-size:13px;color:var(--faint);margin-top:10px}
+
+footer{text-align:center;color:var(--faint);font-size:14px;padding:44px 18px 30px;
+  margin-top:44px;border-top:1px solid var(--line)}
+a{color:var(--teal)}
+:focus-visible{outline:3px solid var(--teal);outline-offset:3px;border-radius:8px}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto}}
+@media print{#tb,#draw,#pbar,.tracker,.fc .row{display:none!important}
+  .hero,.n,table.t th,.chunk,.fig{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  details.q{page-break-inside:avoid}details.q summary::after{display:none}}
+</style>
+</head>
+<body>
+<canvas id="draw"></canvas>
+<div class="toast" id="toast"></div>
+
+<div id="tb">
+  <button id="bTheme" title="روشن / تاریک" aria-label="تغییر تم"></button>
+  <button id="bHl" title="هایلایتر — روشن کن و متن را انتخاب کن" aria-label="هایلایتر">
+    <svg viewBox="0 0 24 24"><path d="M9 14l-4 4v2h2l4-4"/><path d="M13 6l5 5-6 6-5-5z"/><path d="M16 3l5 5-2 2-5-5z"/></svg></button>
+  <button id="bDraw" title="ابزار رسم (با کلیک فعال می‌شود)" aria-label="ابزار رسم">
+    <svg viewBox="0 0 24 24"><path d="M4 20l4-1 10-10-3-3L5 16z"/><path d="M14 6l3 3"/></svg></button>
+  <div id="penbar">
+    <span class="pen sel" data-c="#e0533a" style="background:#e0533a"></span>
+    <span class="pen" data-c="#f2a626" style="background:#f2a626"></span>
+    <span class="pen" data-c="#2fa38d" style="background:#2fa38d"></span>
+    <button id="bErase" title="پاک‌کن" aria-label="پاک‌کن">
+      <svg viewBox="0 0 24 24"><path d="M4 14l6-6 8 8-4 4H8z"/><path d="M9 20h10"/></svg></button>
+    <button id="bClearD" title="پاک‌کردن رسم‌ها" aria-label="پاک‌کردن رسم">
+      <svg viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M9 7V4h6v3"/><path d="M6 7l1 13h10l1-13"/></svg></button>
+  </div>
+  <div class="sep"></div>
+  <button id="bClearH" title="پاک‌کردن هایلایت‌ها" aria-label="پاک‌کردن هایلایت">
+    <svg viewBox="0 0 24 24"><path d="M3 21h7"/><path d="M13 6l5 5-8 8H5v-5z"/><path d="M17 21l4-4"/></svg></button>
+</div>
+
+<header class="hero">
+  <svg class="hx" width="240" height="480" viewBox="0 0 120 240" aria-hidden="true">
+    <g stroke="#79cdbe" stroke-width="2.4" fill="none">
+      <path d="M30 0 C90 30 90 50 30 80 C-30 110 -30 130 30 160 C90 190 90 210 30 240"/>
+      <path d="M90 0 C30 30 30 50 90 80 C150 110 150 130 90 160 C30 190 30 210 90 240"/></g>
+    <g stroke="#4dbda8" stroke-width="2">
+      <line x1="42" y1="14" x2="78" y2="14"/><line x1="66" y1="38" x2="30" y2="38"/><line x1="42" y1="62" x2="78" y2="62"/>
+      <line x1="42" y1="94" x2="78" y2="94"/><line x1="66" y1="118" x2="30" y2="118"/><line x1="42" y1="142" x2="78" y2="142"/>
+      <line x1="42" y1="174" x2="78" y2="174"/><line x1="66" y1="198" x2="30" y2="198"/><line x1="42" y1="222" x2="78" y2="222"/></g>
+  </svg>
+  <div class="wrap">
+    <div class="kick"><svg viewBox="0 0 24 24"><path d="M6 3c6 4 6 6 0 9s-6 5 0 9"/><path d="M18 3c-6 4-6 6 0 9s6 5 0 9"/></svg>
+      زیست‌شناسی ۳ · فصل ۴ · جزوه‌ی یادگیری عمیق</div>
+    <h1>تغییر در اطلاعات وراثتی</h1>
+    <div class="gold">
+      <div class="lb">جمله‌ی طلایی — هر مفهومی خواندی، به این برگرد</div>
+      <p><b>جهش گوناگونی می‌سازد، انتخاب طبیعی از میان گوناگونی برمی‌گزیند، و اگر جدایی تولیدمثلی رخ دهد، گونه‌ی تازه متولد می‌شود.</b></p>
+    </div>
+  </div>
+</header>
+
+<div id="pbar">
+  <span class="lbl" id="plbl">۰ از ۰ بخش</span>
+  <div class="track"><div class="fill" id="pfill"></div></div>
+  <span class="pct" id="ppct">۰٪</span>
+</div>
+
+<div id="content">
+<div class="wrap">
+
+<section class="toc">
+  <h3>نقشه‌ی راه — سه پله‌ی یک نردبان</h3>
+  <p class="hint">کتاب سه گفتار دارد، ولی منطق علمی فصل یک چیز است: <b>مقیاسِ تغییر پله‌به‌پله بزرگ‌تر می‌شود.</b> از یک نوکلئوتید شروع می‌کنیم و به تولد یک گونه می‌رسیم. این جزوه بر همین اساس بازچیده شده تا هیچ مفهومی بی‌جا نماند.</p>
+  <div class="tgrid">
+    <a class="tcard a" href="#partA"><span class="tg">پله ۱ · مولکول و فامتن</span>
+      <h4>منشأ گوناگونی</h4><p>جهش چیست، چند نوع است، چه پیامدی دارد و چرا رخ می‌دهد.</p>
+      <div class="mini"><i data-mini="A"></i></div></a>
+    <a class="tcard b" href="#partB"><span class="tg">پله ۲ · جمعیت</span>
+      <h4>سرنوشت گوناگونی</h4><p>خزانه ژن، تعادل، پنج عامل بر هم‌زننده، و چگونگی حفظ گوناگونی.</p>
+      <div class="mini"><i data-mini="B"></i></div></a>
+    <a class="tcard c" href="#partC"><span class="tg">پله ۳ · گونه</span>
+      <h4>تولد گونه‌ی تازه</h4><p>شواهد تغییر گونه‌ها، تعریف گونه، و دو راهِ گونه‌زایی.</p>
+      <div class="mini"><i data-mini="C"></i></div></a>
+  </div>
+</section>
+
+<section class="chunk" data-id="P0">
+  <h3><span class="no">۰</span>چرا این فصل اصلاً وجود دارد؟</h3>
+  <div class="where">📍 <b>کجای داستانم:</b> نقطه‌ی صفر — منطقِ پشت کل فصل</div>
+
+  <p>کتاب فصل را با یک تناقضِ ظاهری شروع می‌کند و اگر آن را بگیری، همه‌چیز معنا پیدا می‌کند:</p>
+  <p><strong>ماده‌ی وراثتی باید پایدار باشد</strong> — وگرنه اطلاعات نسل‌به‌نسل خراب می‌شد و هیچ موجودی نمی‌توانست فرزندی شبیه خودش بسازد. <strong>اما همین ماده به‌طور محدود تغییرپذیر هم هست.</strong></p>
+  <p>چرا این «نقص» حذف نشده؟ چون تغییرپذیری اصلاً نقص نیست. کتاب زنجیره‌اش را دقیق می‌گوید: تغییرپذیری ← <em>گوناگونی</em> ← افزایش توان بقای جمعیت‌ها در محیط متغیر ← فراهم‌شدن زمینه‌ی تغییر گونه‌ها.</p>
+
+  <div class="n mem"><span class="tag">🧠 تشبیه ماندگار</span>
+    <p>ماده‌ی وراثتی مثل <b>نسخه‌برداری از یک کتاب مقدس</b> است: باید تقریباً بی‌غلط رونویسی شود، اما اگر مطلقاً هیچ غلطی رخ ندهد، هرگز نسخه‌ای پدید نمی‌آید که با شرایط تازه بهتر جور دربیاید. آن غلط‌های نادرِ رونویسی، سرمایه‌ی آینده‌اند.</p></div>
+
+  <div class="n book"><span class="tag">📕 هشدار خودِ کتاب (ص ۴۷)</span>
+    <p>در ابتدای فصل با کادر قرمز آمده: <b>طرح سؤال‌های محاسباتی و طرح سؤال از توالی‌های رمز، رمزه و آمینواسیدهای مربوط به آن‌ها در همه‌ی آزمون‌ها از جمله کنکور سراسری ممنوع است.</b> یعنی لازم نیست جدول رمز ژنتیکی را حفظ کنی؛ باید <b>مفهوم</b> اثر جهش را بفهمی. این یک صرفه‌جویی بزرگ در وقت توست.</p></div>
+
+  <h4>سه پله‌ای که در ادامه بالا می‌رویم</h4>
+  <table class="t"><tr><th>پله</th><th>مقیاس تغییر</th><th>پرسش اصلی</th></tr>
+    <tr><td>الف</td><td>نوکلئوتید ← ژن ← فامتن</td><td>گوناگونی از کجا می‌آید؟</td></tr>
+    <tr><td>ب</td><td>جمعیت (خزانه ژن)</td><td>بر سرِ گوناگونی چه می‌آید؟</td></tr>
+    <tr><td>ج</td><td>گونه</td><td>کِی جمعیت‌ها به گونه‌های جدا تبدیل می‌شوند؟</td></tr></table>
+
+  <div class="n ex"><span class="tag">🔬 ماده‌ی خام، همیشه یکی است</span>
+    <p>در هر سه پله، ماده‌ی خام یک چیز است: <b>گوناگونی</b>. پله‌ی الف آن را می‌سازد، پله‌ی ب آن را غربال و حفظ می‌کند، پله‌ی ج آن را به گونه‌ی تازه تبدیل می‌کند.</p></div>
+</section>
+
+<section class="part A" id="partA">
+  <div class="pl">پله ۱ — مقیاس مولکول و فامتن</div>
+  <h2>منشأ گوناگونی: جهش</h2>
+  <p class="pd">اینجا یاد می‌گیریم گوناگونی از کجا زاده می‌شود. بدون این پله، دو پله‌ی بعدی هیچ ماده‌ی خامی برای کار کردن ندارند.</p>
+</section>
+
+<section class="chunk" data-id="A1">
+  <h3><span class="no">الف‑۱</span>جهش چیست؟ (و شکل ۱ کتاب)</h3>
+  <div class="where">📍 <b>کجای داستانم:</b> پله ۱ — تازه داریم منبعِ گوناگونی را تعریف می‌کنیم</div>
+
+  <p>کتاب با یک مثال واقعی وارد می‌شود، نه با تعریف خشک: <strong>کم‌خونی ناشی از گویچه‌های قرمز داسی‌شکل</strong>.</p>
+  <p>دانشمندان هموگلوبین سالم و هموگلوبین تغییرشکل‌یافته را مقایسه کردند و دیدند این دو <strong>فقط در ششمین آمینواسید از زنجیره‌ی بتا</strong> با هم فرق دارند. بعد ژن‌ها را مقایسه کردند: در رمز مربوط به همان ششمین آمینواسید، <strong>نوکلئوتید A به‌جای T</strong> نشسته بود.</p>
+
+  <div class="fig">
+    <div class="ft">شکل ۱ — مقایسه‌ی ژن هموگلوبین در فرد سالم و بیمار</div>
+    <svg viewBox="0 0 660 250" role="img" aria-label="مقایسه رمز هموگلوبین سالم و جهش‌یافته">
+      <text x="500" y="24" text-anchor="middle" font-family="Vazirmatn" font-size="14" font-weight="700" fill="var(--tealink)">هموگلوبین طبیعی</text>
+      <text x="170" y="24" text-anchor="middle" font-family="Vazirmatn" font-size="14" font-weight="700" fill="var(--coralink)">هموگلوبین جهش‌یافته</text>
+
+      <text x="620" y="62" text-anchor="end" font-family="Vazirmatn" font-size="12" fill="var(--faint)">رشته الگوی دنا</text>
+      <rect x="425" y="46" width="150" height="30" rx="6" fill="var(--bluebg)" stroke="var(--blue)" stroke-width="1"/>
+      <text x="500" y="66" text-anchor="middle" font-family="monospace" font-size="17" fill="var(--blueink)">C  T  T</text>
+      <rect x="95" y="46" width="150" height="30" rx="6" fill="var(--bluebg)" stroke="var(--blue)" stroke-width="1"/>
+      <text x="170" y="66" text-anchor="middle" font-family="monospace" font-size="17" fill="var(--blueink)">C  <tspan fill="#c0392b" font-weight="700">A</tspan>  T</text>
+
+      <line x1="500" y1="80" x2="500" y2="104" stroke="var(--faint)" stroke-width="1.5"/>
+      <line x1="170" y1="80" x2="170" y2="104" stroke="var(--faint)" stroke-width="1.5"/>
+      <text x="620" y="124" text-anchor="end" font-family="Vazirmatn" font-size="12" fill="var(--faint)">رنای پیک (رمزه)</text>
+      <rect x="425" y="108" width="150" height="30" rx="6" fill="var(--amberbg)" stroke="var(--amber)" stroke-width="1"/>
+      <text x="500" y="128" text-anchor="middle" font-family="monospace" font-size="17" fill="var(--amberink)">G  A  A</text>
+      <rect x="95" y="108" width="150" height="30" rx="6" fill="var(--amberbg)" stroke="var(--amber)" stroke-width="1"/>
+      <text x="170" y="128" text-anchor="middle" font-family="monospace" font-size="17" fill="var(--amberink)">G  <tspan fill="#c0392b" font-weight="700">U</tspan>  A</text>
+
+      <line x1="500" y1="142" x2="500" y2="166" stroke="var(--faint)" stroke-width="1.5"/>
+      <line x1="170" y1="142" x2="170" y2="166" stroke="var(--faint)" stroke-width="1.5"/>
+      <text x="620" y="186" text-anchor="end" font-family="Vazirmatn" font-size="12" fill="var(--faint)">آمینواسید ششم</text>
+      <rect x="425" y="170" width="150" height="30" rx="6" fill="var(--tealbg)" stroke="var(--teal)" stroke-width="1"/>
+      <text x="500" y="190" text-anchor="middle" font-family="Vazirmatn" font-size="14" font-weight="700" fill="var(--tealink)">Glu (گلوتامیک اسید)</text>
+      <rect x="95" y="170" width="150" height="30" rx="6" fill="var(--coralbg)" stroke="var(--coral)" stroke-width="1"/>
+      <text x="170" y="190" text-anchor="middle" font-family="Vazirmatn" font-size="14" font-weight="700" fill="var(--coralink)">Val (والین)</text>
+
+      <text x="330" y="232" text-anchor="middle" font-family="Vazirmatn" font-size="13.5" fill="var(--faint)">۱ نوکلئوتید ← ۱ آمینواسید ← شکل مولکول ← بیماری</text>
+    </svg>
+    <div class="cap"><b>چگونه بخوانیمش:</b> از پایینِ زنجیره‌ی علّی به بالا نگاه کن. تنها یک حرف در رشته‌ی الگوی دنا عوض شده؛ همان یک حرف رمزه‌ی رنای پیک را عوض کرده؛ همان رمزه آمینواسید را از گلوتامیک‌اسید به والین برده؛ و همان یک آمینواسید شکل فضایی هموگلوبین را چنان تغییر داده که گویچه داسی می‌شود.</div>
+  </div>
+
+  <div class="n mem"><span class="tag">🧠 جمله‌ای که باید بلند بگویی</span>
+    <p>«<b>یک نوکلئوتید از میلیون‌ها نوکلئوتید</b> عوض شد و نتیجه‌اش یک بیماری وخیم بود.» کتاب خودش می‌نویسد «شگفتا» — همین حسِ شگفتی، بهترین چسبِ حافظه است.</p></div>
+
+  <h4>تعریف دقیق</h4>
+  <p><strong>جهش = تغییر ماندگار در نوکلئوتیدهای ماده‌ی وراثتی.</strong></p>
+  <p>کلمه‌به‌کلمه‌اش مهم است: «<em>ماندگار</em>» یعنی موقتی و قابل‌ترمیم نیست؛ اگر تغییری بلافاصله اصلاح شود، جهش به‌حساب نمی‌آید.</p>
+
+  <div class="n book"><span class="tag">📕 نکته‌ی مهم متن (ص ۴۸)</span>
+    <p>کتاب همان اول تأکید می‌کند تغییر در ماده‌ی وراثتی می‌تواند <b>«مفید»، «مضر» یا «خنثی»</b> باشد. یعنی جهش ذاتاً بد نیست. این نکته پایه‌ی کل پله‌ی دوم فصل است.</p></div>
+
+  <details class="q"><summary>چرا فقط تغییر یک آمینواسید این‌قدر فاجعه‌بار شد؟</summary>
+    <div class="a">چون توالی آمینواسیدها <b>شکل فضایی</b> پروتئین را تعیین می‌کند و شکل، عملکرد را. گلوتامیک‌اسید و والین ویژگی متفاوتی دارند، پس هموگلوبینِ نو در اکسیژن کم به هم می‌چسبد و رشته‌های بلند می‌سازد که گویچه را داسی می‌کند. یادت باشد: <b>توالی ← شکل ← عملکرد</b>.</div></details>
+</section>
+
+<section class="chunk" data-id="A2">
+  <h3><span class="no">الف‑۲</span>جهش‌های کوچک ۱: جانشینی و سه سرنوشتش</h3>
+  <div class="where">📍 <b>کجای داستانم:</b> پله ۱ — دسته‌بندی جهش‌ها؛ اول کوچک‌ها</div>
+
+  <p>کتاب جهش‌ها را بر اساس <strong>وسعت</strong> به دو گروه تقسیم می‌کند: <em>کوچک</em> (یک یا چند نوکلئوتید) و <em>بزرگ</em> (ناهنجاری‌های فامتنی که حتی ساختار یا تعداد فامتن را تغییر می‌دهند).</p>
+  <p>جهش‌های کوچک خودشان سه نوع‌اند: <strong>جانشینی</strong>، <strong>اضافه</strong> و <strong>حذف</strong>. در این بخش سراغ جانشینی می‌رویم.</p>
+
+  <div class="fig">
+    <div class="ft">شکل ۲ — سه نوع جهش کوچک روی یک توالی</div>
+    <svg viewBox="0 0 660 270" role="img" aria-label="اضافه، جانشینی و حذف روی توالی GAGACTTAC">
+      <rect x="230" y="112" width="200" height="34" rx="7" fill="var(--th)" stroke="var(--line)" stroke-width="1"/>
+      <text x="330" y="134" text-anchor="middle" font-family="monospace" font-size="16" fill="var(--ink)">GAGACTTAC</text>
+      <text x="330" y="162" text-anchor="middle" font-family="Vazirmatn" font-size="12.5" fill="var(--faint)">توالی اولیه — ۹ باز</text>
+
+      <path d="M228 124 L150 52" stroke="var(--faint)" stroke-width="1.5" fill="none" marker-end="url(#ar4)"/>
+      <path d="M228 129 L150 129" stroke="var(--faint)" stroke-width="1.5" fill="none" marker-end="url(#ar4)"/>
+      <path d="M228 134 L150 206" stroke="var(--faint)" stroke-width="1.5" fill="none" marker-end="url(#ar4)"/>
+      <defs><marker id="ar4" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round"/></marker></defs>
+
+      <rect x="20" y="34" width="128" height="34" rx="7" fill="var(--tealbg)" stroke="var(--teal)" stroke-width="1"/>
+      <text x="84" y="56" text-anchor="middle" font-family="monospace" font-size="14" fill="var(--tealink)">GAGAC<tspan fill="#c0392b" font-weight="700">A</tspan>TTAC</text>
+      <text x="84" y="84" text-anchor="middle" font-family="Vazirmatn" font-size="12.5" fill="var(--faint)">اضافه — ۱۰ جفت باز</text>
+
+      <rect x="20" y="112" width="128" height="34" rx="7" fill="var(--amberbg)" stroke="var(--amber)" stroke-width="1"/>
+      <text x="84" y="134" text-anchor="middle" font-family="monospace" font-size="14" fill="var(--amberink)">GAGA<tspan fill="#c0392b" font-weight="700">A</tspan>TTAC</text>
+      <text x="84" y="162" text-anchor="middle" font-family="Vazirmatn" font-size="12.5" fill="var(--faint)">جانشینی — ۹ جفت باز</text>
+
+      <rect x="20" y="188" width="128" height="34" rx="7" fill="var(--coralbg)" stroke="var(--coral)" stroke-width="1"/>
+      <text x="84" y="210" text-anchor="middle" font-family="monospace" font-size="14" fill="var(--coralink)">GAGATTAC</text>
+      <text x="84" y="238" text-anchor="middle" font-family="Vazirmatn" font-size="12.5" fill="var(--faint)">حذف — ۸ جفت باز</text>
+
+      <text x="560" y="120" text-anchor="middle" font-family="Vazirmatn" font-size="13" fill="var(--soft)">تعداد باز را بشمار،</text>
+      <text x="560" y="142" text-anchor="middle" font-family="Vazirmatn" font-size="13" fill="var(--soft)">نوع جهش را می‌فهمی</text>
+    </svg>
+    <div class="cap"><b>ترفند شمارش:</b> اگر تعداد جفت‌بازها <b>بیشتر</b> شد ← اضافه. <b>ثابت</b> ماند ← جانشینی. <b>کمتر</b> شد ← حذف. همین یک قاعده، تشخیص نوع جهش را در شکل‌های امتحانی فوری می‌کند.</div>
+  </div>
+
+  <div class="n trap"><span class="tag">⚠️ دام شماره ۱ — خیلی مهم</span>
+    <p>کتاب می‌گوید: به‌علت وجود <b>رابطه‌ی مکملی بین بازها</b>، تغییر یک نوکلئوتید در یک رشته، نوکلئوتید مقابلش را هم در رشته‌ی دیگر تغییر می‌دهد. پس <b>جانشینی در یک نوکلئوتید به جانشینی در یک «جفت نوکلئوتید» منجر می‌شود.</b> اگر سؤال پرسید «چند جفت نوکلئوتید تغییر کرد؟» جواب یک است، نه دو.</p></div>
+
+  <h4>سه سرنوشتِ ممکن برای جانشینی</h4>
+  <p>اینجا مهم‌ترین سوءتفاهم فصل شکل می‌گیرد. کتاب صریح می‌گوید: <strong>نباید تصور کرد جانشینی همیشه باعث تغییر در توالی آمینواسیدها می‌شود.</strong> سه حالت ممکن است:</p>
+
+  <div class="scroller"><table class="t">
+    <tr><th>نوع</th><th>چه اتفاقی می‌افتد</th><th>اثر بر پروتئین</th></tr>
+    <tr><td>خاموش</td><td>رمز یک آمینواسید به رمز <b>دیگری برای همان آمینواسید</b> تبدیل می‌شود</td><td>هیچ — توالی آمینواسیدها دست‌نخورده</td></tr>
+    <tr><td>دگرمعنا</td><td>رمز به رمز <b>آمینواسیدی دیگر</b> تبدیل می‌شود</td><td>یک آمینواسید عوض می‌شود (مثل داسی‌شکل)</td></tr>
+    <tr><td>بی‌معنا</td><td>رمز آمینواسید به <b>رمز پایان ترجمه</b> تبدیل می‌شود</td><td>پلی‌پپتید <b>کوتاه‌تر</b> می‌شود</td></tr>
+  </table></div>
+
+  <div class="n mem"><span class="tag">🧠 صحنه‌ی تئاتر — تصویری که فراموش نمی‌شود</span>
+    <p>یک بازیگر جای بازیگر دیگری روی صحنه می‌آید (این همان <b>جانشینی</b> است). سه اتفاق ممکن است بیفتد:</p>
+    <p>۱. تماشاگرها اصلاً متوجه نمی‌شوند، چون بازیگر جدید دقیقاً همان نقش را بازی می‌کند ← <b>خاموش</b>.<br>
+       ۲. بازیگر جدید نقش را عوض می‌کند ← <b>دگرمعنا</b>.<br>
+       ۳. بازیگر جدید وسط نمایش داد می‌زند «تمام شد!» و پرده می‌افتد ← <b>بی‌معنا</b>.</p></div>
+
+  <div class="n plus"><span class="tag">➕ پشتوانه‌ی علمی (خارج کتاب، برای عمق)</span>
+    <p>چرا اصلاً جهش خاموش ممکن است؟ چون رمز ژنتیکی <b>واگِن</b> (redundant) است: ۶۴ رمزه وجود دارد اما فقط ۲۰ آمینواسید. پس چند رمزه می‌توانند یک آمینواسید بسازند و معمولاً <b>حرف سومِ</b> رمزه است که کمترین اهمیت را دارد. به همین دلیل جانشینی در نوکلئوتید سومِ یک رمزه بیشترین شانس را دارد که خاموش باشد.</p></div>
+
+  <details class="q"><summary>جهش بی‌معنا چرا معمولاً از دگرمعنا خطرناک‌تر است؟</summary>
+    <div class="a">چون دگرمعنا فقط <b>یک</b> آمینواسید را عوض می‌کند و اگر آن آمینواسید در نقطه‌ی حساسی نباشد، پروتئین ممکن است تقریباً سالم کار کند. اما بی‌معنا ترجمه را <b>زودتر متوقف</b> می‌کند و پلی‌پپتیدی ناقص و معمولاً بی‌کارکرد می‌سازد — یعنی کل بخش‌های بعد از نقطه‌ی جهش از دست می‌رود.</div></details>
+
+  <details class="q"><summary>یک جهش جانشینی در توالی می‌بینی. چطور تشخیص می‌دهی خاموش است یا نه؟</summary>
+    <div class="a">فقط با نگاه‌کردن به دنا نمی‌شود. باید ببینی رمزه‌ی جدید <b>کدام آمینواسید</b> را می‌سازد. اگر همان آمینواسید قبلی ← خاموش. اگر آمینواسید دیگر ← دگرمعنا. اگر رمز پایان ← بی‌معنا. (و چون کتاب سؤال محاسباتی از جدول رمز را ممنوع کرده، در امتحان همیشه خودِ آمینواسیدها را در شکل به تو می‌دهند.)</div></details>
+</section>
+
+<section class="chunk" data-id="A3">
+  <h3><span class="no">الف‑۳</span>جهش‌های کوچک ۲: اضافه، حذف و چارچوب خواندن (شکل ۳)</h3>
+  <div class="where">📍 <b>کجای داستانم:</b> پله ۱ — هنوز در جهش‌های کوچک، ولی خطرناک‌ترین نوعشان</div>
+
+  <p>در جهش‌های <strong>اضافه</strong> و <strong>حذف</strong>، به ترتیب یک یا چند نوکلئوتید اضافه یا حذف می‌شود. برای فهم پیامدشان باید یک حقیقت را یادآوری کنیم: <strong>رمز دنا به‌صورت دسته‌های سه‌تایی خوانده می‌شود.</strong></p>
+
+  <h4>مثال طلایی خودِ کتاب</h4>
+  <p>جمله‌ی «این سیب سرخ است» را با کلمات سه‌حرفی بنویس:</p>
+  <p style="text-align:center;font-size:19px;font-weight:700;letter-spacing:2px;color:var(--tealink)">ا ی ن / س ی ب / س ر خ / ا س ت</p>
+  <p>حالا یک حرف («ر») را وسطش اضافه کن و باز هم سه‌تا سه‌تا بخوان:</p>
+  <p style="text-align:center;font-size:19px;font-weight:700;letter-spacing:2px;color:var(--coralink)">ا ی ن / <span style="background:var(--hl);border-radius:4px;padding:0 4px">ر</span> س ی / ب س ر / خ ا س / ت</p>
+  <p>جمله کل معنایش را از دست داد. به این نوع جهش می‌گویند <strong>جهش تغییر چارچوب خواندن</strong>.</p>
+
+  <div class="n mem"><span class="tag">🧠 چرا این دسته بدترین است</span>
+    <p>جانشینی فقط <b>یک نقطه</b> را خراب می‌کند، اما تغییر چارچوب <b>همه‌ی آمینواسیدهای بعد از نقطه‌ی جهش</b> را به هم می‌ریزد. مثل این است که در یک ردیف دومینو، به‌جای انداختن یک قطعه، کل ردیف را یک خانه جابه‌جا کنی.</p></div>
+
+  <div class="n trap"><span class="tag">⚠️ دام شماره ۲ — پرتکرارترین دام فصل</span>
+    <p>کتاب صریح می‌نویسد: جهش‌های اضافه و حذف <b>الزاماً</b> به تغییر چارچوب خواندن نمی‌انجامند. اگر تعداد نوکلئوتیدهای اضافه یا حذف‌شده <b>مضربی از سه</b> باشد، چارچوب سالم می‌ماند و فقط تعدادی آمینواسید کم یا زیاد می‌شود. جمله‌ی «اضافه و حذف = تغییر چارچوب» غلط است.</p></div>
+
+  <div class="fig">
+    <div class="ft">شکل ۳ — تأثیر انواع جهش بر پروتئین (خوانش کامل)</div>
+    <svg viewBox="0 0 660 300" role="img" aria-label="جدول اثر جهش بر پروتئین">
+      <rect x="20" y="16" width="620" height="42" rx="8" fill="var(--th)" stroke="var(--line)"/>
+      <text x="630" y="34" text-anchor="end" font-family="Vazirmatn" font-size="13" font-weight="700" fill="var(--ink)">نوع طبیعی</text>
+      <text x="630" y="52" text-anchor="end" font-family="monospace" font-size="13" fill="var(--soft)">AUG AAG UUU GGC UAA → Met‑Lys‑Phe‑Gly‑پایان</text>
+
+      <rect x="20" y="70" width="620" height="50" rx="8" fill="var(--amberbg)" stroke="var(--amber)"/>
+      <text x="630" y="90" text-anchor="end" font-family="Vazirmatn" font-size="13" font-weight="700" fill="var(--amberink)">جانشینی ← خاموش</text>
+      <text x="630" y="110" text-anchor="end" font-family="Vazirmatn" font-size="12.5" fill="var(--amberink)">رمزه عوض شد اما آمینواسید همان Gly ماند — پروتئین کاملاً سالم</text>
+
+      <rect x="20" y="128" width="620" height="50" rx="8" fill="var(--violetbg)" stroke="var(--violet)"/>
+      <text x="630" y="148" text-anchor="end" font-family="Vazirmatn" font-size="13" font-weight="700" fill="var(--violetink)">جانشینی ← دگرمعنا</text>
+      <text x="630" y="168" text-anchor="end" font-family="Vazirmatn" font-size="12.5" fill="var(--violetink)">Gly به Ser تبدیل شد — طول یکسان، یک آمینواسید متفاوت</text>
+
+      <rect x="20" y="186" width="620" height="50" rx="8" fill="var(--coralbg)" stroke="var(--coral)"/>
+      <text x="630" y="206" text-anchor="end" font-family="Vazirmatn" font-size="13" font-weight="700" fill="var(--coralink)">جانشینی ← بی‌معنا</text>
+      <text x="630" y="226" text-anchor="end" font-family="Vazirmatn" font-size="12.5" fill="var(--coralink)">رمز پایان زودرس ساخته شد — فقط Met و بعد پایان</text>
+
+      <rect x="20" y="244" width="620" height="50" rx="8" fill="var(--tealbg)" stroke="var(--teal)"/>
+      <text x="630" y="264" text-anchor="end" font-family="Vazirmatn" font-size="13" font-weight="700" fill="var(--tealink)">حذف سه نوکلئوتید (TTC)</text>
+      <text x="630" y="284" text-anchor="end" font-family="Vazirmatn" font-size="12.5" fill="var(--tealink)">چارچوب سالم ماند، فقط یک آمینواسید حذف شد — Met‑Phe‑Gly‑پایان</text>
+    </svg>
+    <div class="cap"><b>پیام اصلی شکل ۳:</b> کتاب هر پنج حالت را کنار هم گذاشته تا ببینی <b>یک نوع جهش، یک نوع نتیجه ندارد</b>. مخصوصاً ردیف آخر: حذف سه نوکلئوتید، با اینکه «حذف» است، چارچوب را به‌هم نمی‌ریزد. این دقیقاً همان چیزی است که در دام شماره ۲ گفتیم.</div>
+  </div>
+
+  <div class="n book"><span class="tag">📕 فعالیت ۱ کتاب (ص ۵۰) — با پاسخ کامل</span>
+    <p><b>الف) در چه صورت طول یک رشته‌ی پلی‌پپتیدی ممکن است افزایش یابد؟</b><br>
+    دو راه: (۱) اضافه‌شدن نوکلئوتید به تعدادِ مضرب سه، که آمینواسید اضافه می‌کند بدون خراب‌کردن چارچوب. (۲) جهشی که <b>رمز پایان را به رمز یک آمینواسید تبدیل کند</b> — آن‌وقت ریبوزوم متوقف نمی‌شود و ترجمه ادامه می‌یابد تا رمز پایان بعدی، پس زنجیره بلندتر می‌شود.</p>
+    <p><b>ب) اگر تعداد نوکلئوتیدهای اضافه یا حذف‌شده مضربی از سه باشد، چه پیامدی مورد انتظار است؟</b><br>
+    چارچوب خواندن <b>حفظ می‌شود</b>. بقیه‌ی پروتئین سالم می‌ماند و فقط به تعداد همان مضرب، آمینواسید اضافه یا کم می‌شود. پس آسیب معمولاً بسیار کمتر از تغییر چارچوب است.</p></div>
+
+  <details class="q"><summary>حذف ۶ نوکلئوتید خطرناک‌تر است یا حذف ۱ نوکلئوتید؟</summary>
+    <div class="a">معمولاً <b>حذف ۱ نوکلئوتید</b> خطرناک‌تر است. حذف ۶ تا (مضرب سه) فقط دو آمینواسید را برمی‌دارد و بقیه‌ی پروتئین درست ساخته می‌شود، ولی حذف ۱ نوکلئوتید چارچوب را جابه‌جا می‌کند و همه‌ی آمینواسیدهای بعدی را غلط می‌سازد. این سؤال، تله‌ی «تعداد بیشتر = خطر بیشتر» را می‌سنجد.</div></details>
+</section>
+
+<section class="chunk" data-id="A4">
+  <h3><span class="no">الف‑۴</span>جهش‌های بزرگ: ناهنجاری‌های فامتنی (شکل ۴)</h3>
+  <div class="where">📍 <b>کجای داستانم:</b> پله ۱ — از مقیاس نوکلئوتید به مقیاس فامتن پریدیم</div>
+
+  <p>گاهی جهش آن‌قدر وسیع است که <strong>ساختار یا تعداد فامتن‌ها</strong> را تغییر می‌دهد. به این‌ها <em>ناهنجاری‌های فامتنی</em> می‌گویند. نکته‌ی کلیدی: زیست‌شناسان با مشاهده‌ی <strong>کاریوتیپ</strong> می‌توانند از وجود این ناهنجاری‌ها آگاه شوند — یعنی برخلاف جهش‌های کوچک، این‌ها زیر میکروسکوپ دیده می‌شوند.</p>
+
+  <h4>۱. ناهنجاری عددی</h4>
+  <p><strong>تغییر در تعداد فامتن‌ها.</strong> مثال کتاب: <strong>نشانگان داون</strong> که مبتلایان یک فامتن ۲۱ اضافی دارند.</p>
+
+  <h4>۲. ناهنجاری ساختاری — چهار نوع</h4>
+  <div class="fig">
+    <div class="ft">شکل ۴ — چهار ناهنجاری ساختاری فامتن</div>
+    <svg viewBox="0 0 660 250" role="img" aria-label="حذف، جابه‌جایی، مضاعف‌شدگی، واژگونی">
+      <text x="580" y="20" text-anchor="middle" font-family="Vazirmatn" font-size="13.5" font-weight="700" fill="var(--coralink)">حذف</text>
+      <rect x="545" y="32" width="70" height="150" rx="6" fill="var(--coralbg)" stroke="var(--coral)"/>
+      <text x="580" y="60" text-anchor="middle" font-family="monospace" font-size="14" fill="var(--coralink)">A B</text>
+      <text x="580" y="88" text-anchor="middle" font-family="monospace" font-size="14" fill="var(--faint)" text-decoration="line-through">C D E F</text>
+      <text x="580" y="120" text-anchor="middle" font-family="monospace" font-size="14" fill="var(--coralink)">G H</text>
+      <text x="580" y="152" text-anchor="middle" font-family="monospace" font-size="14" fill="var(--coralink)">M N O</text>
+      <text x="580" y="204" text-anchor="middle" font-family="Vazirmatn" font-size="12" fill="var(--faint)">قطعه از دست</text>
+      <text x="580" y="222" text-anchor="middle" font-family="Vazirmatn" font-size="12" fill="var(--faint)">می‌رود</text>
+
+      <text x="420" y="20" text-anchor="middle" font-family="Vazirmatn" font-size="13.5" font-weight="700" fill="var(--violetink)">جابه‌جایی</text>
+      <rect x="385" y="32" width="70" height="150" rx="6" fill="var(--violetbg)" stroke="var(--violet)"/>
+      <text x="420" y="60" text-anchor="middle" font-family="monospace" font-size="14" fill="var(--violetink)">A B</text>
+      <text x="420" y="88" text-anchor="middle" font-family="monospace" font-size="14" fill="var(--violetink)">G H</text>
+      <text x="420" y="120" text-anchor="middle" font-family="monospace" font-size="14" fill="#c0392b" font-weight="700">1 2 3 4</text>
+      <text x="420" y="152" text-anchor="middle" font-family="monospace" font-size="14" fill="#c0392b" font-weight="700">5 6 7</text>
+      <text x="420" y="204" text-anchor="middle" font-family="Vazirmatn" font-size="12" fill="var(--faint)">قطعه به فامتن</text>
+      <text x="420" y="222" text-anchor="middle" font-family="Vazirmatn" font-size="12" fill="var(--faint)">غیرهمتا می‌رود</text>
+
+      <text x="255" y="20" text-anchor="middle" font-family="Vazirmatn" font-size="13.5" font-weight="700" fill="var(--amberink)">مضاعف‌شدگی</text>
+      <rect x="220" y="32" width="70" height="150" rx="6" fill="var(--amberbg)" stroke="var(--amber)"/>
+      <text x="255" y="60" text-anchor="middle" font-family="monospace" font-size="14" fill="var(--amberink)">A B C</text>
+      <text x="255" y="88" text-anchor="middle" font-family="monospace" font-size="14" fill="var(--amberink)">D E F</text>
+      <text x="255" y="120" text-anchor="middle" font-family="monospace" font-size="14" fill="#b8860b" font-weight="700">D E F</text>
+      <text x="255" y="152" text-anchor="middle" font-family="monospace" font-size="14" fill="var(--amberink)">M N O</text>
+      <text x="255" y="204" text-anchor="middle" font-family="Vazirmatn" font-size="12" fill="var(--faint)">دو نسخه از یک</text>
+      <text x="255" y="222" text-anchor="middle" font-family="Vazirmatn" font-size="12" fill="var(--faint)">قطعه</text>
+
+      <text x="90" y="20" text-anchor="middle" font-family="Vazirmatn" font-size="13.5" font-weight="700" fill="var(--tealink)">واژگونی</text>
+      <rect x="55" y="32" width="70" height="150" rx="6" fill="var(--tealbg)" stroke="var(--teal)"/>
+      <text x="90" y="60" text-anchor="middle" font-family="monospace" font-size="14" fill="var(--tealink)">A B</text>
+      <text x="90" y="88" text-anchor="middle" font-family="monospace" font-size="14" fill="#0a7c6a" font-weight="700">F E D C</text>
+      <text x="90" y="120" text-anchor="middle" font-family="monospace" font-size="14" fill="var(--tealink)">G H</text>
+      <text x="90" y="152" text-anchor="middle" font-family="monospace" font-size="14" fill="var(--tealink)">M N O</text>
+      <text x="90" y="204" text-anchor="middle" font-family="Vazirmatn" font-size="12" fill="var(--faint)">جهت قطعه</text>
+      <text x="90" y="222" text-anchor="middle" font-family="Vazirmatn" font-size="12" fill="var(--faint)">معکوس می‌شود</text>
+    </svg>
+    <div class="cap"><b>روش خواندن شکل ۴:</b> در هر چهار حالت، فامتن اصلی <code>A B C D E F G H … M N O</code> است. فقط بلایی که سر قطعه‌ی <code>C D E F</code> می‌آید فرق می‌کند: یا می‌رود (حذف)، یا به جای دیگری می‌رود (جابه‌جایی)، یا دوبار می‌آید (مضاعف‌شدگی)، یا برعکس می‌شود (واژگونی).</div>
+  </div>
+
+  <div class="n mem"><span class="tag">🧠 قفسه‌ی کتاب — تصویر چهارتایی</span>
+    <p>یک کتاب را تصور کن:</p>
+    <p>• صفحه‌ای <b>پاره شد و افتاد</b> ← حذف<br>
+       • صفحه‌ای اشتباهی <b>در کتابِ دیگری</b> صحافی شد ← جابه‌جایی<br>
+       • صفحه‌ای <b>دوبار چاپ</b> شد ← مضاعف‌شدگی<br>
+       • صفحه‌ای <b>وارونه</b> صحافی شد ← واژگونی</p></div>
+
+  <div class="n trap"><span class="tag">⚠️ سه ریزه‌کاری که کتاب گفته و معمولاً از قلم می‌افتد</span>
+    <p>۱. جهش‌های فامتنی <b>حذفی غالباً باعث مرگ می‌شوند</b> — این جمله را کتاب مستقیم آورده است.<br>
+    ۲. در <b>جابه‌جایی</b>، قطعه می‌تواند به فامتن <b>غیرهمتا</b> برود، یا حتی به <b>بخش دیگری از همان فامتن</b>.<br>
+    ۳. <b>مضاعف‌شدگی</b> در کتاب این‌طور تعریف شده: اگر قطعه‌ای از فامتن به فامتن <b>همتا</b> جابه‌جا شود، آن فامتن همتا دو نسخه از آن قسمت خواهد داشت. یعنی جابه‌جایی به همتا = مضاعف‌شدگی.</p></div>
+
+  <details class="q"><summary>تفاوت جابه‌جایی و مضاعف‌شدگی در یک جمله چیست؟</summary>
+    <div class="a">هر دو انتقال قطعه‌اند؛ مقصد فرق می‌کند. اگر مقصد فامتنِ <b>غیرهمتا</b> (یا جای دیگری از همان فامتن) باشد ← <b>جابه‌جایی</b>. اگر مقصد فامتنِ <b>همتا</b> باشد، آن‌جا از قبل نسخه‌ای از همان ژن‌ها هست، پس دو نسخه می‌شود ← <b>مضاعف‌شدگی</b>.</div></details>
+
+  <details class="q"><summary>چرا واژگونی معمولاً کم‌خطرتر از حذف است؟</summary>
+    <div class="a">چون در واژگونی <b>هیچ ژنی گم نمی‌شود</b> — فقط ترتیب و جهتشان عوض می‌شود، پس مقدار ماده‌ی وراثتی ثابت می‌ماند. در حذف اما قطعه‌ای واقعاً از بین می‌رود و ژن‌هایش دیگر وجود ندارند؛ به همین دلیل کتاب می‌گوید حذف غالباً کشنده است.</div></details>
+</section>
+
+<section class="chunk" data-id="A5">
+  <h3><span class="no">الف‑۵</span>پیامد جهش به «محل» بستگی دارد + ژنگان</h3>
+  <div class="where">📍 <b>کجای داستانم:</b> پله ۱ — حالا می‌پرسیم یک جهش چقدر مهم است</div>
+
+  <p>کتاب یک اصل کلی می‌گذارد: <strong>تأثیر جهش به عوامل مختلفی بستگی دارد و یکی از مهم‌ترین‌ها، محل وقوع جهش در ژنگان است.</strong></p>
+
+  <h4>اول: ژنگان (ژنوم) دقیقاً چیست؟</h4>
+  <ul class="b">
+    <li><strong>ژنگان = کل محتوای ماده‌ی وراثتی</strong> = مجموع محتوای وراثتی <em>هسته‌ای</em> + <em>سیتوپلاسمی</em>.</li>
+    <li>طبق قرارداد، <strong>ژنگان هسته‌ای</strong> را معادل مجموعه‌ای شامل <strong>یک نسخه از هر یک از انواع فامتن‌ها</strong> در نظر می‌گیرند.</li>
+    <li>ژنگان هسته‌ای انسان: <strong>۲۲ فامتن غیرجنسی + فامتن‌های جنسی X و Y</strong>.</li>
+    <li>در انسان، <strong>دنای راکیزه (میتوکندری)</strong> ژنگان سیتوپلاسمی را تشکیل می‌دهد.</li>
+  </ul>
+
+  <div class="n trap"><span class="tag">⚠️ دام شماره ۳</span>
+    <p>ژنگان هسته‌ای انسان <b>۲۴ نوع فامتن</b> دارد (۲۲ غیرجنسی + X + Y)، نه ۲۳ و نه ۴۶. عدد ۴۶ تعداد فامتن‌های یک یاخته‌ی پیکری است، نه اندازه‌ی ژنگان. و یادت باشد ژنگان انسان <b>فقط هسته‌ای نیست</b> — دنای راکیزه هم جزئی از آن است.</p></div>
+
+  <h4>دوم: جهش کجا می‌تواند بیفتد؟</h4>
+  <p>کتاب می‌گوید «ژن‌ها فقط بخشی از ژنگان‌اند». پس سه حالت داریم:</p>
+
+  <div class="scroller"><table class="t">
+    <tr><th>محل جهش</th><th>اثر</th><th>توضیح کتاب</th></tr>
+    <tr><td>توالی بین‌ژنی</td><td>معمولاً بی‌اثر</td><td>بر توالی محصول ژن اثری نخواهد گذاشت</td></tr>
+    <tr><td>درون ژن — جایگاه فعال آنزیم</td><td>احتمال تغییر عملکرد <b>بسیار زیاد</b></td><td>جایگاه فعال، جایی است که واکنش انجام می‌شود</td></tr>
+    <tr><td>درون ژن — دور از جایگاه فعال</td><td>احتمال تغییر <b>کم یا حتی صفر</b></td><td>به شرطی که بر جایگاه فعال اثری نگذارد</td></tr>
+    <tr><td>توالی تنظیمی (راه‌انداز یا افزاینده)</td><td>بر <b>مقدار</b> پروتئین، نه توالی آن</td><td>راه‌انداز قوی‌تر یا ضعیف‌تر ← رونویسی بیشتر یا کمتر</td></tr>
+  </table></div>
+
+  <div class="n mem"><span class="tag">🧠 تشبیه کارخانه</span>
+    <p>ژن مثل <b>نقشه‌ی یک دستگاه</b> است و راه‌انداز مثل <b>کلید روشن‌کردن خط تولید</b>. اگر نقشه را در بخش حساس دستکاری کنی، دستگاهِ خراب می‌سازی (تغییر <b>کیفیت</b>). اگر کلید را دستکاری کنی، همان دستگاهِ سالم را کم یا زیاد تولید می‌کنی (تغییر <b>کمیت</b>). این دقیقاً همان تفاوت «توالی» و «مقدار» است که کتاب می‌گوید.</p></div>
+
+  <details class="q"><summary>جهشی رخ داده و پروتئین کاملاً سالم است ولی مقدارش نصف شده. جهش کجا بوده؟</summary>
+    <div class="a">در یک <b>توالی تنظیمی</b> — به احتمال زیاد راه‌انداز که ضعیف‌تر شده است. چون توالی آمینواسیدها دست‌نخورده مانده (پروتئین سالم است) اما میزان رونویسی کم شده، پس مقدار محصول کاهش یافته.</div></details>
+
+  <details class="q"><summary>دو جهش دگرمعنا در یک آنزیم رخ داده، ولی فقط یکی باعث بیماری شده. چرا؟</summary>
+    <div class="a">چون <b>محل</b> فرق داشته. آنکه در <b>جایگاه فعال</b> افتاده، شکل جایگاه اتصال به پیش‌ماده را خراب کرده و عملکرد آنزیم را از بین برده. آنکه دور از جایگاه فعال بوده، شکل کلی را به‌هم نزده و آنزیم تقریباً طبیعی کار می‌کند.</div></details>
+</section>
+
+<section class="chunk" data-id="A6">
+  <h3><span class="no">الف‑۶</span>علت جهش، جهش‌زاها (شکل ۵)، ارثی/اکتسابی و سرطان</h3>
+  <div class="where">📍 <b>کجای داستانم:</b> پایان پله ۱ — می‌پرسیم اصلاً چرا جهش رخ می‌دهد</div>
+
+  <h4>۱. خطای همانندسازی</h4>
+  <p>کتاب دقیق می‌گوید: <strong>سازوکارهای دقیقی برای اطمینان از صحت همانندسازی دنا وجود دارد، اما با وجود این‌ها گاهی خطاهایی رخ می‌دهد که باعث جهش می‌شوند.</strong> یعنی حتی بدون هیچ عامل بیرونی، جهش رخ می‌دهد.</p>
+
+  <h4>۲. عوامل جهش‌زا — دو دسته</h4>
+  <div class="scroller"><table class="t">
+    <tr><th>دسته</th><th>مثال کتاب</th><th>سازوکار</th></tr>
+    <tr><td>فیزیکی</td><td>پرتو فرابنفش (در نور خورشید)</td><td>پیوند بین دو تیمین مجاور ← <b>دوپار (دیمر) تیمین</b> ← اختلال در عملکرد دنابسپاراز ← مشکل در همانندسازی</td></tr>
+    <tr><td>شیمیایی</td><td>بنزوپیرن (در دود سیگار)</td><td>جهشی ایجاد می‌کند که به سرطان منجر می‌شود</td></tr>
+  </table></div>
+
+  <div class="fig">
+    <div class="ft">شکل ۵ — تشکیل دوپار تیمین</div>
+    <svg viewBox="0 0 660 210" role="img" aria-label="تشکیل دیمر تیمین در اثر UV">
+      <text x="530" y="26" text-anchor="middle" font-family="Vazirmatn" font-size="13" font-weight="700" fill="var(--soft)">قبل از تابش</text>
+      <line x1="440" y1="150" x2="620" y2="120" stroke="var(--teal)" stroke-width="3"/>
+      <line x1="490" y1="140" x2="490" y2="96" stroke="var(--amber)" stroke-width="3"/>
+      <line x1="555" y1="129" x2="555" y2="85" stroke="var(--amber)" stroke-width="3"/>
+      <polygon points="470,96 510,96 520,72 490,54 460,72" fill="var(--amberbg)" stroke="var(--amber)" stroke-width="2"/>
+      <polygon points="535,85 575,85 585,61 555,43 525,61" fill="var(--amberbg)" stroke="var(--amber)" stroke-width="2"/>
+      <text x="530" y="186" text-anchor="middle" font-family="Vazirmatn" font-size="12.5" fill="var(--faint)">دو تیمین مجاور، جدا از هم</text>
+
+      <text x="185" y="26" text-anchor="middle" font-family="Vazirmatn" font-size="13" font-weight="700" fill="var(--coralink)">بعد از تابش UV</text>
+      <text x="300" y="60" font-family="Vazirmatn" font-size="15" font-weight="700" fill="var(--coral)">UV</text>
+      <path d="M296 70 q-8 8 0 16 q8 8 0 16" stroke="var(--coral)" stroke-width="2" fill="none"/>
+      <path d="M282 66 q-8 8 0 16 q8 8 0 16" stroke="var(--coral)" stroke-width="2" fill="none"/>
+      <line x1="95" y1="150" x2="275" y2="120" stroke="var(--teal)" stroke-width="3"/>
+      <line x1="145" y1="140" x2="145" y2="96" stroke="var(--amber)" stroke-width="3"/>
+      <line x1="210" y1="129" x2="210" y2="85" stroke="var(--amber)" stroke-width="3"/>
+      <polygon points="125,96 165,96 175,72 145,54 115,72" fill="var(--amberbg)" stroke="var(--amber)" stroke-width="2"/>
+      <polygon points="190,85 230,85 240,61 210,43 180,61" fill="var(--amberbg)" stroke="var(--amber)" stroke-width="2"/>
+      <line x1="167" y1="84" x2="189" y2="80" stroke="#c0392b" stroke-width="3.5"/>
+      <line x1="170" y1="66" x2="192" y2="62" stroke="#c0392b" stroke-width="3.5"/>
+      <text x="185" y="186" text-anchor="middle" font-family="Vazirmatn" font-size="12.5" fill="var(--coralink)">پیوند میان دو تیمین = دوپار تیمین</text>
+    </svg>
+    <div class="cap"><b>چرا مهم است:</b> دوپار تیمین دو تیمینِ مجاور را به هم می‌چسباند و باعث یک برجستگی در رشته‌ی دنا می‌شود. آنزیم <b>دنابسپاراز</b> نمی‌تواند به‌درستی از روی این ناحیه نسخه‌برداری کند، پس همانندسازی مختل می‌شود و احتمال خطا (جهش) بالا می‌رود.</div>
+  </div>
+
+  <div class="n plus"><span class="tag">➕ چرا آفتاب‌سوختگی به سرطان پوست ربط دارد (خارج کتاب)</span>
+    <p>همین سازوکارِ دوپار تیمین است که ارتباط <b>UV ← سرطان پوست</b> را توضیح می‌دهد. بدن آنزیم‌های ترمیمی دارد که این دوپارها را برمی‌دارند، اما اگر تعدادشان از توان ترمیم بیشتر شود، خطاها ماندگار (جهش) می‌شوند. این دقیقاً همان «تغییر ماندگار» در تعریف جهش است.</p></div>
+
+  <h4>۳. جهش ارثی یا اکتسابی</h4>
+  <div class="scroller"><table class="t">
+    <tr><th></th><th>ارثی</th><th>اکتسابی</th></tr>
+    <tr><td>منشأ</td><td>از یک یا هر دو والد به فرزند می‌رسد</td><td>از محیط کسب می‌شود</td></tr>
+    <tr><td>کجا رخ می‌دهد</td><td>در <b>گامت‌ها</b> وجود دارد و پس از لقاح به تخم منتقل می‌شود</td><td>در یاخته‌های پیکری، مثل یاخته‌های دستگاه تنفس در اثر سیگار</td></tr>
+    <tr><td>گستره</td><td><b>همه‌ی</b> یاخته‌های حاصل از آن تخم دارای جهش‌اند</td><td>فقط همان یاخته و دودمانش</td></tr>
+  </table></div>
+
+  <div class="n mem"><span class="tag">🧠 قاعده‌ی یک‌خطی</span>
+    <p>اگر جهش در <b>گامت</b> باشد ← به نسل بعد می‌رود (ارثی). اگر در یاخته‌ی <b>پیکری</b> باشد ← با خودِ فرد تمام می‌شود (اکتسابی). پرسش کلیدی همیشه یکی است: «آیا این یاخته گامت می‌سازد یا نه؟»</p></div>
+
+  <h4>۴. سبک زندگی و سرطان (متن کامل کتاب)</h4>
+  <p>کتاب این بخش را با جزئیات آورده و معمولاً از قلم می‌افتد:</p>
+  <ul class="b">
+    <li>سبک زندگی و تغذیه‌ی سالم نقش مهمی در <strong>پیشگیری</strong> از سرطان دارند؛ <strong>ورزش و وزن مناسب</strong> از عوامل مهم حفظ سلامت‌اند.</li>
+    <li>غذاهای گیاهی که <strong>پاداکسنده و الیاف</strong> دارند در پیشگیری از سرطان مؤثرند.</li>
+    <li><strong>شیوه‌ی فراوری و پخت غذا</strong> بر سلامت آن اثر می‌گذارد.</li>
+    <li>در مناطقی که مصرف غذاهای <strong>نمک‌سود یا دودی‌شده</strong> رایج است، سرطان شیوع بیشتری دارد.</li>
+    <li>ارتباط بعضی سرطان‌ها با مصرف زیاد غذاهای <strong>کباب‌شده یا سرخ‌شده</strong> مشخص شده است.</li>
+    <li>ترکیبات <strong>نیتریت‌دار مانند سدیم نیتریت</strong> که برای ماندگاری سوسیس و کالباس افزوده می‌شود، در بدن به ترکیباتی تبدیل می‌شوند که تحت شرایطی <strong>قابلیت سرطان‌زایی</strong> دارند.</li>
+  </ul>
+
+  <details class="q"><summary>فردی سال‌ها سیگار کشیده و به سرطان ریه مبتلا شده. آیا فرزندانش این جهش را به ارث می‌برند؟</summary>
+    <div class="a">خیر. این جهش <b>اکتسابی</b> است و در یاخته‌های دستگاه تنفس (یاخته‌های پیکری) رخ داده، نه در گامت‌ها. جهش فقط وقتی به فرزند می‌رسد که در گامت باشد و از راه تخم منتقل شود.</div></details>
+
+  <details class="q"><summary>چرا کتاب می‌گوید حتی با وجود سازوکارهای دقیق، باز هم جهش رخ می‌دهد؟</summary>
+    <div class="a">چون هیچ سامانه‌ای صددرصد بی‌خطا نیست. همانندسازی میلیون‌ها نوکلئوتید را کپی می‌کند و حتی با نرخ خطای بسیار پایین، تعدادی خطا باقی می‌ماند. و از منظر پله‌ی دوم فصل، همین خطاهای اندک <b>سرمایه‌ی گوناگونی</b> جمعیت‌اند.</div></details>
+</section>
+
+<section class="part B" id="partB">
+  <div class="pl">پله ۲ — مقیاس جمعیت</div>
+  <h2>سرنوشت گوناگونی</h2>
+  <p class="pd">جهش گوناگونی ساخت. حالا می‌بینیم بر سرِ این گوناگونی در یک جمعیت چه می‌آید: چه چیزی آن را غربال می‌کند، چه چیزی به‌هم می‌ریزدش، و چه چیزی زنده نگهش می‌دارد.</p>
+</section>
+
+<section class="chunk" data-id="B1">
+  <h3><span class="no">ب‑۱</span>تفاوت فردی و انتخاب طبیعی (شکل ۶)</h3>
+  <div class="where">📍 <b>کجای داستانم:</b> ابتدای پله ۲ — از فرد به جمعیت پریدیم</div>
+
+  <p>کتاب با یک مسئله‌ی واقعی شروع می‌کند: بعد از کشف پادزیست‌ها (آنتی‌بیوتیک‌ها) در نیمه‌ی قرن گذشته، انسان در نبرد با باکتری‌ها پیروز شد؛ اما حالا خبر می‌رسد <strong>باکتری‌ها نسبت به پادزیست‌ها مقاوم شده‌اند</strong>. این یعنی موجودات زنده در گذر زمان تغییر می‌کنند. اما چطور؟</p>
+
+  <h4>مثال کلیدی کتاب: تحمل سرما</h4>
+  <p>جانورانی را تصور کن که تحمل متفاوتی نسبت به سرما دارند. سرمای شدیدی رخ می‌دهد:</p>
+  <ol class="b">
+    <li>آن‌ها که سرما را تحمل می‌کنند <strong>شانس بیشتری برای زنده‌ماندن</strong> دارند.</li>
+    <li>پس <strong>بیشتر از دیگران تولیدمثل می‌کنند</strong>.</li>
+    <li>در نتیجه صفت تحمل سرما <strong>بیش از گذشته به نسل بعد منتقل می‌شود</strong>.</li>
+    <li>بعد از مدتی جمعیتی داریم که در آن تعداد افراد مقاوم به سرما بیشتر است ← <strong>این یعنی تغییر در جمعیت</strong>.</li>
+  </ol>
+
+  <div class="n trap"><span class="tag">⚠️ دام شماره ۴ — یکی از ظریف‌ترین نکات فصل</span>
+    <p>زیست‌شناسان از واژه‌ی «<b>صفت بهتر</b>» استفاده <b>نمی‌کنند</b>؛ به‌جایش می‌گویند «<b>صفت سازگارتر با محیط</b>». چرا؟ چون همان کتاب می‌گوید: اگر هوا به‌جای سرد شدن گرم می‌شد، افراد دیگری شانس زنده‌ماندن داشتند. پس <b>این «محیط» است که تعیین می‌کند کدام صفت با فراوانی بیشتری به نسل بعد برود</b> — نه یک برتری ذاتی و همیشگی.</p></div>
+
+  <p><strong>تعریف انتخاب طبیعی:</strong> فرایندی که در آن افراد سازگارتر با محیط انتخاب می‌شوند، یعنی آن‌هایی که شانس بیشتری برای <em>زنده‌ماندن</em> و <em>تولیدمثل</em> دارند.</p>
+
+  <div class="fig">
+    <div class="ft">شکل ۶ — چگونگی مقاوم شدن باکتری‌ها به پادزیست</div>
+    <svg viewBox="0 0 660 200" role="img" aria-label="سه مرحله مقاومت باکتری">
+      <rect x="450" y="30" width="190" height="110" rx="10" fill="var(--tealbg)" stroke="var(--teal)"/>
+      <text x="545" y="52" text-anchor="middle" font-family="Vazirmatn" font-size="13" font-weight="700" fill="var(--tealink)">۱. پیش از پادزیست</text>
+      <ellipse cx="500" cy="80" rx="13" ry="6" fill="var(--faint)"/><ellipse cx="535" cy="95" rx="13" ry="6" fill="var(--faint)"/>
+      <ellipse cx="575" cy="78" rx="13" ry="6" fill="var(--faint)"/><ellipse cx="510" cy="112" rx="13" ry="6" fill="var(--faint)"/>
+      <ellipse cx="565" cy="112" rx="13" ry="6" fill="#c0392b"/>
+      <text x="545" y="134" text-anchor="middle" font-family="Vazirmatn" font-size="11.5" fill="var(--tealink)">تعداد اندکی از قبل مقاوم‌اند</text>
+
+      <rect x="235" y="30" width="190" height="110" rx="10" fill="var(--amberbg)" stroke="var(--amber)"/>
+      <text x="330" y="52" text-anchor="middle" font-family="Vazirmatn" font-size="13" font-weight="700" fill="var(--amberink)">۲. حضور پادزیست</text>
+      <text x="285" y="86" font-family="monospace" font-size="17" fill="var(--faint)">✕ ✕</text>
+      <text x="345" y="102" font-family="monospace" font-size="17" fill="var(--faint)">✕ ✕</text>
+      <ellipse cx="330" cy="115" rx="13" ry="6" fill="#c0392b"/>
+      <text x="330" y="134" text-anchor="middle" font-family="Vazirmatn" font-size="11.5" fill="var(--amberink)">غیرمقاوم‌ها از بین می‌روند</text>
+
+      <rect x="20" y="30" width="190" height="110" rx="10" fill="var(--coralbg)" stroke="var(--coral)"/>
+      <text x="115" y="52" text-anchor="middle" font-family="Vazirmatn" font-size="13" font-weight="700" fill="var(--coralink)">۳. پس از تکثیر</text>
+      <ellipse cx="65" cy="78" rx="13" ry="6" fill="#c0392b"/><ellipse cx="105" cy="92" rx="13" ry="6" fill="#c0392b"/>
+      <ellipse cx="150" cy="76" rx="13" ry="6" fill="#c0392b"/><ellipse cx="78" cy="112" rx="13" ry="6" fill="#c0392b"/>
+      <ellipse cx="140" cy="112" rx="13" ry="6" fill="#c0392b"/>
+      <text x="115" y="134" text-anchor="middle" font-family="Vazirmatn" font-size="11.5" fill="var(--coralink)">مقاوم‌ها کل جمعیت را می‌گیرند</text>
+
+      <text x="330" y="176" text-anchor="middle" font-family="Vazirmatn" font-size="13" fill="var(--soft)">جمعیت از «غیرمقاوم» به «مقاوم» تغییر یافت — نه اینکه باکتری‌ها مقاوم شده باشند</text>
+    </svg>
+    <div class="cap"><b>مهم‌ترین برداشت:</b> پادزیست باکتری‌ها را مقاوم <b>نمی‌کند</b>. مقاومت از قبل در تعداد اندکی وجود داشت (حاصل جهش)؛ پادزیست فقط نقش <b>غربال</b> را بازی کرد. این تفاوت، هسته‌ی درست‌فهمیدن انتخاب طبیعی است.</div>
+  </div>
+
+  <div class="n trap"><span class="tag">⚠️ دام شماره ۵ — پرتکرار در امتحان</span>
+    <p>کتاب صریح می‌گوید: <b>انتخاب طبیعی «جمعیت» را تغییر می‌دهد نه «فرد» را.</b> هیچ باکتری‌ای در طول عمرش مقاوم نمی‌شود؛ نسبتِ مقاوم‌ها در جمعیت بالا می‌رود.</p></div>
+
+  <p><strong>تعریف جمعیت (طبق کتاب):</strong> افرادی که به <em>یک گونه</em> تعلق دارند و در <em>یک زمان و مکان</em> زندگی می‌کنند. هر سه قید لازم است.</p>
+
+  <div class="n book"><span class="tag">📕 بیشتر بدانید (ص ۵۴)</span>
+    <p><b>ابوریحان بیرونی</b> در کتاب <b>تحقیق ماللهند</b>، نخستین دانشمندی است که تغییر گونه‌ها را توصیف می‌کند. <b>چارلز داروین</b> و <b>آلفرد والاس</b> مستقل از یکدیگر، سازوکار <b>انتخاب طبیعی</b> را برای تغییر گونه‌ها ارائه کردند.</p></div>
+
+  <details class="q"><summary>اگر پادزیست باعث ایجاد مقاومت می‌شد، شکل ۶ چه فرقی می‌کرد؟</summary>
+    <div class="a">در مرحله‌ی ۱ <b>هیچ باکتری مقاومی وجود نمی‌داشت</b> و همه خاکستری بودند؛ بعد از پادزیست، بعضی قرمز می‌شدند. اما شکل کتاب عمداً از همان اول چند باکتری مقاوم نشان می‌دهد تا بگوید گوناگونی <b>پیش از</b> فشار محیطی وجود داشته است. این تفاوت بین «انتخاب» و «القا» است.</div></details>
+</section>
+
+<section class="chunk" data-id="B2">
+  <h3><span class="no">ب‑۲</span>خزانه ژن و تعادل ژنی</h3>
+  <div class="where">📍 <b>کجای داستانم:</b> پله ۲ — ابزار توصیفِ ژنتیکی جمعیت را می‌سازیم</div>
+
+  <p>کتاب یک نکته‌ی تاریخی می‌گوید: <strong>پیش از کشف مفاهیم پایه‌ی ژنتیک، زیست‌شناسان جمعیت را بر اساس صفات ظاهری توصیف می‌کردند</strong> (مثل گوناگونی رنگ بدن در جمعیت جانوری یا رنگ گلبرگ در جمعیت گیاهی). با شناخت ژن‌ها، امکان توصیف ژنتیکی فراهم شد.</p>
+
+  <div class="n mem"><span class="tag">🧠 تعریف دقیق — کلمه‌به‌کلمه حفظ کن</span>
+    <p><b>خزانه‌ی ژن</b> = مجموع <b>همه‌ی دگره‌های</b> موجود در <b>همه‌ی جایگاه‌های ژنی</b> افراد یک جمعیت.</p>
+    <p>سه «همه» در این تعریف هست: همه‌ی دگره‌ها، همه‌ی جایگاه‌ها، همه‌ی افراد. هیچ‌کدام را جا نینداز.</p></div>
+
+  <h4>تعادل ژنی چیست؟</h4>
+  <p>اگر در جمعیتی <strong>فراوانی نسبی دگره‌ها یا ژن‌نمودها از نسلی به نسل دیگر ثابت</strong> باشد، می‌گویند جمعیت <em>در حال تعادل ژنی</em> است.</p>
+  <p>و نتیجه‌ی منطقی‌اش: <strong>تا وقتی جمعیت در تعادل است، تغییر در آن مورد انتظار نیست. اگر از تعادل خارج شود، یعنی روند تغییر را در پیش گرفته است.</strong></p>
+
+  <div class="n plus"><span class="tag">➕ چرا این مفهوم اختراع شد (خارج کتاب)</span>
+    <p>«تعادل» یک <b>وضعیت فرضی و ایده‌آل</b> است، مثل «سطح بدون اصطکاک» در فیزیک. در طبیعت تقریباً هیچ جمعیتی کاملاً در تعادل نیست. فایده‌اش این است که یک <b>خط پایه</b> می‌سازد: هر انحراف از تعادل را می‌شود اندازه گرفت و پرسید «کدام عامل این کار را کرد؟» — و دقیقاً همین می‌شود موضوع بخش بعد.</p></div>
+
+  <details class="q"><summary>جمعیتی در تعادل ژنی است. آیا یعنی هیچ جهشی در آن رخ نمی‌دهد؟</summary>
+    <div class="a">تعادل ژنی یعنی <b>فراوانی نسبی دگره‌ها ثابت مانده است</b>. طبق کتاب، جهش یکی از عواملی است که جمعیت را از تعادل خارج می‌کند؛ پس برای برقراری تعادل، شرط این است که جهش (و چهار عامل دیگر) اثر محسوسی بر فراوانی‌ها نگذارند.</div></details>
+</section>
+
+<section class="chunk" data-id="B3">
+  <h3><span class="no">ب‑۳</span>پنج عاملی که تعادل را بر هم می‌زنند (شکل ۷)</h3>
+  <div class="where">📍 <b>کجای داستانم:</b> قلب پله ۲ — پرسؤال‌ترین بخش گفتار ۲</div>
+
+  <div class="n mem"><span class="tag">🧠 کلید حافظه: «چهار ـش و یک انتخاب»</span>
+    <p>جه<b>ش</b> · ران<b>ش</b> دگره‌ای · شار<b>ش</b> ژن · آمیز<b>ش</b> غیرتصادفی · + انتخاب طبیعی</p>
+    <p>چهار عامل اول همه به «ـش» ختم می‌شوند و پنجمی «انتخاب» است. همین ریتم صوتی باعث می‌شود هیچ‌وقت یکی را جا نیندازی.</p></div>
+
+  <h4>الف) جهش</h4>
+  <p>مثال کتاب: باکتری‌ای که <strong>هر ۲۰ دقیقه</strong> تقسیم می‌شود. اگر جهش رخ دهد، دگره‌های جدیدی ایجاد می‌شوند و این یعنی <strong>تغییر در فراوانی نسبی دگره‌ها</strong>.</p>
+  <ul class="b">
+    <li>جهش با افزودن دگره‌های جدید، <strong>خزانه‌ی ژن را غنی‌تر می‌کند و گوناگونی را افزایش می‌دهد</strong>.</li>
+    <li>بسیاری از جهش‌ها <strong>تأثیری فوری بر رخ‌نمود ندارند</strong> و بنابراین ممکن است تشخیص داده نشوند.</li>
+    <li>اما با تغییر شرایط محیط، ممکن است دگره‌ی جدید <strong>سازگارتر از دگره‌های قبلی</strong> عمل کند.</li>
+  </ul>
+
+  <h4>ب) رانش دگره‌ای</h4>
+  <p><strong>تعریف:</strong> فرایندی که باعث تغییر فراوانی دگره‌ای بر اثر <em>رویدادهای تصادفی</em> می‌شود.</p>
+  <p>مثال اول کتاب: گله‌ای شامل <strong>۱۰۰ گوسفند</strong> از ارتفاعات عبور می‌کند؛ تعدادی سقوط می‌کنند و می‌میرند. اگر زاده‌ای نداشته باشند، شانس انتقال ژن‌هایشان به نسل بعد را از دست داده‌اند.</p>
+  <p>مثال دوم: در <strong>سیل، زلزله، آتش‌سوزی</strong> و نظایر آن، تعداد آن‌هایی که می‌میرند ممکن است بیش از زنده‌ماندگان باشد.</p>
+
+  <div class="fig">
+    <div class="ft">شکل ۷ — کاهش شدید اندازه‌ی جمعیت و اثر آن بر فراوانی دگره‌ها</div>
+    <svg viewBox="0 0 660 190" role="img" aria-label="اثر گلوگاه جمعیتی">
+      <rect x="470" y="30" width="150" height="120" rx="10" fill="var(--card)" stroke="var(--line)"/>
+      <text x="545" y="172" text-anchor="middle" font-family="Vazirmatn" font-size="12.5" fill="var(--faint)">جمعیت اولیه</text>
+      <g><circle cx="500" cy="55" r="7" fill="#c0392b"/><circle cx="525" cy="70" r="7" fill="#2a7fc0"/><circle cx="555" cy="52" r="7" fill="#e0a032"/>
+      <circle cx="585" cy="72" r="7" fill="#c0392b"/><circle cx="497" cy="88" r="7" fill="#e0a032"/><circle cx="530" cy="105" r="7" fill="#2a7fc0"/>
+      <circle cx="565" cy="90" r="7" fill="#c0392b"/><circle cx="595" cy="105" r="7" fill="#e0a032"/><circle cx="505" cy="128" r="7" fill="#2a7fc0"/>
+      <circle cx="545" cy="132" r="7" fill="#e0a032"/><circle cx="583" cy="133" r="7" fill="#c0392b"/></g>
+
+      <path d="M462 90 L410 90" stroke="var(--coral)" stroke-width="2.5" fill="none" marker-end="url(#ar7)"/>
+      <defs><marker id="ar7" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round"/></marker></defs>
+      <text x="436" y="76" text-anchor="middle" font-family="Vazirmatn" font-size="11.5" fill="var(--coralink)">فاجعه</text>
+
+      <rect x="255" y="55" width="145" height="70" rx="10" fill="var(--card)" stroke="var(--coral)"/>
+      <text x="327" y="172" text-anchor="middle" font-family="Vazirmatn" font-size="12.5" fill="var(--faint)">کاهش شدید تصادفی</text>
+      <circle cx="290" cy="80" r="7" fill="#e0a032"/><circle cx="325" cy="95" r="7" fill="#2a7fc0"/><circle cx="365" cy="78" r="7" fill="#e0a032"/>
+      <circle cx="300" cy="110" r="7" fill="#e0a032"/>
+
+      <path d="M247 90 L195 90" stroke="var(--teal)" stroke-width="2.5" fill="none" marker-end="url(#ar7)"/>
+      <rect x="40" y="30" width="150" height="120" rx="10" fill="var(--card)" stroke="var(--teal)"/>
+      <text x="115" y="172" text-anchor="middle" font-family="Vazirmatn" font-size="12.5" fill="var(--faint)">جمعیت برجای‌مانده</text>
+      <g><circle cx="70" cy="55" r="7" fill="#e0a032"/><circle cx="100" cy="70" r="7" fill="#e0a032"/><circle cx="132" cy="52" r="7" fill="#2a7fc0"/>
+      <circle cx="160" cy="72" r="7" fill="#e0a032"/><circle cx="68" cy="90" r="7" fill="#e0a032"/><circle cx="103" cy="105" r="7" fill="#2a7fc0"/>
+      <circle cx="140" cy="92" r="7" fill="#e0a032"/><circle cx="168" cy="108" r="7" fill="#e0a032"/><circle cx="75" cy="128" r="7" fill="#2a7fc0"/>
+      <circle cx="118" cy="132" r="7" fill="#e0a032"/><circle cx="155" cy="133" r="7" fill="#e0a032"/></g>
+    </svg>
+    <div class="cap"><b>دقت کن دگره‌ی قرمز کاملاً ناپدید شد</b> — نه به این دلیل که بد بود، فقط به این دلیل که حاملانش تصادفاً جان سالم به در نبردند. جمعیت آینده فقط از دگره‌های برجای‌مانده ساخته می‌شود. این تفاوت بنیادی رانش با انتخاب طبیعی است.</div>
+  </div>
+
+  <div class="n trap"><span class="tag">⚠️ دام شماره ۶ — تفکیک رانش از انتخاب طبیعی</span>
+    <p>کتاب صریح می‌گوید: <b>رانش دگره‌ای گرچه فراوانی دگره‌ها را تغییر می‌دهد، اما برخلاف انتخاب طبیعی به سازش نمی‌انجامد.</b> یعنی تغییر در فراوانی <b>ارتباطی با سازگاری با محیط</b> ندارد. رانش کور است؛ انتخاب طبیعی جهت‌دار.</p></div>
+
+  <p>دو نکته‌ی دیگر که کتاب درباره‌ی رانش می‌گوید:</p>
+  <ul class="b">
+    <li><strong>هرچه اندازه‌ی جمعیت کوچک‌تر باشد، رانش دگره‌ای اثر بیشتری دارد.</strong></li>
+    <li>به همین علت، برای آنکه جمعیتی در تعادل باشد باید <strong>اندازه‌ی بزرگی</strong> داشته باشد. (منظور از اندازه‌ی جمعیت، <strong>تعداد افراد</strong> آن است.)</li>
+  </ul>
+
+  <h4>پ) شارش ژن</h4>
+  <p>وقتی افرادی از یک جمعیت به جمعیت دیگری <strong>مهاجرت</strong> می‌کنند، تعدادی از دگره‌های جمعیت مبدأ را وارد جمعیت مقصد می‌کنند و <strong>فراوانی نسبی دگره‌های هر دو جمعیت</strong> تغییر می‌کند.</p>
+  <div class="n mem"><span class="tag">🧠 نتیجه‌ی مهم</span>
+    <p>اگر شارش ژن بین دو جمعیت <b>به‌طور پیوسته و دوسویه</b> ادامه یابد، سرانجام <b>خزانه‌ی ژن دو جمعیت به هم شبیه می‌شود</b>. این جمله بعداً در بحث گونه‌زایی حیاتی می‌شود: قطعِ شارش ژن، پیش‌شرط جدا شدن دو گونه است.</p></div>
+
+  <h4>ت) آمیزش غیرتصادفی</h4>
+  <p><strong>آمیزش تصادفی</strong> یعنی احتمال آمیزش هر فرد با افراد جنس دیگرِ آن جمعیت <em>یکسان</em> باشد. اگر آمیزش‌ها به <strong>رخ‌نمود یا ژن‌نمود</strong> بستگی داشته باشد، دیگر تصادفی نیست.</p>
+  <div class="n trap"><span class="tag">⚠️ دام شماره ۷ — ظریف و پرتکرار</span>
+    <p>کتاب می‌گوید آمیزش غیرتصادفی <b>فراوانی نسبی ژن‌نمودها</b> را تغییر می‌دهد. دقت کن: <b>ژن‌نمود</b>، نه دگره. (در مقابل، انتخاب طبیعی فراوانی <b>دگره‌ها</b> را در خزانه‌ی ژنی تغییر می‌دهد.) این تفکیک، یکی از دقیق‌ترین سؤال‌های ممکن از این فصل است.</p></div>
+  <p>مثال کتاب: جانوران جفت خود را بر اساس <strong>ویژگی‌های ظاهری و رفتاری</strong> «انتخاب» می‌کنند (ارجاع به فصل ۸).</p>
+
+  <h4>ث) انتخاب طبیعی</h4>
+  <p>انتخاب طبیعی <strong>فراوانی دگره‌ها را در خزانه‌ی ژنی تغییر می‌دهد</strong>: افراد سازگارتر با محیط را برمی‌گزیند و از فراوانی دیگر افراد می‌کاهد. به این ترتیب <strong>خزانه‌ی ژن نسل آینده دستخوش تغییر می‌شود</strong>.</p>
+
+  <div class="scroller"><table class="t">
+    <tr><th>عامل</th><th>ماهیت</th><th>چه چیزی را تغییر می‌دهد</th><th>به سازش می‌انجامد؟</th></tr>
+    <tr><td>جهش</td><td>ایجاد دگره‌ی نو</td><td>فراوانی نسبی دگره‌ها</td><td>نه مستقیماً — ماده‌ی خام می‌سازد</td></tr>
+    <tr><td>رانش دگره‌ای</td><td>تصادفی</td><td>فراوانی دگره‌ها</td><td><b>خیر</b></td></tr>
+    <tr><td>شارش ژن</td><td>مهاجرت</td><td>فراوانی دگره‌های <b>هر دو</b> جمعیت</td><td>خیر</td></tr>
+    <tr><td>آمیزش غیرتصادفی</td><td>انتخاب جفت</td><td>فراوانی نسبی <b>ژن‌نمودها</b></td><td>خیر</td></tr>
+    <tr><td>انتخاب طبیعی</td><td>غربال محیطی</td><td>فراوانی <b>دگره‌ها</b> در خزانه ژنی</td><td><b>بله</b></td></tr>
+  </table></div>
+
+  <details class="q"><summary>در جزیره‌ای کوچک، دگره‌ای که هیچ مزیتی ندارد به فراوانی بالایی رسیده. محتمل‌ترین علت؟</summary>
+    <div class="a"><b>رانش دگره‌ای.</b> دو نشانه هست: (۱) دگره هیچ مزیت سازگارانه‌ای ندارد، پس انتخاب طبیعی توضیح‌دهنده نیست؛ (۲) جمعیت <b>کوچک</b> است و کتاب می‌گوید هرچه جمعیت کوچک‌تر باشد اثر رانش بیشتر است.</div></details>
+
+  <details class="q"><summary>کدام عامل می‌تواند دو جمعیت را به هم شبیه‌تر کند، نه متفاوت‌تر؟</summary>
+    <div class="a"><b>شارش ژن</b> — به‌شرط اینکه پیوسته و دوسویه باشد. بقیه‌ی عوامل معمولاً جمعیت‌ها را از هم دور می‌کنند، ولی شارش ژن دگره‌ها را بین دو خزانه رد و بدل می‌کند تا سرانجام شبیه شوند.</div></details>
+
+  <details class="q"><summary>چرا جهشی که «تأثیر فوری بر رخ‌نمود ندارد» باز هم مهم است؟</summary>
+    <div class="a">چون دگره‌ی جدید در خزانه‌ی ژن <b>ذخیره</b> می‌شود. کتاب می‌گوید با تغییر شرایط محیط، ممکن است همان دگره سازگارتر از دگره‌های قبلی عمل کند. یعنی گوناگونیِ امروز، بیمه‌نامه‌ی فردای جمعیت است.</div></details>
+</section>
+
+<section class="chunk" data-id="B4">
+  <h3><span class="no">ب‑۴</span>چگونه گوناگونی حفظ می‌شود؟ (شکل ۸ و ۹ + مالاریا)</h3>
+  <div class="where">📍 <b>کجای داستانم:</b> پایان پله ۲ — یک پارادوکس و سه راه‌حلش</div>
+
+  <div class="n mem"><span class="tag">🧠 اول پارادوکس را بفهم، بعد راه‌حل‌ها</span>
+    <p>نتیجه‌ی انتخاب طبیعی، سازگاری بیشتر جمعیت با محیط است. اما با انتخاب‌شدنِ افراد سازگارتر، <b>تفاوت‌های فردی و در نتیجه گوناگونی کاهش می‌یابد</b>. از طرف دیگر، همان گوناگونی است که توان بقای جمعیت را در شرایط محیطی جدید بالا می‌برد.</p>
+    <p>پس: <b>انتخاب طبیعی همان چیزی را مصرف می‌کند که جمعیت برای بقای آینده لازم دارد.</b> این پارادوکس است؛ سه سازوکار زیر پاسخِ آن‌اند.</p></div>
+
+  <h4>الف) گوناگونی دگره‌ای در گامت‌ها (شکل ۸)</h4>
+  <p>در تولیدمثل جنسی، هر والد از طریق گامت‌هایش <strong>نیمی از فامتن‌های خود</strong> را به نسل بعد منتقل می‌کند. اینکه هر گامت کدام فامتن‌ها را منتقل کند، به <strong>آرایش چهارتایه‌ها (تترادها) در کاستمان ۱</strong> بستگی دارد.</p>
+  <p>در <strong>متافاز کاستمان ۱</strong>، فامتن‌ها با آرایش‌های مختلفی ممکن است در سطح میانی یاخته قرار گیرند و همین به ایجاد گامت‌های مختلف می‌انجامد.</p>
+
+  <div class="fig">
+    <div class="ft">شکل ۸ — نحوه‌ی توزیع فامتن‌ها طی کاستمان</div>
+    <svg viewBox="0 0 660 230" role="img" aria-label="دو آرایش متافاز یک و چهار نوع گامت">
+      <text x="500" y="22" text-anchor="middle" font-family="Vazirmatn" font-size="13.5" font-weight="700" fill="var(--tealink)">حالت اول آرایش</text>
+      <rect x="455" y="34" width="90" height="46" rx="8" fill="var(--tealbg)" stroke="var(--teal)"/>
+      <rect x="472" y="42" width="7" height="30" rx="3" fill="#2a7fc0"/><rect x="482" y="42" width="7" height="30" rx="3" fill="#2a7fc0"/>
+      <rect x="508" y="42" width="7" height="30" rx="3" fill="#c0392b"/><rect x="518" y="42" width="7" height="30" rx="3" fill="#c0392b"/>
+      <line x1="500" y1="82" x2="470" y2="112" stroke="var(--faint)" stroke-width="1.5"/>
+      <line x1="500" y1="82" x2="545" y2="112" stroke="var(--faint)" stroke-width="1.5"/>
+      <rect x="440" y="116" width="58" height="40" rx="7" fill="var(--card)" stroke="var(--line)"/>
+      <rect x="460" y="124" width="7" height="24" rx="3" fill="#2a7fc0"/><rect x="472" y="124" width="7" height="24" rx="3" fill="#c0392b"/>
+      <rect x="516" y="116" width="58" height="40" rx="7" fill="var(--card)" stroke="var(--line)"/>
+      <rect x="536" y="124" width="7" height="24" rx="3" fill="#2a7fc0"/><rect x="548" y="124" width="7" height="24" rx="3" fill="#c0392b"/>
+      <text x="469" y="176" text-anchor="middle" font-family="Vazirmatn" font-size="12" fill="var(--faint)">ترکیب ۱</text>
+      <text x="545" y="176" text-anchor="middle" font-family="Vazirmatn" font-size="12" fill="var(--faint)">ترکیب ۲</text>
+
+      <text x="180" y="22" text-anchor="middle" font-family="Vazirmatn" font-size="13.5" font-weight="700" fill="var(--violetink)">حالت دوم آرایش</text>
+      <rect x="135" y="34" width="90" height="46" rx="8" fill="var(--violetbg)" stroke="var(--violet)"/>
+      <rect x="152" y="42" width="7" height="30" rx="3" fill="#2a7fc0"/><rect x="162" y="42" width="7" height="30" rx="3" fill="#c0392b"/>
+      <rect x="188" y="42" width="7" height="30" rx="3" fill="#c0392b"/><rect x="198" y="42" width="7" height="30" rx="3" fill="#2a7fc0"/>
+      <line x1="180" y1="82" x2="150" y2="112" stroke="var(--faint)" stroke-width="1.5"/>
+      <line x1="180" y1="82" x2="225" y2="112" stroke="var(--faint)" stroke-width="1.5"/>
+      <rect x="120" y="116" width="58" height="40" rx="7" fill="var(--card)" stroke="var(--line)"/>
+      <rect x="140" y="124" width="7" height="24" rx="3" fill="#2a7fc0"/><rect x="152" y="124" width="7" height="24" rx="3" fill="#2a7fc0"/>
+      <rect x="196" y="116" width="58" height="40" rx="7" fill="var(--card)" stroke="var(--line)"/>
+      <rect x="216" y="124" width="7" height="24" rx="3" fill="#c0392b"/><rect x="228" y="124" width="7" height="24" rx="3" fill="#c0392b"/>
+      <text x="149" y="176" text-anchor="middle" font-family="Vazirmatn" font-size="12" fill="var(--faint)">ترکیب ۳</text>
+      <text x="225" y="176" text-anchor="middle" font-family="Vazirmatn" font-size="12" fill="var(--faint)">ترکیب ۴</text>
+
+      <text x="330" y="212" text-anchor="middle" font-family="Vazirmatn" font-size="13" fill="var(--soft)">۲ جفت فامتن ← ۲² = ۴ نوع گامت متفاوت</text>
+    </svg>
+    <div class="cap"><b>قاعده‌ی محاسباتی:</b> اگر جانداری <b>n جفت</b> فامتن همتا داشته باشد، فقط از راه همین آرایش‌های متافاز ۱، <b>۲ⁿ</b> نوع گامت متفاوت ممکن است. برای انسان با ۲۳ جفت، این عدد ۲²³ یعنی بیش از ۸ میلیون است — و این هنوز بدون احتساب چلیپایی‌شدن است.</div>
+  </div>
+
+  <h4>ب) نوترکیبی (شکل ۹)</h4>
+  <p>در <strong>کاستمان ۱</strong>، هنگام جفت‌شدن فامتن‌های همتا و ایجاد چهارتایه، ممکن است قطعه‌ای از فامتن بین <strong>فامینک‌های غیرخواهری</strong> مبادله شود. این پدیده را <strong>چلیپایی‌شدن (کراسینگ‌اور)</strong> می‌گویند.</p>
+  <ul class="b">
+    <li>اگر قطعات مبادله‌شده حاوی <strong>دگره‌های متفاوتی</strong> باشند، ترکیب جدیدی از دگره‌ها در آن دو فامینک به‌وجود می‌آید ← <strong>فامینک‌های نوترکیب</strong>.</li>
+    <li>گامت‌هایی که فامینک‌های نوترکیب را دریافت می‌کنند ← <strong>گامت نوترکیب</strong>.</li>
+  </ul>
+
+  <div class="fig">
+    <div class="ft">شکل ۹ — نوترکیبی بر اثر چلیپایی‌شدن</div>
+    <svg viewBox="0 0 660 200" role="img" aria-label="کراسینگ اور و گامت نوترکیب">
+      <text x="560" y="24" text-anchor="middle" font-family="Vazirmatn" font-size="13" font-weight="700" fill="var(--soft)">چهارتایه</text>
+      <rect x="470" y="40" width="180" height="9" rx="4" fill="#2a7fc0"/>
+      <rect x="470" y="56" width="180" height="9" rx="4" fill="#2a7fc0"/>
+      <rect x="470" y="76" width="180" height="9" rx="4" fill="#c0392b"/>
+      <rect x="470" y="92" width="180" height="9" rx="4" fill="#c0392b"/>
+      <text x="560" y="126" text-anchor="middle" font-family="Vazirmatn" font-size="12" fill="var(--faint)">دو فامتن همتا،</text>
+      <text x="560" y="144" text-anchor="middle" font-family="Vazirmatn" font-size="12" fill="var(--faint)">هرکدام دو فامینک</text>
+
+      <path d="M455 70 L410 70" stroke="var(--faint)" stroke-width="2" fill="none" marker-end="url(#ar9)"/>
+      <defs><marker id="ar9" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round"/></marker></defs>
+      <text x="432" y="58" text-anchor="middle" font-family="Vazirmatn" font-size="11" fill="var(--faint)">چلیپایی</text>
+
+      <rect x="225" y="40" width="180" height="9" rx="4" fill="#2a7fc0"/>
+      <rect x="225" y="56" width="120" height="9" rx="4" fill="#2a7fc0"/>
+      <rect x="345" y="56" width="60" height="9" rx="4" fill="#c0392b"/>
+      <rect x="225" y="76" width="120" height="9" rx="4" fill="#c0392b"/>
+      <rect x="345" y="76" width="60" height="9" rx="4" fill="#2a7fc0"/>
+      <rect x="225" y="92" width="180" height="9" rx="4" fill="#c0392b"/>
+      <text x="315" y="126" text-anchor="middle" font-family="Vazirmatn" font-size="12" fill="var(--faint)">قطعه بین فامینک‌های</text>
+      <text x="315" y="144" text-anchor="middle" font-family="Vazirmatn" font-size="12" fill="var(--faint)">غیرخواهری مبادله شد</text>
+
+      <rect x="20" y="34" width="175" height="30" rx="7" fill="var(--tealbg)" stroke="var(--teal)"/>
+      <text x="107" y="54" text-anchor="middle" font-family="Vazirmatn" font-size="12.5" font-weight="700" fill="var(--tealink)">۲ گامت از نوع والدین</text>
+      <rect x="20" y="72" width="175" height="30" rx="7" fill="var(--coralbg)" stroke="var(--coral)"/>
+      <text x="107" y="92" text-anchor="middle" font-family="Vazirmatn" font-size="12.5" font-weight="700" fill="var(--coralink)">۲ گامت نوترکیب</text>
+      <text x="107" y="132" text-anchor="middle" font-family="Vazirmatn" font-size="12" fill="var(--faint)">از یک چهارتایه:</text>
+      <text x="107" y="150" text-anchor="middle" font-family="Vazirmatn" font-size="12" fill="var(--faint)">۲ والدی + ۲ نوترکیب</text>
+    </svg>
+    <div class="cap"><b>عدد کلیدی:</b> از یک چهارتایه که در آن یک چلیپایی‌شدن رخ داده، <b>دو</b> فامینک دست‌نخورده (والدی) و <b>دو</b> فامینک نوترکیب حاصل می‌شود. چون چلیپایی‌شدن بین فامینک‌های <b>غیرخواهری</b> رخ می‌دهد، دو فامینک دیگر بی‌تأثیر می‌مانند.</div>
+  </div>
+
+  <div class="n trap"><span class="tag">⚠️ دام شماره ۸</span>
+    <p>چلیپایی‌شدن بین <b>فامینک‌های غیرخواهری</b> رخ می‌دهد، نه خواهری. مبادله بین فامینک‌های خواهری هیچ نوترکیبی‌ای ایجاد نمی‌کند، چون آن‌ها نسخه‌های یکسان‌اند و دگره‌های متفاوتی ندارند.</p></div>
+
+  <h4>پ) اهمیت ناخالص‌ها — داستان مالاریا</h4>
+  <p>این بخش یکی از زیباترین بخش‌های کل کتاب است. سه ژن‌نمود را بشناس:</p>
+  <div class="scroller"><table class="t">
+    <tr><th>ژن‌نمود</th><th>وضعیت گویچه</th><th>مالاریا</th><th>سرنوشت در منطقه‌ی مالاریاخیز</th></tr>
+    <tr><td>Hb<sup>A</sup>Hb<sup>A</sup></td><td>سالم</td><td><b>در معرض خطر ابتلا</b></td><td>ممکن است از مالاریا بمیرد</td></tr>
+    <tr><td>Hb<sup>A</sup>Hb<sup>S</sup> (ناخالص)</td><td>فقط در اکسیژن کمِ محیط داسی می‌شود</td><td><b>مقاوم</b></td><td>بهترین وضع — زنده می‌ماند</td></tr>
+    <tr><td>Hb<sup>S</sup>Hb<sup>S</sup></td><td>داسی‌شکل</td><td>—</td><td>در سنین پایین معمولاً می‌میرد</td></tr>
+  </table></div>
+  <p>ژن‌شناسان با مطالعه‌ی توزیع این بیماری در جهان دریافتند فراوانی دگره‌ی Hb<sup>S</sup> در <strong>مناطقی که مالاریا شایع است بسیار بیشتر</strong> از سایر مناطق است. مالاریا را نوعی <strong>انگل تک‌یاخته‌ای</strong> ایجاد می‌کند که بخشی از چرخه‌ی زندگی‌اش را در گویچه‌های قرمز می‌گذراند.</p>
+
+  <div class="n mem"><span class="tag">🧠 جمله‌ای که کل بخش را جمع می‌کند</span>
+    <p>وجود دگره‌ی Hb<sup>S</sup> در منطقه‌ی مالاریاخیز <b>باعث بقای جمعیت می‌شود</b>؛ حال آنکه همین دگره در سایر مناطق، دگره‌ی مناسبی نیست. پس: <b>شرایط محیط، تعیین‌کننده‌ی صفتی است که حفظ می‌شود.</b> این دقیقاً همان درسِ «صفت سازگارتر، نه صفت بهتر» است — حالا در سطح مولکولی.</p></div>
+
+  <div class="n plus"><span class="tag">➕ چرا این «حفظ گوناگونی» است؟ (توضیح تکمیلی)</span>
+    <p>چون انتخاب طبیعی معمولاً یک دگره را حذف می‌کند، اما اینجا <b>هر دو دگره</b> در خزانه‌ی ژن باقی می‌مانند: افراد ناخالص بهترین شانس بقا را دارند، پس هم Hb<sup>A</sup> و هم Hb<sup>S</sup> نسل‌به‌نسل منتقل می‌شوند. به همین دلیل کتاب این را زیر عنوان «تداوم گوناگونی» آورده است، نه زیر «انتخاب طبیعی».</p></div>
+
+  <div class="n book"><span class="tag">📕 بیشتر بدانید (ص ۶۲) — تاریخچه‌ی فرضیه‌ها، درسی درباره‌ی ماهیت علم</span>
+    <p>کتاب نشان می‌دهد چطور یک پرسش علمی طی دهه‌ها پالوده می‌شود:</p>
+    <p>• <b>دهه ۱۹۵۰:</b> مقاومت افراد ناخالص به مالاریا مشخص شد.<br>
+    • <b>دهه ۱۹۷۰:</b> دیدند سرعت داسی‌شدن گویچه‌ها پس از ورود انگل <b>۲ تا ۸ برابر</b> افزایش می‌یابد ← فرضیه: داسی‌شدن به افزایش <b>بیگانه‌خواری</b> و از بین رفتن انگل می‌انجامد.<br>
+    • فرضیه‌ی بعدی: با داسی‌شدن، <b>منافذی در غشا</b> ایجاد می‌شود ← خروج مواد مغذی ← کمبود غذای انگل ← رشدش کُند یا متوقف می‌شود.<br>
+    • <b>اما ایراد:</b> بررسی‌های بیشتر نشان داد کندی رشد انگل در <b>همه‌ی</b> گویچه‌های قرمز افراد ناخالص رخ می‌دهد و منحصر به گویچه‌های داسی‌شکل نیست.<br>
+    • <b>دهه ۲۰۱۰ (فرضیه ۱):</b> گویچه‌ی قرمز در افراد ناخالص <b>رناهای کوچکی</b> می‌سازد که به رنای انگل متصل می‌شوند و مانع ترجمه‌ی آن می‌گردند ← اختلال در رشد انگل.<br>
+    • <b>دهه ۲۰۱۰ (فرضیه ۲):</b> در افراد سالم، انگل پروتئینی می‌سازد که در غشای گویچه قرار می‌گیرد و باعث <b>چسبیدن گویچه‌ها به هم و به دیواره‌ی رگ</b> می‌شود (آسیب بافتی و التهاب گسترده). در افراد ناخالص، واکنش اکسیژن با هموگلوبین جهش‌یافته ماده‌ای تولید می‌کند که تلاش انگل برای فرستادن آن پروتئین به سطح یاخته را <b>بی‌ثمر</b> می‌سازد ← گویچه‌ها چسبنده نمی‌شوند و بیمار جان سالم به در می‌برد.</p>
+    <p>و جمع‌بندی خودِ کتاب: شواهد جدید ممکن است فرضیه‌های قبلی را تضعیف یا تقویت کند. <b>این ماهیت علم و نشانی از پویا بودن آن است.</b></p></div>
+
+  <details class="q"><summary>چرا در مناطق غیرمالاریایی فراوانی Hb<sup>S</sup> پایین است؟</summary>
+    <div class="a">چون آنجا مزیتی ندارد. بدون فشار مالاریا، Hb<sup>A</sup>Hb<sup>A</sup> هیچ عیبی ندارد، در حالی که Hb<sup>S</sup>Hb<sup>S</sup> در سنین پایین می‌میرد. پس انتخاب طبیعی فراوانی Hb<sup>S</sup> را پایین می‌آورد. همان دگره، در دو محیط، دو سرنوشت — این جانِ مفهوم «سازگاری» است.</div></details>
+
+  <details class="q"><summary>اگر انتخاب طبیعی گوناگونی را کم می‌کند، چرا جمعیت‌ها همچنان متنوع‌اند؟</summary>
+    <div class="a">به‌خاطر سه سازوکار همین بخش: (۱) <b>آرایش تصادفی فامتن‌ها</b> در متافاز کاستمان ۱ که ۲ⁿ نوع گامت می‌سازد، (۲) <b>چلیپایی‌شدن</b> که ترکیب‌های تازه‌ی دگره‌ای می‌سازد، (۳) <b>مزیت ناخالص‌ها</b> که هر دو دگره را در خزانه نگه می‌دارد. به این‌ها جهش را هم اضافه کن که پیوسته دگره‌ی نو تزریق می‌کند.</div></details>
+</section>
+
+<section class="part C" id="partC">
+  <div class="pl">پله ۳ — مقیاس گونه</div>
+  <h2>تولد گونه‌ی تازه</h2>
+  <p class="pd">تا اینجا دیدیم جمعیت‌ها تغییر می‌کنند. حالا پرسش نهایی: این تغییرها کِی آن‌قدر زیاد می‌شوند که یک <b>گونه‌ی جدید</b> پدید آید؟ اول شواهد، بعد تعریف، بعد سازوکار.</p>
+</section>
+
+<section class="chunk" data-id="C1">
+  <h3><span class="no">ج‑۱</span>شاهد اول: سنگواره‌ها (شکل ۱۰)</h3>
+  <div class="where">📍 <b>کجای داستانم:</b> ابتدای پله ۳ — از کجا می‌دانیم گونه‌ها اصلاً تغییر کرده‌اند؟</div>
+
+  <p><strong>سنگواره (فسیل) = بازمانده یا اثری از جانداران گذشته.</strong></p>
+  <ul class="b">
+    <li>معمولاً <strong>قسمت‌های سخت</strong> جاندار (استخوان، دندان، صدف) به‌صورت سنگواره باقی می‌ماند.</li>
+    <li>اما گاهی <strong>کل جاندار</strong> حفظ می‌شود: مانند <strong>ماموت‌های منجمد در یخ</strong> یا <strong>حشرات محبوس در رزین درختان</strong>.</li>
+    <li><strong>دیرینه‌شناسان</strong> با بررسی سنگواره‌ها اطلاعاتی درباره‌ی جانداران گذشته به‌دست می‌آورند.</li>
+    <li>روش‌هایی برای <strong>تعیین عمر سنگواره</strong> وجود دارد.</li>
+  </ul>
+
+  <div class="n mem"><span class="tag">🧠 استدلال سنگواره‌ای در دو جهت</span>
+    <p>کتاب دو نوع شاهد کنار هم می‌گذارد که با هم یک قیچی می‌سازند:</p>
+    <p>۱. جاندارانی که <b>در گذشته بوده‌اند و امروز نیستند</b> ← مانند دایناسورها.<br>
+    ۲. جاندارانی که <b>امروز هستند و در گذشته نبوده‌اند</b> ← مانند گل لاله و گربه.</p>
+    <p>نتیجه: مجموعه‌ی گونه‌های روی زمین ثابت نبوده است.</p></div>
+
+  <div class="n ex"><span class="tag">🔬 مثال مشخص کتاب — شکل ۱۰</span>
+    <p><b>سنگواره‌ی درخت گیسو</b> با قدمت حدود <b>۱۷۰ میلیون سال</b>. اهمیتش این است که نشان می‌دهد این گیاه از دوران دایناسورها تا امروز دوام آورده؛ یعنی سنگواره‌ها هم <b>تغییر</b> را ثبت می‌کنند و هم <b>تداوم</b> را.</p></div>
+
+  <details class="q"><summary>چرا بیشتر سنگواره‌ها فقط از بخش‌های سخت‌اند؟</summary>
+    <div class="a">چون بافت‌های نرم به‌سرعت توسط تجزیه‌کننده‌ها تجزیه می‌شوند و فرصت سنگواره‌شدن پیدا نمی‌کنند، در حالی که استخوان و دندان و صدف مقاوم‌اند. استثناها همان‌هایی‌اند که کتاب نام می‌برد: شرایط ویژه‌ای مثل <b>انجماد</b> (ماموت) یا <b>محبوس‌شدن در رزین</b> (حشره) که تجزیه را متوقف می‌کند.</div></details>
+</section>
+
+<section class="chunk" data-id="C2">
+  <h3><span class="no">ج‑۲</span>شاهد دوم: تشریح مقایسه‌ای (شکل ۱۱ و ۱۲)</h3>
+  <div class="where">📍 <b>کجای داستانم:</b> پله ۳ — شاهد دوم، و پرترین بخش از نظر اصطلاحات فنی</div>
+
+  <p>کتاب با یک مشاهده شروع می‌کند: <strong>اندام حرکتی جلویی مهره‌داران</strong> را با هم مقایسه کنید. دست انسان، بال پرنده، باله‌ی دلفین و دست گربه <strong>کار متفاوتی</strong> انجام می‌دهند، اما ساختار استخوانی‌شان <strong>طرح یکسانی</strong> دارد.</p>
+
+  <div class="scroller"><table class="t">
+    <tr><th>اصطلاح</th><th>تعریف</th><th>مثال کتاب</th><th>معنای تکاملی</th></tr>
+    <tr><td>ساختار همتا</td><td><b>طرح ساختاری یکسان</b>، کار متفاوت</td><td>دست انسان، بال پرنده، باله دلفین، دست گربه</td><td>نشانه‌ی <b>نیای مشترک</b></td></tr>
+    <tr><td>ساختار آنالوگ</td><td><b>کار یکسان</b>، طرح ساختاری متفاوت</td><td>بال کبوتر و بال پروانه</td><td>نشانه‌ی خویشاوندی <b>نیست</b></td></tr>
+    <tr><td>ساختار وستیجیال</td><td>ساختاری که کارایی خود را از دست داده — «ردپا»</td><td>بقایای استخوان پا در لگن مار پیتون</td><td>یادگار نیای دارای اندام</td></tr>
+  </table></div>
+
+  <div class="n mem"><span class="tag">🧠 روش تشخیص در یک ثانیه</span>
+    <p>فقط یک سؤال بپرس: <b>«شبیه‌اند یا کارشان شبیه است؟»</b></p>
+    <p>• اگر <b>ساختمانشان</b> شبیه است ولی کارشان فرق دارد ← <b>همتا</b> ← خویشاوندند.<br>
+    • اگر <b>کارشان</b> شبیه است ولی ساختمانشان فرق دارد ← <b>آنالوگ</b> ← خویشاوند نیستند.</p>
+    <p>یادیار: هم‌<b>تا</b> = هم‌<b>ساخت</b>. آنالوگ = هم‌<b>کار</b>.</p></div>
+
+  <div class="n ex"><span class="tag">🔬 شکل ۱۱ — نتیجه‌ی شگفت‌انگیز</span>
+    <p>کتاب کوسه، دلفین و شیرکوهی را مقایسه می‌کند. دلفین و کوسه هر دو در آب زندگی می‌کنند و شکل بدنشان شبیه است، اما بررسی ساختار نشان می‌دهد <b>دلفین با شیرکوهی خویشاوندی نزدیک‌تری دارد تا با کوسه</b>. شباهت ظاهری دلفین و کوسه از نوع <b>آنالوگ</b> است (نتیجه‌ی زندگی در محیط مشابه)، نه نشانه‌ی خویشاوندی.</p></div>
+
+  <div class="fig">
+    <div class="ft">شکل ۱۲ — ساختار وستیجیال در مار پیتون</div>
+    <svg viewBox="0 0 660 170" role="img" aria-label="بقایای استخوان لگن و پا در مار پیتون">
+      <path d="M620 60 q-90 -22 -170 8 q-90 30 -180 6 q-80 -22 -150 14" stroke="var(--amber)" stroke-width="17" fill="none" stroke-linecap="round"/>
+      <path d="M620 60 q-90 -22 -170 8 q-90 30 -180 6 q-80 -22 -150 14" stroke="var(--amberink)" stroke-width="2" fill="none" opacity=".25"/>
+      <circle cx="614" cy="56" r="4" fill="#2b2b2b"/>
+      <ellipse cx="300" cy="88" rx="15" ry="7" fill="var(--coralbg)" stroke="var(--coral)" stroke-width="2"/>
+      <line x1="300" y1="95" x2="296" y2="112" stroke="var(--coral)" stroke-width="3" stroke-linecap="round"/>
+      <line x1="252" y1="84" x2="252" y2="128" stroke="var(--faint)" stroke-width="1" stroke-dasharray="3 3"/>
+      <text x="246" y="146" text-anchor="end" font-family="Vazirmatn" font-size="12.5" fill="var(--coralink)">بقایای استخوان لگن و پا</text>
+      <text x="330" y="26" text-anchor="middle" font-family="Vazirmatn" font-size="13.5" font-weight="700" fill="var(--soft)">مار پیتون</text>
+    </svg>
+    <div class="cap"><b>استدلال کتاب:</b> مارها پا ندارند، ولی در پیتون بقایای استخوان‌های پا در ناحیه‌ی لگن باقی مانده است. این یعنی <b>مارها از نیایی دارای اندام حرکتی (سوسمارها) پدید آمده‌اند</b>. اندامی که دیگر کار نمی‌کند، فقط با فرض یک گذشته‌ی متفاوت معنا پیدا می‌کند.</div>
+  </div>
+
+  <p>کتاب اضافه می‌کند: به گونه‌هایی که <strong>نیای مشترک نزدیک</strong> دارند، گونه‌های <em>خویشاوند</em> می‌گویند و <strong>رده‌بندی جانداران</strong> بر همین اساس انجام می‌شود.</p>
+
+  <div class="n book"><span class="tag">📕 بیشتر بدانید — نام استخوان‌ها</span>
+    <p>در اندام حرکتی جلویی مهره‌داران، همین توالی استخوانی تکرار می‌شود: <b>استخوان بازو، زند زبرین، زند زیرین، استخوان‌های مچ، کف دست و انگشتان</b>. کتاب این طرح مشترک را در <b>لاک‌پشت، دلفین، اسب، پرنده و خفاش</b> نشان می‌دهد — با اینکه کارشان شنا، دویدن و پرواز است.</p></div>
+
+  <details class="q"><summary>بال خفاش و بال پرنده: همتا یا آنالوگ؟</summary>
+    <div class="a">هر دو! از نظر <b>کارکرد پرواز</b> می‌توان آن‌ها را آنالوگ دانست، اما چون هر دو مهره‌دارند و از همان طرح استخوانی مشترک (بازو، زند زبرین، زند زیرین، مچ، انگشتان) ساخته شده‌اند، اندامشان <b>همتا</b>ست. مقایسه‌ی درست برای «آنالوگ محض» همان مثال کتاب است: <b>بال کبوتر و بال پروانه</b> — چون پروانه اصلاً مهره‌دار نیست و بالش ساختار کاملاً متفاوتی دارد.</div></details>
+
+  <details class="q"><summary>چرا وجود ساختار وستیجیال شاهد قوی‌تری از شباهت ظاهری است؟</summary>
+    <div class="a">چون شباهت ظاهری می‌تواند نتیجه‌ی <b>محیط مشابه</b> باشد (مثل دلفین و کوسه) و گمراه‌کننده است. اما ساختاری که <b>هیچ کاری نمی‌کند</b> هیچ توجیه کارکردی ندارد؛ تنها توضیح معقولش این است که یادگارِ نیایی است که از آن استفاده می‌کرده.</div></details>
+</section>
+
+<section class="chunk" data-id="C3">
+  <h3><span class="no">ج‑۳</span>شاهد سوم: مطالعات مولکولی</h3>
+  <div class="where">📍 <b>کجای داستانم:</b> پله ۳ — دقیق‌ترین و جدیدترین شاهد</div>
+
+  <p>با پیشرفت روش‌های تعیین توالی، امکان مقایسه‌ی جانداران در <strong>تراز ژنگان</strong> فراهم شد. اصل ساده است:</p>
+  <p style="text-align:center;font-size:18px;font-weight:700;color:var(--tealink)">هرچه توالی دنای دو گونه شبیه‌تر ← خویشاوندی نزدیک‌تر</p>
+
+  <p>یافته‌ی مهم: <strong>توالی‌های حفظ‌شده</strong> — توالی‌هایی که در طول تکامل تقریباً بدون تغییر باقی مانده‌اند و در گونه‌های بسیار متفاوت مشترک‌اند.</p>
+
+  <div class="n plus"><span class="tag">➕ چرا بعضی توالی‌ها حفظ می‌شوند؟ (تکمیل مفهومی)</span>
+    <p>چون کارکردشان آن‌قدر حیاتی است که تقریباً هر جهشی در آن‌ها کشنده است. پس هر فردی که در آن ناحیه جهش پیدا کند حذف می‌شود و آن توالی دست‌نخورده باقی می‌ماند. به بیان دیگر: <b>حفظ‌شدگی یک توالی، نشانه‌ی اهمیت حیاتی آن است</b> — و در عین حال، شاهدی بر نیای مشترک، چون یک توالی یکسان دو بار به‌طور مستقل پدید نمی‌آید.</p></div>
+
+  <div class="n book"><span class="tag">📕 بیشتر بدانید — نگرش چراجویانه</span>
+    <p>کتاب مثال می‌زند که توالی حفظ‌شده‌ای در ژن یک پروتئین باکتریایی وجود دارد، و بعد پرسشی طرح می‌کند که ارزشش بیشتر از پاسخ است: <b>چرا غشای همه‌ی یاخته‌ها از دولایه‌ی فسفولیپیدی ساخته شده است؟</b> پاسخ در چارچوب همین فصل: چون همه از یک نیای مشترک آمده‌اند. کتاب نام این طرز فکر را می‌گذارد <b>نگرش چراجویانه</b>.</p></div>
+
+  <div class="n mem"><span class="tag">🧠 جمع‌بندی سه شاهد</span>
+    <p>سه شاهد، سه زاویه‌ی دید: <b>سنگواره</b> = گذشته (زمان) · <b>تشریح مقایسه‌ای</b> = بدن (ساختار) · <b>مطالعات مولکولی</b> = دنا (اطلاعات). از بیرون به درون حرکت کن تا هیچ‌وقت جا نیفتند.</p></div>
+</section>
+
+<section class="chunk" data-id="C4">
+  <h3><span class="no">ج‑۴</span>گونه چیست و جدایی تولیدمثلی چه می‌کند؟</h3>
+  <div class="where">📍 <b>کجای داستانم:</b> پله ۳ — قبل از سازوکار، باید بدانیم «گونه» یعنی چه</div>
+
+  <div class="n mem"><span class="tag">🧠 تعریف ارنست مایر — کلمه‌به‌کلمه</span>
+    <p>افرادی که در طبیعت می‌توانند <b>با هم آمیزش کنند</b> و زاده‌های <b>زیستا و زایا</b> به‌وجود آورند و <b>نمی‌توانند</b> با افراد دیگر آمیزش موفقیت‌آمیز داشته باشند، به یک <b>گونه</b> تعلق دارند.</p></div>
+
+  <p>دو اصطلاح کلیدی که کتاب تعریف می‌کند:</p>
+  <ul class="b">
+    <li><strong>زیستا</strong> = فردی که زنده می‌ماند و زندگی طبیعی خود را ادامه می‌دهد.</li>
+    <li><strong>زایا</strong> = توانا به تولیدمثل.</li>
+    <li><strong>آمیزش موفقیت‌آمیز</strong> = آمیزشی که به تولید زاده‌ی زیستا و زایا بینجامد.</li>
+  </ul>
+
+  <div class="n trap"><span class="tag">⚠️ دام شماره ۹</span>
+    <p>هر دو شرط لازم است: زاده باید هم <b>زیستا</b> باشد هم <b>زایا</b>. اگر دو جاندار زاده‌ای بدهند که زنده می‌ماند اما <b>نازا</b>ست، آن‌ها <b>یک گونه نیستند</b>. (نمونه‌ی بارز و مرتبط با ادامه‌ی همین فصل: گیاه سه‌لادِ نازا.)</p></div>
+
+  <h4>جدایی تولیدمثلی — کلید همه‌چیز</h4>
+  <p>وقتی افراد یک جمعیت به هر دلیلی نتوانند با هم آمیزش کنند، <strong>جدایی تولیدمثلی</strong> رخ داده است. نتیجه‌اش این است که <strong>خزانه‌های ژنی از هم جدا می‌شوند</strong>، و از آن لحظه به بعد هر خزانه مسیر خودش را می‌رود: جهش‌های متفاوت، رانش متفاوت، انتخاب طبیعی متفاوت.</p>
+
+  <div class="n mem"><span class="tag">🧠 پل زدن به پله‌های قبلی</span>
+    <p>یادت هست در بخش ب‑۳ گفتیم شارش ژن پیوسته باعث می‌شود خزانه‌ی دو جمعیت <b>شبیه</b> بماند؟ جدایی تولیدمثلی دقیقاً همان شارش ژن را <b>قطع</b> می‌کند. پس تمام تفاوت‌هایی که عوامل پله‌ی ۲ می‌سازند، دیگر بین دو جمعیت پخش نمی‌شود و روی هم انباشته می‌شود تا به گونه‌زایی برسد.</p></div>
+</section>
+
+<section class="chunk" data-id="C5">
+  <h3><span class="no">ج‑۵</span>گونه‌زایی دگرمیهنی (شکل ۱۳ ـ الف)</h3>
+  <div class="where">📍 <b>کجای داستانم:</b> پله ۳ — راه اول از دو راهِ تولد گونه</div>
+
+  <p>کتاب دو نوع گونه‌زایی معرفی می‌کند و ملاک تفکیکشان <strong>فقط یک چیز</strong> است: آیا جدایی <em>جغرافیایی</em> در کار بوده یا نه.</p>
+
+  <p><strong>گونه‌زایی دگرمیهنی:</strong> گونه‌زایی که در آن جمعیت‌ها به‌علت <strong>جدایی جغرافیایی</strong> از هم جدا می‌شوند.</p>
+  <ul class="b">
+    <li>عامل جدایی می‌تواند پدیده‌هایی مانند <strong>کوه‌زایی</strong> باشد؛ یا وجود <strong>کوه، دره و دریاچه</strong> بین دو جمعیت.</li>
+    <li>با ایجاد سد جغرافیایی، <strong>شارش ژن قطع می‌شود</strong>.</li>
+    <li>سپس <strong>جهش، نوترکیبی و انتخاب طبیعی</strong> در هر جمعیت مستقل عمل می‌کنند و تفاوت‌ها انباشته می‌شوند.</li>
+    <li>اگر <strong>اندازه‌ی جمعیت جداشده کوچک</strong> باشد، <strong>رانش دگره‌ای</strong> هم نقش مؤثری دارد.</li>
+    <li>سرانجام تفاوت‌ها چنان زیاد می‌شود که حتی اگر سد برداشته شود و دو جمعیت کنار هم قرار گیرند، <strong>دیگر با هم آمیزش نمی‌کنند</strong> — مثلاً ممکن است <strong>زمان تولیدمثلشان</strong> با هم فرق کرده باشد.</li>
+  </ul>
+
+  <div class="n mem"><span class="tag">🧠 ترتیب علّی را مثل یک زنجیر حفظ کن</span>
+    <p>سد جغرافیایی ← قطع شارش ژن ← دو خزانه‌ی مستقل ← انباشت تفاوت (جهش + نوترکیبی + انتخاب طبیعی + احتمالاً رانش) ← جدایی تولیدمثلی ← <b>دو گونه</b></p>
+    <p>توجه: سد جغرافیایی <b>علت مستقیم</b> گونه‌ی جدید نیست؛ فقط شارش ژن را قطع می‌کند. کار اصلی را عوامل پله‌ی ۲ انجام می‌دهند.</p></div>
+
+  <details class="q"><summary>دو جمعیت ۵۰ سال با یک دریاچه جدا بودند، سد برداشته شد و باز هم آمیزش کردند. گونه‌زایی رخ داده؟</summary>
+    <div class="a">خیر. جدایی جغرافیایی <b>شرط لازم</b> بوده اما کافی نیست. تا وقتی <b>جدایی تولیدمثلی</b> ایجاد نشده باشد و بتوانند زاده‌ی زیستا و زایا بدهند، هنوز یک گونه‌اند. گونه‌زایی وقتی کامل است که برگرداندنِ آن‌ها کنار هم هم به آمیزش موفق نینجامد.</div></details>
+</section>
+
+<section class="chunk" data-id="C6">
+  <h3><span class="no">ج‑۶</span>گونه‌زایی هم‌میهنی و چندلادی (شکل ۱۳ـب، ۱۴ و ۱۵)</h3>
+  <div class="where">📍 <b>کجای داستانم:</b> آخرین و پرسؤال‌ترین مفهوم فصل — اینجا آهسته و کامل پیش می‌رویم</div>
+
+  <p><strong>گونه‌زایی هم‌میهنی:</strong> گونه‌زایی که در آن جدایی <em>بدون</em> جدایی جغرافیایی رخ می‌دهد. یعنی افراد در یک منطقه کنار هم‌اند، هیچ کوه و دریاچه‌ای بینشان نیست، و با این حال گونه‌ی جدید متولد می‌شود.</p>
+
+  <div class="fig">
+    <div class="ft">شکل ۱۳ — دو نوع گونه‌زایی در یک نگاه</div>
+    <svg viewBox="0 0 660 250" role="img" aria-label="مقایسه گونه‌زایی دگرمیهنی و هم‌میهنی">
+      <ellipse cx="330" cy="46" rx="120" ry="30" fill="var(--bluebg)" stroke="var(--blue)"/>
+      <ellipse cx="290" cy="42" rx="14" ry="7" fill="#e08a3c"/><ellipse cx="340" cy="52" rx="14" ry="7" fill="#e08a3c"/>
+      <ellipse cx="380" cy="40" rx="14" ry="7" fill="#e08a3c"/>
+      <text x="330" y="88" text-anchor="middle" font-family="Vazirmatn" font-size="12.5" fill="var(--faint)">جمعیت آغازین</text>
+
+      <line x1="250" y1="70" x2="150" y2="118" stroke="var(--faint)" stroke-width="1.5"/>
+      <line x1="410" y1="70" x2="510" y2="118" stroke="var(--faint)" stroke-width="1.5"/>
+
+      <text x="512" y="140" text-anchor="middle" font-family="Vazirmatn" font-size="13.5" font-weight="700" fill="var(--coralink)">الف) دگرمیهنی</text>
+      <ellipse cx="450" cy="186" rx="58" ry="28" fill="var(--coralbg)" stroke="var(--coral)"/>
+      <ellipse cx="435" cy="182" rx="12" ry="6" fill="#e08a3c"/><ellipse cx="468" cy="192" rx="12" ry="6" fill="#e08a3c"/>
+      <rect x="512" y="150" width="7" height="72" rx="3" fill="var(--ink)"/>
+      <ellipse cx="580" cy="186" rx="58" ry="28" fill="var(--tealbg)" stroke="var(--teal)"/>
+      <ellipse cx="565" cy="182" rx="12" ry="6" fill="#4caf50"/><ellipse cx="598" cy="192" rx="12" ry="6" fill="#4caf50"/>
+      <text x="512" y="238" text-anchor="middle" font-family="Vazirmatn" font-size="12" fill="var(--faint)">سد جغرافیایی جمعیت را دو نیم کرد</text>
+
+      <text x="150" y="140" text-anchor="middle" font-family="Vazirmatn" font-size="13.5" font-weight="700" fill="var(--violetink)">ب) هم‌میهنی</text>
+      <ellipse cx="150" cy="186" rx="105" ry="30" fill="var(--violetbg)" stroke="var(--violet)"/>
+      <ellipse cx="105" cy="182" rx="13" ry="6.5" fill="#e08a3c"/><ellipse cx="150" cy="194" rx="13" ry="6.5" fill="#e08a3c"/>
+      <ellipse cx="196" cy="180" rx="13" ry="6.5" fill="#4caf50"/><ellipse cx="128" cy="204" rx="13" ry="6.5" fill="#4caf50"/>
+      <text x="150" y="238" text-anchor="middle" font-family="Vazirmatn" font-size="12" fill="var(--faint)">بدون هیچ سدی، گونه‌ی سبز در همان‌جا پدید آمد</text>
+    </svg>
+    <div class="cap"><b>تنها تفاوت را ببین:</b> در الف یک <b>دیوار</b> وسط تصویر هست، در ب نیست. همه‌ی سؤال‌های تشخیصی این شکل روی همین یک چیز می‌چرخند: «آیا مانع جغرافیایی هست یا نه؟» اگر هست ← دگرمیهنی. اگر نیست ← هم‌میهنی.</div>
+  </div>
+
+  <p>حالا پرسش: بدون سد جغرافیایی، چطور ممکن است دو گروه دیگر با هم آمیزش نکنند؟ کتاب پاسخ را در گیاهان می‌دهد: <strong>چندلادی (پلی‌پلوییدی)</strong>.</p>
+
+  <h4>گام ۱ — چندلاد یعنی چه؟</h4>
+  <p><strong>چندلاد = فردی که بیش از دو دسته فامتن دارد.</strong> یعنی به‌جای ۲n، دارای ۳n یا ۴n و... است.</p>
+  <p>و ویژگی سرنوشت‌سازش طبق کتاب: افراد چندلاد <strong>زیستا و زایا هستند</strong>، ولی <strong>با گونه‌ی نیایی خود زاده‌ی زیستا و زایا به‌وجود نمی‌آورند</strong>. و دقیقاً همین یعنی <em>گونه‌ی جدید</em> — چون طبق تعریف مایر، ناتوانی در آمیزش موفق با گروه دیگر، ملاک گونه‌ی جدا بودن است.</p>
+
+  <div class="n mem"><span class="tag">🧠 چرا هم‌میهنی است؟</span>
+    <p>گیاه چندلاد <b>در همان مزرعه، کنار والدینش</b> به‌وجود می‌آید. هیچ کوه و رودخانه‌ای در کار نیست. جدایی تولیدمثلی <b>از درون</b> و در یک نسل ایجاد می‌شود، نه از بیرون و طی هزاران سال. به همین دلیل نمونه‌ی کلاسیک گونه‌زایی هم‌میهنی است.</p></div>
+
+  <h4>گام ۲ — منشأ: خطای کاستمانی (شکل ۱۴)</h4>
+  <p>چندلادی از <strong>خطا در کاستمان (میوز)</strong> ناشی می‌شود: فامتن‌ها یا فامینک‌ها به‌درستی از هم جدا نمی‌شوند و گامتی با <strong>عدد فامتنی غیرطبیعی</strong> ساخته می‌شود.</p>
+
+  <div class="fig">
+    <div class="ft">شکل ۱۴ — جدا نشدن در تقسیم اول در برابر تقسیم دوم</div>
+    <svg viewBox="0 0 660 300" role="img" aria-label="مقایسه نتیجه جدا نشدن در میوز یک و میوز دو">
+      <rect x="345" y="16" width="300" height="270" rx="12" fill="var(--coralbg)" stroke="var(--coral)"/>
+      <text x="495" y="42" text-anchor="middle" font-family="Vazirmatn" font-size="14" font-weight="700" fill="var(--coralink)">جدا نشدن در تقسیم اول</text>
+      <rect x="455" y="56" width="80" height="34" rx="8" fill="var(--card)" stroke="var(--coral)"/>
+      <text x="495" y="78" text-anchor="middle" font-family="Vazirmatn" font-size="13" fill="var(--ink)">یاخته اولیه</text>
+      <line x1="495" y1="92" x2="425" y2="118" stroke="var(--coral)" stroke-width="1.6"/>
+      <line x1="495" y1="92" x2="565" y2="118" stroke="var(--coral)" stroke-width="1.6"/>
+      <rect x="385" y="120" width="80" height="30" rx="7" fill="var(--card)" stroke="var(--coral)"/>
+      <text x="425" y="140" text-anchor="middle" font-family="Vazirmatn" font-size="12.5" fill="var(--coralink)">همه فامتن‌ها</text>
+      <rect x="525" y="120" width="80" height="30" rx="7" fill="var(--card)" stroke="var(--coral)"/>
+      <text x="565" y="140" text-anchor="middle" font-family="Vazirmatn" font-size="12.5" fill="var(--coralink)">هیچ فامتنی</text>
+      <line x1="425" y1="152" x2="400" y2="180" stroke="var(--coral)" stroke-width="1.4"/>
+      <line x1="425" y1="152" x2="450" y2="180" stroke="var(--coral)" stroke-width="1.4"/>
+      <line x1="565" y1="152" x2="540" y2="180" stroke="var(--coral)" stroke-width="1.4"/>
+      <line x1="565" y1="152" x2="590" y2="180" stroke="var(--coral)" stroke-width="1.4"/>
+      <rect x="368" y="182" width="64" height="28" rx="6" fill="#c0392b"/>
+      <text x="400" y="201" text-anchor="middle" font-family="Vazirmatn" font-size="12" fill="#fff">n+1</text>
+      <rect x="440" y="182" width="64" height="28" rx="6" fill="#c0392b"/>
+      <text x="472" y="201" text-anchor="middle" font-family="Vazirmatn" font-size="12" fill="#fff">n+1</text>
+      <rect x="510" y="182" width="64" height="28" rx="6" fill="#c0392b"/>
+      <text x="542" y="201" text-anchor="middle" font-family="Vazirmatn" font-size="12" fill="#fff">n−1</text>
+      <rect x="580" y="182" width="58" height="28" rx="6" fill="#c0392b"/>
+      <text x="609" y="201" text-anchor="middle" font-family="Vazirmatn" font-size="12" fill="#fff">n−1</text>
+      <text x="495" y="240" text-anchor="middle" font-family="Vazirmatn" font-size="14" font-weight="700" fill="var(--coralink)">۰ گامت سالم — هر ۴ تا غیرطبیعی</text>
+      <text x="495" y="266" text-anchor="middle" font-family="Vazirmatn" font-size="12.5" fill="var(--coralink)">۲ تا (n+1) و ۲ تا (n−1)</text>
+
+      <rect x="15" y="16" width="300" height="270" rx="12" fill="var(--tealbg)" stroke="var(--teal)"/>
+      <text x="165" y="42" text-anchor="middle" font-family="Vazirmatn" font-size="14" font-weight="700" fill="var(--tealink)">جدا نشدن در تقسیم دوم</text>
+      <rect x="125" y="56" width="80" height="34" rx="8" fill="var(--card)" stroke="var(--teal)"/>
+      <text x="165" y="78" text-anchor="middle" font-family="Vazirmatn" font-size="13" fill="var(--ink)">یاخته اولیه</text>
+      <line x1="165" y1="92" x2="95" y2="118" stroke="var(--teal)" stroke-width="1.6"/>
+      <line x1="165" y1="92" x2="235" y2="118" stroke="var(--teal)" stroke-width="1.6"/>
+      <rect x="55" y="120" width="80" height="30" rx="7" fill="var(--card)" stroke="var(--teal)"/>
+      <text x="95" y="140" text-anchor="middle" font-family="Vazirmatn" font-size="12.5" fill="var(--tealink)">طبیعی</text>
+      <rect x="195" y="120" width="80" height="30" rx="7" fill="var(--card)" stroke="var(--teal)"/>
+      <text x="235" y="140" text-anchor="middle" font-family="Vazirmatn" font-size="12.5" fill="var(--tealink)">طبیعی</text>
+      <line x1="95" y1="152" x2="70" y2="180" stroke="var(--teal)" stroke-width="1.4"/>
+      <line x1="95" y1="152" x2="120" y2="180" stroke="var(--teal)" stroke-width="1.4"/>
+      <line x1="235" y1="152" x2="210" y2="180" stroke="var(--teal)" stroke-width="1.4"/>
+      <line x1="235" y1="152" x2="260" y2="180" stroke="var(--teal)" stroke-width="1.4"/>
+      <rect x="38" y="182" width="64" height="28" rx="6" fill="#0e7a6b"/>
+      <text x="70" y="201" text-anchor="middle" font-family="Vazirmatn" font-size="12" fill="#fff">n</text>
+      <rect x="110" y="182" width="64" height="28" rx="6" fill="#0e7a6b"/>
+      <text x="142" y="201" text-anchor="middle" font-family="Vazirmatn" font-size="12" fill="#fff">n</text>
+      <rect x="180" y="182" width="64" height="28" rx="6" fill="#c0392b"/>
+      <text x="212" y="201" text-anchor="middle" font-family="Vazirmatn" font-size="12" fill="#fff">n+1</text>
+      <rect x="250" y="182" width="60" height="28" rx="6" fill="#c0392b"/>
+      <text x="280" y="201" text-anchor="middle" font-family="Vazirmatn" font-size="12" fill="#fff">n−1</text>
+      <text x="165" y="240" text-anchor="middle" font-family="Vazirmatn" font-size="14" font-weight="700" fill="var(--tealink)">۲ گامت سالم + ۲ غیرطبیعی</text>
+      <text x="165" y="266" text-anchor="middle" font-family="Vazirmatn" font-size="12.5" fill="var(--tealink)">۱ تا (n+1) و ۱ تا (n−1)</text>
+    </svg>
+    <div class="cap"><b>چرا این تفاوت منطقی است:</b> در تقسیم <b>اول</b>، خطا در بالادستِ مسیر رخ می‌دهد؛ پس هر دو یاخته‌ی حاصل خراب‌اند و هر چهار گامت نهایی غیرطبیعی می‌شوند. در تقسیم <b>دوم</b>، خطا فقط در <b>یکی</b> از دو یاخته می‌افتد؛ آن یاخته دو گامت خراب می‌دهد و یاخته‌ی سالم دو گامت سالم.</div>
+  </div>
+
+  <div class="n mem"><span class="tag">🧠 قاعده‌ی «۴ و ۲» — همین را حفظ کن، کافی است</span>
+    <p>خطا در تقسیم <b>اول</b> ← <b>۴</b> گامت غیرطبیعی (۰ سالم)<br>
+       خطا در تقسیم <b>دوم</b> ← <b>۲</b> گامت غیرطبیعی (۲ سالم)</p>
+    <p>یادیار: شماره‌ی تقسیم را که دیدی، برعکسش کن. «اول» ← هیچ سالمی. «دوم» ← نصف سالم.</p></div>
+
+  <h4>گام ۳ — از خطای کاستمانی تا گیاه چندلاد (شکل ۱۵)</h4>
+  <p>حالا حالت ویژه: اگر <strong>همه‌ی</strong> فامتن‌ها جدا نشوند، گامتی ساخته می‌شود که به‌جای <em>n</em>، کل <em>2n</em> را دارد — یعنی <strong>گامت بدون کاهش</strong>.</p>
+  <p>کتاب مثال تاریخی می‌آورد: <strong>هوگو دووری</strong> هنگام مطالعه‌ی <strong>گل مغربی</strong> (که 2n=14 است) گیاهی با <strong>۲۸ فامتن</strong> یافت — یعنی <strong>چارلاد (4n)</strong>.</p>
+  <ul class="b">
+    <li>گامت‌های این گیاه چارلاد، <strong>دولاد (2n)</strong> هستند، نه تک‌لاد.</li>
+    <li>اگر گامت دولاد با گامت طبیعیِ تک‌لادِ گونه‌ی نیایی لقاح یابد ← تخم <strong>سه‌لاد (3n)</strong> ← گیاهِ حاصل <strong>نازا</strong> است.</li>
+    <li>اما اگر <strong>خودلقاحی</strong> کند یا با چارلاد دیگری آمیزش کند ← تخم <strong>4n</strong> ← این گیاه قادر به انجام کاستمان و تولید گامت است ← <strong>زایا</strong> ← گونه‌ی جدید.</li>
+  </ul>
+
+  <div class="fig">
+    <div class="ft">شکل ۱۵ — تشکیل گیاه چارلاد از گیاه والد با 2n=6</div>
+    <svg viewBox="0 0 660 240" role="img" aria-label="مسیر تشکیل گیاه چارلاد">
+      <rect x="470" y="30" width="170" height="52" rx="10" fill="var(--tealbg)" stroke="var(--teal)"/>
+      <text x="555" y="52" text-anchor="middle" font-family="Vazirmatn" font-size="13.5" font-weight="700" fill="var(--tealink)">گیاه والد</text>
+      <text x="555" y="72" text-anchor="middle" font-family="Vazirmatn" font-size="14" fill="var(--tealink)">2n = ۶</text>
+
+      <path d="M466 56 L410 56" stroke="var(--faint)" stroke-width="2" fill="none" marker-end="url(#ar15)"/>
+      <defs><marker id="ar15" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round"/></marker></defs>
+      <text x="438" y="42" text-anchor="middle" font-family="Vazirmatn" font-size="11" fill="var(--faint)">کاستمان</text>
+
+      <rect x="235" y="30" width="170" height="52" rx="10" fill="var(--amberbg)" stroke="var(--amber)"/>
+      <text x="320" y="52" text-anchor="middle" font-family="Vazirmatn" font-size="13.5" font-weight="700" fill="var(--amberink)">خطای کاستمانی</text>
+      <text x="320" y="72" text-anchor="middle" font-family="Vazirmatn" font-size="13" fill="var(--amberink)">گامت بدون کاهش: ۲n = ۶</text>
+
+      <path d="M231 56 L175 56" stroke="var(--faint)" stroke-width="2" fill="none" marker-end="url(#ar15)"/>
+      <rect x="20" y="30" width="150" height="52" rx="10" fill="var(--violetbg)" stroke="var(--violet)"/>
+      <text x="95" y="52" text-anchor="middle" font-family="Vazirmatn" font-size="13.5" font-weight="700" fill="var(--violetink)">خودلقاحی</text>
+      <text x="95" y="72" text-anchor="middle" font-family="Vazirmatn" font-size="13" fill="var(--violetink)">۶ + ۶</text>
+
+      <path d="M95 86 L95 120" stroke="var(--faint)" stroke-width="2" fill="none" marker-end="url(#ar15)"/>
+      <rect x="20" y="124" width="150" height="52" rx="10" fill="var(--coralbg)" stroke="var(--coral)"/>
+      <text x="95" y="146" text-anchor="middle" font-family="Vazirmatn" font-size="13.5" font-weight="700" fill="var(--coralink)">تخم چارلاد</text>
+      <text x="95" y="166" text-anchor="middle" font-family="Vazirmatn" font-size="14" fill="var(--coralink)">4n = ۱۲</text>
+
+      <path d="M174 150 L235 150" stroke="var(--faint)" stroke-width="2" fill="none" marker-end="url(#ar15)"/>
+      <rect x="239" y="124" width="240" height="52" rx="10" fill="var(--tealbg)" stroke="var(--teal)"/>
+      <text x="359" y="146" text-anchor="middle" font-family="Vazirmatn" font-size="13.5" font-weight="700" fill="var(--tealink)">گیاه چارلاد — زیستا و زایا</text>
+      <text x="359" y="166" text-anchor="middle" font-family="Vazirmatn" font-size="12.5" fill="var(--tealink)">با والد 2n زاده‌ی 3n نازا می‌دهد ← گونه‌ی جدید</text>
+
+      <text x="330" y="212" text-anchor="middle" font-family="Vazirmatn" font-size="13" fill="var(--soft)">۶ ← ۶ (بدون کاهش) ← ۶+۶ = ۱۲</text>
+    </svg>
+    <div class="cap"><b>نکته‌ای که همیشه از قلم می‌افتد:</b> گامتِ گیاه والدِ 2n=۶ باید n=۳ می‌شد، ولی به‌علت خطا، <b>۶</b> ماند. دو گامتِ ۶تایی که به هم برسند، تخمِ ۱۲تایی می‌سازند. پس گیاه تازه 4n=۱۲ است: گونه‌ای نو که در همان مزرعه، در یک نسل متولد شد.</div>
+  </div>
+
+  <div class="n mem"><span class="tag">🧠 متد حل در کسری از ثانیه — سه سؤال، سه ثانیه</span>
+    <p>هر مسئله‌ی چندلادی را با این سه پرسش پشت سر هم حل کن:</p>
+    <p><b>۱) گامت‌ها چندلادی‌اند؟</b> گامت طبیعی = نصف والد. گامت بدون کاهش = کلِ والد.<br>
+    <b>۲) تخم = جمع دو گامت.</b> فقط جمع بزن.<br>
+    <b>۳) عدد لادی تخم زوج است یا فرد؟</b> زوج (2n، 4n، 6n) ← <b>زایا</b>. فرد (3n، 5n) ← <b>نازا</b>.</p></div>
+
+  <div class="n plus"><span class="tag">➕ چرا عدد فرد یعنی نازا؟ (منطقِ پشت قاعده — این را بفهمی دیگر حفظ نمی‌خواهد)</span>
+    <p>در کاستمان، فامتن‌های همتا باید <b>دوبه‌دو</b> جفت شوند تا چهارتایه بسازند و بعد به دو سو بروند. با تعداد <b>زوج</b> دسته‌ها، هر فامتن یک شریک پیدا می‌کند و تقسیم منظم پیش می‌رود. با تعداد <b>فرد</b> (مثلاً ۳ دسته)، همیشه یکی بی‌شریک می‌ماند و توزیع نامتعادل می‌شود؛ گامت‌های حاصل عدد فامتنی ناقص دارند و کارآمد نیستند. نتیجه: <b>نازایی</b>. این دقیقاً همان دلیلی است که هندوانه و موزِ بی‌دانه‌ی بازار سه‌لادند.</p></div>
+
+  <div class="scroller"><table class="t">
+    <tr><th>گامت ۱</th><th>گامت ۲</th><th>تخم</th><th>سرنوشت</th></tr>
+    <tr><td>2n (بدون کاهش)</td><td>n (طبیعی)</td><td>3n</td><td><b>نازا</b> — فرد است</td></tr>
+    <tr><td>2n</td><td>2n</td><td>4n</td><td><b>زایا</b> ← گونه‌ی جدید</td></tr>
+    <tr><td>2n (از گیاه 4n)</td><td>n (از گیاه 2n نیایی)</td><td>3n</td><td><b>نازا</b> ← همین یعنی جدایی تولیدمثلی</td></tr>
+    <tr><td>2n (از 4n)</td><td>2n (از 4n)</td><td>4n</td><td><b>زایا</b> ← گونه‌ی جدید تثبیت می‌شود</td></tr>
+  </table></div>
+
+  <div class="n trap"><span class="tag">⚠️ دام شماره ۱۰ — بزرگ‌ترین دام این بخش</span>
+    <p>گامت گیاه <b>چارلاد (4n)</b>، <b>دولاد (2n)</b> است — نه تک‌لاد. خودِ کتاب این را جداگانه تأکید کرده. خیلی‌ها به‌غلط فکر می‌کنند گامت همیشه n است؛ گامت همیشه <b>نصف والد</b> است. نصف 4n می‌شود 2n.</p></div>
+
+  <div class="n trap"><span class="tag">⚠️ دام شماره ۱۱</span>
+    <p>گیاه چارلاد <b>نازا نیست</b> — کاملاً زایاست. آنکه نازاست، <b>زاده‌ی حاصل از آمیزش چارلاد با گونه‌ی نیایی</b> (یعنی گیاه 3n) است. اگر این دو را جابه‌جا کنی، کل استدلال گونه‌زایی فرو می‌ریزد.</p></div>
+
+  <div class="n ex"><span class="tag">🔬 تمرین سریع — با متد سه‌سؤالی حل کن</span>
+    <p><b>مسئله:</b> گیاهی با 2n=۱۰ دچار خطای کامل کاستمانی شده و گامت بدون کاهش ساخته است. این گامت با گامت طبیعی همان گونه لقاح می‌یابد. زاده زایاست یا نازا؟</p>
+    <p><b>حل در سه ثانیه:</b> گامت بدون کاهش = ۱۰ · گامت طبیعی = ۵ · تخم = ۱۵ = 3n · فرد است ← <b>نازا</b>.</p></div>
+
+  <details class="q"><summary>چرا چندلادی در گیاهان رایج‌تر از جانوران است؟ (تکمیلی، خارج کتاب)</summary>
+    <div class="a">چند دلیل: بسیاری از گیاهان <b>خودلقاحی</b> می‌کنند، پس گامت بدون کاهش به‌راحتی شریک هم‌لاد پیدا می‌کند (همان مسیر شکل ۱۵). ضمناً گیاهان می‌توانند <b>تولیدمثل رویشی</b> کنند و فرد چندلاد را حتی بدون تولیدمثل جنسی تکثیر کنند. در جانوران، تعیین جنسیت وابسته به فامتن‌های جنسی و پیچیدگی رشد جنینی، چندلادی را معمولاً کشنده می‌کند.</div></details>
+
+  <details class="q"><summary>گیاه چارلادی داریم با ۲۸ فامتن. گامتش چند فامتن دارد و اگر با گونه نیایی (2n=۱۴) آمیزش کند زاده چه می‌شود؟</summary>
+    <div class="a">گامت چارلاد = نصف ۲۸ = <b>۱۴</b> فامتن (که 2n است). گامت گونه‌ی نیایی = نصف ۱۴ = <b>۷</b>. تخم = ۱۴ + ۷ = <b>۲۱</b> فامتن = 3n ← عدد لادی <b>فرد</b> ← زاده <b>نازا</b>. و همین نازایی، جدایی تولیدمثلی و در نتیجه گونه‌ی جدید بودن چارلاد را اثبات می‌کند. (این دقیقاً مثال گل مغربی کتاب است.)</div></details>
+
+  <details class="q"><summary>چرا این نوع گونه‌زایی «هم‌میهنی» است و نه «دگرمیهنی»؟</summary>
+    <div class="a">چون <b>هیچ سد جغرافیایی</b> در کار نبوده. گیاه چارلاد در همان مکان و کنار والدینش به‌وجود آمده، اما به‌علت اختلاف عدد فامتنی نمی‌تواند با آن‌ها زاده‌ی زایا بدهد. جدایی تولیدمثلی از <b>درون</b> (ژنتیکی) آمده، نه از <b>بیرون</b> (جغرافیایی).</div></details>
+</section>
+
+<section class="part D" id="partD">
+  <div class="pl">مرحله ۴ — تثبیت</div>
+  <h2>حالا بچسبانیمش به حافظه</h2>
+  <p class="pd">خواندن تمام شد؛ یادگیری هنوز نه. این بخش ابزارهای «یادآوری فعال» است — تنها روشی که واقعاً فراموشی را شکست می‌دهد.</p>
+</section>
+
+<section class="chunk" data-id="D1">
+  <h3><span class="no">د‑۱</span>جدول یازده دامِ ترکیبی فصل</h3>
+  <div class="where">📍 <b>کجای داستانم:</b> تثبیت — مرزهای دقیق مفاهیم</div>
+  <p>فهم ترکیبی یعنی مرزها را بشناسی. این جدول همه‌ی دام‌هایی است که در متن علامت زدیم، یک‌جا:</p>
+  <div class="scroller"><table class="t">
+    <tr><th>#</th><th>تصور غلط رایج</th><th>واقعیت علمی</th></tr>
+    <tr><td>۱</td><td>جانشینی یک نوکلئوتید = تغییر دو جفت باز</td><td>یک <b>جفت</b> نوکلئوتید تغییر می‌کند (به‌علت مکملی)</td></tr>
+    <tr><td>۲</td><td>اضافه/حذف همیشه چارچوب را عوض می‌کند</td><td>اگر <b>مضرب سه</b> باشد چارچوب سالم می‌ماند</td></tr>
+    <tr><td>۳</td><td>ژنگان انسان یعنی ۴۶ فامتن</td><td>۲۲ غیرجنسی + X + Y؛ به‌علاوه‌ی <b>دنای راکیزه</b></td></tr>
+    <tr><td>۴</td><td>صفت «بهتر» انتخاب می‌شود</td><td>صفت <b>سازگارتر با محیط</b>؛ محیط تعیین‌کننده است</td></tr>
+    <tr><td>۵</td><td>انتخاب طبیعی فرد را تغییر می‌دهد</td><td><b>جمعیت</b> را تغییر می‌دهد، نه فرد را</td></tr>
+    <tr><td>۶</td><td>رانش دگره‌ای هم مثل انتخاب طبیعی سازش می‌آورد</td><td>رانش <b>به سازش نمی‌انجامد</b> — تصادفی و کور است</td></tr>
+    <tr><td>۷</td><td>آمیزش غیرتصادفی فراوانی دگره‌ها را عوض می‌کند</td><td>فراوانی <b>ژن‌نمودها</b> را عوض می‌کند</td></tr>
+    <tr><td>۸</td><td>چلیپایی‌شدن بین فامینک‌های خواهری</td><td>بین فامینک‌های <b>غیرخواهری</b></td></tr>
+    <tr><td>۹</td><td>زاده‌ی زنده = یک گونه بودن</td><td>باید هم <b>زیستا</b> باشد هم <b>زایا</b></td></tr>
+    <tr><td>۱۰</td><td>گامت گیاه چارلاد تک‌لاد است</td><td><b>دولاد (2n)</b> است — گامت نصف والد است</td></tr>
+    <tr><td>۱۱</td><td>گیاه چارلاد نازاست</td><td>چارلاد <b>زایا</b>ست؛ زاده‌ی 3n نازاست</td></tr>
+  </table></div>
+  <div class="n mem"><span class="tag">🧠 چطور از این جدول استفاده کنی</span>
+    <p>ستون وسط را بپوشان و فقط ستون سوم را بخوان؛ سعی کن تصور غلطش را بازسازی کنی. بعد برعکس. این کار «تشخیص مرز» را تمرین می‌دهد که دقیقاً همان چیزی است که سؤال‌های ترکیبی می‌سنجند.</p></div>
+</section>
+
+<section class="chunk" data-id="D2">
+  <h3><span class="no">د‑۲</span>فلش‌کارت — یادآوری فعال</h3>
+  <div class="where">📍 <b>کجای داستانم:</b> تثبیت — قوی‌ترین تکنیک حافظه</div>
+  <p>قانون: <strong>اول جواب را در ذهنت کامل بساز، بعد دکمه را بزن.</strong> اگر نگاه‌کردن را زودتر انجام دهی، فایده‌اش تقریباً صفر می‌شود.</p>
+  <div class="fc" id="fcbox">
+    <div class="qq" id="fcq">آماده‌ای؟</div>
+    <div class="aa" id="fca"></div>
+    <div class="row">
+      <button class="pri" id="fcShow">نمایش پاسخ</button>
+      <button id="fcNext">کارت بعدی ←</button>
+      <button id="fcShuffle">بُر بزن</button>
+    </div>
+    <div class="meta" id="fcMeta">۰ از ۰</div>
+  </div>
+</section>
+
+<section class="chunk" data-id="D3">
+  <h3><span class="no">د‑۳</span>آزمون جامع — ۱۲ پرسش ترکیبی</h3>
+  <div class="where">📍 <b>کجای داستانم:</b> تثبیت — سنجش نهایی</div>
+
+  <details class="q"><summary>۱) چرا کتاب می‌گوید ماده‌ی وراثتی باید هم پایدار باشد هم تغییرپذیر؟</summary>
+    <div class="a">پایداری لازم است تا اطلاعات نسل‌به‌نسل سالم منتقل شود. تغییرپذیری محدود، <b>گوناگونی</b> می‌سازد که توان بقای جمعیت را در محیط متغیر بالا می‌برد و زمینه‌ی تغییر گونه‌ها را فراهم می‌کند.</div></details>
+  <details class="q"><summary>۲) سه سرنوشت جانشینی را با اثرشان بر طول پلی‌پپتید مقایسه کن.</summary>
+    <div class="a"><b>خاموش:</b> طول و توالی هر دو ثابت. <b>دگرمعنا:</b> طول ثابت، یک آمینواسید متفاوت. <b>بی‌معنا:</b> طول <b>کوتاه‌تر</b> چون رمز پایان زودرس ساخته می‌شود.</div></details>
+  <details class="q"><summary>۳) جهشی طول پلی‌پپتید را زیاد کرده. دو سازوکار ممکن را بگو.</summary>
+    <div class="a">(۱) اضافه‌شدن نوکلئوتید به تعداد مضرب سه. (۲) تبدیل <b>رمز پایان</b> به رمز یک آمینواسید، که ترجمه را تا رمز پایان بعدی ادامه می‌دهد.</div></details>
+  <details class="q"><summary>۴) چهار ناهنجاری ساختاری فامتن را نام ببر و بگو کدام مقدار ماده وراثتی را کم نمی‌کند.</summary>
+    <div class="a">حذف، جابه‌جایی، مضاعف‌شدگی، واژگونی. <b>واژگونی</b> و <b>جابه‌جایی</b> مقدار کل را کم نمی‌کنند (فقط ترتیب/مکان عوض می‌شود)؛ <b>مضاعف‌شدگی</b> آن را زیاد می‌کند؛ فقط <b>حذف</b> کم می‌کند و غالباً کشنده است.</div></details>
+  <details class="q"><summary>۵) جهشی رخ داده و پروتئین سالم است اما مقدارش زیاد شده. کجا افتاده و چرا؟</summary>
+    <div class="a">در <b>توالی تنظیمی</b> (راه‌انداز یا افزاینده). چون توالی آمینواسیدی دست‌نخورده مانده، پس ژن سالم است؛ اما میزان رونویسی بالا رفته، یعنی جهش بر <b>مقدار</b> اثر گذاشته نه بر توالی.</div></details>
+  <details class="q"><summary>۶) UV چطور به جهش می‌انجامد؟ زنجیره را کامل بگو.</summary>
+    <div class="a">پرتو فرابنفش ← ایجاد پیوند بین دو <b>تیمین مجاور</b> ← تشکیل <b>دوپار تیمین</b> ← اختلال در عملکرد <b>دنابسپاراز</b> ← خطا در همانندسازی ← جهش.</div></details>
+  <details class="q"><summary>۷) پنج عامل بر هم‌زننده‌ی تعادل ژنی را نام ببر و بگو کدام‌یک به سازش می‌انجامد.</summary>
+    <div class="a">جهش، رانش دگره‌ای، شارش ژن، آمیزش غیرتصادفی، انتخاب طبیعی. فقط <b>انتخاب طبیعی</b> به سازش می‌انجامد؛ بقیه فراوانی‌ها را تغییر می‌دهند بدون آنکه لزوماً سازگاری بیاورند.</div></details>
+  <details class="q"><summary>۸) چرا برای تعادل ژنی، جمعیت باید بزرگ باشد؟</summary>
+    <div class="a">چون هرچه جمعیت کوچک‌تر باشد <b>رانش دگره‌ای</b> اثر بیشتری دارد و رویدادهای تصادفی می‌توانند فراوانی دگره‌ها را به‌شدت جابه‌جا کنند. در جمعیت بزرگ، اثر تصادف سرشکن می‌شود.</div></details>
+  <details class="q"><summary>۹) سه سازوکار تداوم گوناگونی را نام ببر.</summary>
+    <div class="a">(۱) گوناگونی دگره‌ای در گامت‌ها از راه <b>آرایش تصادفی چهارتایه‌ها در متافاز کاستمان ۱</b> (۲ⁿ نوع گامت)؛ (۲) <b>نوترکیبی</b> از راه چلیپایی‌شدن؛ (۳) <b>اهمیت ناخالص‌ها</b> مانند Hb<sup>A</sup>Hb<sup>S</sup> در مناطق مالاریاخیز.</div></details>
+  <details class="q"><summary>۱۰) تفاوت ساختار همتا و آنالوگ را با مثال بگو و بگو کدام نشانه‌ی خویشاوندی است.</summary>
+    <div class="a"><b>همتا</b>: طرح ساختاری یکسان، کار متفاوت (دست انسان، بال پرنده، باله دلفین) ← نشانه‌ی <b>نیای مشترک</b>. <b>آنالوگ</b>: کار یکسان، ساختار متفاوت (بال کبوتر و بال پروانه) ← نشانه‌ی خویشاوندی <b>نیست</b>.</div></details>
+  <details class="q"><summary>۱۱) خطای جدانشدن در تقسیم اول و دوم کاستمان چه تفاوتی در گامت‌ها ایجاد می‌کند؟</summary>
+    <div class="a">تقسیم <b>اول</b>: هر ۴ گامت غیرطبیعی — ۲ تا (n+1) و ۲ تا (n−1)، هیچ گامت سالمی نیست. تقسیم <b>دوم</b>: ۲ گامت سالم (n) + ۱ تا (n+1) + ۱ تا (n−1).</div></details>
+  <details class="q"><summary>۱۲) گیاهی 2n=۱۸ گامت بدون کاهش ساخته و خودلقاحی کرده. زاده چند فامتن دارد و زایاست یا نازا؟ چرا این گونه‌زایی هم‌میهنی است؟</summary>
+    <div class="a">گامت بدون کاهش = ۱۸. خودلقاحی ← تخم = ۱۸+۱۸ = <b>۳۶</b> = 4n ← عدد لادی <b>زوج</b> ← <b>زایا</b>. اما با گونه‌ی نیایی (گامت ۹) زاده‌ی ۲۷ = 3n نازا می‌دهد ← جدایی تولیدمثلی ← گونه‌ی جدید. <b>هم‌میهنی</b> است چون هیچ سد جغرافیایی در کار نبوده و جدایی از راه ژنتیکی و در همان مکان رخ داده.</div></details>
+</section>
+
+<section class="chunk" data-id="D4">
+  <h3><span class="no">د‑۴</span>برنامه‌ی مرور فاصله‌دار</h3>
+  <div class="where">📍 <b>کجای داستانم:</b> تثبیت — نگهداری بلندمدت</div>
+
+  <p>فراموشی طبیعی است؛ راهش این است که <strong>درست پیش از فراموش‌شدن</strong> مرور کنی. جدول زیر برنامه‌ی استانداردی است که این جزوه هم برایت به‌طور خودکار حساب می‌کند:</p>
+  <div class="scroller"><table class="t">
+    <tr><th>مرور</th><th>چه زمانی</th><th>چطور مرور کنی</th><th>چقدر طول می‌کشد</th></tr>
+    <tr><td>یکم</td><td>همان روز، چند ساعت بعد</td><td>فقط تیترها را ببین و از حفظ بازگو کن</td><td>۱۰ دقیقه</td></tr>
+    <tr><td>دوم</td><td>روز ۳</td><td>فلش‌کارت‌های بخش د‑۲</td><td>۱۰ دقیقه</td></tr>
+    <tr><td>سوم</td><td>روز ۷</td><td>جدول دام‌ها + شکل‌ها را از حفظ بکش</td><td>۱۵ دقیقه</td></tr>
+    <tr><td>چهارم</td><td>روز ۱۶</td><td>آزمون جامع د‑۳</td><td>۱۵ دقیقه</td></tr>
+    <tr><td>پنجم</td><td>روز ۳۰</td><td>فقط بخش‌هایی که شمارنده‌شان پایین است</td><td>۱۰ دقیقه</td></tr>
+  </table></div>
+
+  <div class="n mem"><span class="tag">🧠 مهم‌ترین توصیه‌ی کل این جزوه</span>
+    <p>در هر مرور، <b>کتاب و جزوه را ببند</b> و اول از حافظه بازگو کن. بازخوانیِ منفعل حسِ «بلدم» می‌دهد ولی حافظه نمی‌سازد؛ بازیابیِ فعال سخت است و دقیقاً به همین دلیل کار می‌کند. اگر جایی گیر کردی، همان‌جا نقطه‌ی ضعف توست — سراغ همان بخش برو، نه از اول.</p></div>
+
+  <h4>تمرین ویژه‌ی حافظه‌ی تصویری</h4>
+  <p>کاغذ سفید بردار و <strong>بدون نگاه‌کردن</strong> این شکل‌ها را بکش. هر کدام را که توانستی، یعنی واقعاً فهمیده‌ای:</p>
+  <ul class="b">
+    <li><strong>شکل ۲:</strong> سه نوع جهش کوچک روی یک توالی</li>
+    <li><strong>شکل ۴:</strong> چهار ناهنجاری ساختاری با حروف A تا O</li>
+    <li><strong>شکل ۷:</strong> گلوگاه جمعیتی و ناپدید شدن یک دگره</li>
+    <li><strong>شکل ۸ و ۹:</strong> آرایش متافاز ۱ و چلیپایی‌شدن</li>
+    <li><strong>شکل ۱۴:</strong> جدول «۴ و ۲» جدانشدن در تقسیم اول و دوم</li>
+    <li><strong>شکل ۱۵:</strong> مسیر ۶ ← ۶ ← ۱۲</li>
+  </ul>
+</section>
+
+<section class="chunk" data-id="D5">
+  <h3><span class="no">د‑۵</span>واژه‌نامه‌ی اصطلاحات فارسی‌شده</h3>
+  <div class="where">📍 <b>کجای داستانم:</b> مرجع سریع</div>
+  <div class="scroller"><table class="t">
+    <tr><th>واژه‌ی کتاب</th><th>معادل رایج</th><th>واژه‌ی کتاب</th><th>معادل رایج</th></tr>
+    <tr><td>دنا / رنا</td><td>DNA / RNA</td><td>فامتن</td><td>کروموزوم</td></tr>
+    <tr><td>فامینک</td><td>کروماتید</td><td>چهارتایه</td><td>تتراد</td></tr>
+    <tr><td>کاستمان</td><td>میوز</td><td>راکیزه</td><td>میتوکندری</td></tr>
+    <tr><td>دگره</td><td>الل</td><td>ژن‌نمود</td><td>ژنوتیپ</td></tr>
+    <tr><td>رخ‌نمود</td><td>فنوتیپ</td><td>ژنگان</td><td>ژنوم</td></tr>
+    <tr><td>چندلادی</td><td>پلی‌پلوییدی</td><td>چارلاد</td><td>تتراپلوئید (4n)</td></tr>
+    <tr><td>سه‌لاد</td><td>تریپلوئید (3n)</td><td>دولاد / تک‌لاد</td><td>دیپلوئید / هاپلوئید</td></tr>
+    <tr><td>زیستا</td><td>زنده‌مانا (viable)</td><td>زایا</td><td>بارور (fertile)</td></tr>
+    <tr><td>چلیپایی‌شدن</td><td>کراسینگ‌اور</td><td>یاخته</td><td>سلول</td></tr>
+    <tr><td>دنابسپاراز</td><td>DNA پلیمراز</td><td>دوپار تیمین</td><td>دیمر تیمین</td></tr>
+    <tr><td>پاداکسنده</td><td>آنتی‌اکسیدان</td><td>سنگواره</td><td>فسیل</td></tr>
+    <tr><td>دگرمیهنی</td><td>آلوپاتریک</td><td>هم‌میهنی</td><td>سیمپاتریک</td></tr>
+  </table></div>
+</section>
+
+<section class="chunk" data-id="D6">
+  <h3><span class="no">د‑۶</span>چک‌لیست پوشش کامل فصل</h3>
+  <div class="where">📍 <b>کجای داستانم:</b> اطمینان از اینکه هیچ‌چیز جا نمانده</div>
+  <p>هر موردی را که توانستی <strong>از حفظ و با صدای بلند</strong> توضیح بدهی، در ذهنت تیک بزن. اگر جایی لنگیدی، مستقیم به همان بخش برگرد.</p>
+
+  <h4>پله ۱ — جهش</h4>
+  <ul class="b">
+    <li>تعریف جهش · مفید/مضر/خنثی · مثال کم‌خونی داسی‌شکل و شکل ۱</li>
+    <li>جهش کوچک: جانشینی (خاموش، دگرمعنا، بی‌معنا) · اضافه · حذف · شکل ۲</li>
+    <li>چارچوب خواندن · مثال «این سیب سرخ است» · قاعده‌ی مضرب سه · شکل ۳ · فعالیت ۱</li>
+    <li>جهش بزرگ: ناهنجاری عددی (نشانگان داون) · چهار ناهنجاری ساختاری · شکل ۴ · کاریوتیپ</li>
+    <li>ژنگان (هسته‌ای + سیتوپلاسمی) · ۲۲ + X + Y · دنای راکیزه</li>
+    <li>محل جهش: بین‌ژنی · جایگاه فعال · دور از جایگاه فعال · توالی تنظیمی (مقدار)</li>
+    <li>علت: خطای همانندسازی · جهش‌زای فیزیکی (UV، دوپار تیمین، شکل ۵) · شیمیایی (بنزوپیرن)</li>
+    <li>جهش ارثی و اکتسابی · سبک زندگی و سرطان (ورزش، پاداکسنده، نمک‌سود، کباب، نیتریت)</li>
+  </ul>
+
+  <h4>پله ۲ — جمعیت</h4>
+  <ul class="b">
+    <li>مقاومت باکتری‌ها · تحمل سرما · صفت سازگارتر (نه بهتر) · انتخاب طبیعی · شکل ۶</li>
+    <li>تعریف جمعیت · انتخاب طبیعی جمعیت را تغییر می‌دهد نه فرد</li>
+    <li>بیشتر بدانید: ابوریحان بیرونی، داروین، والاس</li>
+    <li>خزانه‌ی ژن · تعادل ژنی</li>
+    <li>پنج عامل: جهش · رانش دگره‌ای (شکل ۷، اندازه جمعیت) · شارش ژن · آمیزش غیرتصادفی · انتخاب طبیعی</li>
+    <li>تداوم گوناگونی: آرایش متافاز ۱ (شکل ۸، ۲ⁿ) · چلیپایی‌شدن و نوترکیبی (شکل ۹) · اهمیت ناخالص‌ها</li>
+    <li>داستان مالاریا و Hb<sup>S</sup> · بیشتر بدانید ص ۶۲ (تاریخچه‌ی فرضیه‌ها از ۱۹۵۰ تا ۲۰۱۰)</li>
+  </ul>
+
+  <h4>پله ۳ — گونه</h4>
+  <ul class="b">
+    <li>سنگواره‌ها · بخش‌های سخت · ماموت و حشره در رزین · دیرینه‌شناسی · درخت گیسو (شکل ۱۰)</li>
+    <li>تشریح مقایسه‌ای · ساختار همتا · آنالوگ · وستیجیال (پیتون، شکل ۱۲) · شکل ۱۱ · نام استخوان‌ها</li>
+    <li>مطالعات مولکولی · توالی‌های حفظ‌شده · نگرش چراجویانه</li>
+    <li>تعریف گونه (مایر) · زیستا · زایا · جدایی تولیدمثلی</li>
+    <li>گونه‌زایی دگرمیهنی · کوه‌زایی · قطع شارش ژن · نقش رانش در جمعیت کوچک (شکل ۱۳ الف)</li>
+    <li>گونه‌زایی هم‌میهنی · چندلادی · خطای کاستمانی (شکل ۱۴) · هوگو دووری و گل مغربی · شکل ۱۵ · قاعده‌ی زوج/فرد</li>
+  </ul>
+
+  <div class="n ex"><span class="tag">🔬 اگر همه‌ی این‌ها را تیک زدی</span>
+    <p>یعنی کل فصل ۴ را پوشش داده‌ای — هر سه گفتار، هر ۱۵ شکل، همه‌ی «بیشتر بدانید»ها و فعالیت‌ها. حالا فقط کافی است برنامه‌ی مرور بخش د‑۴ را جدی بگیری.</p></div>
+</section>
+
+</div>
+</div>
+
+<footer>
+  جزوه‌ی یادگیری عمیق — فصل ۴ زیست‌شناسی ۳: تغییر در اطلاعات وراثتی<br>
+  بر پایه‌ی متن کامل کتاب درسی، با بازچینش علمی، مثال‌های تکمیلی و ابزارهای حافظه<br>
+  <span style="font-size:13px">نوار پایین: تم · هایلایتر · ابزار رسم (با کلیک فعال می‌شود)</span>
+</footer>
+
+<script>
+(function(){
+"use strict";
+var root=document.documentElement, body=document.body, V='f4v1';
+var content=document.getElementById('content');
+var toastEl=document.getElementById('toast'), tTimer;
+function toast(m){toastEl.textContent=m;toastEl.classList.add('show');
+  clearTimeout(tTimer);tTimer=setTimeout(function(){toastEl.classList.remove('show');},1800);}
+function fa(n){return String(n).replace(/[0-9]/g,function(d){return '۰۱۲۳۴۵۶۷۸۹'[d];});}
+
+/* ---------- THEME ---------- */
+var sun='<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M6.5 17.5L5 19"/></svg>';
+var moon='<svg viewBox="0 0 24 24"><path d="M20 14a8 8 0 01-10-10 8 8 0 1010 10z"/></svg>';
+var bTheme=document.getElementById('bTheme');
+function setTheme(t){root.setAttribute('data-theme',t);bTheme.innerHTML=(t==='dark'?sun:moon);}
+var savedT=localStorage.getItem(V+'_theme');
+if(!savedT){savedT=(window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light';}
+setTheme(savedT);
+bTheme.onclick=function(){var t=root.getAttribute('data-theme')==='dark'?'light':'dark';
+  localStorage.setItem(V+'_theme',t);setTheme(t);if(canvasReady)sizeCanvas(true);};
+
+/* ---------- RESTORE HIGHLIGHTS (before trackers) ---------- */
+var cKey=V+'_content', saved=localStorage.getItem(cKey);
+if(saved){try{content.innerHTML=saved;}catch(e){}}
+Array.prototype.forEach.call(content.querySelectorAll('.tracker'),function(t){t.remove();});
+function saveContent(){try{localStorage.setItem(cKey,content.innerHTML);}catch(e){}}
+
+/* ---------- READ TRACKER ---------- */
+var PKEY=V+'_prog';
+var prog={};
+try{prog=JSON.parse(localStorage.getItem(PKEY)||'{}');}catch(e){prog={};}
+var INTERVALS=[1,3,7,16,30];
+var chunks=Array.prototype.slice.call(content.querySelectorAll('.chunk[data-id]'));
+
+function nextReview(id){
+  var p=prog[id];if(!p||!p.t)return null;
+  var d=INTERVALS[Math.min(p.c-1,INTERVALS.length-1)];
+  var due=p.t+d*86400000, diff=Math.ceil((due-Date.now())/86400000);
+  if(diff<=0)return 'الان وقت مرور است';
+  return 'مرور بعدی: '+fa(diff)+' روز دیگر';
+}
+function renderChunk(ch){
+  var id=ch.dataset.id, p=prog[id]||{c:0,t:0}, tr=ch.querySelector('.tracker');
+  var btn=tr.querySelector('.rbtn'), cnt=tr.querySelector('.cnt'), rev=tr.querySelector('.rev');
+  if(p.c>0){ch.classList.add('done');btn.classList.add('done');btn.textContent='✓ خوانده شد — دوباره خواندم';}
+  else{ch.classList.remove('done');btn.classList.remove('done');btn.textContent='این بخش را خواندم';}
+  cnt.innerHTML=p.c>0?('تعداد دفعات مطالعه: <b>'+fa(p.c)+'</b>'):'هنوز نخوانده‌ای';
+  var nr=p.c>0?nextReview(id):null;
+  rev.style.display=nr?'':'none'; if(nr)rev.textContent=nr;
+}
+function renderAll(){
+  chunks.forEach(renderChunk);
+  var done=chunks.filter(function(c){var p=prog[c.dataset.id];return p&&p.c>0;}).length;
+  var pct=chunks.length?Math.round(done/chunks.length*100):0;
+  document.getElementById('pfill').style.width=pct+'%';
+  document.getElementById('ppct').textContent=fa(pct)+'٪';
+  document.getElementById('plbl').textContent=fa(done)+' از '+fa(chunks.length)+' بخش';
+  ['A','B','C','D'].forEach(function(k){
+    var el=document.querySelector('[data-mini="'+k+'"]');if(!el)return;
+    var g=chunks.filter(function(c){return c.dataset.id.charAt(0)===k;});
+    var d=g.filter(function(c){var p=prog[c.dataset.id];return p&&p.c>0;}).length;
+    el.style.width=(g.length?Math.round(d/g.length*100):0)+'%';
+  });
+}
+chunks.forEach(function(ch){
+  var tr=document.createElement('div');tr.className='tracker';
+  tr.innerHTML='<button class="rbtn"></button><span class="cnt"></span><span class="rev"></span><button class="rst">صفر کن</button>';
+  ch.appendChild(tr);
+  tr.querySelector('.rbtn').addEventListener('click',function(){
+    var id=ch.dataset.id, p=prog[id]||{c:0,t:0};
+    p.c+=1;p.t=Date.now();prog[id]=p;
+    try{localStorage.setItem(PKEY,JSON.stringify(prog));}catch(e){}
+    renderAll();
+    var msgs=['آفرین! ثبت شد ✅','یک قدم جلوتر رفتی 💪','عالی بود، ادامه بده 🌱','ثبت شد — مغزت تشکر می‌کند 🧠'];
+    toast(p.c===1?msgs[Math.floor(Math.random()*msgs.length)]:('بار '+fa(p.c)+'اُم ثبت شد — تکرار یعنی تثبیت 🔁'));
+  });
+  tr.querySelector('.rst').addEventListener('click',function(){
+    delete prog[ch.dataset.id];
+    try{localStorage.setItem(PKEY,JSON.stringify(prog));}catch(e){}
+    renderAll();toast('این بخش صفر شد');
+  });
+});
+renderAll();
+
+/* ---------- HIGHLIGHTER ---------- */
+var bHl=document.getElementById('bHl'), hlOn=false;
+bHl.onclick=function(){hlOn=!hlOn;bHl.classList.toggle('on',hlOn);
+  content.style.cursor=hlOn?'text':'';toast(hlOn?'هایلایتر روشن — متن را انتخاب کن':'هایلایتر خاموش');};
+function unwrap(m){var p=m.parentNode;while(m.firstChild)p.insertBefore(m.firstChild,m);p.removeChild(m);p.normalize();}
+function wrapRange(range){
+  var rn=range.commonAncestorContainer;if(rn.nodeType===3)rn=rn.parentNode;
+  var w=document.createTreeWalker(rn,NodeFilter.SHOW_TEXT,null),nodes=[],n;
+  while((n=w.nextNode())){if(range.intersectsNode(n)&&n.nodeValue.trim()!=='')nodes.push(n);}
+  nodes.forEach(function(node){
+    if(node.parentElement.closest('mark.uh'))return;
+    if(node.parentElement.closest('.tracker,#tb,svg'))return;
+    var s=0,e=node.length;
+    if(node===range.startContainer)s=range.startOffset;
+    if(node===range.endContainer)e=range.endOffset;
+    if(s>=e)return;
+    var mid=node;if(s>0)mid=node.splitText(s);if(e-s<mid.length)mid.splitText(e-s);
+    var mk=document.createElement('mark');mk.className='uh';
+    mid.parentNode.insertBefore(mk,mid);mk.appendChild(mid);
+  });
+}
+content.addEventListener('mouseup',function(e){
+  if(!hlOn)return;
+  var m=e.target.closest?e.target.closest('mark.uh'):null;
+  if(m){unwrap(m);saveContent();return;}
+  var sel=window.getSelection();if(!sel||sel.isCollapsed)return;
+  var r=sel.getRangeAt(0);if(!content.contains(r.commonAncestorContainer))return;
+  wrapRange(r);sel.removeAllRanges();saveContent();
+});
+document.getElementById('bClearH').onclick=function(){
+  Array.prototype.forEach.call(content.querySelectorAll('mark.uh'),unwrap);
+  saveContent();toast('همه‌ی هایلایت‌ها پاک شد');};
+
+/* ---------- DRAW (lazy) ---------- */
+var cv=document.getElementById('draw'), ctx=null, canvasReady=false;
+var bDraw=document.getElementById('bDraw'), penbar=document.getElementById('penbar');
+var drawOn=false, drawing=false, erase=false, color='#e0533a', DKEY=V+'_draw';
+function sizeCanvas(keep){
+  if(!ctx)return;
+  var data=keep?cv.toDataURL():localStorage.getItem(DKEY);
+  cv.width=Math.max(document.documentElement.scrollWidth,window.innerWidth);
+  cv.height=Math.max(document.documentElement.scrollHeight,window.innerHeight);
+  if(data){var img=new Image();img.onload=function(){ctx.drawImage(img,0,0);};img.src=data;}
+}
+function saveDraw(){try{localStorage.setItem(DKEY,cv.toDataURL());}catch(e){}}
+function pos(e){var t=e.touches?e.touches[0]:e;return{x:t.pageX,y:t.pageY};}
+function dStart(e){if(!drawOn)return;drawing=true;var p=pos(e);ctx.beginPath();ctx.moveTo(p.x,p.y);e.preventDefault();}
+function dMove(e){if(!drawing)return;var p=pos(e);
+  ctx.lineWidth=erase?22:3.2;ctx.lineCap='round';ctx.lineJoin='round';
+  ctx.globalCompositeOperation=erase?'destination-out':'source-over';
+  ctx.strokeStyle=color;ctx.lineTo(p.x,p.y);ctx.stroke();e.preventDefault();}
+function dEnd(){if(drawing){drawing=false;saveDraw();}}
+function initCanvas(){
+  if(canvasReady)return;
+  ctx=cv.getContext('2d');canvasReady=true;sizeCanvas(false);
+  cv.addEventListener('mousedown',dStart);cv.addEventListener('mousemove',dMove);
+  window.addEventListener('mouseup',dEnd);
+  cv.addEventListener('touchstart',dStart,{passive:false});
+  cv.addEventListener('touchmove',dMove,{passive:false});
+  cv.addEventListener('touchend',dEnd);
+  var rt;window.addEventListener('resize',function(){clearTimeout(rt);
+    rt=setTimeout(function(){sizeCanvas(true);},200);});
+}
+bDraw.onclick=function(){
+  drawOn=!drawOn;
+  if(drawOn){initCanvas();sizeCanvas(true);}
+  bDraw.classList.toggle('on',drawOn);
+  body.classList.toggle('dw',drawOn);
+  penbar.classList.toggle('show',drawOn);
+  toast(drawOn?'ابزار رسم فعال شد ✏️':'ابزار رسم خاموش شد');
+};
+Array.prototype.forEach.call(document.querySelectorAll('.pen'),function(p){
+  p.onclick=function(){
+    Array.prototype.forEach.call(document.querySelectorAll('.pen'),function(x){x.classList.remove('sel');});
+    p.classList.add('sel');color=p.dataset.c;erase=false;
+    document.getElementById('bErase').classList.remove('on');};
+});
+document.getElementById('bErase').onclick=function(){erase=!erase;this.classList.toggle('on',erase);};
+document.getElementById('bClearD').onclick=function(){
+  if(!ctx)return;ctx.clearRect(0,0,cv.width,cv.height);
+  localStorage.removeItem(DKEY);toast('رسم‌ها پاک شد');};
+
+/* ---------- FLASHCARDS ---------- */
+var CARDS=[
+ ['جهش را دقیقاً تعریف کن.','تغییر <b>ماندگار</b> در نوکلئوتیدهای ماده‌ی وراثتی. کلمه‌ی «ماندگار» حیاتی است.'],
+ ['سه سرنوشت جهش جانشینی؟','<b>خاموش</b> (همان آمینواسید) · <b>دگرمعنا</b> (آمینواسید دیگر) · <b>بی‌معنا</b> (رمز پایان، پلی‌پپتید کوتاه‌تر).'],
+ ['اضافه/حذف چه وقت چارچوب را به‌هم نمی‌زند؟','وقتی تعداد نوکلئوتیدها <b>مضربی از سه</b> باشد.'],
+ ['چهار ناهنجاری ساختاری فامتن؟','حذف · جابه‌جایی · مضاعف‌شدگی · واژگونی. (حذف غالباً کشنده است.)'],
+ ['ژنگان هسته‌ای انسان شامل چیست؟','۲۲ فامتن غیرجنسی + X + Y. ژنگان کلی، دنای راکیزه را هم شامل می‌شود.'],
+ ['جهش در توالی تنظیمی چه چیزی را عوض می‌کند؟','<b>مقدار</b> پروتئین را، نه توالی آن.'],
+ ['UV چطور جهش می‌سازد؟','پیوند دو تیمین مجاور ← <b>دوپار تیمین</b> ← اختلال دنابسپاراز ← خطای همانندسازی.'],
+ ['تفاوت جهش ارثی و اکتسابی؟','ارثی در <b>گامت</b> است و به همه‌ی یاخته‌های نسل بعد می‌رود؛ اکتسابی در یاخته‌ی پیکری و محدود به خود فرد.'],
+ ['چرا «صفت سازگارتر» و نه «صفت بهتر»؟','چون <b>محیط</b> تعیین می‌کند کدام صفت مفید است؛ با تغییر محیط، صفت مفید هم عوض می‌شود.'],
+ ['انتخاب طبیعی چه چیزی را تغییر می‌دهد؟','<b>جمعیت</b> را، نه فرد را. فراوانی دگره‌ها در خزانه‌ی ژن عوض می‌شود.'],
+ ['خزانه‌ی ژن را تعریف کن.','مجموع همه‌ی <b>دگره‌ها</b> در همه‌ی <b>جایگاه‌های ژنی</b> همه‌ی <b>افراد</b> یک جمعیت.'],
+ ['پنج عامل بر هم‌زننده‌ی تعادل ژنی؟','جهش · رانش دگره‌ای · شارش ژن · آمیزش غیرتصادفی · انتخاب طبیعی («چهار ـش و یک انتخاب»).'],
+ ['مهم‌ترین تفاوت رانش دگره‌ای با انتخاب طبیعی؟','رانش تصادفی است و <b>به سازش نمی‌انجامد</b>؛ انتخاب طبیعی جهت‌دار است و سازگاری می‌آورد.'],
+ ['آمیزش غیرتصادفی فراوانی چه چیزی را عوض می‌کند؟','فراوانی نسبی <b>ژن‌نمودها</b> (نه دگره‌ها).'],
+ ['شارش ژن پیوسته و دوسویه چه اثری دارد؟','خزانه‌ی ژن دو جمعیت را <b>به هم شبیه</b> می‌کند.'],
+ ['سه سازوکار تداوم گوناگونی؟','آرایش تصادفی چهارتایه‌ها در متافاز ۱ (۲ⁿ) · چلیپایی‌شدن و نوترکیبی · مزیت ناخالص‌ها.'],
+ ['از یک چهارتایه با یک چلیپایی‌شدن، چند فامینک نوترکیب؟','<b>دو</b> نوترکیب و <b>دو</b> والدی — چون مبادله بین فامینک‌های غیرخواهری است.'],
+ ['چرا Hb<sup>A</sup>Hb<sup>S</sup> در منطقه مالاریاخیز مزیت دارد؟','به مالاریا <b>مقاوم</b> است، در حالی که Hb<sup>A</sup>Hb<sup>A</sup> در خطر مالاریاست و Hb<sup>S</sup>Hb<sup>S</sup> زود می‌میرد.'],
+ ['سه شاهد تغییر گونه‌ها؟','سنگواره‌ها · تشریح مقایسه‌ای · مطالعات مولکولی.'],
+ ['همتا و آنالوگ را تفکیک کن.','<b>همتا</b>: ساختار یکسان، کار متفاوت ← خویشاوند. <b>آنالوگ</b>: کار یکسان، ساختار متفاوت ← خویشاوند نیست.'],
+ ['ساختار وستیجیال یعنی چه؟ مثال کتاب؟','ساختاری که کارایی‌اش را از دست داده؛ <b>بقایای استخوان پا در لگن مار پیتون</b>.'],
+ ['تعریف گونه از نظر مایر؟','افرادی که در طبیعت آمیزش می‌کنند و زاده‌ی <b>زیستا و زایا</b> می‌دهند و با دیگران آمیزش موفق ندارند.'],
+ ['تفاوت دگرمیهنی و هم‌میهنی در یک کلمه؟','وجود یا نبود <b>سد جغرافیایی</b>. دگرمیهنی دارد، هم‌میهنی ندارد.'],
+ ['خطای جدانشدن در تقسیم اول چند گامت سالم می‌دهد؟','<b>صفر</b> — هر ۴ گامت غیرطبیعی (۲ تا n+1، ۲ تا n−1).'],
+ ['خطای جدانشدن در تقسیم دوم چند گامت سالم می‌دهد؟','<b>دو</b> گامت سالم + یک (n+1) + یک (n−1).'],
+ ['گامت گیاه چارلاد (4n) چندلادی است؟','<b>دولاد (2n)</b> — گامت همیشه نصف والد است.'],
+ ['قاعده‌ی زوج/فرد در چندلادی؟','عدد لادی تخم <b>زوج</b> (4n) ← زایا · <b>فرد</b> (3n) ← نازا.'],
+ ['چرا گیاه چارلاد گونه‌ی جدید است؟','چون با گونه‌ی نیایی زاده‌ی <b>3n نازا</b> می‌دهد ← جدایی تولیدمثلی ← طبق تعریف مایر گونه‌ی جدا.']
+];
+var order=CARDS.map(function(_,i){return i;}), ci=0;
+var fcq=document.getElementById('fcq'), fca=document.getElementById('fca'), fcMeta=document.getElementById('fcMeta');
+function showCard(){
+  var c=CARDS[order[ci]];
+  fcq.innerHTML=c[0];fca.innerHTML=c[1];fca.classList.remove('show');
+  fcMeta.textContent=fa(ci+1)+' از '+fa(CARDS.length);
+}
+document.getElementById('fcShow').onclick=function(){fca.classList.add('show');};
+document.getElementById('fcNext').onclick=function(){ci=(ci+1)%CARDS.length;showCard();};
+document.getElementById('fcShuffle').onclick=function(){
+  for(var i=order.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=order[i];order[i]=order[j];order[j]=t;}
+  ci=0;showCard();toast('کارت‌ها بُر خورد 🔀');};
+showCard();
+
+/* ---------- WELCOME ---------- */
+var doneN=chunks.filter(function(c){var p=prog[c.dataset.id];return p&&p.c>0;}).length;
+if(doneN>0)setTimeout(function(){toast('خوش برگشتی! '+fa(doneN)+' بخش را قبلاً خوانده‌ای 👋');},600);
+})();
+</script>
+</body>
+</html>
