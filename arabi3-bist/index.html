@@ -1,0 +1,1220 @@
+<div dir="rtl" lang="fa" id="root">
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Vazirmatn:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+#root{
+  --bg:#0c1216; --s1:#131e24; --s2:#19262e; --s3:#213139;
+  --line:#25373f; --teal:#35c9b5; --teal-d:#0f4b46; --gold:#e6b455; --gold-d:#4a3818;
+  --tx:#dfeaee; --mut:#8ba3ae; --dim:#5d757f;
+  --flag:#f0a04b; --ok:#35c9b5;
+  --r:14px;
+  font-family:'Vazirmatn',system-ui,sans-serif;
+  background:var(--bg); color:var(--tx);
+  min-height:100vh; padding-bottom:90px;
+  line-height:1.85; font-size:15px;
+}
+#root ::selection{background:var(--teal-d);color:#fff}
+.ar{font-family:'Amiri',serif;font-size:1.42em;line-height:2.15;letter-spacing:.2px;color:#f2f7f9}
+.tealtx{color:var(--teal)} .goldtx{color:var(--gold)} .mut{color:var(--mut)}
+
+/* ---------- header ---------- */
+.hd{position:sticky;top:0;z-index:50;background:linear-gradient(180deg,#0c1216 72%,rgba(12,18,22,.86));
+    border-bottom:1px solid var(--line);padding:12px 14px 10px;backdrop-filter:blur(10px)}
+.hd-top{display:flex;align-items:center;gap:12px}
+.ring{position:relative;width:56px;height:56px;flex:0 0 auto}
+.ring svg{transform:rotate(-90deg)}
+.ring b{position:absolute;inset:0;display:grid;place-items:center;font-size:13px;font-weight:800;color:var(--teal)}
+.hd h1{font-size:16px;font-weight:800;letter-spacing:-.2px}
+.hd .sub{font-size:11.5px;color:var(--dim);margin-top:-2px}
+.searchwrap{margin-top:10px;position:relative}
+.searchwrap input{width:100%;background:var(--s1);border:1px solid var(--line);border-radius:11px;
+  padding:10px 38px 10px 12px;color:var(--tx);font-family:inherit;font-size:14px;outline:none}
+.searchwrap input:focus{border-color:var(--teal)}
+.searchwrap span{position:absolute;right:12px;top:9px;color:var(--dim);font-size:15px}
+.filters{display:flex;gap:6px;margin-top:9px;flex-wrap:wrap}
+.fbtn{background:var(--s1);border:1px solid var(--line);color:var(--mut);border-radius:99px;
+  padding:5px 12px;font-size:12px;font-family:inherit;cursor:pointer;transition:.15s}
+.fbtn.on{background:var(--teal-d);border-color:var(--teal);color:#eafffb}
+.fbtn:hover{border-color:var(--teal)}
+
+/* ---------- nav ---------- */
+.nav{padding:12px 14px 4px;display:flex;gap:7px;overflow-x:auto;scrollbar-width:none}
+.nav::-webkit-scrollbar{display:none}
+.nchip{flex:0 0 auto;background:var(--s1);border:1px solid var(--line);border-radius:10px;
+  padding:7px 11px;font-size:12px;color:var(--mut);cursor:pointer;white-space:nowrap;position:relative;overflow:hidden}
+.nchip i{font-style:normal;margin-left:5px}
+.nchip .bar{position:absolute;bottom:0;right:0;height:2px;background:var(--teal);transition:.4s}
+.nchip:hover{color:var(--tx);border-color:var(--teal)}
+
+/* ---------- section ---------- */
+.wrap{padding:8px 12px 0;max-width:900px;margin:0 auto}
+.sec{background:var(--s1);border:1px solid var(--line);border-radius:var(--r);margin-bottom:12px;overflow:hidden}
+.sec.locked{opacity:.55}
+.sechd{display:flex;align-items:center;gap:10px;padding:13px 14px;cursor:pointer;user-select:none}
+.sechd:hover{background:var(--s2)}
+.sechd .ic{font-size:19px;width:26px;text-align:center;flex:0 0 auto}
+.sechd .tt{flex:1;min-width:0}
+.sechd h2{font-size:14.5px;font-weight:700;line-height:1.5}
+.sechd .meta{font-size:11px;color:var(--dim);margin-top:1px}
+.chev{color:var(--dim);font-size:12px;transition:.25s}
+.sec.open .chev{transform:rotate(-90deg)}
+.pbar{height:3px;background:var(--s3)}
+.pbar i{display:block;height:100%;background:linear-gradient(90deg,var(--teal),var(--gold));transition:.5s}
+.secbody{display:none;padding:4px 12px 14px;border-top:1px solid var(--line)}
+.sec.open .secbody{display:block}
+
+/* toolbar inside section */
+.tools{display:flex;align-items:center;gap:6px;flex-wrap:wrap;padding:10px 2px 12px}
+.tbtn{background:var(--s2);border:1px solid var(--line);color:var(--mut);border-radius:9px;
+  padding:6px 10px;font-size:11.5px;font-family:inherit;cursor:pointer;display:flex;align-items:center;gap:5px}
+.tbtn:hover{border-color:var(--teal);color:var(--tx)}
+.tbtn.act{background:var(--teal-d);border-color:var(--teal);color:#eafffb}
+.reads{margin-right:auto;display:flex;align-items:center;gap:6px;background:var(--s2);
+  border:1px solid var(--line);border-radius:9px;padding:4px 6px}
+.reads b{font-size:12px;color:var(--gold);min-width:16px;text-align:center}
+.reads button{background:none;border:none;color:var(--mut);font-size:16px;cursor:pointer;
+  width:22px;height:22px;border-radius:6px;font-family:inherit;line-height:1}
+.reads button:hover{background:var(--s3);color:var(--teal)}
+.reads span{font-size:11px;color:var(--dim)}
+
+/* ---------- card ---------- */
+.card{border:1px solid var(--line);border-radius:11px;background:var(--s2);margin-bottom:8px;
+  padding:11px 12px;position:relative;transition:.18s}
+.card.done{border-color:rgba(53,201,181,.4);background:linear-gradient(90deg,rgba(53,201,181,.07),transparent 55%)}
+.card.flag{border-color:rgba(240,160,75,.55)}
+.card.flag::before{content:'';position:absolute;top:0;right:0;width:3px;height:100%;background:var(--flag);border-radius:0 11px 11px 0}
+.card .side-a{padding-left:62px}
+.card .fa{margin-top:7px;padding-top:7px;border-top:1px dashed var(--line);font-size:14px;color:#c9dbe2}
+.card .fa.hide{filter:blur(6px);opacity:.55;cursor:pointer;user-select:none}
+.card .nt{margin-top:6px;font-size:11.5px;color:var(--gold);background:var(--gold-d);
+  border-radius:7px;padding:5px 8px;display:inline-block;line-height:1.7}
+.acts{position:absolute;top:9px;left:9px;display:flex;gap:4px}
+.acts button{background:var(--s3);border:1px solid var(--line);border-radius:8px;width:26px;height:26px;
+  cursor:pointer;font-size:12px;color:var(--dim);display:grid;place-items:center;padding:0;line-height:1}
+.acts button:hover{border-color:var(--teal);color:var(--tx)}
+.acts button.on-ok{background:var(--teal-d);border-color:var(--teal);color:#7ff0e0}
+.acts button.on-fl{background:#4a3311;border-color:var(--flag);color:var(--flag)}
+.idx{font-size:10px;color:var(--dim);font-family:'Vazirmatn';margin-left:6px;vertical-align:2px}
+
+/* ---------- html blocks ---------- */
+.blk{font-size:14px}
+.blk h3{font-size:14px;color:var(--gold);margin:16px 0 8px;padding-right:10px;border-right:3px solid var(--gold)}
+.blk h3:first-child{margin-top:6px}
+.blk h4{font-size:13px;color:var(--teal);margin:12px 0 6px}
+.blk p{margin:7px 0;color:#c5d7de}
+.blk ul{margin:7px 18px 7px 0}
+.blk li{margin:5px 0;color:#c5d7de}
+.blk table{width:100%;border-collapse:collapse;margin:9px 0;font-size:12.5px;display:block;overflow-x:auto;white-space:nowrap}
+.blk th{background:var(--s3);color:var(--gold);padding:7px 9px;border:1px solid var(--line);font-weight:700;text-align:right}
+.blk td{padding:7px 9px;border:1px solid var(--line);color:#c5d7de;text-align:right}
+.blk td.ar,.blk th.ar{font-family:'Amiri',serif;font-size:16px;color:#f2f7f9}
+.blk tr:nth-child(even) td{background:rgba(255,255,255,.017)}
+.tip{background:rgba(53,201,181,.08);border:1px solid rgba(53,201,181,.3);border-right:3px solid var(--teal);
+  border-radius:9px;padding:9px 11px;margin:9px 0;font-size:13px;color:#bfe6e0}
+.warn{background:rgba(240,160,75,.08);border:1px solid rgba(240,160,75,.32);border-right:3px solid var(--flag);
+  border-radius:9px;padding:9px 11px;margin:9px 0;font-size:13px;color:#f2d6b0}
+.gold-box{background:linear-gradient(135deg,rgba(230,180,85,.12),rgba(53,201,181,.06));
+  border:1px solid rgba(230,180,85,.35);border-radius:11px;padding:11px 12px;margin:10px 0;font-size:13.5px}
+.kbd{display:inline-block;background:var(--s3);border:1px solid var(--line);border-bottom-width:2px;
+  border-radius:6px;padding:1px 7px;font-family:'Amiri',serif;font-size:15px;color:var(--teal)}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
+.chip{background:var(--s3);border:1px solid var(--line);border-radius:8px;padding:4px 9px;font-size:12px}
+
+/* ---------- footer bar ---------- */
+.fbar{position:fixed;bottom:0;right:0;left:0;z-index:60;background:rgba(12,18,22,.94);
+  backdrop-filter:blur(12px);border-top:1px solid var(--line);padding:8px 14px 10px;
+  display:flex;align-items:center;gap:10px;max-width:900px;margin:0 auto}
+.fbar .st{flex:1;font-size:11.5px;color:var(--dim);line-height:1.6}
+.fbar .st b{color:var(--teal);font-size:13px}
+.fbar .st u{color:var(--flag);text-decoration:none}
+.fbar button{background:var(--s2);border:1px solid var(--line);color:var(--mut);border-radius:9px;
+  padding:7px 11px;font-size:11.5px;font-family:inherit;cursor:pointer}
+.fbar button:hover{border-color:var(--teal);color:var(--tx)}
+.empty{text-align:center;color:var(--dim);font-size:13px;padding:18px 0}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@media(max-width:480px){.ar{font-size:1.3em}.hd h1{font-size:14.5px}}
+</style>
+
+<div class="hd">
+  <div class="hd-top">
+    <div class="ring">
+      <svg width="56" height="56"><circle cx="28" cy="28" r="24" stroke="#213139" stroke-width="5" fill="none"/>
+      <circle id="rc" cx="28" cy="28" r="24" stroke="#35c9b5" stroke-width="5" fill="none"
+        stroke-linecap="round" stroke-dasharray="150.8" stroke-dashoffset="150.8"/></svg>
+      <b id="rp">۰٪</b>
+    </div>
+    <div style="flex:1">
+      <h1>عربی، زبان قرآن ۳ — پروندهٔ بیست</h1>
+      <div class="sub" id="subline">هر چیزی که در امتحان می‌آید، اینجاست</div>
+    </div>
+  </div>
+  <div class="searchwrap"><span>⌕</span><input id="q" placeholder="جست‌وجو در واژه، جمله، قاعده…"></div>
+  <div class="filters">
+    <button class="fbtn on" data-f="all">همه</button>
+    <button class="fbtn" data-f="todo">هنوز بلد نیستم</button>
+    <button class="fbtn" data-f="flag">⭐ نشان‌دار</button>
+    <button class="fbtn" data-f="done">✓ بلدم</button>
+  </div>
+</div>
+<div class="nav" id="nav"></div>
+<div class="wrap" id="wrap"></div>
+<div class="fbar">
+  <div class="st" id="stat"></div>
+  <button id="expand">باز کردن همه</button>
+  <button id="reset">پاک کردن</button>
+</div>
+</div>
+<script>
+const S = [
+{id:'plan',t:'نقشهٔ نبرد — کجا نمره هست؟',ic:'🎯',kind:'html',body:`
+<div class="gold-box"><b>حقیقت شمارهٔ یک:</b> حدود <b class="goldtx">۶۰٪</b> نمرهٔ این امتحان فقط و فقط ترجمه است. و بیش از نیمِ خطاهای ترجمه، خطای <b class="tealtx">زمانِ فعل</b> است، نه ندانستن واژه.</div>
+<table><tr><th>بخش</th><th>نمره</th><th>حکم</th></tr>
+<tr><td>ترجمهٔ عربی ← فارسی (کلمات، آیات، عبارات، افعال، تکمیل ترجمه، انتخاب ترجمهٔ صحیح)</td><td>~۱۲.۵</td><td>قلب امتحان</td></tr>
+<tr><td>واژگان (مترادف/متضاد، غریبه، مفرد و جمع، توضیحات، کلمهٔ مناسب)</td><td>~۲.۵</td><td>نمرهٔ مفت</td></tr>
+<tr><td>قواعد و تحلیل (مشتقات، محلّ اعرابی، حال/استثناء/مفعول مطلق، تحلیل صرفی)</td><td>~۴.۲۵</td><td>فرمولی</td></tr>
+<tr><td>درک مطلب</td><td>~۱</td><td>جواب داخل متن است</td></tr></table>
+<h3>ترتیب پاسخ‌گویی در ۸۰ دقیقه</h3>
+<ul>
+<li><b>۰ تا ۸:</b> واژگان و تستی‌ها. قطعی‌ترین نمره‌ها، بی‌رحمانه سریع.</li>
+<li><b>۸ تا ۲۳:</b> ترجمهٔ افعال + تحلیل صرفی + محلّ اعرابی. همه فرمولی‌اند.</li>
+<li><b>۲۳ تا ۲۸:</b> درک مطلب. جواب‌ها را از متن کپی کن، جمله نساز.</li>
+<li><b>۲۸ تا ۶۸:</b> سؤال بزرگ ترجمه. با آرامش.</li>
+<li><b>۶۸ تا ۸۰:</b> بازبینی. فقط و فقط <b class="tealtx">زمان فعل‌ها</b> را چک کن.</li>
+</ul>
+<div class="warn"><b>قانونی که نباید بشکنی:</b> هیچ جای خالی نگذار. هر جزء ربع نمره دارد؛ حدسِ نزدیک ممکن است نمره بگیرد، جای خالی قطعاً صفر است.</div>
+<div class="tip"><b>چطور از این فایل استفاده کن:</b> هر کارت را اول فقط عربی‌اش را بخوان و ترجمه را در ذهنت بساز، بعد روی بخش تار بزن تا باز شود. اگر درست بود ✓ بزن، اگر نه ⭐ بزن تا در فیلتر «نشان‌دار» دوباره ببینی‌اش. شمارندهٔ «خواندم» بالای هر بخش را هم هر دور یکی زیاد کن.</div>`},
+
+{id:'g0',t:'پایه ۱ — ضمیرها و ۱۴ صیغه',ic:'🧩',kind:'html',body:`
+<div class="tip">بدون این جدول، هیچ فعلی را نمی‌توانی درست ترجمه کنی. این ستون فقرات همه چیز است.</div>
+<h3>ضمیر منفصل (جدا)</h3>
+<table><tr><th>شخص</th><th class="ar">مفرد</th><th class="ar">مثنّیٰ</th><th class="ar">جمع</th></tr>
+<tr><td>سوم مذکّر</td><td class="ar">هُوَ (او)</td><td class="ar">هُما (آن دو)</td><td class="ar">هُم (آنها)</td></tr>
+<tr><td>سوم مؤنّث</td><td class="ar">هِيَ (او)</td><td class="ar">هُما</td><td class="ar">هُنَّ</td></tr>
+<tr><td>دوم مذکّر</td><td class="ar">أنتَ (تو)</td><td class="ar">أنتُما (شما دو)</td><td class="ar">أنتُم (شما)</td></tr>
+<tr><td>دوم مؤنّث</td><td class="ar">أنتِ</td><td class="ar">أنتُما</td><td class="ar">أنتُنَّ</td></tr>
+<tr><td>متکلّم</td><td class="ar">أنا (من)</td><td colspan="2" class="ar">نَحنُ (ما)</td></tr></table>
+<h3>ضمیر متّصل (چسبیده)</h3>
+<p class="ar">ـهُ (ــَش) • ـهُما • ـهُم • ـها • ـهُنَّ • ـكَ (ــَت) • ـكُما • ـكُم • ـكِ • ـكُنَّ • ـي (ــَم) • ـنا (ــِمان)</p>
+<div class="warn"><b>تلهٔ نمره‌بَر:</b> ضمیر متصل را در ترجمه جا نینداز. <span class="kbd">سَيّارَتَهُم</span> = خودرو<b class="tealtx">یشان</b> • <span class="kbd">مَعرِفَتَكَ</span> = شناختِ <b class="tealtx">تو</b> • <span class="kbd">قَومَهُ</span> = قوم<b class="tealtx">ش</b>.</div>
+<h3>نون وقایه</h3>
+<p>وقتی ضمیر «ي» (من) به فعل بچسبد، یک «نـ» بین آنها می‌آید تا فعل خراب نشود:</p>
+<p class="ar">ساعَدَ + ي ← ساعَدَ<b class="tealtx">نـ</b>ي (به من کمک کرد) • تَسأَلونَ<b class="tealtx">نـ</b>ي • أغنا<b class="tealtx">نـ</b>ا • تُؤلِمُ<b class="tealtx">نـ</b>ي</p>
+<h3>مثنّیٰ را حتماً مثنّیٰ ترجمه کن</h3>
+<p class="ar">الطِّفلانِ = <span style="font-family:Vazirmatn">دو کودک</span> • والِدَيهِ = <span style="font-family:Vazirmatn">پدر و مادرش</span> • السَّنَتَينِ = <span style="font-family:Vazirmatn">دو سال</span> • الحَرَمَينِ = <span style="font-family:Vazirmatn">دو حرم</span> • بِوَجهَينِ = <span style="font-family:Vazirmatn">با دو چهره</span></p>`},
+
+{id:'g1',t:'پایه ۲ — صرف فعل (ماضی، مضارع، امر، نهی)',ic:'⚙️',kind:'html',body:`
+<h3>ماضی — نمونه: كَتَبَ (نوشت)</h3>
+<table><tr><th>&nbsp;</th><th class="ar">مفرد</th><th class="ar">مثنّیٰ</th><th class="ar">جمع</th></tr>
+<tr><td>غائب مذکّر</td><td class="ar">كَتَبَ</td><td class="ar">كَتَبا</td><td class="ar">كَتَبوا</td></tr>
+<tr><td>غائب مؤنّث</td><td class="ar">كَتَبَتْ</td><td class="ar">كَتَبَتا</td><td class="ar">كَتَبْنَ</td></tr>
+<tr><td>مخاطب مذکّر</td><td class="ar">كَتَبْتَ</td><td class="ar">كَتَبْتُما</td><td class="ar">كَتَبْتُم</td></tr>
+<tr><td>مخاطب مؤنّث</td><td class="ar">كَتَبْتِ</td><td class="ar">كَتَبْتُما</td><td class="ar">كَتَبْتُنَّ</td></tr>
+<tr><td>متکلّم</td><td class="ar">كَتَبْتُ</td><td colspan="2" class="ar">كَتَبْنا</td></tr></table>
+<h3>مضارع</h3>
+<table><tr><th>&nbsp;</th><th class="ar">مفرد</th><th class="ar">مثنّیٰ</th><th class="ar">جمع</th></tr>
+<tr><td>غائب مذکّر</td><td class="ar">يَكتُبُ</td><td class="ar">يَكتُبانِ</td><td class="ar">يَكتُبونَ</td></tr>
+<tr><td>غائب مؤنّث</td><td class="ar">تَكتُبُ</td><td class="ar">تَكتُبانِ</td><td class="ar">يَكتُبْنَ</td></tr>
+<tr><td>مخاطب مذکّر</td><td class="ar">تَكتُبُ</td><td class="ar">تَكتُبانِ</td><td class="ar">تَكتُبونَ</td></tr>
+<tr><td>مخاطب مؤنّث</td><td class="ar">تَكتُبينَ</td><td class="ar">تَكتُبانِ</td><td class="ar">تَكتُبْنَ</td></tr>
+<tr><td>متکلّم</td><td class="ar">أكتُبُ</td><td colspan="2" class="ar">نَكتُبُ</td></tr></table>
+<div class="tip"><b>شکل ظاهری — چهار حرف مضارع:</b> <span class="kbd">أ ن ي ت</span> (به یاد بسپار: «<b class="goldtx">أنَيتُ</b>»). هر فعل مضارعی با یکی از این چهار شروع می‌شود.</div>
+<h3>امر و نهی</h3>
+<table><tr><th class="ar">امر</th><th class="ar">نهی</th></tr>
+<tr><td class="ar">اُكتُبْ (بنویس)</td><td class="ar">لا تَكتُبْ (ننویس)</td></tr>
+<tr><td class="ar">اُكتُبي</td><td class="ar">لا تَكتُبي</td></tr>
+<tr><td class="ar">اُكتُبا</td><td class="ar">لا تَكتُبا</td></tr>
+<tr><td class="ar">اُكتُبوا</td><td class="ar">لا تَكتُبوا</td></tr>
+<tr><td class="ar">اُكتُبْنَ</td><td class="ar">لا تَكتُبْنَ</td></tr></table>
+<h4>ساخت امر مخاطب در سه گام</h4>
+<ul><li>۱) از مضارع شروع کن: <span class="kbd">تَكتُبُ</span></li>
+<li>۲) حرف «تـ» را بردار: <span class="kbd">ـكتُبُ</span></li>
+<li>۳) آخرش را ساکن کن؛ اگر اولش ساکن ماند، همزهٔ وصل بیاور: <span class="kbd">اُكتُبْ</span></li></ul>
+<div class="warn"><b>امر باب‌های مزید همزه ندارد:</b> <span class="kbd">تُساعِدُ ← ساعِدْ</span> • <span class="kbd">تُعَلِّمُ ← عَلِّمْ</span> • <span class="kbd">تُرسِلُ ← أرسِلْ</span> • ولی <span class="kbd">تَستَخرِجُ ← اِستَخرِجْ</span> و <span class="kbd">تَنتَظِرُ ← اِنتَظِرْ</span> همزه دارند.</div>
+<h3>مستقبل (آینده)</h3>
+<p><span class="kbd">سَـ</span> یا <span class="kbd">سَوفَ</span> + مضارع ← «خواهد …». مثال: <span class="ar">سَيَكتُبُ / سَوفَ يَكتُبُ</span> = خواهد نوشت.</p>`},
+
+{id:'g2',t:'پایه ۳ — ناصبه، جازمه، مجهول، کان',ic:'🔧',kind:'html',body:`
+<h3>حروف ناصبه — آخر فعل فتحه می‌گیرد</h3>
+<p class="chips"><span class="chip ar">أنْ</span><span class="chip ar">لَنْ</span><span class="chip ar">كَيْ</span><span class="chip ar">لِـ</span><span class="chip ar">حَتّىٰ</span></p>
+<p>در جمع و مخاطب مؤنث، <b class="tealtx">نونِ اعراب حذف می‌شود</b>: <span class="ar">يَكتُبونَ ← لَنْ يَكتُبوا</span> • <span class="ar">تَكتُبينَ ← أنْ تَكتُبي</span></p>
+<table><tr><th class="ar">حرف</th><th>ترجمه</th><th class="ar">مثال</th></tr>
+<tr><td class="ar">أنْ</td><td>که …</td><td class="ar">أُريدُ أنْ أكتُبَ</td></tr>
+<tr><td class="ar">لَنْ</td><td><b class="tealtx">هرگز نخواهد</b></td><td class="ar">لَنْ يَكتُبَ</td></tr>
+<tr><td class="ar">كَيْ / لِـ / حَتّىٰ</td><td>تا …</td><td class="ar">أُرسِلَ الأنبياءُ لِيُبَيِّنوا</td></tr></table>
+<h3>حروف جازمه — آخر فعل ساکن می‌شود</h3>
+<table><tr><th class="ar">حرف</th><th>ترجمه</th><th class="ar">مثال</th></tr>
+<tr><td class="ar">لَمْ</td><td><b class="tealtx">ماضی منفی</b> (ن…)</td><td class="ar">لَمْ يَكتُبْ = ننوشت</td></tr>
+<tr><td class="ar">لِـ (امر غائب/متکلّم)</td><td><b class="tealtx">باید</b></td><td class="ar">لِيَكتُبْ = باید بنویسد</td></tr>
+<tr><td class="ar">لا (نهی مخاطب)</td><td>ن…!</td><td class="ar">لا تَكتُبْ = ننویس</td></tr>
+<tr><td class="ar">لا (نهی غائب/متکلّم)</td><td><b class="tealtx">نباید</b></td><td class="ar">لا يَكتُبْ = نباید بنویسد</td></tr></table>
+<div class="warn"><span class="kbd">لَمْ</span> شکل فعل مضارع دارد ولی معنی ماضی می‌دهد. این پرتکرارترین اشتباه امتحان است. <span class="ar">لَمْ تَصعَدِ الجَبَلَ</span> = از کوه بالا <b>نرفت</b>، نه «بالا نمی‌رود».</div>
+<h3>شرط</h3>
+<p>ادات شرط: <span class="kbd">إنْ</span> <span class="kbd">مَنْ</span> <span class="kbd">ما</span> — دو فعل بعدش مجزوم می‌شوند. ترجمه: «اگر … ، …».</p>
+<p class="ar">إنْ تَكتُبْ بِعَجَلَةٍ، فَسَيُصبِحُ خَطُّكَ قَبيحاً</p>
+<p class="mut">اگر با عجله بنویسی، خطت زشت خواهد شد.</p>
+<p class="ar">إنْ تَذكُروني أذكُركُم • مَنْ جَدَّ وَجَدَ • إنْ أكرَمنَا اللَّئيمَ تَمَرَّدَ</p>
+<h3>مجهول — شکل ظاهری‌اش را حفظ کن</h3>
+<div class="gold-box"><b>ماضی مجهول:</b> حرف اول <b class="tealtx">ضمّه</b> + یکی مانده به آخر <b class="tealtx">کسره</b> ← <span class="ar">كَتَبَ ← كُتِبَ</span><br>
+<b>مضارع مجهول:</b> حرف اول <b class="tealtx">ضمّه</b> + یکی مانده به آخر <b class="tealtx">فتحه</b> ← <span class="ar">يَكتُبُ ← يُكتَبُ</span></div>
+<table><tr><th class="ar">معلوم</th><th class="ar">مجهول</th><th>ترجمه</th></tr>
+<tr><td class="ar">أرسَلَ</td><td class="ar">أُرسِلَ</td><td>فرستاده شد</td></tr>
+<tr><td class="ar">ذَكَرَ</td><td class="ar">ذُكِرَ / ذُكِروا</td><td>یاد شد / یاد شده‌اند</td></tr>
+<tr><td class="ar">قالَ</td><td class="ar">يُقالُ</td><td>گفته می‌شود</td></tr>
+<tr><td class="ar">تَرَكَ</td><td class="ar">يُتْرَكَ</td><td>رها می‌شود</td></tr>
+<tr><td class="ar">عَلَّمَ</td><td class="ar">عُلِّمَ</td><td>آموزانده شد</td></tr>
+<tr><td class="ar">اِستَخرَجَ</td><td class="ar">اُستُخرِجَ</td><td>بیرون آورده شد</td></tr>
+<tr><td class="ar">نَصَبَ</td><td class="ar">نُصِبَ</td><td>برپا شد</td></tr>
+<tr><td class="ar">عَرَفَ</td><td class="ar">يُعرَفُ</td><td>شناخته می‌شود</td></tr>
+<tr><td class="ar">نَزَّلَ</td><td class="ar">نُزِّلَ</td><td>فرود آورده شد</td></tr>
+<tr><td class="ar">وَلَدَ</td><td class="ar">وُلِدَ</td><td>زاده شد</td></tr></table>
+<div class="tip">در جملهٔ مجهول، مفعول بالا می‌آید و <b>نائب فاعل</b> می‌شود و مرفوع است: <span class="ar">كُتِبَ التَّمرينُ</span> = تمرین نوشته شد.</div>
+<h3>كانَ — ماشین ساخت زمان</h3>
+<table><tr><th class="ar">ساختار</th><th>زمان فارسی</th><th class="ar">مثال</th></tr>
+<tr><td class="ar">كانَ + مضارع</td><td><b class="tealtx">ماضی استمراری</b> (می‌…‌ـد)</td><td class="ar">كانَ يَكتُبُ = می‌نوشت</td></tr>
+<tr><td class="ar">كانَ + قَدْ + ماضی</td><td><b class="tealtx">ماضی بعید</b> (…‌ه بود)</td><td class="ar">كانَ قَدْ كَتَبَ = نوشته بود</td></tr>
+<tr><td class="ar">كانَ + اسم/صفت</td><td>بود</td><td class="ar">كانَ رَجُلاً صادِقاً</td></tr>
+<tr><td class="ar">لَيسَ</td><td>نیست</td><td class="ar">لَيسَ قَولُكَ بِضائِرِهِ</td></tr>
+<tr><td class="ar">صارَ / أصبَحَ</td><td>شد</td><td class="ar">أصبَحَ سِعرُ العِنَبِ رَخيصاً</td></tr></table>`},
+
+{id:'g3',t:'پایه ۴ — هشت باب، مصدر و مشتقات',ic:'🏗️',kind:'html',body:`
+<h3>هشت باب ثلاثی مزید — جدولی که همه چیز از آن درمی‌آید</h3>
+<table><tr><th class="ar">ماضی</th><th class="ar">مضارع</th><th class="ar">امر</th><th class="ar">مصدر</th><th class="ar">اسم فاعل</th><th class="ar">اسم مفعول</th></tr>
+<tr><td class="ar">أفعَلَ</td><td class="ar">يُفعِلُ</td><td class="ar">أفعِلْ</td><td class="ar">إفعال</td><td class="ar">مُفعِل</td><td class="ar">مُفعَل</td></tr>
+<tr><td class="ar">فَعَّلَ</td><td class="ar">يُفَعِّلُ</td><td class="ar">فَعِّلْ</td><td class="ar">تَفعيل</td><td class="ar">مُفَعِّل</td><td class="ar">مُفَعَّل</td></tr>
+<tr><td class="ar">فاعَلَ</td><td class="ar">يُفاعِلُ</td><td class="ar">فاعِلْ</td><td class="ar">مُفاعَلَة</td><td class="ar">مُفاعِل</td><td class="ar">مُفاعَل</td></tr>
+<tr><td class="ar">تَفَعَّلَ</td><td class="ar">يَتَفَعَّلُ</td><td class="ar">تَفَعَّلْ</td><td class="ar">تَفَعُّل</td><td class="ar">مُتَفَعِّل</td><td class="ar">مُتَفَعَّل</td></tr>
+<tr><td class="ar">تَفاعَلَ</td><td class="ar">يَتَفاعَلُ</td><td class="ar">تَفاعَلْ</td><td class="ar">تَفاعُل</td><td class="ar">مُتَفاعِل</td><td class="ar">مُتَفاعَل</td></tr>
+<tr><td class="ar">اِنفَعَلَ</td><td class="ar">يَنفَعِلُ</td><td class="ar">اِنفَعِلْ</td><td class="ar">اِنفِعال</td><td class="ar">مُنفَعِل</td><td class="ar">—</td></tr>
+<tr><td class="ar">اِفتَعَلَ</td><td class="ar">يَفتَعِلُ</td><td class="ar">اِفتَعِلْ</td><td class="ar">اِفتِعال</td><td class="ar">مُفتَعِل</td><td class="ar">مُفتَعَل</td></tr>
+<tr><td class="ar">اِستَفعَلَ</td><td class="ar">يَستَفعِلُ</td><td class="ar">اِستَفعِلْ</td><td class="ar">اِستِفعال</td><td class="ar">مُستَفعِل</td><td class="ar">مُستَفعَل</td></tr></table>
+<div class="tip"><b>مثال زنده از کتاب:</b> <span class="ar">اِفتَخَرَ / يَفتَخِرُ / اِفتِخار</span> • <span class="ar">اِستَخدَمَ / يَستَخدِمُ / اِستِخدام</span> • <span class="ar">اِنسَحَبَ / يَنسَحِبُ / اِنسِحاب</span> • <span class="ar">أرسَلَ / يُرسِلُ / إرسال</span> • <span class="ar">عَلَّمَ / يُعَلِّمُ / تَعليم</span> • <span class="ar">تَقَدَّمَ / يَتَقَدَّمُ / تَقَدُّم</span> • <span class="ar">تَعارَفَ / يَتَعارَفُ / تَعارُف</span> • <span class="ar">ساعَدَ / يُساعِدُ / مُساعَدَة</span></div>
+<h3>مصدرهای بی‌قاعدهٔ ثلاثی — بدون این‌ها مفعول مطلق را نمی‌شناسی</h3>
+<table><tr><th class="ar">فعل</th><th class="ar">مصدر</th><th class="ar">فعل</th><th class="ar">مصدر</th></tr>
+<tr><td class="ar">صَبَرَ</td><td class="ar">صَبْر</td><td class="ar">جَلَسَ</td><td class="ar">جُلوس</td></tr>
+<tr><td class="ar">ذَكَرَ</td><td class="ar">ذِكْر</td><td class="ar">خَرَجَ</td><td class="ar">خُروج</td></tr>
+<tr><td class="ar">عَرَفَ</td><td class="ar">مَعرِفَة</td><td class="ar">طافَ</td><td class="ar">طَواف</td></tr>
+<tr><td class="ar">رَغِبَ</td><td class="ar">رَغْبَة</td><td class="ar">نامَ</td><td class="ar">نَوْم</td></tr>
+<tr><td class="ar">فَتَحَ</td><td class="ar">فَتْح</td><td class="ar">عاشَ</td><td class="ar">عَيْش</td></tr>
+<tr><td class="ar">هَجَمَ</td><td class="ar">هُجوم</td><td class="ar">عَبَدَ</td><td class="ar">عِبادَة</td></tr></table>
+<h3>پنج مشتقی که در امتحان می‌پرسند</h3>
+<table><tr><th>نوع</th><th>شکل ظاهری</th><th class="ar">نمونه‌های خودِ کتاب</th></tr>
+<tr><td><b class="tealtx">اسم فاعل</b></td><td>ثلاثی: فاعِل — مزید: مُـ + کسرهٔ ماقبل آخر</td><td class="ar">كاتِب، عامِل، حارِس، جالِس، القاسي، الواثِق، الضّائِر، الفاعِل، مُساعِد، مُفَكِّر، المُجتَهِدون، العابِدون، الطّالِبات، المُفتَرِس، مُبتَسِم، مُتَعَجِّب</td></tr>
+<tr><td><b class="tealtx">اسم مفعول</b></td><td>ثلاثی: مَفعول — مزید: مُـ + فتحهٔ ماقبل آخر</td><td class="ar">مَكسور، مَقطوع، مَأخوذ، المَدفون، المَعبَد؟ نه — المُعَطَّل، مُكَسَّرَة، مَرصوص، المَفعول، مَسرور، مُعَطَّل، مُنَوَّرَة، مُكَرَّمَة</td></tr>
+<tr><td><b class="tealtx">اسم مبالغه</b></td><td>فَعّال / فَعّالَة / فَعّول / مِفعال</td><td class="ar">أمّارَة، صَبّار، عَلّام، غَفّار، الطَّبّاخ، الجَرّارَة، عَمّال</td></tr>
+<tr><td><b class="tealtx">اسم تفضیل</b></td><td>أفعَل / فُعلىٰ (و جمعش: أفاعِل)</td><td class="ar">أفضَل، أكبَر، أشَدّ، أضعَف، أمتَع، أحسَن، أسوَأ، أجمَل، أقدَم، أصغَر، أعلىٰ، الأعاظِم (أعظَم)، الأقوياء، الأعلَون</td></tr>
+<tr><td><b class="tealtx">اسم مکان</b></td><td>مَفعَل / مَفعِل / مَفعَلَة</td><td class="ar">المَعبَد، المَوقِف، المَطار، المَصنَع (ج: المَصانِع)، المَكتَبَة، المَدرَسَة، المَطعَم، المَنام، المَشهَد، مَجلِس</td></tr></table>
+<div class="warn"><b>در امتحان دقیقاً همین‌ها آمدند:</b> <span class="ar">أمّارَة</span> ← اسم مبالغه • <span class="ar">الأعاظِم</span> ← اسم تفضیل (از أعظَم) • <span class="ar">العُمّال</span> ← اسم فاعل (از عامِل) • <span class="ar">المَصانِع</span> ← اسم مکان (از مَصنَع) • <span class="ar">مَسرورين</span> ← اسم مفعول.</div>
+<h3>ممنوعه‌ها — وقتت را تلف نکن</h3>
+<p class="mut">این‌ها طبق مقدمهٔ خودِ کتاب <b>پرسیده نمی‌شوند</b>: صیغهٔ فعل، ثلاثی مجرد/مزید، معتل، مضاعف، لازم/متعدی، صفت مشبهه، اسم موصول، اسم زمان و آلت، جامد/مشتق، منصرف/غیرمنصرف، تعریب و اعراب‌گذاری.</p>`},
+
+{id:'g4',t:'پایه ۵ — نقش‌ها، اعراب، معرفه و نکره',ic:'🧭',kind:'html',body:`
+<h3>فقط این هفت نقش پرسیده می‌شود</h3>
+<div class="chips"><span class="chip">فاعل</span><span class="chip">مفعول</span><span class="chip">مبتدا</span><span class="chip">خبر</span><span class="chip">صفت</span><span class="chip">مضافٌ‌الیه</span><span class="chip">مجرور به حرف جر</span></div>
+<h4>الگوریتم تشخیص در پنج ثانیه</h4>
+<ul>
+<li>بعد از <b>حرف جر</b> آمده؟ ← <b class="tealtx">مجرور به حرف جر</b> (تمام. جلوتر نرو)</li>
+<li>بعد از <b>اسم</b> آمده، همیشه <b>مجرور</b> است و اسمِ قبلش «الـ» و تنوین ندارد؟ ← <b class="tealtx">مضافٌ‌الیه</b></li>
+<li>بعد از اسم آمده و <b>هم‌اعراب و هم‌جنس و هم‌عدد</b> با آن است؟ ← <b class="tealtx">صفت</b></li>
+<li>بعد از فعلِ معلوم و مرفوع است؟ ← <b class="tealtx">فاعل</b></li>
+<li>بعد از فعل متعدی و منصوب است؟ ← <b class="tealtx">مفعول</b></li>
+<li>اولِ جملهٔ اسمیه و مرفوع؟ ← <b class="tealtx">مبتدا</b> — و بخش خبردهنده ← <b class="tealtx">خبر</b></li>
+</ul>
+<h3>علائم اعراب</h3>
+<table><tr><th>حالت</th><th class="ar">مفرد</th><th class="ar">مثنّیٰ</th><th class="ar">جمع مذکّر سالم</th></tr>
+<tr><td>مرفوع</td><td class="ar">ـُــٌ</td><td class="ar">ـانِ</td><td class="ar">ـونَ</td></tr>
+<tr><td>منصوب</td><td class="ar">ـَــً</td><td class="ar">ـَينِ</td><td class="ar">ـينَ</td></tr>
+<tr><td>مجرور</td><td class="ar">ـِــٍ</td><td class="ar">ـَينِ</td><td class="ar">ـينَ</td></tr></table>
+<h3>نمونه‌های حل‌شده (همان‌ها که در امتحان آمدند)</h3>
+<table><tr><th class="ar">جمله</th><th>تجزیهٔ نقش‌ها</th></tr>
+<tr><td class="ar">أحسَنُ الحَسَنِ الخُلُقُ الحَسَنُ</td><td>أحسَنُ=مبتدا • الحَسَنِ=<b class="tealtx">مضافٌ‌الیه</b> • الخُلُقُ=<b class="tealtx">خبر</b> • الحَسَنُ=صفت</td></tr>
+<tr><td class="ar">يَرَى الطّائِرُ الذَّكيُّ حَيواناً مُفتَرِساً</td><td>الطّائِرُ=<b class="tealtx">فاعل</b> • الذَّكيُّ=<b class="tealtx">صفت</b> • حَيواناً=مفعول • مُفتَرِساً=صفت</td></tr>
+<tr><td class="ar">اِتَّصَلَ السَّيِّدُ مُسلِمي بِصَديقِهِ</td><td>السَّيِّدُ=فاعل • مُسلِمي=صفت • بِصَديقِهِ=<b class="tealtx">مجرور به حرف جر</b></td></tr>
+<tr><td class="ar">مُداراةُ النّاسِ نِصفُ الإيمانِ</td><td>مُداراةُ=مبتدا • النّاسِ=مضافٌ‌الیه • نِصفُ=خبر • الإيمانِ=مضافٌ‌الیه</td></tr>
+<tr><td class="ar">عَدُوٌّ عاقِلٌ خَيرٌ مِن صَديقٍ جاهِلٍ</td><td>عَدُوٌّ=مبتدا • عاقِلٌ=صفت • خَيرٌ=خبر • صَديقٍ=مجرور به حرف جر • جاهِلٍ=صفت</td></tr>
+<tr><td class="ar">أضعَفُ النّاسِ مَنْ ضَعُفَ عَن كِتمانِ سِرِّهِ</td><td>أضعَفُ=مبتدا • النّاسِ=مضافٌ‌الیه • كِتمانِ=مجرور به حرف جر • سِرِّهِ=مضافٌ‌الیه</td></tr>
+<tr><td class="ar">العِلمُ فِي الصِّغَرِ كَالنَّقشِ فِي الحَجَرِ</td><td>العِلمُ=مبتدا • الصِّغَرِ / الحَجَرِ=مجرور به حرف جر</td></tr>
+<tr><td class="ar">يا حَبيبي، لا تَقُلْ كَلاماً إلَّا الحَقَّ أبَداً</td><td>كَلاماً=مفعول • الحَقَّ=مستثنیٰ</td></tr>
+<tr><td class="ar">اِشتَغَلَ مَنصورٌ فِي المَزرَعَةِ نَشيطاً</td><td>مَنصورٌ=فاعل • المَزرَعَةِ=مجرور به حرف جر • نَشيطاً=<b class="tealtx">حال</b></td></tr></table>
+<h3>معرفه و نکره — فقط دو نوع معرفه در این کتاب</h3>
+<ul><li><b class="tealtx">معرّف به «الـ»</b>: الكِتابُ، النّاسُ، الحَجَرُ</li>
+<li><b class="tealtx">معرّف به عَلَمیّت</b> (اسم خاص): إبراهيمُ، مَكَّةُ، العَقّادُ، الفَرَزدَقُ، بَغدادُ</li>
+<li><b>نکره</b> = تنوین دارد: كِتابٌ، رَجُلاً، مَدينَةٍ</li></ul>
+<div class="tip"><b>جملهٔ وصفیّه:</b> اگر بعد از اسمِ <b>نکره</b> یک جملهٔ کامل بیاید، آن جمله صفتِ آن اسم است و با «<b class="goldtx">که</b>» ترجمه می‌شود:<br>
+<span class="ar">رَأَيتُ رَجُلاً يَقرَأُ الكِتابَ</span> = مردی را دیدم <b>که</b> کتاب می‌خواند.<br>
+<span class="ar">هٰذِهِ عَينٌ قَدْ فاضَتْ</span> = این چشمی است <b>که</b> روان شده است.</div>
+<h3>تحلیل صرفی — قالبِ پاسخ</h3>
+<div class="gold-box"><b>اسم:</b> نوع (فاعل/مفعول/مبالغه/تفضیل/مکان/مصدر) + عدد (مفرد، مثنّیٰ، جمع سالم یا مکسّر) + جنس (مذکّر/مؤنّث) + معرفه یا نکره<br><br>
+<b>فعل:</b> ماضی/مضارع/امر/نهی/مستقبل + معلوم یا مجهول + منفی بودن</div>
+<p><b>نمونه:</b> <span class="ar">مُعامَلَةً</span> ← اسم • مفرد • مؤنّث • <b>مصدر</b> / نقش: <b class="tealtx">مفعول مطلق نوعی</b><br>
+<span class="ar">يُعامِلونَ</span> ← فعل • مضارع • <b class="tealtx">معلوم</b> (نه مجهول!) / نقش: خبرِ «كانوا»</p>`},
+{id:'g5',t:'قاعدهٔ درس ۱ — حروف مشبهه و چهار «لا»',ic:'①',kind:'html',body:`
+<h3>حروف مشبهة بالفعل</h3>
+<table><tr><th class="ar">حرف</th><th>معنی</th><th class="ar">مثال کتاب</th></tr>
+<tr><td class="ar">إنَّ</td><td><b class="tealtx">قطعاً، همانا، بی‌گمان، به‌درستی که</b></td><td class="ar">إنَّ اللهَ لا يُضيعُ أجرَ المُحسِنينَ</td></tr>
+<tr><td class="ar">أنَّ</td><td><b class="tealtx">که</b> (دو جمله را می‌چسباند)</td><td class="ar">أعلَمُ أنَّ اللهَ عَلىٰ كُلِّ شَيءٍ قَديرٌ</td></tr>
+<tr><td class="ar">لِأنَّ</td><td><b class="tealtx">زیرا، برای اینکه</b></td><td class="ar">لِأنَّ بِطاقَةَ الطّائِرَةِ غاليَةٌ</td></tr>
+<tr><td class="ar">كَأنَّ</td><td><b class="tealtx">گویی، مانند</b></td><td class="ar">كَأنَّهُنَّ الياقوتُ وَ المَرجانُ</td></tr>
+<tr><td class="ar">لٰكِنَّ</td><td><b class="tealtx">ولی</b></td><td class="ar">وَلٰكِنَّ أكثَرَ النّاسِ لا يَشكُرونَ</td></tr>
+<tr><td class="ar">لَيتَ / يا لَيتَ</td><td><b class="tealtx">کاش / ای کاش</b></td><td class="ar">يا لَيتَني كُنتُ تُراباً</td></tr>
+<tr><td class="ar">لَعَلَّ</td><td><b class="tealtx">شاید، امید است</b></td><td class="ar">لَعَلَّكُم تَعقِلونَ</td></tr></table>
+<div class="warn"><b>سه جابه‌جایی که همه می‌کنند:</b> <span class="kbd">لَعَلَّ</span> را «قطعاً» ننویس • <span class="kbd">لٰكِنَّ</span> را «همانا» ننویس • <span class="kbd">أنَّ</span> را «قطعاً» ننویس (آن <span class="kbd">إنَّ</span> است، اولِ جمله).</div>
+<h3>چهار «لا» — و روش تشخیصشان در یک نگاه</h3>
+<div class="gold-box"><b>فقط به کلمهٔ بعدش نگاه کن:</b><br>
+◄ بعدش <b class="goldtx">اسم نکرهٔ منصوب</b> است ← <b class="tealtx">لای نفی جنس</b> = «هیچ … نیست»<br>
+◄ بعدش <b class="goldtx">مضارع مرفوع</b> است (آخرش ضمّه یا نون دارد) ← <b class="tealtx">لای نفی</b> = «نمی‌…»<br>
+◄ بعدش <b class="goldtx">مضارع مجزوم</b> است (آخرش ساکن یا نون‌افتاده) و مخاطب ← <b class="tealtx">لای نهی</b> = «ن…!»<br>
+◄ همان ولی غائب یا متکلّم ← <b class="tealtx">لای نهی</b> = «<b>نباید</b>…»<br>
+◄ تنها و بی‌ادامه ← <b class="tealtx">لای جواب</b> = «نه»</div>
+<table><tr><th class="ar">نمونه</th><th>نوع</th><th>ترجمه</th></tr>
+<tr><td class="ar">لا، أنا مِن بيرجَند</td><td>جواب</td><td>نه، من اهل بیرجندم</td></tr>
+<tr><td class="ar">لا يَذهَبُ</td><td>نفی</td><td>نمی‌رود</td></tr>
+<tr><td class="ar">لا تَذهَبْ</td><td>نهی مخاطب</td><td>نرو</td></tr>
+<tr><td class="ar">لا يَذهَبْ</td><td>نهی غائب</td><td><b class="tealtx">نباید برود</b></td></tr>
+<tr><td class="ar">لا دينَ لِمَنْ لا عَهدَ لَهُ</td><td>نفی جنس</td><td>هیچ دینی نیست برای کسی که پیمان ندارد</td></tr></table>`},
+
+{id:'g6',t:'قاعدهٔ درس ۲ — الحال (قید حالت)',ic:'②',kind:'html',body:`
+<div class="gold-box"><b>تعریف کوتاه:</b> اسمِ <b class="tealtx">منصوب و نکره</b> که بعد از یک اسم <b class="goldtx">معرفه</b> بیاید و حالتِ او را هنگام وقوع فعل نشان دهد.</div>
+<h3>سه جملهٔ کلیدی که همه چیز را روشن می‌کند</h3>
+<table><tr><th class="ar">جمله</th><th>نقش «مسرور»</th><th>چرا</th></tr>
+<tr><td class="ar">رَأَيتُ وَلَداً مَسروراً</td><td>صفت</td><td>موصوف <b>نکره</b> است</td></tr>
+<tr><td class="ar">رَأَيتُ الوَلَدَ المَسرورَ</td><td>صفت</td><td>هر دو <b>معرفه</b>اند</td></tr>
+<tr><td class="ar">رَأَيتُ الوَلَدَ، مَسروراً</td><td><b class="tealtx">حال</b></td><td>معرفه + <b>نکرهٔ منصوب</b></td></tr></table>
+<h3>حال چطور ترجمه می‌شود؟</h3>
+<ul>
+<li><b>با + مصدر:</b> <span class="ar">يُشاهِدُ النّاسُ … مُتَعَجِّبينَ</span> = <b class="tealtx">با تعجّب</b> نگاه می‌کنند</li>
+<li><b>صفت قیدی:</b> <span class="ar">رَجَعوا مِنَ المُسابَقَةِ مُبتَسِمينَ</span> = <b class="tealtx">خندان</b> برگشتند</li>
+<li><b>«در حالی که …»:</b> <span class="ar">ماتَ وَ هوَ خاسِرٌ</span> = <b class="tealtx">در حالی که</b> زیانکار است</li>
+</ul>
+<h3>واو حالیّه — تلهٔ بزرگ</h3>
+<div class="warn"><b>واو + جملهٔ اسمیه (معمولاً ضمیر)</b> ← «در حالی که …» — و مهم‌تر: <b class="tealtx">فعل مضارع بعد از آن، ماضی استمراری ترجمه می‌شود.</b><br>
+<span class="ar">رَأَيتُ الفَلّاحَ وَ هوَ يَجمَعُ المَحصولَ</span><br>
+کشاورز را دیدم، در حالی که محصول را <b class="goldtx">جمع می‌کرد</b> (نه «جمع می‌کند»).</div>
+<p class="ar">وَ هُم يُشاهِدونَ الحُجّاجَ • مَنْ عاشَ بِوَجهَينِ ماتَ وَ هوَ خاسِرٌ • مَنْ أذنَبَ وَ هوَ يَضحَكُ، دَخَلَ النّارَ وَ هوَ يَبكي • أُشاهِدُ قاسِماً وَ هوَ جالِسٌ بَينَ الشَّجَرَتَينِ • عاشَ في مِصرَ وَ هوَ كاتِبٌ</p>
+<div class="tip">در زبان عربی، حال بسیار وقت‌ها <b>آخر جمله</b> می‌آید. اگر آخر جمله یک اسمِ منصوبِ نکره دیدی که مفعول نیست، ۹۰٪ حال است.</div>`},
+
+{id:'g7',t:'قاعدهٔ درس ۳ — الاستثناء',ic:'③',kind:'html',body:`
+<div class="gold-box"><b>ساختار:</b> مستثنیٰ‌مِنه &nbsp;+&nbsp; <span class="kbd">إلّا</span> &nbsp;+&nbsp; مستثنیٰ (منصوب)</div>
+<table><tr><th class="ar">جمله</th><th>مستثنیٰ‌مِنه</th><th>مستثنیٰ</th></tr>
+<tr><td class="ar">حَضَرَ الزُّملاءُ فِي صالَةِ الاِمتِحانِ إلّا حامِداً</td><td class="ar">الزُّملاءُ</td><td class="ar">حامِداً</td></tr>
+<tr><td class="ar">كُلُّ شَيءٍ يَنقُصُ بِالإنفاقِ إلَّا العِلمَ</td><td class="ar">كُلُّ شَيءٍ</td><td class="ar">العِلمَ</td></tr>
+<tr><td class="ar">لَمْ يَسمَحِ النّاسُ أنْ يَستَلِمَ أحَدٌ الحَجَرَ إلَّا الإمامَ</td><td class="ar">أحَدٌ</td><td class="ar">الإمامَ</td></tr></table>
+<div class="warn">اگر فعل به صورت جمع آمد (<span class="ar">حَضَروا … إلّا حامِداً</span>)، مستثنیٰ‌مِنه <b class="tealtx">همان ضمیر «واو»</b> است، نه خود فعل.</div>
+<h3>★ قانون طلایی ترجمه</h3>
+<div class="gold-box">اگر جملهٔ قبل از «إلّا» <b class="goldtx">منفی</b> باشد و مستثنیٰ‌مِنه ذکر <b>نشده</b> باشد، ترجمه را <b class="tealtx">مثبت و مؤکّد</b> کن و کلمهٔ «<b>تنها</b>» را بیاور.<br><br>
+<span class="ar">ما شاهَدتُ فِي المَكتَبَةِ إلّا كاظِماً</span><br>
+✗ در کتابخانه کسی جز کاظم را ندیدم &nbsp;&nbsp; ✓ در کتابخانه <b class="tealtx">تنها</b> کاظم را دیدم</div>
+<p class="ar">وَ مَا الحَياةُ الدُّنيا إلّا لَعِبٌ وَ لَهوٌ • لا يَيأَسُ مِنْ رَوحِ اللهِ إلَّا القَومُ الكافِرونَ • إنَّ الإنسانَ لَفي خُسرٍ إلَّا الَّذينَ آمَنوا • لا يَستَطيعُ صُعودَهُ إلَّا الأقوياءُ • لا نُشاهِدُ في حَياتِهِ إلَّا النَّشاطَ • كِلاهُما لا يَكونُ إلّا لِطِفلٍ أو مَريضٍ</p>`},
+
+{id:'g8',t:'قاعدهٔ درس ۴ — المفعول المطلق',ic:'④',kind:'html',body:`
+<div class="gold-box"><b>تعریف:</b> مصدری از <b class="tealtx">همان فعلِ جمله</b> که بعد از فعل و منصوب می‌آید.<br>
+<b>تست تشخیص:</b> از خودت بپرس «آیا این کلمه مصدرِ همین فعل است؟» اگر بله ← مفعول مطلق.</div>
+<table><tr><th>نوع</th><th>شکل ظاهری</th><th>ترجمه</th></tr>
+<tr><td><b class="tealtx">تأکیدی</b></td><td>مصدرِ <b>تنها</b> (نه صفت دارد، نه مضافٌ‌الیه)</td><td><b class="goldtx">قطعاً، حتماً، واقعاً، بی‌گمان</b></td></tr>
+<tr><td><b class="tealtx">نوعی</b></td><td>مصدر + <b>صفت</b></td><td>صفت را قید کن؛ مصدر ترجمه نمی‌شود</td></tr>
+<tr><td><b class="tealtx">نوعی</b></td><td>مصدر + <b>مضافٌ‌الیه</b></td><td><b class="goldtx">مانندِ …</b></td></tr></table>
+<h3>سه نمونهٔ پایه که باید مثل اسمت بلد باشی</h3>
+<table><tr><th class="ar">عربی</th><th>فارسی</th><th>نوع</th></tr>
+<tr><td class="ar">اِستَغفَرتُ اللهَ اِستِغفاراً</td><td><b class="tealtx">قطعاً</b> از خدا آمرزش خواستم</td><td>تأکیدی</td></tr>
+<tr><td class="ar">اِستَغفَرتُ اللهَ اِستِغفاراً صادِقاً</td><td><b class="tealtx">صادقانه</b> آمرزش خواستم</td><td>نوعی/صفت</td></tr>
+<tr><td class="ar">اِستَغفَرتُ اللهَ اِستِغفارَ الصّالِحينَ</td><td><b class="tealtx">مانندِ</b> درستکاران آمرزش خواستم</td><td>نوعی/مضافٌ‌الیه</td></tr></table>
+<div class="tip"><b>نکتهٔ ترجمهٔ حرفه‌ای:</b> در مفعول مطلق نوعیِ صفت‌دار، خودِ مصدر در فارسی <b>ناپدید می‌شود</b> و فقط صفت به قید تبدیل می‌گردد:<br>
+<span class="ar">تَجتَهِدُ الأُمُّ … اِجتِهاداً بالِغاً</span> = مادر <b class="goldtx">بسیار</b> تلاش می‌کند (نه «تلاشی رسا تلاش می‌کند»).</div>
+<h3>همهٔ مفعول‌مطلق‌های کتاب و امتحان</h3>
+<table><tr><th class="ar">عربی</th><th>ترجمه</th></tr>
+<tr><td class="ar">فَاصبِرْ صَبراً جَميلاً</td><td>به زیبایی صبر کن</td></tr>
+<tr><td class="ar">اُذكُروا اللهَ ذِكراً كَثيراً</td><td>خدا را بسیار یاد کنید</td></tr>
+<tr><td class="ar">كَلَّمَ اللهُ موسىٰ تَكليماً</td><td>خدا با موسیٰ <b class="tealtx">قطعاً</b> سخن گفت</td></tr>
+<tr><td class="ar">وَ نُزِّلَ المَلائِكَةُ تَنزيلاً</td><td>و فرشتگان <b class="tealtx">قطعاً</b> فرود آورده شدند</td></tr>
+<tr><td class="ar">إنّا فَتَحنا لَكَ فَتحاً مُبيناً</td><td>ما برای تو پیروزی آشکاری فراهم کردیم</td></tr>
+<tr><td class="ar">إنّا نَحنُ نَزَّلنا عَلَيكَ القُرآنَ تَنزيلاً</td><td>ما قرآن را بر تو <b class="tealtx">قطعاً</b> فرو فرستادیم</td></tr>
+<tr><td class="ar">اِنسَحَبَ العَدُوُّ اِنسِحابَ الخائِفينَ</td><td><b class="tealtx">مانندِ</b> ترسوها عقب‌نشینی کرد</td></tr>
+<tr><td class="ar">يَعيشُ البَخيلُ عَيشَ الفُقَراءِ وَ يُحاسَبُ … مُحاسَبَةَ الأغنياءِ</td><td><b class="tealtx">مانندِ</b> فقیران زندگی می‌کند و <b class="tealtx">مانندِ</b> ثروتمندان حسابرسی می‌شود</td></tr>
+<tr><td class="ar">جَلَسَ عَلَيهِ جُلوسَ الأُمَراءِ</td><td><b class="tealtx">مانندِ</b> فرمانروایان بر آن نشست</td></tr>
+<tr><td class="ar">فَطافَ بِالبَيتِ طَوافَ الأعاظِمِ</td><td><b class="tealtx">مانندِ</b> بزرگان خانه را طواف کرد</td></tr>
+<tr><td class="ar">يَرغَبوا فيهِ رَغبَةَ المُحِبّينَ</td><td><b class="tealtx">مانندِ</b> دوستداران به او علاقه‌مند شوند</td></tr>
+<tr><td class="ar">أعرِفُهُ مَعرِفَةً جَيِّدَةً</td><td>او را به خوبی می‌شناسم</td></tr>
+<tr><td class="ar">أنشَدَ القَصيدَةَ إنشاداً رائِعاً</td><td>چکامه را به گونه‌ای جالب سرود</td></tr>
+<tr><td class="ar">فَاستَلَمَهُ اِستِلاماً سَهلاً</td><td>آن را به آسانی مسح کرد</td></tr>
+<tr><td class="ar">يَخرُجُ مِنَ الغِلافِ خُروجاً عَجيباً</td><td>به گونه‌ای شگفت از پوشش بیرون می‌آید</td></tr>
+<tr><td class="ar">يَنامُ نَوماً عَميقاً</td><td>به خوابی ژرف فرو می‌رود</td></tr>
+<tr><td class="ar">كانَ المُغولُ يَهجُمونَ عَلَى الصّينِ هُجوماً شَديداً</td><td>مغولان <b class="tealtx">با شدّت</b> به چین حمله می‌کردند</td></tr>
+<tr><td class="ar">سَيَتَقاعَدُ والِدي بَعدَ السَّنَتَينِ تَقاعُداً</td><td>پدرم بعد از دو سال <b class="tealtx">حتماً</b> بازنشست خواهد شد</td></tr>
+<tr><td class="ar">كانوا يُعامِلونَنا مُعامَلَةً جَيِّدَةً</td><td>به خوبی با ما رفتار می‌کردند</td></tr>
+<tr><td class="ar">يَعيشُ السَّمَكُ المَدفونُ داخِلَ حُفرَةٍ عَيشاً</td><td>ماهی مدفون <b class="tealtx">قطعاً</b> درون گودالی زندگی می‌کند</td></tr>
+<tr><td class="ar">تَجتَهِدُ الأُمُّ لِتَربيَةِ أولادِها اِجتِهاداً بالِغاً</td><td>مادر برای تربیت فرزندانش بسیار تلاش می‌کند</td></tr></table>`},
+
+{id:'vf',t:'★ جدول طلایی — ۲۴ صورتِ فعل و ترجمهٔ دقیقش',ic:'🔑',kind:'cards',hint:'اگر فقط همین بخش را بلد باشی، بیشترین نمرهٔ ممکن را از سؤال ترجمه می‌گیری.',items:[
+['كَتَبَ','نوشت'],
+['ما كَتَبَ  /  لَمْ يَكتُبْ','ننوشت (ماضی منفی)','لَمْ شکل مضارع دارد ولی معنی ماضی می‌دهد'],
+['قَدْ كَتَبَ','حتماً نوشت / نوشته است','قَدْ + ماضی = تحقیق'],
+['كانَ يَكتُبُ','می‌نوشت','ماضی استمراری'],
+['كانَ قَدْ كَتَبَ','نوشته بود','ماضی بعید'],
+['كُتِبَ','نوشته شد','ماضی مجهول'],
+['قَدْ ذُكِروا بِالخَيرِ','به نیکی یاد شده‌اند','قَدْ + ماضی مجهول'],
+['يَكتُبُ','می‌نویسد'],
+['لا يَكتُبُ','نمی‌نویسد'],
+['قَدْ يَكتُبُ','گاهی می‌نویسد / شاید بنویسد','⚠ قَدْ + مضارع = «گاهی/شاید»، هرگز «حتماً» نیست'],
+['سَيَكتُبُ  /  سَوفَ يَكتُبُ','خواهد نوشت'],
+['لَنْ يَكتُبَ','هرگز نخواهد نوشت','⚠ نه «نمی‌نویسد»'],
+['أنْ يَكتُبَ','که بنویسد'],
+['لِـ / كَيْ / حَتّىٰ يَكتُبَ','تا بنویسد'],
+['اُكتُبْ','بنویس'],
+['لا تَكتُبْ','ننویس'],
+['لِيَكتُبْ','باید بنویسد','لام امر غائب'],
+['لِنَكتُبْ','باید بنویسیم / بنویسیم','لام امر متکلّم'],
+['لا يَكتُبْ','نباید بنویسد','لای نهی غائب'],
+['لا نَكتُبْ','نباید بنویسیم','لای نهی متکلّم'],
+['إنْ تَكتُبْ … فَـ…','اگر بنویسی … پس …'],
+['يُكتَبُ','نوشته می‌شود','مضارع مجهول'],
+['كانَ يُكتَبُ','نوشته می‌شد'],
+['ما زالَ يَكتُبُ','همچنان می‌نویسد'],
+['الأبناءُ لِيُساعِدوا آبائَهُم','پسران باید به پدرانشان کمک کنند'],
+['لا نُساعِدِ الظّالِمينَ','نباید به ستمگران کمک کنیم'],
+['لِمَ لا تُساعِدينَ أُمَّكِ؟','چرا به مادرت کمک نمی‌کنی؟'],
+['أنا لَنْ أذكُرَ عُيوبَ الآخَرينَ','من هرگز عیب‌های دیگران را یاد نخواهم کرد'],
+['إنْ تَذكُروني أذكُركُم','اگر مرا یاد کنید، شما را یاد می‌کنم'],
+['الوالِدَةُ لَمْ تَصعَدِ الجَبَلَ','مادر از کوه بالا نرفت'],
+['الطِّفلانِ قَدْ يَصعَدانِ الصَّفا','دو کودک گاهی از صفا بالا می‌روند','⚠ همان تلهٔ قَدْ + مضارع'],
+['لَنْ تُغنيَنا التَّجارِبُ عَنِ الكُتُبِ','تجربه‌ها ما را از کتاب‌ها بی‌نیاز نخواهند کرد'],
+['لَعَلَّ المَطَرَ يَنزِلُ كَثيراً فِي الرَّبيعِ','امید است باران در بهار فراوان ببارد'],
+['لِنَتَذَكَّرْ زُملاءَنا القُدَماءَ دائِماً','همیشه باید هم‌کلاسی‌های قدیمی‌مان را یاد کنیم'],
+['أُرسِلَ الأنبياءُ لِيُبَيِّنوا الصِّراطَ المُستَقيمَ','پیامبران فرستاده شدند تا راه راست را آشکار کنند'],
+['كانَ كِبارُ أهلِ الشّامِ قَدْ رَغِبوا فِي الإمامِ','بزرگان اهل شام به امام علاقه‌مند شده بودند','ماضی بعید'],
+['كانوا يَكتُبونَ الأجوِبَةَ','جواب‌ها را می‌نوشتند'],
+['كانوا قَدْ كَتَبوا دَرسَهُم','درسشان را نوشته بودند'],
+['هيَ قَدْ كَتَبَتْ رِسالَةً لِصَديقَتِها','او نامه‌ای به دوستش نوشته است'],
+['إنْ تَكتُبْ بِعَجَلَةٍ، فَسَيُصبِحُ خَطُّكَ قَبيحاً','اگر با عجله بنویسی، خطت زشت خواهد شد'],
+['أُريدُ أنْ أكتُبَ ذِكرىٰ في دَفتَرِ الذِّكرَياتِ','می‌خواهم خاطره‌ای در دفتر خاطرات بنویسم'],
+['عِندَما شاهَدتُهُ كانَ يَكتُبُ تَمرينَهُ','هنگامی که او را دیدم، تمرینش را می‌نوشت'],
+['قَدْ يَكتُبُ الكَسولُ تَمارينَ الدَّرسِ','تنبل گاهی تمرین‌های درس را می‌نویسد'],
+['لا تَكتُبوا عَلىٰ جِلدِ الكِتابِ','روی جلد کتاب ننویسید'],
+['أنا لَمْ أكتُبْ واجِباتي أمسِ','من دیروز تکلیف‌هایم را ننوشتم'],
+['ما كَتَبنا شَيئاً عَلَى الجِدارِ','چیزی روی دیوار ننوشتیم'],
+['كُتِبَ حَديثٌ عَلَى اللَّوحِ','حدیثی روی تخته نوشته شد'],
+['يُكتَبُ نَصٌّ قَصيرٌ','متنی کوتاه نوشته می‌شود'],
+['لَنْ يَكتُبَ العاقِلُ عَلَى الآثارِ التّاريخيَّةِ','خردمند هرگز روی آثار تاریخی نخواهد نوشت'],
+['إنَّهُ سَوفَ يَكتُبُ أفكارَهُ عَلَى الوَرَقَةِ','او قطعاً اندیشه‌هایش را روی کاغذ خواهد نوشت']]},
+{id:'v1',t:'واژگان درس ۱ — الدّين و التّدَيُّن',ic:'📕',kind:'cards',items:[
+['أحضَرَ','آورد، حاضر کرد'],['الأصنام','بت‌ها','مفرد: الصَّنَم'],['أقِمْ وَجهَكَ','روی بیاور','ماضی: أقامَ / مضارع: يُقيمُ'],
+['بَدَؤوا يَتَهامَسونَ','شروع به پچ‌پچ کردند','تَهامَسَ / يَتَهامَسُ'],['التَّجَنُّب','دوری کردن','تَجَنَّبَ / يَتَجَنَّبُ'],
+['حَرَّقَ','سوزاند'],['الحَنيف','یکتاپرست'],['السُّدىٰ','بیهوده و پوچ'],['السّيرَة','روش و کردار، سرگذشت'],
+['الشَّعائِر','مراسم'],['الصِّراع','کشمکش','= النِّزاع  ≠ السِّلْم'],['عَلَّقَ','آویخت'],['الفَأْس','تبر','جمع: الفُؤوس'],
+['القَرابين','قربانی‌ها','مفرد: القُربان'],['الكَتِف / الكِتْف','شانه','جمع: الأكتاف'],['كَسَّرَ','شکست'],
+['النُّقوش','کنده‌کاری‌ها، نگاره‌ها','مفرد: النَّقْش'],['التَّدَيُّن','دین‌داری'],['فِطريّ','فطری، سرشتی'],
+['الشَّعْب','ملت، مردم','جمع: الشُّعوب'],['الطَّريقَة','روش'],['العِبادَة','پرستش'],['الآثار','آثار، نشانه‌ها'],
+['اكتَشَفَ','کشف کرد'],['الحَضارات','تمدن‌ها'],['خِلال','خلال، میان'],['الكِتابات','نوشته‌ها'],['الرُّسوم','نقاشی‌ها'],
+['التَّماثيل','تندیس‌ها','مفرد: التِّمثال'],['أكَّدَ','تأکید کرد'],['الاِهتِمام','توجه'],['دَلَّ عَلىٰ','دلالت کرد بر'],
+['الوُجود','هستی'],['خُرافيَّة','خرافی'],['تَعَدُّد','چندگانگی'],['الآلِهَة','خدایان','مفرد: الإلٰه'],
+['كَسْب','به دست آوردن'],['الرِّضا','خشنودی'],['الشَّرّ','بدی'],['ازدادَ','افزون شد'],['مَرّ العُصور','گذر روزگاران'],
+['الحالَة','وضعیت'],['حَسِبَ','پنداشت'],['تُرِكَ','رها شد'],['الصِّراط المُستَقيم','راه راست'],['الدّين الحَقّ','دین راستین'],
+['حَدَّثَ','سخن گفت، بازگفت'],['الأقوام','قوم‌ها'],['الكافِرين','کافران'],['حاوَلَ','تلاش کرد'],['أنقَذَ','نجات داد'],
+['العيد','جشن','جمع: الأعياد'],['بَقِيَ','ماند'],['وَحيداً','تنها'],['حَمَلَ','برداشت، حمل کرد'],['المَعبَد','پرستشگاه'],
+['رَجَعَ','بازگشت'],['مُكَسَّرَة','شکسته'],['ظَنَّ','پنداشت'],['الفاعِل','انجام‌دهنده'],['المُحاكَمَة','دادگاه، محاکمه'],
+['قَصَدَ','قصد کرد'],['الاِستِهزاء','مسخره کردن'],['قَذَفَ','انداخت'],['النّار','آتش'],['الحَظّ','بخت']]},
+
+{id:'v2',t:'واژگان درس ۲ — مکّه و مدینه',ic:'📗',kind:'cards',items:[
+['آلَمَ','به درد آورد','مضارع: يُؤلِمُ — رِجلي تُؤلِمُني = پایم درد می‌کند'],['اِشتاقَ','مشتاق شد','مضارع: يَشتاقُ'],
+['أُمّاهْ','ای مادرم'],['بُنَيَّ','پسرکم'],['بُنَيَّتي','دخترکم'],['تَعَبَّدَ','عبادت کرد'],['التِّلفاز','تلویزیون'],
+['الخِيام','چادرها','مفرد: الخَيمَة'],['الرِّجْل','پا','جمع: الأرجُل'],['رَمْيُ الجَمَرات','پرتاب ریگ‌ها (در مراسم حج)'],
+['زارَ','دیدار کرد','مضارع: يَزورُ — زُرْتُ = دیدار کردم'],['السَّعْي','دویدن، تلاش'],['القِمَّة','قلّه','جمع: القِمَم'],
+['لَجَأَ إلىٰ','به … پناه برد'],['مَرَّ','گذر کرد','مضارع: يَمُرُّ'],['المَشهَد','صحنه','جمع: المَشاهِد'],
+['الأُسرَة','خانواده'],['الحُجّاج','حاجیان','مفرد: الحاجّ'],['المَطار','فرودگاه'],['الدُّموع','اشک‌ها','مفرد: الدَّمْع'],
+['تَساقَطَ','فرو ریخت'],['مُتَعَجِّباً','با تعجب'],['الذِّكرَيات','خاطرات','مفرد: الذِّكرىٰ'],['أدّىٰ','ادا کرد'],
+['الفَريضَة','واجب'],['الحَرَمَينِ الشَّريفَينِ','دو حرم شریف'],['البَقيع','بقیع'],['مُشتاقَة','مشتاق'],
+['بِالتَّأكيد','قطعاً، حتماً'],['مِنىٰ / عَرَفات','منا / عرفات'],['الطَّواف','طواف'],['الكَعبَة','کعبه'],
+['الصَّفا و المَروَة','صفا و مروه'],['الزِّيارَة','زیارت'],['جَبَل النّور','کوه نور'],['غار حِراء','غار حرا'],
+['الواقِع','واقع، قرارگرفته'],['نَزَلَ','فرود آمد'],['الغار','غار'],['مُرتَفِع','بلند'],['الصُّعود','بالا رفتن'],
+['الأقوياء','نیرومندان','مفرد: القَويّ'],['غار ثَور','غار ثور'],['الهِجرَة','هجرت'],['تَمَنّىٰ','آرزو کرد','مضارع: يَتَمَنّىٰ'],
+['تَشَرَّفَ','مفتخر شد'],['الأقرِباء','خویشاوندان'],['الأماكِن','مکان‌ها','مفرد: المَكان'],['المُزارِع','کشاورز'],
+['المُحافَظَة','استان'],['صَبّار','بسیار بردبار'],['مُحتَرَم','محترم'],['واقِفين','ایستاده'],['المُعَطَّل','خراب'],
+['المُصلِح','تعمیرکار'],['جَرَّ','کشید'],['الجَرّارَة','تراکتور'],['المَوقِف','ایستگاه، توقفگاه'],['التَّصليح','تعمیر']]},
+
+{id:'v3',t:'واژگان درس ۳ — الکُتُب طعام الفکر',ic:'📘',kind:'cards',items:[
+['أضافَ','افزود','مضارع: يُضيفُ / مصدر: إضافَة'],['أغنىٰ','بی‌نیاز گردانید','مضارع: يُغني / مصدر: إغناء — أغناهُ عَنهُ'],
+['الأمتَع','لذت‌بخش‌تر'],['التَّحديد','محدود کردن','حَدَّدَ / يُحَدِّدُ'],['تَصَفَّحَ','ورق زد، سریع مطالعه کرد'],
+['الثّانَويَّة','دبیرستان'],['الجَدير','شایسته'],['الصَّحَفيّ','روزنامه‌نگار'],['الظُّروف','شرایط','مفرد: الظَّرْف'],
+['القاسي','سخت و دشوار'],['الكُتّاب','نویسندگان','مفرد: الكاتِب'],['المُفَكِّر','اندیشمند'],['نَشَأَ','پرورش یافت'],
+['الواثِق','مطمئن'],['هُناكَ','وجود دارد، آنجا'],['يُقالُ','گفته می‌شود'],['الفِكْر','اندیشه'],['الأطعِمَة','خوراکی‌ها'],
+['المَزايا','ویژگی‌ها، برتری‌ها'],['جَذَبَ','جذب کرد'],['الغِذاء','غذا'],['مُناسِب','مناسب'],['العاقِل','خردمند'],
+['المَوضوع','موضوع'],['الاِختيار','انتخاب'],['كِلاهُما','هردویشان'],['فَهِمَ','فهمید'],['التَّجارِب','تجربه‌ها','مفرد: التَّجرِبَة'],
+['الأُمَم','ملت‌ها','مفرد: الأُمَّة'],['آلاف السِّنين','هزاران سال'],['بَلَغَ','رسید'],['الفَرْد','فرد'],['عَشَرات','ده‌ها'],
+['رُبَّ','چه بسا'],['القارِئ','خواننده'],['الفائِدَة','سود'],['أثَّرَ','تأثیر گذاشت'],['عَميقاً','ژرف'],
+['الآراء','دیدگاه‌ها','مفرد: الرَّأي'],['المُفيد','سودمند'],['المَعرِفَة','شناخت'],['القُوَّة','توان'],['الفَهْم','فهم'],
+['العِنايَة','توجه'],['التَّقدير','ارج نهادن'],['الأديب','ادیب'],['الشّاعِر','شاعر'],['الأصْل','تبار، ریشه'],
+['كُرديّ','کُردی'],['الجَمال','زیبایی'],['الحُريَّة','آزادی'],['النَّشاط','تلاش، سرزندگی'],['عَلىٰ رَغمِ','با وجودِ'],
+['المَرحَلَة','مقطع'],['الاِبتِدائيَّة','ابتدایی'],['عَدَم وُجود','نبودن'],['الفَقْر','تنگدستی'],['التَّكميل','تکمیل'],
+['الدِّراسَة','تحصیل'],['اِعتَمَدَ عَلىٰ','تکیه کرد بر'],['السُّيّاح','گردشگران','مفرد: السّائِح'],['المَجالات','زمینه‌ها'],
+['المُختَلِفَة','گوناگون'],['الوِعاء','ظرف'],['الأدَب','ادب'],['المَصادِر','منابع'],['الأُسوَة','الگو'],['اِجتَهَدَ','تلاش کرد'],['نَجَحَ','موفق شد']]},
+
+{id:'v4',t:'واژگان درس ۴ — الفَرَزدَق',ic:'📙',kind:'cards',items:[
+['إذْ جاءَ','ناگهان آمد'],['اِستَلَمَ الحَجَرَ','سنگ را مسح کرد'],['أنكَرَ','ناشناخته شمرد، انکار کرد'],
+['البَطحاء','دشت مکه'],['بَينَما','در حالی که'],['التَّقيّ','پرهیزگار'],['جَهَرَ بِـ','آشکار کرد'],
+['الحِلّ','بیرون احرام'],['رَحَلَ','کوچ کرد'],['رَغِبَ فيهِ','به آن علاقه‌مند شد'],['الضّائِر','زیان‌رساننده'],
+['طافَ','طواف کرد','مضارع: يَطوفُ'],['العُرْب','عرب'],['العَلَم','بزرگ‌ترِ قوم، پرچم'],['الكِبار','بزرگان','مفرد: الكَبير  ≠ الصِّغار'],
+['مَدَحَ','ستود'],['نَصَبَ','برپا کرد، نصب کرد'],['النَّقيّ','پاک و خالص'],['الوَطْأَة','جای پا، گام'],
+['الشُّعَراء','شاعران','مفرد: الشّاعِر'],['العَصر الأُمَويّ','عصر اموی'],['وُلِدَ','زاده شد'],['المِنطَقَة','منطقه'],
+['الحاليَة','کنونی'],['عاشَ','زیست'],['الوَلَد','فرزند'],['يَكادُ','نزدیک است'],['عَظيماً','بزرگ'],
+['الخُلَفاء','خلیفه‌ها','مفرد: الخَليفَة'],['نالَ','به دست آورد'],['الجَوائِز','جایزه‌ها','مفرد: الجائِزَة'],
+['مُحِبّاً','دوستدار'],['سَتَرَ','پوشاند، پنهان کرد'],['حَجَّ','حج گزارد'],['قَدَرَ','توانست'],['كَثرَة','فراوانی'],
+['الاِزدِحام','ازدحام'],['المِنبَر','منبر'],['الأُمَراء','فرمانروایان','مفرد: الأمير'],['نَظَرَ إلىٰ','نگریست به'],
+['جانِباً','کناری'],['سَهْلاً','آسان'],['سَمَحَ','اجازه داد'],['خافَ','ترسید'],['المُحِبّين','دوستداران'],
+['أنشَدَ','سرود'],['القَصيدَة','چکامه'],['رائِعاً','جالب، درخشان'],['الطّاهِر','پاکیزه'],['العِباد','بندگان'],
+['العَجَم','غیرعرب'],['اللَّئيم','فرومایه'],['تَمَرَّدَ','نافرمانی کرد'],['الرَّمْل','شن'],['ادَّعىٰ','ادعا کرد'],
+['رَعىٰ','چرید'],['المَنام','خواب'],['الأحلام','رؤیاها','مفرد: الحُلْم'],['أنبَتَ','رویانید'],
+['مُدَّ','دراز کن','مَدَّ / يَمُدُّ'],['الكِساء','جامه'],['الشَّدائِد','سختی‌ها','مفرد: الشَّديدَة'],['الزَّرْع','کِشت'],
+['يَنبُتُ','می‌روید'],['السَّهْل','دشت'],['الصَّفا','تخته‌سنگ'],['هَلاك','نابودی'],['النَّملَة','مورچه'],['الجَناحَينِ','دو بال']]},
+
+{id:'vp',t:'پاورقی‌ها — کتاب می‌گوید از این‌ها سؤال می‌آید',ic:'🔖',kind:'cards',hint:'مقدمهٔ کتاب صریحاً گفته کلماتی که در پاورقی آمده‌اند از اهداف کتاب‌اند و سؤال طرح می‌شود.',items:[
+['القُرآن','خواندن'],['عَقَلَ','خردورزی کرد'],['البَعْث','رستاخیز'],['البُنيان المَرصوص','ساختمان استوار'],
+['يُقاتِلونَ في سَبيلِهِ صَفّاً','در راه او صف در صف می‌جنگند'],['ما يَلي','آنچه می‌آید'],['حَمَّلَ','تحمیل کرد'],
+['قيلَ','گفته شد','از فعل: قالَ'],['الدّار','خانه'],['الطّين','گِل'],['سِوىٰ','به‌جز'],['العَظْم','استخوان','جمع: العِظام'],
+['العَصَب','پی'],['المَفسَدَة','مایهٔ تباهی'],['خُذوا','بگیرید','از: أخَذَ'],['كونوا','باشید','از: كانَ'],
+['تَمَنّىٰ','آرزو داشت','مضارع: يَتَمَنّىٰ'],['مَكسور','شکسته'],['تَبِعَ','تعقیب کرد'],['فَريسَة','شکار','جمع: فَرائِس'],
+['تَأكَّدَ','مطمئن شد'],['خِداع','فریب'],['وَ هُم يُشاهِدونَ','در حالی که می‌دیدند'],['المُعَطَّل','خراب شده'],
+['الجَرّارَة','تراکتور'],['المَوقِف','ایستگاه'],['مَوقِف تَصليح السَّيّارات','تعمیرگاه خودرو'],
+['سَمَكَة السَّهم','ماهی تیرانداز'],['أطلَقَ','رها کرد'],['المُتَتالي','پی‌درپی'],['بَلَعَ','بلعید'],
+['الهُواة','علاقه‌مندان','مفرد: الهاوي'],['عَفا','عفو کرد'],['أذنَبَ','گناه کرد'],['سَهِرَ','بیدار ماند'],
+['غَضَّ عَينَهُ','چشم بر هم نهاد'],['فاضَ','روان شد، لبریز شد'],['الخَشْيَة','پروا، ترس'],['الوِعاء','ظرف'],
+['ضاقَ','تنگ شد'],['اِتَّسَعَ','فراخ شد'],['رَخُصَ','ارزان شد'],['غَلا','گران شد'],['المَصادِر','منابع'],
+['المُرعِب','ترسناک'],['النُّحاس','مس'],['الزُّجاج','شیشه'],['الحَديد','آهن'],['الخَشَب','چوب'],
+['السّور','دیوار'],['الدّارِجَة','عامیانه'],['مَوادّ التَّجميل','مواد آرایشی'],['الطَّيَران','پرواز'],
+['العاصِمَة','پایتخت','جمع: العَواصِم'],['دُبّ الباندا','خرس پاندا'],['الأحبال الصَّوتيَّة','تارهای صوتی'],
+['الرَّمْز','نماد','جمع: الرُّموز'],['الجَفاف','خشکی'],['الغِلاف','پوشش'],['الجافّ','خشک'],
+['الحوت','نهنگ'],['الخُفّاش','خفاش'],['الزَّرافَة','زرافه'],['اللَّبون','پستاندار'],['بَكماء','لال'],
+['ذائِقَة','چشنده'],['الفُقَراء','فقیران'],['البَخيل','بخیل'],['المُخاطيَّة','مخاطی، لزج'],['الحُفرَة','گودال'],
+['الفِراخ','جوجه‌ها','مفرد: الفَرْخ'],['العُشّ','لانه'],['المُفتَرِس','درنده'],['بَغتَةً','ناگهان'],
+['الحَشَرَة','حشره','جمع: الحَشَرات'],['حَيَّةً','زنده'],['قَطَرات','قطره‌ها'],['اِبتَعَدَ','دور شد'],
+['تَظاهَرَ','وانمود کرد'],['الجَناح','بال'],['دافَعَ عَن','دفاع کرد از'],['الصِّغار','بچه‌ها، کوچک‌ها'],
+['زَوال الخَطَر','برطرف شدن خطر'],['الشُّرطيّ','پلیس'],['الزَّلَل','لغزش'],['المَلعَب','ورزشگاه'],['الفُندُق','هتل'],
+['الحارِس','نگهبان'],['الكَسول','تنبل'],['الجِلد','جلد، پوست'],['اللَّوح','تخته'],['الجِدار','دیوار'],
+['المُداراة','مدارا'],['الصَّيد','شکار'],['القَيد','بند'],['الكِتمان','پنهان‌داشتن'],['السِّرّ','راز'],
+['الحُمق','نابخردی'],['الإغراق','زیاده‌روی'],['المَدح','ستایش'],['الذَّمّ','نکوهش'],['الجَور','ستم'],
+['المَظلوم','ستمدیده'],['الإجلال','گرامی‌داشت'],['مُؤَدِّب','ادب‌آموزنده'],['العافيَة','تندرستی'],['القَناعَة','قناعت'],
+['الكَنز','گنج'],['العَهْد','پیمان'],['السُّنَّة','سنّت'],['الضَّيف','مهمان'],['العَداوَة','دشمنی'],['سَبَّ','دشنام داد'],
+['نُقّاد الكَلام','سنجشگران سخن'],['الباطِل','باطل'],['النَّسَب','دودمان'],['الفاخِر','فخرفروش'],['فِضَّة','نقره'],
+['ذَهَب','طلا'],['اللَّحْم','گوشت'],['الحَياء','شرم'],['العَفاف','پاکدامنی'],['المَساكين','بینوایان']]},
+
+{id:'syn',t:'مترادف و متضاد',ic:'⚖️',kind:'cards',hint:'در امتحان با علامت = و ≠ می‌پرسند. هر دو سمت را بلد باش.',items:[
+['صارَ  =','أصبَحَ  (شد)'],['اِستَطاعَ  =','قَدَرَ  (توانست)'],['فَرِح  =','مَسرور  (شادمان)'],
+['فَرَح  =','اِنشِراح  (شادی)'],['واثِق  =','مُطمَئِنّ  (مطمئن)'],['غِذاء  =','طَعام  (خوراک)'],
+['كِساء  =','لِباس  (جامه)'],['حَياة  =','عَيْش  (زندگی)'],['سَلام  =','صُلح  (آشتی)'],['بُنيان  =','بِناء  (ساختمان)'],
+['أعانَ  =','نَصَرَ / ساعَدَ  (یاری کرد)'],['دار  =','بَيت  (خانه)'],['الصِّراع  =','النِّزاع  (کشمکش)'],
+['مَشهَد  =','مَنظَر  (صحنه)'],['الوَطأة  =','أثَر القَدَم  (جای پا)'],
+['سُهولَة  ≠','صُعوبَة  (آسانی / سختی)'],['اِختِفاء  ≠','ظُهور  (پنهانی / آشکاری)'],
+['نُزول  ≠','صُعود  (فرود / فراز)'],['ضاقَ  ≠','اِتَّسَعَ  (تنگ شد / فراخ شد)'],
+['رَخُصَ  ≠','غَلا  (ارزان شد / گران شد)'],['سَهِرَ  ≠','نامَ  (بیدار ماند / خوابید)'],
+['تَقَرُّب  ≠','تَجَنُّب  (نزدیکی / دوری)'],['الصِّراع  ≠','السِّلْم  (کشمکش / آشتی)'],
+['الكِبار  ≠','الصِّغار  (بزرگان / کوچک‌ها)'],['الحَقّ  ≠','الباطِل  (حق / باطل)'],
+['الجَهل  ≠','العِلم  (نادانی / دانش)'],['العَداوَة  ≠','الصَّداقَة  (دشمنی / دوستی)'],
+['تَحتَ  ≠','فَوقَ  (زیر / بالا)'],['قَريب  ≠','بَعيد  (نزدیک / دور)'],
+['تَصغُرُ  ≠','تَكبُرُ  (کوچک می‌شود / بزرگ می‌شود)'],['أقَلّ  ≠','أكثَر  (کمتر / بیشتر)'],
+['أعلىٰ  ≠','أسفَل  (بالاتر / پایین‌تر)'],['القاسي  ≠','السَّهل  (دشوار / آسان)'],
+['المَوت  ≠','الحَياة  (مرگ / زندگی)'],['الغَنيّ  ≠','الفَقير  (توانگر / تنگدست)'],
+['الظّالِم  ≠','المَظلوم  (ستمگر / ستمدیده)'],['المَدح  ≠','الذَّمّ  (ستایش / نکوهش)'],
+['يَزيدُ  ≠','يَنقُصُ  (می‌افزاید / می‌کاهد)'],['أوَّل  ≠','آخِر  (نخست / پایان)'],['قَبيح  ≠','جَميل  (زشت / زیبا)']]},
+
+{id:'plu',t:'مفرد و جمع',ic:'🔢',kind:'cards',hint:'سؤال «اُكتُبِ المُفرَدَ أوِ الجَمعَ». مستقیم و بی‌رحم.',items:[
+['الصَّنَم','الأصنام'],['الفَأْس','الفُؤوس'],['القُربان','القَرابين'],['الكَتِف','الأكتاف'],['النَّقْش','النُّقوش'],
+['الخَيمَة','الخِيام'],['الرِّجْل','الأرجُل'],['القِمَّة','القِمَم'],['الظَّرْف','الظُّروف'],['الكاتِب','الكُتّاب'],
+['الهاوي','الهُواة'],['الحُلْم','الأحلام'],['فَريسَة','فَرائِس'],['الشَّديدَة','الشَّدائِد'],['المَشهَد','المَشاهِد'],
+['العاصِمَة','العَواصِم'],['الرَّمْز','الرُّموز'],['مَصدَر','مَصادِر'],['عامِل','عُمّال'],['أعظَم','أعاظِم'],
+['مَصنَع','مَصانِع'],['مِثال','أمثِلَة  ⚠ نه أمثال'],['سَمَكَة','سَمَكات'],['ذِكرىٰ','ذِكرَيات'],['دَعوَة','دَعَوات'],
+['كِتابَة','كِتابات'],['شَعْب','شُعوب'],['عَصْر','عُصور'],['حاجّ','حُجّاج'],['دَمْع','دُموع'],['وَجْه','وُجوه'],
+['إلٰه','آلِهَة'],['آيَة','آيات'],['تِمثال','تَماثيل  ⚠ نه أمثِلَة'],['سِنّ','أسنان  ⚠ نه سَنَوات'],
+['بِنت','بَنات  ⚠ نه أبناء'],['عَظْم','عِظام  ⚠ نه أعاظِم'],['طَعام','أطعِمَة  ⚠ نه مَطاعِم'],['جَبَل','جِبال'],
+['حَجَر','حِجارَة'],['نَهر','أنهار'],['قَمَر','أقمار'],['عَلَم','أعلام'],['فيلم','أفلام'],['كُرسيّ','كَراسيّ'],
+['تِلميذ','تَلاميذ'],['الأمير','الأُمَراء'],['الخَليفَة','الخُلَفاء'],['السّائِح','السُّيّاح'],['الأُمَّة','الأُمَم'],
+['التَّجرِبَة','التَّجارِب'],['الرَّأي','الآراء'],['الجائِزَة','الجَوائِز'],['الفَرْخ','الفِراخ'],['الحَشَرَة','الحَشَرات'],
+['المَكان','الأماكِن'],['القَويّ','الأقوياء'],['الشّاعِر','الشُّعَراء'],['الصَّحيفَة','الصُّحُف'],['الحَديث','الأحاديث']]},
+
+{id:'def',t:'توضیحات و تعریف‌ها',ic:'🧠',kind:'cards',hint:'سؤال «اِنتَخِبِ الكَلِمَةَ المُناسِبَةَ لِلتَّوضيحاتِ». عربی را بخوان و کلمه را بگو.',items:[
+['آلَةٌ ذاتُ يَدٍ مِنَ الخَشَبِ وَ سِنٍّ عَريضَةٍ مِنَ الحَديدِ يُقطَعُ بِها','الفَأْس  (تبر)'],
+['تِمثالٌ مِن حَجَرٍ أو خَشَبٍ أو حَديدٍ يُعبَدُ مِن دونِ اللهِ','الصَّنَم  (بت)'],
+['عُضوٌ مِن أعضاءِ الجِسمِ يَقَعُ أعلَى الجِذعِ','الكَتِف  (شانه)'],
+['التّارِكُ لِلباطِلِ وَ المُتَمايِلُ إلَى الدّينِ الحَقِّ','الحَنيف  (یکتاپرست)'],
+['إنَّهُم بَدَؤوا يَتَكَلَّمونَ بِكَلامٍ خَفيٍّ','التَّهامُس  (پچ‌پچ)'],
+['اِبني الصَّغير','بُنَيَّ  (پسرکم)'],
+['بِنتي الصَّغيرَة','بُنَيَّتي  (دخترکم)'],
+['أعلَى الجَبَلِ وَ رَأْسُهُ','القِمَّة  (قلّه)'],
+['مَكانُ وُقوفِ السَّيّاراتِ وَ الحافِلاتِ','المَوقِف  (توقفگاه)'],
+['سَيّارَةٌ نَستَخدِمُها لِلعَمَلِ فِي المَزرَعَةِ','الجَرّارَة  (تراکتور)'],
+['صِفَةٌ لِجِهازٍ أو آلَةٍ أو أداةٍ بِحاجَةٍ إلَى التَّصليحِ','مُعَطَّل  (خراب)'],
+['جَعَلَهُ غَنيّاً لا حاجَةَ لَهُ','أغنىٰ  (بی‌نیاز کرد)'],
+['شَخصٌ يَكتُبُ مَقالاتٍ فِي الصُّحُفِ','الصَّحَفيّ  (روزنامه‌نگار)'],
+['المَرحَلَةُ الدِّراسيَّةُ بَعدَ الاِبتِدائيَّةِ','الثّانَويَّة  (دبیرستان)'],
+['العالِمُ الَّذي لَهُ أفكارٌ عَميقَةٌ وَ حَديثَةٌ','المُفَكِّر  (اندیشمند)'],
+['الأوضاعُ وَ الأحوالُ الَّتي نُشاهِدُها حَولَنا','الظُّروف  (شرایط)'],
+['أثَرُ القَدَمِ عَلَى الرَّملِ','الوَطأة  (جای پا)'],
+['الَّذي يُرشِدُ السُّيّاحَ فِي السَّفَرِ','الدَّليل  (راهنما)'],
+['مَكانٌ يَعمَلُ فيهِ العُمّالُ','المَصنَع  (کارخانه)'],
+['ما يُشاهِدُهُ الإنسانُ فِي النَّومِ','الحُلْم / المَنام  (رؤیا)'],
+['مَنْ يُحِبُّ شَيئاً وَ لَيسَ مِهنَتَهُ','الهاوي  (علاقه‌مند)'],
+['الجِهازُ الَّذي نُشاهِدُ بِهِ البَرامِجَ','التِّلفاز  (تلویزیون)'],
+['أكبَرُ مَدينَةٍ فِي الدَّولَةِ وَ مَركَزُها','العاصِمَة  (پایتخت)'],
+['الشَّخصُ الَّذي يَحرُسُ المَكانَ','الحارِس  (نگهبان)'],
+['ما يُوضَعُ فيهِ الماءُ أوِ الطَّعامُ','الوِعاء  (ظرف)'],
+['الَّذي يَكتُبُ الشِّعرَ','الشّاعِر  (شاعر)'],
+['مَنْ لا يُحِبُّ العَمَلَ','الكَسول  (تنبل)'],
+['الحَيوانُ الَّذي يَأكُلُ اللَّحمَ','المُفتَرِس  (درنده)']]},
+
+{id:'odd',t:'کلمهٔ غریبه — منطقش را بگیر، حفظ نکن',ic:'🎯',kind:'html',body:`
+<div class="tip">در این سؤال دنبال <b>دسته</b> بگرد، نه معنی تک‌تک کلمات. سه کلمه یک خانواده‌اند و یکی از جای دیگری آمده.</div>
+<table><tr><th class="ar">گروه</th><th>غریبه</th><th>چرا</th></tr>
+<tr><td class="ar">الأصدِقاء / الأحِبّاء / الأقرِباء / <b class="goldtx">الأربِعاء</b></td><td class="ar">الأربِعاء</td><td>بقیه دوستان و خویشان‌اند؛ این روز هفته است</td></tr>
+<tr><td class="ar">الطّين / <b class="goldtx">المِلَفّ</b> / التُّراب / الحَجَر</td><td class="ar">المِلَفّ</td><td>بقیه خاک و سنگ‌اند</td></tr>
+<tr><td class="ar">الأعيُن / الأكتاف / <b class="goldtx">الفَأس</b> / الأسنان</td><td class="ar">الفَأس</td><td>بقیه اعضای بدن‌اند</td></tr>
+<tr><td class="ar">الغُراب / العُصفور / الحَمامَة / <b class="goldtx">المائِدَة</b></td><td class="ar">المائِدَة</td><td>بقیه پرنده‌اند</td></tr>
+<tr><td class="ar">العَظْم / اللَّحْم / <b class="goldtx">العام</b> / الدَّم</td><td class="ar">العام</td><td>بقیه اجزای بدن‌اند</td></tr>
+<tr><td class="ar"><b class="goldtx">الخِيام</b> / أمسِ / غَداً / اليَوم</td><td class="ar">الخِيام</td><td>بقیه زمان‌اند</td></tr>
+<tr><td class="ar">الأحبال / الأسنان / الأفواه / الأرجُل</td><td class="ar"><b class="goldtx">الأحبال</b></td><td>بقیه اعضای بدن‌اند (این: طناب‌ها)</td></tr>
+<tr><td class="ar">الفُؤوس / القَرابين / الأصنام / الآلِهَة</td><td class="ar"><b class="goldtx">الفُؤوس</b></td><td>بقیه به بت‌پرستی مربوط‌اند</td></tr>
+<tr><td class="ar">الجَرّارَة / السَّيّارَة / الحافِلَة / <b class="goldtx">القِمَّة</b></td><td class="ar">القِمَّة</td><td>بقیه وسیلهٔ نقلیه‌اند</td></tr>
+<tr><td class="ar">الصَّحَفيّ / الكاتِب / الأديب / <b class="goldtx">الوِعاء</b></td><td class="ar">الوِعاء</td><td>بقیه اهل قلم‌اند</td></tr></table>
+<h3>دسته‌های پرتکرار که باید در ذهنت باشند</h3>
+<div class="chips">
+<span class="chip">اعضای بدن: عَين، كَتِف، رِجْل، سِنّ، فَم، وَجْه، عَظْم، لَحْم، دَم، عَصَب، جِلد</span>
+<span class="chip">زمان: يَوم، أمس، غَد، عام، سَنَة، عَصْر، شَهر، لَيل</span>
+<span class="chip">پرندگان: غُراب، عُصفور، حَمامَة، طائِر، دَجاجَة</span>
+<span class="chip">خویشان: أب، أُمّ، اِبن، بِنت، أُسرَة، أقرِباء</span>
+<span class="chip">مصالح: طين، تُراب، حَجَر، خَشَب، حَديد، نُحاس، زُجاج، فِضَّة، ذَهَب</span>
+</div>`},
+{id:'s1',t:'جملات متن درس ۱ + ترجمه',ic:'📜',kind:'cards',hint:'عربی را بخوان، ترجمه را در ذهنت بساز، بعد باز کن.',items:[
+['اَلتَّدَيُّنُ فِطريٌّ فِي الإنسانِ. وَ التّاريخُ يَقولُ لَنا:','دین‌داری در انسان فطری است و تاریخ به ما می‌گوید:'],
+['لا شَعْبَ مِنْ شُعوبِ الأرضِ إلّا وَ كانَ لَهُ دينٌ وَ طَريقَةٌ لِلعِبادَةِ.','هیچ ملتی از ملت‌های زمین نیست مگر اینکه آیین و روشی برای پرستش داشته است.','لای نفی جنس + استثناء'],
+['اَلآثارُ القَديمَةُ الَّتي اكتَشَفَهَا الإنسانُ،','آثار کهنی که انسان آنها را کشف کرد،'],
+['وَ الحَضاراتُ الَّتي عَرَفَها مِنْ خِلالِ الكِتاباتِ وَ النُّقوشِ وَ الرُّسومِ وَ التَّماثيلِ،','و تمدن‌هایی که آنها را از خلال نوشته‌ها و نگاره‌ها و نقاشی‌ها و تندیس‌ها شناخت،'],
+['تُؤَكِّدُ اهتِمامَ الإنسانِ بِالدّينِ وَ تَدُلُّ عَلىٰ أنَّهُ فِطريٌّ في وُجودِهِ؛','بر توجّه انسان به دین تأکید می‌کند و نشان می‌دهد که در وجودش فطری است؛'],
+['وَلٰكِنَّ عِباداتِهِ وَ شَعائِرَهُ كانَتْ خُرافيَّةً؛','ولی عبادت‌ها و مراسمش خرافی بود؛'],
+['مِثْلُ تَعَدُّدِ الآلِهَةِ وَ تَقديمِ القَرابينِ لَها لِكَسْبِ رِضاها وَ تَجَنُّبِ شَرِّها.','مانند چندگانگی خدایان و تقدیم قربانی‌ها به آنها برای به‌دست‌آوردن خشنودی‌شان و دوری از شرّشان.'],
+['وَ ازدادَتْ هٰذِهِ الخُرافاتُ في أديانِ النّاسِ عَلىٰ مَرِّ العُصورِ.','و این خرافات در دین‌های مردم در گذر روزگاران افزون شد.'],
+['وَلٰكِنَّ اللهَ تعالىٰ لَمْ يَترُكِ النّاسَ عَلىٰ هٰذِهِ الحالَةِ؛','ولی خدای بلندمرتبه مردم را در این وضعیت رها نکرد؛'],
+['أ يَحسَبُ الإنسانُ أنْ يُترَكَ سُدىً','آیا انسان می‌پندارد که بیهوده رها می‌شود؟','یُتْرَكَ مجهول است'],
+['لِذٰلِكَ أرسَلَ إلَيهِمُ الأنبياءَ لِيُبَيِّنوا الصِّراطَ المُستَقيمَ وَ الدّينَ الحَقَّ.','به همین سبب پیامبران را به سوی آنان فرستاد تا راه راست و دین راستین را آشکار کنند.'],
+['وَ قَدْ حَدَّثَنَا القُرآنُ الكَريمُ عَنْ سيرَةِ الأنبياءِ وَ صِراعِهِم مَعَ أقوامِهِمُ الكافِرينَ.','و قرآن کریم از سرگذشت پیامبران و کشمکششان با قوم‌های کافرشان با ما سخن گفته است.'],
+['وَ لِنَذكُرْ مَثَلاً إبراهيمَ الخَليلَ الَّذي حاوَلَ أنْ يُنقِذَ قَومَهُ مِنْ عِبادَةِ الأصنامِ.','و باید مثالی یاد کنیم: ابراهیم خلیل که تلاش کرد قومش را از بت‌پرستی نجات دهد.','لِنَذكُرْ = باید یاد کنیم'],
+['فَفي أحَدِ الأعيادِ لَمّا خَرَجَ قَومُهُ مِنْ مَدينَتِهِم، بَقِيَ إبراهيمُ وَحيداً،','در یکی از جشن‌ها، هنگامی که قومش از شهرشان بیرون رفتند، ابراهیم تنها ماند،','وَحيداً = حال'],
+['فَحَمَلَ فَأْساً، وَ كَسَّرَ جَميعَ الأصنامِ فِي المَعبَدِ إلَّا الصَّنَمَ الكَبيرَ،','پس تبری برداشت و همهٔ بت‌ها را در پرستشگاه شکست، جز بت بزرگ را،','استثناء'],
+['ثُمَّ عَلَّقَ الفَأْسَ عَلىٰ كَتِفِهِ وَ تَرَكَ المَعبَدَ.','سپس تبر را بر شانه‌اش آویخت و پرستشگاه را ترک کرد.'],
+['وَ لَمّا رَجَعَ النّاسُ، شاهَدوا أصنامَهُم مُكَسَّرَةً،','و هنگامی که مردم بازگشتند، بت‌هایشان را شکسته دیدند،','مُكَسَّرَةً = حال'],
+['وَ ظَنّوا أنَّ إبراهيمَ هوَ الفاعِلُ، فَأحضَروهُ لِلمُحاكَمَةِ وَ سَأَلوهُ:','و پنداشتند که ابراهیم انجام‌دهنده است، پس او را برای دادگاه آوردند و از او پرسیدند:'],
+['أ أنتَ فَعَلْتَ هٰذا بِآلِهَتِنا يا إبراهيمُ','آیا تو این کار را با خدایان ما کردی، ای ابراهیم؟'],
+['فَأجابَهُم: لِمَ تَسأَلونَني؟! اِسأَلُوا الصَّنَمَ الكَبيرَ.','به آنان پاسخ داد: چرا از من می‌پرسید؟! از بت بزرگ بپرسید.'],
+['بَدَأَ القَومُ يَتَهامَسونَ: إنَّ الصَّنَمَ لا يَتَكَلَّمُ؛','مردم شروع به پچ‌پچ کردند: بی‌گمان بت سخن نمی‌گوید؛'],
+['إنَّما يَقصِدُ إبراهيمُ الاِستِهزاءَ بِأصنامِنا.','ابراهیم تنها قصد مسخره‌کردن بت‌های ما را دارد.','إنَّما = تنها، فقط'],
+['وَ هُنا قالوا: حَرِّقوهُ وَ انصُروا آلِهَتَكُم','و اینجا گفتند: او را بسوزانید و خدایانتان را یاری کنید.'],
+['فَقَذَفوهُ فِي النّارِ، فَأنقَذَهُ اللهُ مِنها.','پس او را در آتش انداختند و خدا او را از آن نجات داد.'],
+['كانَ الهَدَفُ مِن تَقديمِ القَرابينِ لِلآلِهَةِ، كَسْبَ رِضاها وَ تَجَنُّبَ شَرِّها.','هدف از تقدیم قربانی‌ها به خدایان، به‌دست‌آوردن خشنودی‌شان و دوری از شرّشان بود.'],
+['اَلآثارُ القَديمَةُ تُؤَكِّدُ اهتِمامَ الإنسانِ بِالدّينِ.','آثار کهن بر توجّه انسان به دین تأکید می‌کند.'],
+['إنَّ التَّدَيُّنَ فِطريٌّ فِي الإنسانِ.','بی‌گمان دین‌داری در انسان فطری است.'],
+['لا يَترُكُ اللهُ الإنسانَ سُدىً.','خدا انسان را بیهوده رها نمی‌کند.'],
+['لَمْ تَكُنْ لِبَعضِ الشُّعوبِ حَضارَةٌ رائِعَةٌ.','بعضی از ملت‌ها تمدن جالبی نداشتند.','⚠ ماضی، نه «وجود ندارد»'],
+['لَنْ يَزيدَ شَيءٌ مَعرِفَتَكَ فِي الحَياةِ إلَّا الكِتابَ المُفيدَ.','چیزی جز کتاب مفید به شناختت در زندگی نخواهد افزود.','⚠ لَنْ = نخواهد']]},
+
+{id:'s1v',t:'آیات و احادیث درس ۱',ic:'🕌',kind:'cards',items:[
+['فَهٰذا يَومُ البَعْثِ وَلٰكِنَّكُم كُنتُم لا تَعلَمونَ','پس این روز رستاخیز است، ولی شما نمی‌دانستید.'],
+['إنَّ اللهَ يُحِبُّ الَّذينَ يُقاتِلونَ في سَبيلِهِ صَفّاً كَأنَّهُم بُنيانٌ مَرصوصٌ','بی‌گمان خدا کسانی را دوست دارد که در راه او صف در صف می‌جنگند، گویی ساختمانی استوارند.'],
+['إنَّ اللهَ لا يُضيعُ أجرَ المُحسِنينَ','بی‌گمان خدا پاداش نیکوکاران را تباه نمی‌کند.'],
+['قالَ أعلَمُ أنَّ اللهَ عَلىٰ كُلِّ شَيءٍ قَديرٌ','گفت: می‌دانم که خدا بر هر چیزی تواناست.'],
+['كَأنَّهُنَّ الياقوتُ وَ المَرجانُ','آنان مانند یاقوت و مرجان‌اند.'],
+['إنَّ اللهَ لَذو فَضلٍ عَلَى النّاسِ وَلٰكِنَّ أكثَرَ النّاسِ لا يَشكُرونَ','بی‌گمان خدا بر مردم بخشش دارد، ولی بیشتر مردم سپاسگزاری نمی‌کنند.'],
+['وَ يَقولُ الكافِرُ يا لَيتَني كُنتُ تُراباً','و کافر می‌گوید: ای کاش من خاک بودم!'],
+['إنّا جَعَلناهُ قُرآناً عَرَبيّاً لَعَلَّكُم تَعقِلونَ','بی‌گمان ما آن را قرآنی عربی قرار دادیم، امید است شما خردورزی کنید.'],
+['كَأنَّ إرضاءَ جَميعِ النّاسِ غايَةٌ لا تُدرَكُ','گویی خشنودساختن همهٔ مردم هدفی است که به دست نمی‌آید.'],
+['لِماذا ما سافَرتَ بِالطّائِرَةِ؟ — لِأنَّ بِطاقَةَ الطّائِرَةِ غاليَةٌ','چرا با هواپیما سفر نکردی؟ — زیرا بلیت هواپیما گران است.'],
+['قيلَ ادخُلِ الجَنَّةَ قالَ يا لَيتَ قَومي يَعلَمونَ بِما غَفَرَ لي رَبّي وَ جَعَلَني مِنَ المُكرَمينَ','گفته شد: به بهشت درآی. گفت: ای کاش قوم من می‌دانستند که پروردگارم مرا آمرزید و از گرامی‌داشتگان قرارم داد.'],
+['لا تَحزَنْ إنَّ اللهَ مَعَنا','اندوهگین نباش، بی‌گمان خدا با ماست.'],
+['لا إلٰهَ إلَّا اللهُ','هیچ خدایی جز الله نیست.'],
+['لا دينَ لِمَنْ لا عَهْدَ لَهُ','هیچ دینی نیست برای کسی که پیمانی ندارد.'],
+['إنَّ مِنَ السُّنَّةِ أنْ يَخرُجَ الرَّجُلُ مَعَ ضَيفِهِ إلىٰ بابِ الدّارِ','از سنّت است که مرد با مهمانش تا در خانه بیرون بیاید.'],
+['لا خَيْرَ في قَولٍ إلّا مَعَ الفِعْلِ','هیچ خیری در گفتار نیست مگر همراه با کردار.'],
+['لا جِهادَ كَجِهادِ النَّفسِ','هیچ جهادی مانند جهاد با نفس نیست.'],
+['لا لِباسَ أجمَلُ مِنَ العافيَةِ','هیچ جامه‌ای زیباتر از تندرستی نیست.'],
+['لا فَقْرَ كَالجَهلِ وَ لا ميراثَ كَالأدَبِ','هیچ تنگدستی‌ای مانند نادانی و هیچ میراثی مانند ادب نیست.'],
+['لا سوءَ أسوَأُ مِنَ الكَذِبِ','هیچ بدی‌ای بدتر از دروغ نیست.'],
+['لا كَنزَ أغنىٰ مِنَ القَناعَةِ','هیچ گنجی بی‌نیازکننده‌تر از قناعت نیست.'],
+['لا عِلمَ لَنا إلّا ما عَلَّمتَنا','هیچ دانشی نداریم جز آنچه به ما آموختی.'],
+['كُلُّ طَعامٍ لا يُذكَرُ اسمُ اللهِ عَلَيهِ، لا بَرَكَةَ فيهِ','هر خوراکی که نام خدا بر آن یاد نشود، هیچ برکتی در آن نیست.'],
+['لا تَغضَبْ، فَإنَّ الغَضَبَ مَفسَدَةٌ','خشمگین نشو، زیرا خشم مایهٔ تباهی است.'],
+['لا فَقْرَ أشَدُّ مِنَ الجَهلِ وَ لا عِبادَةَ مِثلُ التَّفَكُّرِ','هیچ تنگدستی‌ای سخت‌تر از نادانی و هیچ عبادتی مانند اندیشیدن نیست.'],
+['لا تُطعِموا المَساكينَ مِمّا لا تَأكُلونَ','به بینوایان از آنچه خودتان نمی‌خورید نخورانید.'],
+['لا تَسُبُّوا النّاسَ فَتَكتَسِبُوا العَداوَةَ بَينَهُم','مردم را دشنام ندهید که در میانشان دشمنی به دست می‌آورید.'],
+['خُذُوا الحَقَّ مِنْ أهلِ الباطِلِ و لا تَأخُذُوا الباطِلَ مِنْ أهلِ الحَقِّ؛ كونوا نُقّادَ الكَلامِ','حق را از اهل باطل بگیرید و باطل را از اهل حق نگیرید؛ سنجشگر سخن باشید.'],
+['وَ لا تَسُبُّوا الَّذينَ يَدعونَ مِنْ دونِ اللهِ فَيَسُبُّوا اللهَ','و کسانی را که به‌جای خدا می‌خوانند دشنام ندهید که [آنان نیز] به خدا دشنام دهند.'],
+['وَ لا يَحزُنْكَ قَولُهُم إنَّ العِزَّةَ لِلهِ جَميعاً','و گفتارشان تو را اندوهگین نکند؛ بی‌گمان ارجمندی همه از آنِ خداست.'],
+['هَلْ يَستَوِي الَّذينَ يَعلَمونَ وَ الَّذينَ لا يَعلَمونَ','آیا کسانی که می‌دانند و کسانی که نمی‌دانند برابرند؟'],
+['رَبَّنا وَ لا تُحَمِّلنا ما لا طاقَةَ لَنا بِهِ','پروردگارا، آنچه را هیچ توانی نسبت به آن نداریم بر ما تحمیل مکن.'],
+['لا يَرحَمُ اللهُ مَنْ لا يَرحَمُ النّاسَ','خدا به کسی که به مردم رحم نمی‌کند رحم نمی‌کند.'],
+['أيُّهَا الفاخِرُ جَهلاً بِالنَّسَبْ / إنَّمَا النّاسُ لِأُمٍّ وَ لِأبْ','ای که نابخردانه به دودمان فخر می‌فروشی، مردم تنها از یک مادر و یک پدرند.'],
+['هَلْ تَراهُم خُلِقوا مِن فِضَّةٍ / أمْ حَديدٍ أمْ نُحاسٍ أمْ ذَهَبْ','آیا آنان را می‌بینی که از نقره یا آهن یا مس یا طلا آفریده شده‌اند؟'],
+['بَلْ تَراهُم خُلِقوا مِن طينَةٍ / هَلْ سِوىٰ لَحمٍ وَ عَظمٍ وَ عَصَبْ','بلکه آنان را می‌بینی که از تکّه‌گِلی آفریده شده‌اند؛ آیا جز گوشت و استخوان و پی‌اند؟'],
+['إنَّمَا الفَخْرُ لِعَقلٍ ثابِتٍ / وَ حَياءٍ وَ عَفافٍ وَ أدَبْ','افتخار تنها به خِردی استوار و شرم و پاکدامنی و ادب است.']]},
+
+{id:'s2',t:'جملات متن درس ۲ + ترجمه',ic:'🕋',kind:'cards',items:[
+['جَلَسَ أعضاءُ الأُسرَةِ أمامَ التِّلفازِ وَ هُم يُشاهِدونَ الحُجّاجَ فِي المَطارِ.','اعضای خانواده جلوی تلویزیون نشستند، در حالی که حاجیان را در فرودگاه می‌دیدند.','واو حالیّه'],
+['نَظَرَ عارِفٌ إلىٰ والِدَيهِ، فَرَأىٰ دُموعَهُما تَتَساقَطُ مِنْ أعيُنِهِما.','عارف به پدر و مادرش نگاه کرد و اشک‌هایشان را دید که از چشمانشان فرو می‌ریخت.'],
+['فَسَأَلَ عارِفٌ والِدَهُ مُتَعَجِّباً: يا أبي، لِمَ تَبكي؟!','عارف با تعجّب از پدرش پرسید: پدرم، چرا گریه می‌کنی؟!','مُتَعَجِّباً = حال'],
+['حينَما أرَى النّاسَ يَذهَبونَ إلَى الحَجِّ، تَمُرُّ أمامي ذِكرَياتي؛','هنگامی که مردم را می‌بینم به حج می‌روند، خاطراتم از جلویم می‌گذرد؛'],
+['فَأقولُ في نَفسي: يا لَيتَني أذهَبُ مَرَّةً أُخرىٰ!','پس با خودم می‌گویم: ای کاش یک بار دیگر بروم!'],
+['وَلٰكِنَّكَ أدَّيْتَ فَريضَةَ الحَجِّ فِي السَّنَةِ الماضيَةِ مَعَ أُمّي!','ولی تو واجب حج را سال گذشته با مادرم به‌جا آوردی!'],
+['لَقَدِ اشتاقَ أبوكُما إلَى الحَرَمَينِ الشَّريفَينِ وَ البَقيعِ الشَّريفِ.','پدرتان به دو حرم شریف و بقیع شریف مشتاق شده است.'],
+['أ أنتِ مُشتاقَةٌ أيضاً؛ يا أُمّاهْ؟ — نَعَم، بِالتَّأكيدِ يا بُنَيَّ.','آیا تو هم مشتاقی، ای مادرم؟ — بله، حتماً پسرکم.'],
+['كُلُّ مُسلِمٍ حينَ يَرىٰ هٰذَا المَشهَدَ، يَشتاقُ إلَيهِ.','هر مسلمانی هنگامی که این صحنه را ببیند، مشتاقش می‌شود.'],
+['أتَذَكَّرُ خِيامَ الحُجّاجِ في مِنىٰ وَ عَرَفاتٍ، وَ رَمْيَ الجَمَراتِ وَ الطَّوافَ حَولَ الكَعبَةِ الشَّريفَةِ','چادرهای حاجیان در منا و عرفات و پرتاب ریگ‌ها و طواف پیرامون کعبهٔ شریف را به یاد می‌آورم'],
+['وَ السَّعْيَ بَينَ الصَّفا وَ المَروَةِ، وَ زيارَةَ البَقيعِ الشَّريفِ.','و دویدن میان صفا و مروه و زیارت بقیع شریف را.'],
+['وَ أنا أتَذَكَّرُ جَبَلَ النّورِ الَّذي كانَ النَّبيُّ يَتَعَبَّدُ في غارِ حِراءٍ الواقِعِ في قِمَّتِهِ.','و من کوه نور را به یاد می‌آورم که پیامبر در غار حرا که بر قلّهٔ آن است عبادت می‌کرد.'],
+['قَرَأْتُ في كِتابِ التَّربيَةِ الدّينيَّةِ أنَّ أُولىٰ آياتِ القُرآنِ نَزَلَتْ عَلَى النَّبيِّ في غارِ حِراءٍ.','در کتاب تربیت دینی خواندم که نخستین آیه‌های قرآن در غار حرا بر پیامبر فرود آمد.'],
+['هَلْ رَأَيتِ الغارَ؛ يا أُمّاهْ؟ — لا، يا بُنَيَّتي.','آیا غار را دیدی، مادرم؟ — نه، دخترکم.'],
+['اَلغارُ يَقَعُ فَوقَ جَبَلٍ مُرتَفِعٍ، لا يَستَطيعُ صُعودَهُ إلَّا الأقوياءُ،','غار بر فراز کوهی بلند است که تنها نیرومندان می‌توانند از آن بالا بروند،','استثناء'],
+['وَ أنتِ تَعلَمينَ أنَّ رِجلي تُؤلِمُني.','و تو می‌دانی که پایم درد می‌کند.'],
+['هَلْ رَأَيتُما غارَ ثَورٍ الَّذي لَجَأَ إلَيهِ النَّبيُّ في طَريقِ هِجرَتِهِ إلَى المَدينَةِ المُنَوَّرَةِ؟','آیا غار ثور را دیدید که پیامبر در راه هجرتش به مدینهٔ منوّره به آن پناه برد؟'],
+['لا، يا عَزيزَتي؛ أنا أتَمَنّىٰ أنْ أتَشَرَّفَ مَعَ جَميعِ أعضاءِ الأُسرَةِ وَ مَعَ الأقرِباءِ','نه، عزیزم؛ من آرزو می‌کنم با همهٔ اعضای خانواده و با خویشاوندان مفتخر شوم'],
+['لِزيارَةِ مَكَّةَ المُكَرَّمَةِ وَ المَدينَةِ المُنَوَّرَةِ مَرَّةً أُخرىٰ وَ أزورَ هٰذِهِ الأماكِنَ.','به زیارت مکّهٔ مکرّمه و مدینهٔ منوّره برای بار دیگر و این مکان‌ها را زیارت کنم.'],
+['اَلسَّيِّدُ مُسلِمي مُزارِعٌ. هوَ يَسكُنُ في قَريَةِ بِطرود بِمُحافَظَةِ مازَندَران.','آقای مسلمی کشاورز است. او در روستای بطرود در استان مازندران زندگی می‌کند.'],
+['إنَّهُ رَجُلٌ صادِقٌ وَ صَبّارٌ وَ مُحتَرَمٌ.','بی‌گمان او مردی راستگو و بسیار بردبار و محترم است.'],
+['في يَومٍ مِنَ الأيّامِ شاهَدَ جَماعَةً مِنَ المُسافِرينَ واقِفينَ أمامَ مَسجِدِ القَريَةِ.','در یکی از روزها گروهی از مسافران را دید که جلوی مسجد روستا ایستاده بودند.','واقِفينَ = حال'],
+['فَذَهَبَ وَ سَأَلَهُم عَنْ سَبَبِ وُقوفِهِم، فَقالوا: إنَّ سَيّارَتَنا مُعَطَّلَةٌ.','پس رفت و از آنان دربارهٔ سبب ایستادنشان پرسید؛ گفتند: خودروی ما خراب است.'],
+['فَاتَّصَلَ السَّيِّدُ مُسلِمي بِصَديقِهِ مُصلِحِ السَّيّاراتِ؛ لِكَي يُصلِحَ سَيّارَتَهُم.','آقای مسلمی با دوستش تعمیرکار خودرو تماس گرفت تا خودرویشان را تعمیر کند.'],
+['وَ جاءَ صَديقُهُ وَ جَرَّ سَيّارَتَهُم بِالجَرّارَةِ وَ أخَذَها إلىٰ مَوقِفِ تَصليحِ السَّيّاراتِ.','و دوستش آمد و خودرویشان را با تراکتور کشید و آن را به تعمیرگاه خودرو برد.'],
+['أخَذْتُ سَيّارَتي بِالجَرّارَةِ إلىٰ مَوقِفِ التَّصليحِ.','خودرویم را با تراکتور به تعمیرگاه بردم.'],
+['وَقَفَ المُهَندِسُ الشّابُّ فِي المَصنَعِ مُبتَسِماً.','مهندس جوان با لبخند در کارخانه ایستاد.'],
+['رَأَيتُ الطِّفلَتَينِ مُبتَسِمَتَينِ.','دو کودک را خندان دیدم.'],
+['اَللّاعِبونَ الإيرانيّونَ رَجَعوا مِنَ المُسابَقَةِ مُبتَسِمينَ.','بازیکنان ایرانی خندان از مسابقه بازگشتند.'],
+['وَصَلَ المُسافِرانِ إلَى المَطارِ مُتَأخِّرَينِ وَ رَكِبَا الطّائِرَةَ.','دو مسافر با تأخیر به فرودگاه رسیدند و سوار هواپیما شدند.'],
+['تَجتَهِدُ الطّالِبَةُ في أداءِ واجِباتِها راضيَةً وَ تُساعِدُ أُمَّها.','دانش‌آموز خشنودانه در انجام تکالیفش تلاش می‌کند و به مادرش کمک می‌کند.'],
+['يُشَجِّعُ المُتَفَرِّجونَ فَريقَهُمُ الفائِزَ فَرِحينَ.','تماشاگران شادمانه تیم برندهٔ خود را تشویق می‌کنند.'],
+['اَلطّالِبَتانِ تَقرَآنِ دُروسَهُما مُجِدَّتَينِ.','دو دانش‌آموز کوشایانه درس‌هایشان را می‌خوانند.'],
+['مَنْ عاشَ بِوَجهَينِ ماتَ خاسِراً.','هرکه با دو چهره زیست، زیانکار مُرد.'],
+['أقوَى النّاسِ مَنْ عَفا عَنْ عَدُوِّهِ مُقتَدِراً.','نیرومندترین مردم کسی است که در حال توانایی از دشمنش درگذرد.'],
+['عِندَ وُقوعِ المَصائِبِ تَذهَبُ العَداوَةُ سَريعَةً.','هنگام رخ‌دادن مصیبت‌ها دشمنی به‌سرعت از میان می‌رود.'],
+['مَنْ أذنَبَ وَ هوَ يَضحَكُ، دَخَلَ النّارَ وَ هوَ يَبكي.','هرکه گناه کند در حالی که می‌خندد، به آتش درآید در حالی که می‌گرید.'],
+['يَبقَى المُحسِنُ حَيّاً وَ إنْ نُقِلَ إلىٰ مَنازِلِ الأمواتِ.','نیکوکار زنده می‌ماند، هرچند به منزلگاه مردگان برده شود.'],
+['إذا طَلَبْتَ أنْ تَنجَحَ في عَمَلِكَ فَقُمْ بِهِ وَحيداً وَ لا تَتَوَكَّلْ عَلَى النّاسِ.','اگر خواستی در کارت موفق شوی، خودت تنها آن را انجام بده و بر مردم تکیه نکن.'],
+['وَ خُلِقَ الإنسانُ ضَعيفاً','و انسان ناتوان آفریده شد.'],
+['وَ لا تَهِنوا وَ لا تَحزَنوا وَ أنتُمُ الأعلَونَ','و سست نشوید و اندوهگین نشوید در حالی که شما برترید.'],
+['كانَ النّاسُ أُمَّةً واحِدَةً فَبَعَثَ اللهُ النَّبيّينَ مُبَشِّرينَ','مردم یک امّت بودند، پس خدا پیامبران را نویدبخش برانگیخت.'],
+['يا أيَّتُهَا النَّفسُ المُطمَئِنَّةُ ارجِعي إلىٰ رَبِّكِ راضيَةً مَرضيَّةً','ای نفس آرام، خشنود و پسندیده به سوی پروردگارت بازگرد.'],
+['إنَّما وَليُّكُمُ اللهُ وَ رَسولُهُ وَ الَّذينَ آمَنوا الَّذينَ يُقيمونَ الصَّلاةَ وَ يُؤتونَ الزَّكاةَ وَ هُم راكِعونَ','سرپرست شما تنها خدا و پیامبر او و کسانی‌اند که ایمان آورده‌اند؛ همان‌ها که نماز برپا می‌دارند و در حال رکوع زکات می‌دهند.'],
+['رَبَّنا آتِنا فِي الدُّنيا حَسَنَةً وَ فِي الآخِرَةِ حَسَنَةً','پروردگارا، در دنیا به ما نیکی و در آخرت نیکی بده.'],
+['جاءَ الحَقُّ وَ زَهَقَ الباطِلُ','حق آمد و باطل نابود شد.'],
+['وَ استَعينوا بِالصَّبرِ وَ الصَّلاةِ','و از بردباری و نماز یاری بجویید.'],
+['فَإنَّ حِزبَ اللهِ هُمُ الغالِبونَ','بی‌گمان حزب خدا چیره‌شدگان‌اند.'],
+['كُلُّ نَفسٍ ذائِقَةُ المَوتِ','هر کسی چشندهٔ مرگ است.']]},
+{id:'s3',t:'جملات متن درس ۳ + ترجمه',ic:'📚',kind:'cards',items:[
+['إنَّ الكُتُبَ طَعامُ الفِكْرِ، وَ لِكُلِّ فِكْرٍ طَعامٌ، كَما توجَدُ أطعِمَةٌ لِكُلِّ جِسْمٍ.','بی‌گمان کتاب‌ها غذای اندیشه‌اند و هر اندیشه‌ای غذایی دارد، همان‌گونه که برای هر بدنی خوراکی‌هایی هست.'],
+['وَ مِنْ مَزايَا الجِسمِ القَويِّ أنَّهُ يَجذِبُ غِذاءً مُناسِباً لِنَفسِهِ،','و از ویژگی‌های بدن نیرومند این است که غذای مناسب خودش را جذب می‌کند،'],
+['وَ كَذٰلِكَ الإنسانُ العاقِلُ يَستَطيعُ أنْ يَجِدَ غِذاءً فِكريّاً في كُلِّ مَوضوعٍ.','و همچنین انسان خردمند می‌تواند در هر موضوعی غذای فکری بیابد.'],
+['وَ إنَّ التَّحديدَ فِي اختِيارِ الكُتُبِ كَالتَّحديدِ فِي اختِيارِ الطَّعامِ،','و بی‌گمان محدود کردن در انتخاب کتاب مانند محدود کردن در انتخاب غذاست،'],
+['كِلاهُما لا يَكونُ إلّا لِطِفلٍ أو مَريضٍ.','هردویشان جز برای کودک یا بیمار نیست.','استثناء'],
+['إذا كانَ لَكَ فِكْرٌ قادِرٌ تَستَطيعُ بِهِ أنْ تَفهَمَ ما تَقرَأُ؛ فَاقرَأْ ما تُحِبُّ مِنَ الكُتُبِ؛','اگر اندیشه‌ای توانا داری که به کمک آن بتوانی آنچه را می‌خوانی دریابی، پس از میان کتاب‌ها هرچه دوست داری بخوان؛'],
+['فَالتَّجارِبُ لا تُغنينا عَنِ الكُتُبِ؛','پس تجربه‌ها ما را از کتاب‌ها بی‌نیاز نمی‌کند؛'],
+['لِأنَّ الكُتُبَ تَجارِبُ الأُمَمِ عَلىٰ مَرِّ آلافِ السِّنينَ،','زیرا کتاب‌ها تجربه‌های ملت‌ها در گذر هزاران سال‌اند،'],
+['وَ لا يُمكِنُ أنْ تَبلُغَ تَجرِبَةُ الفَرْدِ الواحِدِ أكثَرَ مِنْ عَشَراتِ السِّنينَ.','و ممکن نیست تجربهٔ یک فرد از ده‌ها سال بیشتر شود.'],
+['فَرُبَّ كِتابٍ يَجتَهِدُ القارِئُ في قِراءَتِهِ، ثُمَّ لا يَخرُجُ مِنهُ بِفائِدَةٍ،','چه بسا کتابی که خواننده در خواندنش تلاش می‌کند، سپس سودی از آن نمی‌برد،','رُبَّ = چه بسا'],
+['وَ رُبَّ كِتابٍ يَتَصَفَّحُهُ قارِئُهُ؛ فَيُؤَثِّرُ في نَفسِهِ تَأثيراً عَميقاً يَظهَرُ في آرائِهِ.','و چه بسا کتابی که خواننده‌اش آن را ورق می‌زند، پس در روانش تأثیری ژرف می‌گذارد که در دیدگاه‌هایش آشکار می‌شود.','مفعول مطلق نوعی'],
+['أمَّا الكِتابُ المُفيدُ فَهُوَ الَّذي يَزيدُ مَعرِفَتَكَ فِي الحَياةِ وَ قُوَّتَكَ عَلَى الفَهْمِ وَ العَمَلِ،','امّا کتاب سودمند آن است که شناخت تو در زندگی و توانت بر فهم و عمل را می‌افزاید،'],
+['فَإذا وَجَدْتَ ذٰلِكَ في كِتابٍ، كانَ جَديراً بِالعِنايَةِ وَ التَّقديرِ.','پس اگر آن را در کتابی یافتی، شایستهٔ توجّه و ارج‌نهادن بود.'],
+['اَلعَقّادُ أديبٌ وَ صَحَفيٌّ وَ مُفَكِّرٌ وَ شاعِرٌ مِصريٌّ؛ أُمُّهُ مِنْ أصْلٍ كُرديٍّ.','عقّاد ادیب و روزنامه‌نگار و اندیشمند و شاعری مصری است؛ مادرش از تباری کُردی است.'],
+['فَكانَ العَقّادُ لا يَرَى الجَمالَ إلَّا الحُريَّةَ؛','عقّاد زیبایی را جز آزادی نمی‌دید؛'],
+['وَ لِهٰذا لا نُشاهِدُ في حَياتِهِ إلَّا النَّشاطَ عَلىٰ رَغمِ ظُروفِهِ القاسيَةِ.','و به همین سبب در زندگی‌اش با وجود شرایط سختش تنها تلاش می‌بینیم.'],
+['يُقالُ إنَّهُ قَرَأَ آلافَ الكُتُبِ. وَ هوَ مِنْ أهَمِّ الكُتّابِ في مِصرَ.','گفته می‌شود که او هزاران کتاب خواند. و او از مهم‌ترین نویسندگان در مصر است.'],
+['فَقَدْ أضافَ إلَى المَكتَبَةِ العَربيَّةِ أكثَرَ مِنْ مِئَةِ كِتابٍ فِي المَجالاتِ المُختَلِفَةِ.','او بیش از صد کتاب در زمینه‌های گوناگون به کتابخانهٔ عربی افزود.'],
+['ما دَرَسَ العَقّادُ إلّا فِي المَرحَلَةِ الاِبتِدائيَّةِ، لِعَدَمِ وُجودِ مَدرَسَةٍ ثانَويَّةٍ في مُحافَظَةِ أسوان الَّتي وُلِدَ وَ نَشَأَ فيها.','عقّاد جز در مقطع ابتدایی درس نخواند، به سبب نبودِ دبیرستان در استان اسوان که در آن زاده شد و پرورش یافت.'],
+['وَ مَا استَطاعَتْ أُسرَتُهُ أنْ تُرسِلَهُ إلَى القاهِرَةِ لِتَكميلِ دِراسَتِهِ.','و خانواده‌اش نتوانست او را برای تکمیل تحصیلش به قاهره بفرستد.'],
+['فَمَا اعتَمَدَ العَقّادُ إلّا عَلىٰ نَفسِهِ.','عقّاد جز بر خودش تکیه نکرد.'],
+['فَقَدْ تَعَلَّمَ الإنجليزيَّةَ مِنَ السُّيّاحِ الَّذينَ كانوا يَأتونَ إلىٰ مِصرَ لِزيارَةِ الآثارِ التّاريخيَّةِ.','او انگلیسی را از گردشگرانی آموخت که برای دیدن آثار تاریخی به مصر می‌آمدند.','كانوا يَأتونَ = می‌آمدند'],
+['وَ لا أظُنُّ أنَّ هُناكَ كُتُباً مُكَرَّرَةً؛ لِأنّي أعتَقِدُ أنَّ الفِكرَةَ الواحِدَةَ إذا طَرَحَها ألفُ كاتِبٍ، أصبَحَتْ ألفَ فِكرَةٍ.','و گمان نمی‌کنم کتاب‌های تکراری وجود داشته باشد؛ زیرا باور دارم یک اندیشه اگر هزار نویسنده آن را مطرح کند، هزار اندیشه می‌شود.'],
+['وَ لِهٰذا أُريدُ أنْ أقرَأَ فِي المَوضوعِ الواحِدِ آراءَ عِدَّةِ كُتّابٍ؛ لِأنَّ هٰذَا العَمَلَ أمتَعُ وَ أنفَعُ مِنْ قِراءَةِ المَوضوعاتِ المُتَعَدِّدَةِ.','و به همین سبب می‌خواهم در یک موضوع دیدگاه‌های چند نویسنده را بخوانم؛ زیرا این کار لذت‌بخش‌تر و سودمندتر از خواندن موضوع‌های گوناگون است.'],
+['وَ أنا واثِقٌ أنَّ كُلَّ كاتِبٍ قَدْ وَصَفَ نابليون بِأوصافٍ لا تُشبِهُ أوصافَ الكُتّابِ الآخَرينَ.','و من مطمئنم که هر نویسنده‌ای ناپلئون را با وصف‌هایی وصف کرده که به وصف‌های نویسندگان دیگر شباهت ندارد.'],
+['هوَ كانَ أُسوَةً لِمَنْ يَعتَقِدُ أنَّ مَنْ يَجتَهِدْ يَنجَحْ.','او الگویی بود برای کسی که باور دارد هرکه تلاش کند موفق می‌شود.'],
+['كُلُّ شَيءٍ يَنقُصُ بِالإنفاقِ إلَّا العِلمَ.','هر چیزی با بخشش کم می‌شود، جز دانش.'],
+['كُلُّ عَينٍ باكيَةٌ يَومَ القيامَةِ إلّا ثَلاثَ أعيُنٍ:','هر چشمی در روز رستاخیز گریان است، جز سه چشم:'],
+['عَينٌ سَهِرَتْ في سَبيلِ اللهِ، وَ عَينٌ غُضَّتْ عَنْ مَحارِمِ اللهِ، وَ عَينٌ فاضَتْ مِنْ خَشيَةِ اللهِ.','چشمی که در راه خدا بیدار ماند، و چشمی که از حرام‌های خدا فروبسته شد، و چشمی که از ترس خدا روان شد.'],
+['كُلُّ وِعاءٍ يَضيقُ بِما جُعِلَ فيهِ إلّا وِعاءَ العِلمِ؛ فَإنَّهُ يَتَّسِعُ بِهِ.','هر ظرفی با آنچه در آن نهاده شود تنگ می‌شود، جز ظرف دانش که با آن فراخ می‌گردد.'],
+['كُلُّ شَيءٍ يَرخُصُ إذا كَثُرَ إلَّا الأدَبَ؛ فَإنَّهُ إذا كَثُرَ غَلا.','هر چیزی اگر فراوان شود ارزان می‌شود، جز ادب که اگر فراوان شود گران می‌گردد.'],
+['لا تَعلَمُ زَميلاتي اللُّغَةَ الفَرَنسيَّةَ إلّا عَطيَّةَ.','هم‌کلاسی‌هایم زبان فرانسه نمی‌دانند، جز عطیّه.'],
+['حَلَّ الطُّلّابُ مَسائِلَ الرِّياضيّاتِ إلّا مَسأَلَةً.','دانش‌آموزان مسئله‌های ریاضی را حل کردند، جز یک مسئله را.'],
+['وَ مَا الحَياةُ الدُّنيا إلّا لَعِبٌ وَ لَهْوٌ','و زندگی دنیا تنها بازی و سرگرمی است.'],
+['لا يَيأَسُ مِنْ رَوحِ اللهِ إلَّا القَومُ الكافِرونَ','از رحمت خدا تنها گروه کافران ناامید می‌شوند.'],
+['إنَّ الإنسانَ لَفي خُسْرٍ إلَّا الَّذينَ آمَنوا وَ عَمِلُوا الصّالِحاتِ','بی‌گمان انسان در زیان است، جز کسانی که ایمان آوردند و کارهای شایسته کردند.'],
+['قَرَأْتُ الكِتابَ التّاريخيَّ إلّا مَصادِرَهُ.','کتاب تاریخی را خواندم، جز منابعش را.'],
+['اِشتَرَيْتُ أنواعَ الفاكِهَةِ إلَّا الأناناسَ.','گونه‌های میوه را خریدم، جز آناناس را.'],
+['ما شاهَدْتُ فِي المَكتَبَةِ إلّا كاظِماً.','در کتابخانه تنها کاظم را دیدم.','⚠ ترجمهٔ مثبت و مؤکّد'],
+['أضعَفُ النّاسِ مَنْ ضَعُفَ عَنْ كِتمانِ سِرِّهِ.','ناتوان‌ترین مردم کسی است که از پنهان‌داشتن رازش ناتوان باشد.'],
+['مُداراةُ النّاسِ نِصفُ الإيمانِ.','مدارا با مردم نیمی از ایمان است.'],
+['عَدُوٌّ عاقِلٌ خَيرٌ مِن صَديقٍ جاهِلٍ.','دشمنی خردمند بهتر از دوستی نادان است.'],
+['يا حَبيبي، لا تَقُلْ كَلاماً إلَّا الحَقَّ أبَداً.','دوست من، هرگز سخنی جز حق نگو.'],
+['اَلعِلمُ فِي الصِّغَرِ كَالنَّقشِ فِي الحَجَرِ.','دانش در کودکی مانند نقش بر سنگ است.'],
+['إنَّ النَّفسَ لَأمّارَةٌ بِالسّوءِ','بی‌گمان نفس بسیار فرمان‌دهنده به بدی است.'],
+['كُنّا مَسرورينَ عِندَ مُشاهَدَةِ العُمّالِ فِي المَصانِعِ.','هنگام دیدن کارگران در کارخانه‌ها شادمان بودیم.'],
+['رَجاءً، جالِسِ الأعاظِمَ في حَياتِكَ.','لطفاً در زندگی‌ات با بزرگان همنشین شو.'],
+['مُؤَدِّبُ النَّفسِ أحَقُّ بِالإجلالِ.','ادب‌آموزندهٔ خویشتن به گرامی‌داشت شایسته‌تر است.'],
+['هٰذِهِ المَشاهِدُ تُعجِبُني جِدّاً.','این صحنه‌ها مرا بسیار به شگفت می‌آورد.'],
+['أكبَرُ الحُمقِ الإغراقُ فِي المَدحِ وَ الذَّمِّ.','بزرگ‌ترین نابخردی زیاده‌روی در ستایش و نکوهش است.'],
+['طَلَبُ الحاجَةِ مِنْ غَيرِ أهلِها أشَدُّ مِنَ المَوتِ.','درخواست نیاز از نااهلش سخت‌تر از مرگ است.'],
+['قُمْ عَنْ مَجلِسِكَ لِأبيكَ وَ مُعَلِّمِكَ وَ إنْ كُنتَ أميراً.','از جایت برای پدر و آموزگارت برخیز، هرچند فرمانروا باشی.'],
+['يَومُ العَدلِ عَلَى الظّالِمِ أشَدُّ مِن يَومِ الجَورِ عَلَى المَظلومِ.','روز عدل بر ستمگر سخت‌تر از روز ستم بر ستمدیده است.'],
+['اِعلَمْ بِأنَّ خَيرَ الإخوانِ أقدَمُهُم.','بدان که بهترین برادران، دیرینه‌ترینشان است.']]},
+
+{id:'s4',t:'جملات متن درس ۴ + قصیدهٔ فرزدق',ic:'🐎',kind:'cards',items:[
+['اَلفَرَزدَقُ مِنْ شُعَراءِ العَصرِ الأُمَويِّ.','فرزدق از شاعران عصر اموی است.'],
+['وُلِدَ في مِنطَقَةٍ بِالكُوَيتِ الحاليَةِ، عامَ ثَلاثَةٍ وَ عِشرينَ بَعدَ الهِجرَةِ، وَ عاشَ بِالبَصرَةِ.','در منطقه‌ای در کویت کنونی، سال بیست و سه پس از هجرت زاده شد و در بصره زیست.'],
+['في يَومٍ مِنَ الأيّامِ جاءَ بِهِ أبوهُ إلىٰ أميرِ المُؤمِنينَ، فَسَأَلَهُ الإمامُ عَنْ وَلَدِهِ؛ فَقالَ:','در یکی از روزها پدرش او را نزد امیرمؤمنان آورد و امام دربارهٔ پسرش از او پرسید؛ گفت:'],
+['هٰذَا ابني يَكادُ يَكونُ شاعِراً عَظيماً.','این پسرم نزدیک است شاعری بزرگ شود.'],
+['فَقالَ الإمامُ لِوالِدِهِ: عَلِّمْهُ القُرآنَ.','امام به پدرش گفت: قرآن را به او بیاموز.'],
+['فَعَلَّمَهُ القُرآنَ تَعليماً جَيِّداً؛','پس قرآن را به خوبی به او آموخت؛','مفعول مطلق نوعی'],
+['ثُمَّ رَحَلَ الفَرَزدَقُ إلىٰ خُلَفاءِ بَني أُمَيَّةَ بِالشّامِ، وَ مَدَحَهُم وَ نالَ جَوائِزَهُم.','سپس فرزدق به سوی خلفای بنی‌امیه در شام کوچید و آنان را ستود و جایزه‌هایشان را به دست آورد.'],
+['كانَ الفَرَزدَقُ مُحِبّاً لِأهلِ البَيتِ وَ كانَ يَستُرُ حُبَّهُ عِندَ خُلَفاءِ بَني أُمَيَّةَ؛','فرزدق دوستدار اهل‌بیت بود و دوستی‌اش را نزد خلفای بنی‌امیه پنهان می‌کرد؛','كانَ يَستُرُ = پنهان می‌کرد'],
+['وَلٰكِنَّهُ جَهَرَ بِهِ لَمّا حَجَّ هِشامُ بنُ عَبدِ المَلِكِ في أيّامِ أبيهِ.','ولی هنگامی که هشام بن عبدالملک در روزگار پدرش حج گزارد، آن را آشکار کرد.'],
+['فَطافَ هِشامٌ وَ لَمّا وَصَلَ إلَى الحَجَرِ لَمْ يَقدِرْ أنْ يَستَلِمَهُ لِكَثرَةِ الاِزدِحامِ،','هشام طواف کرد و چون به حجر رسید، به سبب فراوانی ازدحام نتوانست آن را مسح کند،'],
+['فَنُصِبَ لَهُ مِنبَرٌ وَ جَلَسَ عَلَيهِ جُلوسَ الأُمَراءِ','پس برایش منبری برپا شد و مانندِ فرمانروایان بر آن نشست','نُصِبَ مجهول + مفعول مطلق'],
+['يَنظُرُ إلَى النّاسِ وَ مَعَهُ جَماعَةٌ مِنْ كِبارِ أهلِ الشّامِ.','به مردم می‌نگریست و گروهی از بزرگان اهل شام همراهش بودند.'],
+['فَبَينَما يَنظُرُ إلَى الحُجّاجِ، إذْ جاءَ زَينُ العابِدينَ، فَطافَ بِالبَيتِ طَوافَ الأعاظِمِ،','در حالی که به حاجیان می‌نگریست، ناگهان زین‌العابدین آمد و مانندِ بزرگان خانه را طواف کرد،'],
+['فَلَمّا وَصَلَ إلَى الحَجَرِ، ذَهَبَ النّاسُ جانِباً، فَاستَلَمَهُ استِلاماً سَهلاً.','و چون به حجر رسید، مردم کنار رفتند و او آن را به آسانی مسح کرد.'],
+['فَقالَ رَجُلٌ مِنْ أهلِ الشّامِ: مَنْ هٰذَا الَّذي قَدْ سَمَحَ النّاسُ لَهُ بِاستِلامِ الحَجَرِ؟!','مردی از اهل شام گفت: این کیست که مردم مسح حجر را به او اجازه داده‌اند؟!'],
+['خافَ هِشامٌ مِنْ أنْ يَعرِفَهُ أهلُ الشّامِ وَ يَرغَبوا فيهِ رَغبَةَ المُحِبّينَ؛ فَقالَ: لا أعرِفُهُ.','هشام ترسید که اهل شام او را بشناسند و مانندِ دوستداران به او علاقه‌مند شوند؛ پس گفت: او را نمی‌شناسم.'],
+['وَ كانَ الفَرَزدَقُ حاضِراً. فَقالَ الفَرَزدَقُ: أنا أعرِفُهُ مَعرِفَةً جَيِّدَةً.','و فرزدق حاضر بود. فرزدق گفت: من او را به خوبی می‌شناسم.'],
+['ثُمَّ أنشَدَ هٰذِهِ القَصيدَةَ إنشاداً رائِعاً.','سپس این چکامه را به گونه‌ای جالب سرود.'],
+['هٰذَا الَّذي تَعرِفُ البَطحاءُ وَطأتَهُ / وَ البَيتُ يَعرِفُهُ وَ الحِلُّ وَ الحَرَمُ','این کسی است که سرزمین مکّه قدمگاهش را می‌شناسد، و خانهٔ [خدا] و مردمِ بیرون و محدودهٔ اِحرام او را می‌شناسند.'],
+['هٰذَا ابنُ خَيرِ عِبادِ اللهِ كُلِّهِمُ / هٰذَا التَّقيُّ النَّقيُّ الطّاهِرُ العَلَمُ','این فرزند بهترینِ همهٔ بندگان خداست؛ این پرهیزگارِ پاکِ پاکیزهٔ بزرگِ قوم است.'],
+['وَ لَيسَ قَولُكَ: مَنْ هٰذا؟ بِضائِرِهِ / اَلعُرْبُ تَعرِفُ مَنْ أنكَرْتَ وَ العَجَمُ','و این گفتهٔ تو که «این کیست؟» زیان‌رساننده به او نیست؛ عرب و غیرعرب کسی را که تو انکار کردی می‌شناسند.'],
+['إنّا فَتَحنا لَكَ فَتحاً مُبيناً','بی‌گمان ما برای تو پیروزی آشکاری فراهم کردیم.'],
+['إنّا نَحنُ نَزَّلنا عَلَيكَ القُرآنَ تَنزيلاً','بی‌گمان ما قرآن را بر تو قطعاً فرو فرستادیم.'],
+['يَنقُصُ كُلُّ شَيءٍ بِالإنفاقِ إلَّا العِلمَ؛ فَإنَّهُ يَزيدُ.','هر چیزی با بخشش کم می‌شود جز دانش، که آن افزون می‌گردد.'],
+['يَعيشُ البَخيلُ فِي الدُّنيا عَيشَ الفُقَراءِ وَ يُحاسَبُ فِي الآخِرَةِ مُحاسَبَةَ الأغنياءِ.','بخیل در دنیا مانندِ فقیران زندگی می‌کند و در آخرت مانندِ ثروتمندان حسابرسی می‌شود.'],
+['فَاصبِرْ صَبراً جَميلاً','پس به زیبایی صبر کن.'],
+['اُذكُروا اللهَ ذِكراً كَثيراً','خدا را بسیار یاد کنید.'],
+['كَلَّمَ اللهُ موسىٰ تَكليماً','خدا با موسیٰ قطعاً سخن گفت.'],
+['وَ نُزِّلَ المَلائِكَةُ تَنزيلاً','و فرشتگان قطعاً فرود آورده شدند.'],
+['اِنسَحَبَ العَدُوُّ انسِحابَ الخائِفينَ.','دشمن مانندِ ترسوها عقب‌نشینی کرد.'],
+['تَجتَهِدُ الأُمُّ لِتَربيَةِ أولادِها اجتِهاداً بالِغاً.','مادر برای تربیت فرزندانش بسیار تلاش می‌کند.'],
+['اِستَغفَرتُ اللهَ استِغفاراً.','قطعاً از خدا آمرزش خواستم.'],
+['اِستَغفَرتُ اللهَ استِغفاراً صادِقاً.','صادقانه از خدا آمرزش خواستم.'],
+['اِستَغفَرتُ اللهَ استِغفارَ الصّالِحينَ.','مانندِ درستکاران از خدا آمرزش خواستم.'],
+['كانَ المُغولُ يَهجُمونَ عَلَى الصّينِ هُجوماً شَديداً.','مغولان با شدّت به چین حمله می‌کردند.'],
+['سَيَتَقاعَدُ والِدي بَعدَ السَّنَتَينِ تَقاعُداً.','پدرم بعد از دو سال حتماً بازنشست خواهد شد.'],
+['كانوا يُعامِلونَنا مُعامَلَةً جَيِّدَةً.','به خوبی با ما رفتار می‌کردند.'],
+['لَمْ يَسمَحِ النّاسُ أنْ يَستَلِمَ أحَدٌ الحَجَرَ الأسوَدَ إلَّا الإمامَ الرّابِعَ.','مردم اجازه ندادند کسی حجرالأسود را مسح کند جز امام چهارم را.'],
+['يَعيشُ السَّمَكُ المَدفونُ داخِلَ حُفرَةٍ عَيشاً.','ماهی مدفون قطعاً درون گودالی زندگی می‌کند.'],
+['هٰذِهِ عَينٌ قَدْ فاضَتْ مِنْ خَشيَةِ اللهِ.','این چشمی است که از ترس خدا روان شده است.'],
+['تِلكَ السَّمَكَةُ لا تَترُكُ صِغارَها وَ سَتَسيرُ مَعَها حَتّىٰ زَوالِ الخَطَرِ.','آن ماهی بچه‌هایش را رها نمی‌کند و تا برطرف شدن خطر همراه آنها حرکت خواهد کرد.']]},
+
+{id:'sci',t:'متن‌های علمی تمارین (کاندیدای درک مطلب)',ic:'🔬',kind:'cards',items:[
+['سَمَكَةُ السَّهمِ مِنْ أعجَبِ الأسماكِ فِي الصَّيدِ.','ماهی تیرانداز از شگفت‌ترین ماهی‌ها در شکار است.'],
+['إنَّها تُطلِقُ قَطَراتِ الماءِ مُتَتاليَةً مِنْ فَمِها إلَى الهَواءِ بِقُوَّةٍ تُشبِهُ إطلاقَ السَّهمِ.','آن قطره‌های آب را پی‌درپی با نیرویی مانند رها کردن تیر از دهانش به هوا رها می‌کند.'],
+['وَ عِندَما تَسقُطُ الحَشَرَةُ عَلىٰ سَطحِ الماءِ تَبلَعُها حَيَّةً.','و هنگامی که حشره روی سطح آب می‌افتد، آن را زنده می‌بلعد.','حَيَّةً = حال'],
+['هُواةُ أسماكِ الزّينَةِ مُعجَبونَ بِهٰذِهِ السَّمَكَةِ، وَلٰكِنَّ تَغذيَتَها صَعبَةٌ عَلَيهِم؛ لِأنَّها تُحِبُّ أنْ تَأكُلَ الفَرائِسَ الحَيَّةَ.','علاقه‌مندان ماهی‌های زینتی شیفتهٔ این ماهی‌اند، ولی تغذیه‌اش برایشان دشوار است؛ زیرا دوست دارد شکارهای زنده بخورد.'],
+['سَمَكَةُ التّيلابيا مِنْ أغرَبِ الأسماكِ تُدافِعُ عَنْ صِغارِها وَ هيَ تَسيرُ مَعَها.','ماهی تیلاپیا از شگفت‌انگیزترین ماهی‌هاست که از بچه‌هایش دفاع می‌کند در حالی که با آنها حرکت می‌کند.'],
+['وَ هٰذِهِ السَّمَكَةُ تَبلَعُ صِغارَها عِندَ الخَطَرِ؛ ثُمَّ تُخرِجُها بَعدَ زَوالِ الخَطَرِ.','و این ماهی هنگام خطر بچه‌هایش را می‌بلعد؛ سپس پس از برطرف شدن خطر آنها را بیرون می‌آورد.'],
+['حينَ يَرَى الطّائِرُ الذَّكيُّ حَيواناً مُفتَرِساً قُربَ عُشِّهِ، يَتَظاهَرُ أمامَهُ بِأنَّ جَناحَهُ مَكسورٌ.','هنگامی که پرندهٔ باهوش جانور درنده‌ای را نزدیک لانه‌اش می‌بیند، جلوی او وانمود می‌کند که بالش شکسته است.'],
+['فَيَتبَعُ الحَيوانُ المُفتَرِسُ هٰذِهِ الفَريسَةَ، وَ يَبتَعِدُ عَنِ العُشِّ كَثيراً.','پس جانور درنده این شکار را دنبال می‌کند و بسیار از لانه دور می‌شود.'],
+['وَ عِندَما يَتَأكَّدُ الطّائِرُ مِنْ خِداعِ العَدُوِّ وَ ابتِعادِهِ وَ إنقاذِ حَياةِ فِراخِهِ، يَطيرُ بَغتَةً.','و هنگامی که پرنده از فریب دشمن و دور شدنش و نجات زندگی جوجه‌هایش مطمئن می‌شود، ناگهان پرواز می‌کند.'],
+['هُناكَ طائِرٌ يُسَمّىٰ بَرْناكِل يَبني عُشَّهُ فَوقَ جِبالٍ مُرتَفِعَةٍ بَعيداً عَنِ المُفتَرِسينَ.','پرنده‌ای هست که برناکل نامیده می‌شود؛ لانه‌اش را بر فراز کوه‌های بلند دور از شکارچیان می‌سازد.'],
+['وَ عِندَما تَكبُرُ فِراخُهُ، يُريدُ مِنها أنْ تَقفِزَ مِنْ عُشِّهَا المُرتَفِعِ.','و هنگامی که جوجه‌هایش بزرگ می‌شوند، از آنها می‌خواهد از لانهٔ بلندشان بپرند.'],
+['تَقذِفُ الفِراخُ نَفسَها واحِداً واحِداً مِنْ جَبَلٍ يَبلُغُ ارتِفاعُهُ أكثَرَ مِنْ ألفِ مِترٍ.','جوجه‌ها خودشان را یکی‌یکی از کوهی می‌اندازند که بلندایش به بیش از هزار متر می‌رسد.'],
+['وَ تَصطَدِمُ بِالصُّخورِ عِدَّةَ مَرّاتٍ. يَنتَظِرُ الوالِدانِ أسفَلَ الجَبَلِ وَ يَستَقبِلانِ فِراخَهُما.','و چند بار به صخره‌ها برخورد می‌کنند. پدر و مادر پایین کوه چشم‌به‌راه می‌مانند و به پیشواز جوجه‌هایشان می‌روند.'],
+['سُقوطُ الفِراخِ مَشهَدٌ مُرعِبٌ جِدّاً. وَلٰكِنْ لا فِرارَ مِنهُ؛ لِأنَّهُ قِسمٌ مِنْ حَياتِهَا القاسيَةِ.','افتادن جوجه‌ها صحنه‌ای بسیار ترسناک است. ولی هیچ گریزی از آن نیست؛ زیرا بخشی از زندگی سختشان است.'],
+['يوجَدُ نَوعٌ مِنَ السَّمَكِ في إفريقيا يَستُرُ نَفسَهُ عِندَ الجَفافِ في غِلافٍ مِنَ المَوادِّ المُخاطيَّةِ الَّتي تَخرُجُ مِنْ فَمِهِ.','گونه‌ای از ماهی در آفریقا هست که هنگام خشکی خود را در پوششی از مواد مخاطی که از دهانش بیرون می‌آید می‌پوشاند.'],
+['وَ يَدفِنُ نَفسَهُ تَحتَ الطّينِ، ثُمَّ يَنامُ نَوماً عَميقاً أكثَرَ مِنْ سَنَةٍ.','و خودش را زیر گِل دفن می‌کند، سپس بیش از یک سال به خوابی ژرف فرو می‌رود.'],
+['وَ لا يَحتاجُ إلَى الماءِ وَ الطَّعامِ وَ الهَواءِ احتياجَ الأحياءِ.','و مانندِ زندگان به آب و خوراک و هوا نیاز ندارد.'],
+['وَ يَعيشُ داخِلَ حُفرَةٍ صَغيرَةٍ فِي انتِظارِ نُزولِ المَطَرِ، حَتّىٰ يَخرُجَ مِنَ الغِلافِ خُروجاً عَجيباً.','و درون گودالی کوچک در انتظار باریدن باران زندگی می‌کند، تا اینکه به گونه‌ای شگفت از پوشش بیرون آید.'],
+['يَذهَبُ الصَّيّادونَ الإفريقيّونَ إلىٰ مَكانِ اختِفائِهِ قَبلَ نُزولِ المَطَرِ وَ يَحفِرونَ التُّرابَ الجافَّ لِصَيدِهِ.','شکارچیان آفریقایی پیش از باریدن باران به جای پنهان‌شدنش می‌روند و خاک خشک را برای شکارش می‌کَنند.'],
+['اَلمُغولُ استَطاعوا أنْ يَهجُموا عَلَى الصّينِ هُجوماً قاسياً عَلىٰ رَغمِ بِناءِ سورٍ عَظيمٍ حَولَها.','مغولان توانستند با وجود ساختن دیواری بزرگ پیرامون چین، حمله‌ای سخت به آن کنند.'],
+['تَلَفُّظَ گ وَ چ وَ ژ مَوجودٌ فِي اللَّهَجاتِ العَربيَّةِ الدّارِجَةِ كَثيراً.','تلفّظ گ و چ و ژ در گویش‌های عامیانهٔ عربی بسیار وجود دارد.'],
+['اَلحوتَ يُصادُ لاِستِخراجِ الزَّيتِ مِنْ كَبِدِهِ لِصِناعَةِ مَوادِّ التَّجميلِ.','نهنگ برای بیرون کشیدن روغن از جگرش برای ساخت مواد آرایشی شکار می‌شود.'],
+['اَلخُفّاشَ هوَ الحَيوانُ اللَّبونُ الوَحيدُ الَّذي يَقدِرُ عَلَى الطَّيَرانِ.','خفّاش تنها پستانداری است که می‌تواند پرواز کند.'],
+['عَدَدَ النَّملِ فِي العالَمِ يَفوقُ عَدَدَ البَشَرِ بِمَليونِ مَرَّةٍ تَقريباً.','شمار مورچگان در جهان تقریباً یک میلیون برابر شمار انسان‌هاست.'],
+['طيسفون الواقِعَةَ قُربَ بَغدادَ كانَتْ عاصِمَةَ السّاسانيّينَ.','تیسفون که نزدیک بغداد است، پایتخت ساسانیان بود.'],
+['حَجْمَ دُبِّ الباندا عِندَ الوِلادَةِ أصغَرُ مِنَ الفَأرِ.','اندازهٔ خرس پاندا هنگام زاده‌شدن از موش کوچک‌تر است.'],
+['اَلزَّرافَةَ بَكماءُ لَيسَتْ لَها أحبالٌ صَوتيَّةٌ.','زرافه لال است و تارهای صوتی ندارد.'],
+['وَرَقَةَ الزَّيتونِ رَمْزُ السَّلامِ.','برگ زیتون نماد آشتی است.']]},
+
+{id:'prov',t:'ضرب‌المثل‌ها و معادل فارسی',ic:'🪶',kind:'cards',items:[
+['مَنْ جَدَّ وَجَدَ.','جوینده یابنده است.'],
+['عِندَ الشَّدائِدِ يُعرَفُ الإخوانُ.','دوست آن باشد که گیرد دست دوست / در پریشان‌حالی و درماندگی'],
+['إنْ أكرَمنَا اللَّئيمَ تَمَرَّدَ.','چو با سِفله گویی به لطف و خوشی / فزون گرددش کِبر و گردن‌کشی'],
+['اَلزَّرعُ يَنبُتُ فِي السَّهلِ وَ لا يَنبُتُ فِي الصَّفا.','کِشت در دشت می‌روید و بر تخته‌سنگ نمی‌روید.'],
+['مَنْ سَعىٰ رَعىٰ، وَ مَنْ لَزِمَ المَنامَ رَأَى الأحلامَ.','به جویی که یک روز بگذشت آب / نسازد خردمند ازو جای خواب'],
+['إذا أرادَ اللهُ هَلاكَ النَّملَةِ، أنبَتَ لَها جَناحَينِ.','هر آن چیز کاِن‌ت نیاید پسند / تنِ دوست و دشمن بدان در مبند'],
+['مُدَّ رِجلَكَ عَلىٰ قَدْرِ كِسائِكَ.','پایت را به اندازهٔ گلیمت دراز کن.'],
+['اِدَّعَى الثَّعلَبُ شَيئاً وَ طَلَبَ، قيلَ هَلْ مِنْ شاهِدٍ؟ قالَ الذَّنَبُ.','ز روباهی بپرسیدند احوال / ز معروفان گواهش بود دنبال'],
+['مَنْ عاشَ بِوَجهَينِ ماتَ وَ هوَ خاسِرٌ.','هرکه با دو چهره زیست، زیانکار مُرد.'],
+['اَلعِلمُ صَيدٌ وَ الكِتابَةُ قَيدٌ؛ فَقَيِّدُوا العِلمَ بِالكِتابَةِ.','دانش شکار است و نوشتن بند؛ پس دانش را با نوشتن به بند آورید.'],
+['لا يُؤمِنُ أحَدُكُم حَتّىٰ يُحِبَّ لِأخيهِ ما يُحِبُّ لِنَفسِهِ.','هیچ‌یک از شما ایمان نمی‌آورد تا آنکه برای برادرش همان را بخواهد که برای خودش می‌خواهد.'],
+['إذا أكرَمتَ الكَريمَ مَلَكتَهُ / وَ إنْ أنتَ أكرَمتَ اللَّئيمَ تَمَرَّدا','اگر کریم را گرامی بداری مالکش می‌شوی، و اگر فرومایه را گرامی بداری سرکشی می‌کند.'],
+['اَلعاقِلُ يَبني بَيتَهُ عَلَى الصَّخرِ وَ الجاهِلُ يَبنيهِ عَلَى الرَّملِ.','خردمند خانه‌اش را بر سنگ می‌سازد و نادان بر شن.'],
+['مَنْ نَصَبَ نَفسَهُ لِلنّاسِ إماماً فَليَبدَأْ بِتَعليمِ نَفسِهِ قَبلَ تَعليمِ غَيرِهِ.','هرکس خود را پیشوای مردم قرار دهد، باید پیش از آموزش دیگری از آموزش خود آغاز کند.'],
+['وَ لْيَكُنْ تَأديبُهُ بِسيرَتِهِ قَبلَ تَأديبِهِ بِلِسانِهِ.','و باید ادب‌آموزی‌اش پیش از زبانش با کردارش باشد.'],
+['اَلزَّرعُ يَنبُتُ فِي السَّهلِ وَ كَذٰلِكَ الحِكمَةُ تَعمُرُ في قَلبِ المُتَواضِعِ.','کِشت در دشت می‌روید و همچنین حکمت در دل [انسان] فروتن ماندگار می‌شود.'],
+['وَ لا تَعمُرُ في قَلبِ المُتَكَبِّرِ الجَبّارِ؛ لِأنَّ اللهَ جَعَلَ التَّواضُعَ آلَةَ العَقلِ وَ جَعَلَ التَّكَبُّرَ مِنْ آلَةِ الجَهلِ.','و در دل [انسان] خودبزرگ‌بینِ ستمگر ماندگار نمی‌شود؛ زیرا خدا فروتنی را ابزار خِرد و خودبزرگ‌بینی را از ابزار نادانی قرار داده است.']]},
+{id:'trap',t:'۲۵ تلهٔ کشنده — چک‌لیست نهایی',ic:'💀',kind:'html',body:`
+<div class="warn">هر کدام از این‌ها یک تا سه ربع نمره است. اگر همه را ببندی، ترجمه‌ات بی‌نقص می‌شود.</div>
+<table><tr><th>#</th><th class="ar">تله</th><th>حکم درست</th></tr>
+<tr><td>۱</td><td class="ar">قَدْ + مضارع</td><td><b class="tealtx">گاهی / شاید</b> — نه «حتماً»</td></tr>
+<tr><td>۲</td><td class="ar">قَدْ + ماضی</td><td><b class="tealtx">حتماً / به‌تحقیق</b> — یا ماضی نقلی</td></tr>
+<tr><td>۳</td><td class="ar">لَنْ</td><td><b class="tealtx">هرگز نخواهد</b> — نه «نمی‌…»</td></tr>
+<tr><td>۴</td><td class="ar">لَمْ</td><td>شکل مضارع، معنی <b class="tealtx">ماضی منفی</b></td></tr>
+<tr><td>۵</td><td class="ar">لِـ + مضارع مجزوم (غائب/متکلّم)</td><td><b class="tealtx">باید</b></td></tr>
+<tr><td>۶</td><td class="ar">لا + مضارع مجزوم (غائب/متکلّم)</td><td><b class="tealtx">نباید</b></td></tr>
+<tr><td>۷</td><td class="ar">كانَ + مضارع</td><td>ماضی <b class="tealtx">استمراری</b> (می‌…‌ـد)</td></tr>
+<tr><td>۸</td><td class="ar">كانَ + قَدْ + ماضی</td><td>ماضی <b class="tealtx">بعید</b> (…‌ه بود)</td></tr>
+<tr><td>۹</td><td class="ar">مجهول</td><td>حتماً مجهول ترجمه شود: أُرسِلَ = فرستاده شد • ذُكِروا = یاد شدند • يُقالُ = گفته می‌شود</td></tr>
+<tr><td>۱۰</td><td class="ar">منفی + إلّا (بی مستثنیٰ‌مِنه)</td><td>مثبت + <b class="tealtx">تنها</b></td></tr>
+<tr><td>۱۱</td><td class="ar">مفعول مطلق تأکیدی</td><td>قید تأکید — نه ترجمهٔ مصدر</td></tr>
+<tr><td>۱۲</td><td class="ar">مفعول مطلق + مضافٌ‌الیه</td><td><b class="tealtx">مانندِ …</b></td></tr>
+<tr><td>۱۳</td><td class="ar">مفعول مطلق + صفت</td><td>فقط صفت را قید کن؛ مصدر حذف می‌شود</td></tr>
+<tr><td>۱۴</td><td class="ar">حال</td><td><b class="tealtx">قید</b>، نه صفت</td></tr>
+<tr><td>۱۵</td><td class="ar">واو حالیّه</td><td>«در حالی که» + فعل <b class="tealtx">استمراری</b></td></tr>
+<tr><td>۱۶</td><td class="ar">لٰكِنَّ / لَعَلَّ / لَيتَ</td><td>ولی / شاید / کاش — جابه‌جا نکن</td></tr>
+<tr><td>۱۷</td><td class="ar">مثنّیٰ</td><td>حتماً «دو …»: الطِّفلانِ، والِدَيهِ، السَّنَتَينِ، الحَرَمَينِ</td></tr>
+<tr><td>۱۸</td><td class="ar">ضمیر متّصل</td><td>جا نینداز: سَيّارَتَهُم = خودرو<b>یشان</b></td></tr>
+<tr><td>۱۹</td><td class="ar">جمع مکسّر</td><td>جمع ترجمه کن: الأصنام = بت‌<b>ها</b></td></tr>
+<tr><td>۲۰</td><td class="ar">اسم تفضیل مضاف</td><td>أضعَفُ النّاسِ = ناتوان‌<b class="tealtx">ترین</b> مردم • أشَدُّ مِن = سخت‌<b class="tealtx">تر</b> از</td></tr>
+<tr><td>۲۱</td><td class="ar">رُبَّ</td><td><b class="tealtx">چه بسا</b></td></tr>
+<tr><td>۲۲</td><td class="ar">إنَّما</td><td><b class="tealtx">تنها، فقط</b></td></tr>
+<tr><td>۲۳</td><td class="ar">جملهٔ بعد از اسم نکره</td><td>با «<b class="tealtx">که</b>» ترجمه شود (جملهٔ وصفیّه)</td></tr>
+<tr><td>۲۴</td><td class="ar">إنَّ اولِ جمله</td><td><b class="tealtx">بی‌گمان / قطعاً</b> — أنَّ وسط جمله = «که»</td></tr>
+<tr><td>۲۵</td><td class="ar">لا + اسم نکره</td><td><b class="tealtx">هیچ … نیست</b> — نه «نمی‌…»</td></tr></table>
+<h3>سه اشتباهی که کل نمرهٔ یک بند را می‌بلعد</h3>
+<ul>
+<li><b class="goldtx">جا انداختن قید:</b> اگر «حتماً»، «گاهی»، «هرگز»، «تنها»، «مانندِ» را ننویسی، آن ربع نمره رفته است.</li>
+<li><b class="goldtx">فارسیِ شکسته:</b> ترجمه باید جملهٔ فارسی درست باشد. «کتاب‌ها غذای فکر هستند برای هر فکری غذایی» نمره کامل نمی‌گیرد.</li>
+<li><b class="goldtx">افزودن چیزی که در متن نیست:</b> توضیح اضافه ننویس. فقط همان جمله.</li>
+</ul>`},
+
+{id:'read',t:'درک مطلب — تکنیک قطعی',ic:'🔎',kind:'html',body:`
+<div class="gold-box"><b>قانون یگانه:</b> پاسخ <b class="tealtx">همیشه عیناً در متن است</b>. جملهٔ خودت نساز؛ عبارت را از متن بردار.</div>
+<h3>الگوریتم</h3>
+<ul>
+<li>کلیدواژهٔ سؤال را در متن پیدا کن (اسم خاص، فعل اصلی، عدد).</li>
+<li>عبارتِ دور و برش را کپی کن.</li>
+<li>سؤال با <span class="kbd">لِمَ</span> شروع شد؟ ← دنبال <span class="kbd">لِـ</span> یا <span class="kbd">لِأنَّ</span> بگرد.</li>
+<li>سؤال با <span class="kbd">ماذا</span> شروع شد؟ ← دنبال مفعول یا نائب فاعل.</li>
+<li>سؤال با <span class="kbd">ما</span> شروع شد؟ ← دنبال فاعلِ همان فعل.</li>
+<li>سؤال با <span class="kbd">مَنْ</span>؟ ← دنبال شخص.</li>
+<li>سؤال با <span class="kbd">هَلْ</span>؟ ← فقط <span class="ar">نَعَم</span> یا <span class="ar">لا</span> و بعد جملهٔ متن.</li>
+</ul>
+<h3>نمونهٔ حل‌شده (همان متن امتحان)</h3>
+<table><tr><th>سؤال</th><th>پاسخ از متن</th></tr>
+<tr><td class="ar">ما يَزيدُ مَعرِفَتَنا؟</td><td class="ar">أنْ نُفَكِّرَ  (التَّفَكُّر)</td></tr>
+<tr><td class="ar">لِمَ ما دَرَسَ العَقّادُ فِي الثّانَويَّةِ؟</td><td class="ar">لِفَقرِ أُسرَتِهِ  /  لِأنَّ أُسرَتَهُ كانَتْ فَقيرَةً</td></tr>
+<tr><td class="ar">ماذا يُشاهَدُ في حَياةِ العَقّادِ؟</td><td class="ar">اَلنَّشاط</td></tr></table>
+<div class="tip"><b>سؤال «عَيِّنِ الخَطَأ»:</b> معمولاً یکی از ضرب‌المثل‌ها با محتوای متن نمی‌خواند. اگر متن دربارهٔ تلاش و پشتکار است، <span class="ar">عِندَ الشَّدائِدِ يُعرَفُ الإخوانُ</span> (دربارهٔ دوستی) پاسخ خطاست، و <span class="ar">مَنْ جَدَّ وَجَدَ</span> و <span class="ar">مَنْ سَعىٰ رَعىٰ</span> درست‌اند.</div>`},
+
+{id:'plan48',t:'برنامهٔ ۴۸ ساعت',ic:'⏱️',kind:'html',body:`
+<h3>امروز — روز اول</h3>
+<table><tr><th>زمان</th><th>بخش</th><th>هدف</th></tr>
+<tr><td>۲ ساعت</td><td><b class="tealtx">جدول طلایی</b> + <b class="tealtx">۲۵ تله</b></td><td>تا حفظ نشده‌اند رهایشان نکن — بیشترین بازدهِ کل برنامه</td></tr>
+<tr><td>۱.۵ ساعت</td><td>قواعد پایه ۱ تا ۵</td><td>هر جدول را ببند و از حفظ بازسازی کن</td></tr>
+<tr><td>۱ ساعت</td><td>قواعد چهار درس</td><td>هر قاعده + ۲ مثال نو از خودت</td></tr>
+<tr><td>۱.۵ ساعت</td><td>واژگان چهار درس + پاورقی‌ها</td><td>فارسی را بپوشان، از عربی بگو</td></tr>
+<tr><td>۱ ساعت</td><td>مترادف/متضاد + مفرد و جمع + تعریف‌ها + غریبه</td><td>سریع و تکراری، سه دور</td></tr></table>
+<h3>فردا — روز دوم</h3>
+<table><tr><th>زمان</th><th>بخش</th><th>هدف</th></tr>
+<tr><td>۲.۵ ساعت</td><td>جملات درس ۱ تا ۴ + آیات و احادیث</td><td>عربی را بپوشان، از فارسی بازسازی کن (ترجمهٔ معکوس)</td></tr>
+<tr><td>۱ ساعت</td><td>متن‌های علمی + ضرب‌المثل‌ها + درک مطلب</td><td>یک دور کافی است</td></tr>
+<tr><td>۸۰ دقیقه</td><td>نمونه‌سؤال ۱۴۰۴</td><td>بسته‌کتاب، سرِ وقت، بعد با کلید تصحیح</td></tr>
+<tr><td>۱ ساعت</td><td>فقط خطاهای همان آزمون</td><td>و فیلتر ⭐ نشان‌دار در همین فایل</td></tr>
+<tr><td>۱ ساعت</td><td>مرور جدول طلایی + ۲۵ تله</td><td>دور آخر</td></tr></table>
+<h3>صبح امتحان — ۳۰ دقیقه، فقط این چهار تا</h3>
+<div class="chips"><span class="chip">🔑 جدول طلایی فعل</span><span class="chip">💀 ۲۵ تله</span><span class="chip">⚖️ مترادف و متضاد</span><span class="chip">🧠 تعریف‌ها</span></div>
+<div class="gold-box"><b>و یک جملهٔ آخر:</b> ۶۰٪ نمرهٔ این امتحان ترجمه است و بیش از نیمِ خطاهای ترجمه، خطای زمانِ فعل است. اگر فقط «جدول طلایی» و «۲۵ تله» را کامل بلد باشی، پایه‌ات محکم است؛ واژگان و قواعد باقی‌اش را کامل می‌کند. برو بگیرش.</div>`}
+];
+
+/* ---------------- state ---------------- */
+let ST = {reads:{}, done:{}, flag:{}, open:{}};
+const KEY = 'arabi3_v1';
+let filter = 'all', query = '';
+
+async function save(){
+  try{ await window.storage.set(KEY, JSON.stringify(ST)); }catch(e){}
+}
+async function load(){
+  try{ const r = await window.storage.get(KEY); if(r && r.value) ST = Object.assign(ST, JSON.parse(r.value)); }catch(e){}
+}
+
+/* ---------------- helpers ---------------- */
+const $ = s => document.querySelector(s);
+const fa = n => String(n).replace(/\d/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]);
+const cards = s => (s.kind === 'cards' ? s.items : []);
+const allCards = () => S.reduce((a,s)=>a+cards(s).length,0);
+const doneCount = () => Object.values(ST.done).filter(Boolean).length;
+const flagCount = () => Object.values(ST.flag).filter(Boolean).length;
+
+function matches(sec, i, it){
+  const id = sec.id+'-'+i;
+  if(filter==='todo' && ST.done[id]) return false;
+  if(filter==='flag' && !ST.flag[id]) return false;
+  if(filter==='done' && !ST.done[id]) return false;
+  if(query){
+    const hay = (it[0]+' '+it[1]+' '+(it[2]||'')).toLowerCase();
+    if(!hay.includes(query)) return false;
+  }
+  return true;
+}
+function secVisible(sec){
+  if(sec.kind==='cards'){
+    return cards(sec).some((it,i)=>matches(sec,i,it));
+  }
+  if(filter!=='all') return false;
+  if(query) return (sec.t+' '+(sec.body||'')).toLowerCase().includes(query);
+  return true;
+}
+
+/* ---------------- render ---------------- */
+function render(){
+  const wrap = $('#wrap'); wrap.innerHTML='';
+  let anyShown = false;
+
+  S.forEach(sec=>{
+    if(!secVisible(sec)) return;
+    anyShown = true;
+    const list = cards(sec);
+    const shown = list.map((it,i)=>({it,i})).filter(o=>matches(sec,o.i,o.it));
+    const d = list.filter((_,i)=>ST.done[sec.id+'-'+i]).length;
+    const pct = list.length ? Math.round(d/list.length*100) : (ST.reads[sec.id]?100:0);
+    const isOpen = ST.open[sec.id] || (!!query);
+
+    const el = document.createElement('div');
+    el.className = 'sec'+(isOpen?' open':'');
+    el.id = 'sec-'+sec.id;
+
+    let meta = list.length
+      ? fa(d)+' از '+fa(list.length)+' بلدم'
+      : 'قاعده و نکته';
+    if(ST.reads[sec.id]) meta += ' • '+fa(ST.reads[sec.id])+' بار خواندم';
+
+    let h = '<div class="sechd" data-sec="'+sec.id+'">'
+      + '<div class="ic">'+(sec.ic||'▪')+'</div>'
+      + '<div class="tt"><h2>'+sec.t+'</h2><div class="meta">'+meta+'</div></div>'
+      + '<div class="chev">◀</div></div>'
+      + '<div class="pbar"><i style="width:'+pct+'%"></i></div>'
+      + '<div class="secbody">';
+
+    if(sec.hint) h += '<div class="tip" style="margin-top:10px">'+sec.hint+'</div>';
+
+    h += '<div class="tools">'
+      + '<div class="reads"><button data-rm="'+sec.id+'">−</button><b>'+fa(ST.reads[sec.id]||0)+'</b>'
+      + '<button data-rp="'+sec.id+'">+</button><span>بار خواندم</span></div>';
+    if(list.length){
+      h += '<button class="tbtn" data-rev="'+sec.id+'">👁 نمایش همهٔ ترجمه‌ها</button>'
+        +  '<button class="tbtn" data-hid="'+sec.id+'">🙈 پنهان کردن</button>'
+        +  '<button class="tbtn" data-alld="'+sec.id+'">✓ همه را بلدم</button>'
+        +  '<button class="tbtn" data-clr="'+sec.id+'">↺ صفر کردن</button>';
+    }
+    h += '</div>';
+
+    if(sec.kind==='cards'){
+      shown.forEach(o=>{
+        const id = sec.id+'-'+o.i;
+        const cls = 'card'+(ST.done[id]?' done':'')+(ST.flag[id]?' flag':'');
+        h += '<div class="'+cls+'" id="c-'+id+'">'
+          + '<div class="acts">'
+          +   '<button class="'+(ST.done[id]?'on-ok':'')+'" data-ok="'+id+'" title="بلدم">✓</button>'
+          +   '<button class="'+(ST.flag[id]?'on-fl':'')+'" data-fl="'+id+'" title="نشان برای مرور">★</button>'
+          + '</div>'
+          + '<div class="side-a"><span class="ar">'+o.it[0]+'</span><span class="idx">'+fa(o.i+1)+'</span></div>'
+          + '<div class="fa hide" data-rv="'+id+'">'+o.it[1]+'</div>'
+          + (o.it[2] ? '<div class="nt">'+o.it[2]+'</div>' : '')
+          + '</div>';
+      });
+      if(!shown.length) h += '<div class="empty">چیزی با این فیلتر نیست.</div>';
+    } else {
+      h += '<div class="blk">'+sec.body+'</div>';
+    }
+
+    h += '</div>';
+    el.innerHTML = h;
+    wrap.appendChild(el);
+  });
+
+  if(!anyShown) wrap.innerHTML = '<div class="empty">نتیجه‌ای پیدا نشد. فیلتر یا جست‌وجو را عوض کن.</div>';
+
+  renderNav(); renderTop();
+}
+
+function renderNav(){
+  const nav = $('#nav'); nav.innerHTML='';
+  S.forEach(sec=>{
+    const list = cards(sec);
+    const d = list.filter((_,i)=>ST.done[sec.id+'-'+i]).length;
+    const pct = list.length ? Math.round(d/list.length*100) : (ST.reads[sec.id]?100:0);
+    const b = document.createElement('button');
+    b.className='nchip';
+    b.innerHTML = '<i>'+(sec.ic||'▪')+'</i>'+sec.t.split('—')[0].trim()
+      + '<span class="bar" style="width:'+pct+'%"></span>';
+    b.onclick=()=>{
+      ST.open[sec.id]=true; save(); render();
+      setTimeout(()=>{ const t=document.getElementById('sec-'+sec.id);
+        if(t) t.scrollIntoView({behavior:'smooth',block:'start'}); },60);
+    };
+    nav.appendChild(b);
+  });
+}
+
+function renderTop(){
+  const tot = allCards(), d = doneCount();
+  const pct = tot ? Math.round(d/tot*100) : 0;
+  const c = 2*Math.PI*24;
+  $('#rc').setAttribute('stroke-dashoffset', c - c*pct/100);
+  $('#rp').textContent = fa(pct)+'٪';
+  const reads = Object.values(ST.reads).reduce((a,b)=>a+b,0);
+  $('#stat').innerHTML = '<b>'+fa(d)+'</b> از '+fa(tot)+' مورد بلدی • <u>★ '+fa(flagCount())
+    +'</u> نشان‌دار • '+fa(reads)+' بار مرور';
+  const left = tot-d;
+  $('#subline').textContent = left ? fa(left)+' مورد تا پایان مانده' : 'همه را بلدی. برو بیستت را بگیر.';
+}
+
+/* ---------------- events ---------------- */
+document.addEventListener('click', e=>{
+  const t = e.target.closest('button, .sechd, .fa[data-rv]');
+  if(!t) return;
+
+  if(t.classList.contains('sechd')){
+    const id = t.dataset.sec; ST.open[id] = !ST.open[id]; save(); render(); return;
+  }
+  if(t.dataset.rv !== undefined && t.classList.contains('fa')){
+    t.classList.toggle('hide'); return;
+  }
+  const d = t.dataset;
+  if(d.ok){ ST.done[d.ok] = !ST.done[d.ok]; if(ST.done[d.ok]) ST.flag[d.ok]=false; save(); render(); return; }
+  if(d.fl){ ST.flag[d.fl] = !ST.flag[d.fl]; save(); render(); return; }
+  if(d.rp){ ST.reads[d.rp] = (ST.reads[d.rp]||0)+1; save(); render(); return; }
+  if(d.rm){ ST.reads[d.rm] = Math.max(0,(ST.reads[d.rm]||0)-1); save(); render(); return; }
+  if(d.rev){ document.querySelectorAll('#sec-'+d.rev+' .fa').forEach(x=>x.classList.remove('hide')); return; }
+  if(d.hid){ document.querySelectorAll('#sec-'+d.hid+' .fa').forEach(x=>x.classList.add('hide')); return; }
+  if(d.alld){ const s=S.find(x=>x.id===d.alld); cards(s).forEach((_,i)=>ST.done[s.id+'-'+i]=true); save(); render(); return; }
+  if(d.clr){ const s=S.find(x=>x.id===d.clr);
+    cards(s).forEach((_,i)=>{ ST.done[s.id+'-'+i]=false; ST.flag[s.id+'-'+i]=false; });
+    ST.reads[s.id]=0; save(); render(); return; }
+});
+
+document.querySelectorAll('.fbtn').forEach(b=>{
+  b.onclick=()=>{
+    document.querySelectorAll('.fbtn').forEach(x=>x.classList.remove('on'));
+    b.classList.add('on'); filter=b.dataset.f;
+    if(filter!=='all') S.forEach(s=>ST.open[s.id]=true);
+    render();
+  };
+});
+
+let qt;
+$('#q').addEventListener('input', e=>{
+  clearTimeout(qt);
+  qt = setTimeout(()=>{ query = e.target.value.trim().toLowerCase(); render(); }, 200);
+});
+
+$('#expand').onclick = ()=>{
+  const anyClosed = S.some(s=>!ST.open[s.id]);
+  S.forEach(s=>ST.open[s.id]=anyClosed);
+  $('#expand').textContent = anyClosed ? 'بستن همه' : 'باز کردن همه';
+  save(); render();
+};
+
+$('#reset').onclick = ()=>{
+  if(!confirm('همهٔ تیک‌ها، نشان‌ها و شمارنده‌ها پاک شود؟')) return;
+  ST = {reads:{},done:{},flag:{},open:{}}; save(); render();
+};
+
+/* ---------------- boot ---------------- */
+(async ()=>{ await load(); if(!Object.keys(ST.open).length) ST.open['plan']=true; render(); })();
+</script>
