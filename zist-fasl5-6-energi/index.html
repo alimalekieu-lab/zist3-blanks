@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>نقشهٔ کامل فصل ۵ و ۶ — زیست‌شناسی ۳</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F7F5EF; --ink:#1B2A30; --muted:#5F6E74; --rule:#DAD4C6; --white:#fff; --panelBg:#fff;
+  --cyto:#E8F0EE; --cytoL:#6E8F97;
+  --mito:#FAE9DD; --mitoL:#B9673A; --matrix:#FEF7F2; --memBg:#EFDCCC; --memZone:#F6EBE1;
+  --chl:#E8F2DC; --chlL:#547F28; --stroma:#F5FBEE; --thyl:#D6E8BC; --chlZone:#EDF5E1;
+  --atp:#E9A317; --atpBg:#FDF3DC; --atpInk:#6A4708;
+  --blue:#2C6C9E; --blueBg:#E5EFF7;
+  --red:#A8412D; --redBg:#FAE7E1;
+  --carb:#EDEAE0; --carbL:#A69E8E; --thBg:#F1EEE5;
+  --shadow:0 6px 24px rgba(20,30,35,.14);
+}
+[data-theme="dark"]{
+  --paper:#12171A; --ink:#E4E6E4; --muted:#96A2A7; --rule:#2C3539; --white:#1A2124; --panelBg:#181F22;
+  --cyto:#17262A; --cytoL:#6FA0AA;
+  --mito:#2A1D17; --mitoL:#D08655; --matrix:#221913; --memBg:#31221A; --memZone:#241A14;
+  --chl:#1A2416; --chlL:#8CBF57; --stroma:#161E13; --thyl:#2B3A20; --chlZone:#1D2718;
+  --atp:#E9A317; --atpBg:#2C2413; --atpInk:#F0C15E;
+  --blue:#6FAEE0; --blueBg:#152430;
+  --red:#E08B76; --redBg:#2E1B16;
+  --carb:#20262A; --carbL:#4A555A; --thBg:#1E2529;
+  --shadow:0 6px 24px rgba(0,0,0,.5);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);
+     font-family:"Vazirmatn",Tahoma,system-ui,sans-serif;line-height:1.9;font-size:15px;
+     transition:background .2s,color .2s}
+.wrap{max-width:1160px;margin:0 auto;padding:36px 18px 120px;position:relative;z-index:1}
+header.top{border-bottom:2px solid var(--ink);padding-bottom:16px;margin-bottom:22px}
+header.top h1{margin:0 0 4px;font-size:28px;font-weight:700}
+header.top p{margin:0;color:var(--muted);font-size:14.5px}
+section{margin-bottom:52px}
+.eyebrow{font-size:12.5px;color:var(--muted);margin:0}
+h2{margin:2px 0 2px;font-size:22px;font-weight:700}
+h3{margin:0 0 10px;font-size:17px;font-weight:700}
+.sub{margin:0 0 18px;color:var(--muted);font-size:14.5px}
+.panel{border:1px solid var(--rule);border-radius:16px;background:var(--panelBg);padding:18px;margin-bottom:16px}
+.panel > .ptitle{font-weight:700;font-size:16px;margin:0 0 14px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.tag{font-size:12.5px;font-weight:400;color:var(--muted);border:1px solid var(--rule);border-radius:999px;padding:1px 10px}
+.cell{background:var(--cyto);border:2px solid var(--cytoL);border-radius:44px;padding:20px}
+.cell > .zone{font-size:13.5px;font-weight:700;color:var(--cytoL);margin:0 0 14px}
+.split{display:grid;grid-template-columns:minmax(280px,1fr) minmax(320px,1.25fr);gap:18px}
+@media(max-width:820px){.split{grid-template-columns:1fr}}
+.mito{background:var(--mito);border:2px solid var(--mitoL);border-radius:60px;padding:16px}
+.mito > .zone{font-size:13.5px;font-weight:700;color:var(--mitoL);margin:0 0 10px;text-align:center}
+.inner{background:var(--matrix);border:2px solid var(--mitoL);border-radius:44px;padding:16px}
+.inner > .zone{font-size:13px;color:var(--mitoL);margin:0 0 12px;text-align:center}
+.chloro{background:var(--chl);border:2px solid var(--chlL);border-radius:60px;padding:20px}
+.chloro > .zone{font-size:13.5px;font-weight:700;color:var(--chlL);margin:0 0 14px}
+.stroma{background:var(--stroma);border:2px solid var(--chlL);border-radius:44px;padding:16px}
+.step{background:var(--white);border:1px solid var(--carbL);border-radius:12px;padding:10px 14px}
+.step .t{font-weight:700}
+.step .d{font-size:13.5px;color:var(--muted)}
+.arrow{display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 0}
+.arrow .ln{width:2px;height:14px;background:var(--muted)}
+.arrow .hd{width:0;height:0;border-right:6px solid transparent;border-left:6px solid transparent;border-top:8px solid var(--muted)}
+.arrow .lab{font-size:13px;text-align:center;line-height:1.6}
+.io{display:inline-block;border-radius:8px;padding:1px 9px;font-size:13px;margin:1px 2px}
+.io.atp{background:var(--atpBg);color:var(--atpInk);border:1px solid var(--atp)}
+.io.nad{background:var(--blueBg);color:var(--blue);border:1px solid var(--blue)}
+.io.ox{background:var(--redBg);color:var(--red);border:1px solid var(--red)}
+.io.c{background:var(--carb);color:var(--ink);border:1px solid var(--carbL)}
+.card{background:var(--white);border:1px solid var(--rule);border-radius:12px;padding:12px 14px}
+.card.hl{border-color:var(--atp);background:var(--atpBg)}
+.card.blue{border-color:var(--blue);background:var(--blueBg)}
+.card.red{border-color:var(--red);background:var(--redBg)}
+.card h4{margin:0 0 6px;font-size:15px;font-weight:700}
+.card ul{margin:4px 0 0;padding:0 18px 0 0}
+.card li{margin:2px 0;font-size:14px}
+.mem{display:grid;gap:0;margin-top:6px}
+.memzone{font-size:13.5px;font-weight:700;padding:8px 12px}
+.memzone.up{background:var(--memZone);border:1px dashed var(--mitoL);border-bottom:none;border-radius:12px 12px 0 0;color:var(--mitoL)}
+.memzone.dn{background:var(--memZone);border:1px dashed var(--mitoL);border-top:none;border-radius:0 0 12px 12px;color:var(--mitoL)}
+.membar{display:flex;gap:8px;background:var(--memBg);border:2px solid var(--mitoL);padding:8px;flex-wrap:wrap}
+.membar.green{background:var(--thyl);border-color:var(--chlL)}
+.memzone.g{background:var(--chlZone);border-color:var(--chlL);color:var(--chlL)}
+.cx{flex:1;min-width:130px;background:var(--white);border:1px solid var(--mitoL);border-radius:10px;padding:8px;text-align:center;font-size:13.5px}
+.cx.green{border-color:var(--chlL)}
+.cx b{display:block;font-size:14px}
+.cx .s{color:var(--muted);font-size:12.5px}
+.flow{font-size:13.5px;color:var(--muted);text-align:center;margin:8px 0 0}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+@media(max-width:820px){.grid3,.grid2{grid-template-columns:1fr}}
+.leaf{display:grid;gap:4px}
+.layer{display:grid;grid-template-columns:1fr 190px;gap:12px;align-items:center}
+.bar{height:30px;border:1px solid var(--chlL);background:var(--chlZone);border-radius:6px}
+.bar.pal{background:repeating-linear-gradient(90deg,var(--thyl) 0 18px,var(--chlZone) 18px 26px);height:44px}
+.bar.spo{background:radial-gradient(circle at 12px 14px,var(--thyl) 8px,var(--chlZone) 9px) 0 0/34px 30px;height:34px}
+.layer .nm{font-size:13.5px;color:var(--muted)}
+.note{margin-top:14px;border-right:3px solid var(--rule);padding:2px 14px 2px 0;font-size:14px;color:var(--muted)}
+.note b{color:var(--ink);font-weight:500}
+table{width:100%;border-collapse:collapse;font-size:14px;margin-top:6px}
+th,td{border:1px solid var(--rule);padding:8px 10px;text-align:right;vertical-align:top}
+th{background:var(--thBg);font-weight:700}
+footer{border-top:1px solid var(--rule);padding-top:14px;color:var(--muted);font-size:13.5px}
+
+mark.hlmark{border-radius:3px;padding:0 1px;color:inherit;background:rgba(240,190,40,.42)}
+mark.hl-y{background:rgba(240,190,40,.42)}
+mark.hl-g{background:rgba(90,200,120,.38)}
+mark.hl-p{background:rgba(235,110,160,.35)}
+mark.hl-b{background:rgba(90,160,235,.35)}
+body.erasing mark.hlmark{outline:1px dashed var(--red);cursor:crosshair}
+
+#board{position:absolute;top:0;left:0;z-index:2;pointer-events:none}
+body.drawmode #board{pointer-events:auto;cursor:crosshair}
+body.drawmode .wrap{user-select:none}
+
+#fab{position:fixed;bottom:20px;left:20px;z-index:60;background:var(--ink);color:var(--paper);
+     border:none;border-radius:999px;padding:12px 20px;font-family:inherit;font-size:14.5px;
+     font-weight:700;cursor:pointer;box-shadow:var(--shadow)}
+#tools{position:fixed;bottom:74px;left:20px;z-index:60;width:290px;max-height:78vh;overflow:auto;
+       background:var(--panelBg);border:1px solid var(--rule);border-radius:16px;padding:14px;
+       box-shadow:var(--shadow);display:none}
+#tools.open{display:block}
+#tools h5{margin:0 0 8px;font-size:14px;font-weight:700}
+.trow{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px}
+.tbtn{border:1px solid var(--rule);background:var(--white);color:var(--ink);border-radius:9px;
+      padding:6px 11px;font-family:inherit;font-size:13.5px;cursor:pointer}
+.tbtn.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.sep{height:1px;background:var(--rule);margin:12px 0}
+.swatch{width:26px;height:26px;border-radius:8px;border:2px solid transparent;cursor:pointer;padding:0}
+.swatch.on{border-color:var(--ink)}
+.hint{font-size:12.5px;color:var(--muted);margin:0}
+input[type=range]{flex:1;accent-color:var(--ink)}
+
+#progress{border:1px solid var(--rule);border-radius:16px;background:var(--panelBg);padding:16px;margin-bottom:30px}
+#progress .phead{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+#progress .pct{font-size:26px;font-weight:700}
+.pbar{height:10px;border-radius:999px;background:var(--carb);overflow:hidden}
+.pbar > i{display:block;height:100%;background:var(--chlL);width:0;transition:width .3s}
+.tracker{width:100%;border-collapse:collapse;margin-top:14px;font-size:14px}
+.tracker th,.tracker td{border:1px solid var(--rule);padding:7px 9px}
+.tracker td.c{text-align:center;width:1%;white-space:nowrap}
+.tracker a{color:inherit;text-decoration:none;border-bottom:1px dotted var(--muted)}
+.tracker tr.done td{background:rgba(120,190,90,.10)}
+.chip{border:1px solid var(--rule);background:var(--white);border-radius:8px;padding:2px 9px;
+      cursor:pointer;font-family:inherit;font-size:13.5px;color:var(--ink)}
+.rounds{display:inline-flex;align-items:center;gap:6px}
+.rounds b{min-width:18px;display:inline-block;text-align:center}
+@media print{#fab,#tools,#board,#progress{display:none!important}body{background:#fff}}
+</style>
+</head>
+<body>
+<canvas id="board"></canvas>
+
+<div class="wrap" id="content">
+
+<header class="top">
+  <h1>نقشهٔ کامل فصل ۵ و ۶ — زیست‌شناسی ۳</h1>
+  <p>از ماده به انرژی · از انرژی به ماده — محل هر واکنش، ماده‌های ورودی و خروجی و تعدادشان</p>
+</header>
+
+<div id="progress">
+  <div class="phead">
+    <div><b style="font-size:16px">پیشرفت مطالعه</b> <span class="hint" id="summary"></span></div>
+    <div class="pct"><span id="pctnum">۰</span>٪</div>
+  </div>
+  <div class="pbar"><i id="pbarfill"></i></div>
+  <table class="tracker" id="tracker"></table>
+  <div class="trow" style="margin:12px 0 0">
+    <button class="tbtn" id="expBtn">خروجی گرفتن</button>
+    <button class="tbtn" id="impBtn">بازیابی از فایل</button>
+    <button class="tbtn" id="resetProg">صفر کردن پیشرفت</button>
+    <input type="file" id="impFile" accept="application/json" hidden>
+  </div>
+</div>
+
+<section id="s1">
+  <p class="eyebrow">شکل ۱</p>
+  <h2>تنفس یاخته‌ای هوازی</h2>
+  <p class="sub">به ازای اکسایش یک مولکول گلوکز — از مادهٔ زمینهٔ سیتوپلاسم تا غشای درونی راکیزه</p>
+
+  <div class="panel" id="t1">
+    <div class="cell">
+      <p class="zone">یاخته — بیرون از راکیزه: مادهٔ زمینهٔ سیتوپلاسم</p>
+      <div class="split">
+        <div>
+          <div class="step"><div class="t">گلوکز</div><div class="d">۱ مولکول ۶ کربنی</div></div>
+          <div class="arrow"><div class="lab"><span class="io atp">مصرف ۲ ATP</span><br>انرژی فعال‌سازی</div><div class="ln"></div><div class="hd"></div></div>
+          <div class="step"><div class="t">فروکتوز دوفسفاته</div><div class="d">۱ مولکول ۶ کربنی، دو فسفات گرفته</div></div>
+          <div class="arrow"><div class="lab">تجزیه به دو نیمه</div><div class="ln"></div><div class="hd"></div></div>
+          <div class="step"><div class="t">۲ قند سه‌کربنی فسفاته</div><div class="d">هر کدام ۳ کربن</div></div>
+          <div class="arrow"><div class="lab"><span class="io nad">۲ NAD⁺ ← ۲ NADH</span><br><span class="io atp">تولید ۴ ATP</span> در سطح پیش‌ماده</div><div class="ln"></div><div class="hd"></div></div>
+          <div class="step"><div class="t">۲ پیرووات</div><div class="d">هر کدام ۳ کربن — پایان قندکافت</div></div>
+          <div class="card hl" style="margin-top:12px">
+            <h4>خالص قندکافت</h4>
+            ۴ ATP تولید − ۲ ATP مصرف = <b>۲ ATP خالص</b><br>۲ NADH · ۲ پیرووات
+          </div>
+          <p class="flow" style="margin-top:10px">پیرووات با <b>انتقال فعال</b> وارد راکیزه می‌شود</p>
+        </div>
+        <div class="mito">
+          <p class="zone">راکیزه — غشای بیرونی صاف</p>
+          <div class="inner">
+            <p class="zone">غشای درونی چین‌خورده · بخش داخلی (ماتریکس)</p>
+            <div class="card">
+              <h4>۱. اکسایش پیرووات</h4>
+              ورودی: ۲ پیرووات (۳ کربنی)<br>
+              هر پیرووات یک کربن از دست می‌دهد و به بنیان استیل تبدیل می‌شود<br>
+              خروجی: <span class="io c">۲ استیل کوآنزیم A</span> <span class="io ox">۲ CO₂</span> <span class="io nad">۲ NADH</span>
+            </div>
+            <div class="arrow"><div class="ln"></div><div class="hd"></div></div>
+            <div class="card">
+              <h4>۲. چرخهٔ کربس — ۲ دور</h4>
+              ورودی هر دور: ۱ استیل CoA + ۱ مولکول ۴ کربنی ← ۱ مولکول ۶ کربنی<br>
+              خروجی دو دور: <span class="io ox">۴ CO₂</span> <span class="io nad">۶ NADH</span> <span class="io nad">۲ FADH₂</span> <span class="io atp">۲ ATP</span><br>
+              مولکول ۴ کربنی بازسازی می‌شود تا استیل بعدی را بگیرد
+            </div>
+            <div class="arrow"><div class="ln"></div><div class="hd"></div></div>
+            <div class="card blue">
+              <h4>۳. تحویل به غشای درونی</h4>
+              مجموع حامل‌های الکترون از قندکافت + اکسایش پیرووات + کربس:<br><b>۱۰ NADH و ۲ FADH₂</b>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel" id="t2">
+    <p class="ptitle">بزرگ‌نمایی غشای درونی راکیزه <span class="tag">زنجیرهٔ انتقال الکترون — ساخته شدن اکسایشی ATP</span></p>
+    <div class="mem">
+      <div class="memzone up">فضای بین دو غشا — تراکم ⁺H بیشتر</div>
+      <div class="membar">
+        <div class="cx"><b>پمپ ۱</b><span class="s">⁺H به بالا</span></div>
+        <div class="cx"><b>پمپ ۲</b><span class="s">⁺H به بالا</span></div>
+        <div class="cx"><b>پمپ ۳</b><span class="s">⁺H به بالا</span></div>
+        <div class="cx"><b>اکسیژن</b><span class="s">گیرندهٔ نهایی</span></div>
+        <div class="cx" style="border-color:var(--atp);background:var(--atpBg)"><b>آنزیم ATP ساز</b><span class="s">بازگشت ⁺H به پایین</span></div>
+      </div>
+      <div class="memzone dn">بخش داخلی (ماتریکس) — تراکم ⁺H کمتر</div>
+    </div>
+    <div class="grid3" style="margin-top:14px">
+      <div class="card blue"><h4>ورودی زنجیره</h4>
+        <ul><li>۱۰ NADH ← ۱۰ ⁺NAD + الکترون</li><li>۲ FADH₂ ← ۲ FAD + الکترون</li><li>انرژی الکترون‌ها، پمپ کردن ⁺H را در سه محل انجام می‌دهد</li></ul></div>
+      <div class="card red"><h4>پایان زنجیره</h4>
+        <ul><li>۶ O₂ الکترون می‌گیرد و به یون اکسید تبدیل می‌شود</li><li>O²⁻ + ۲⁺H ← H₂O</li><li>تولید ۶ H₂O</li></ul></div>
+      <div class="card hl"><h4>خروجی نهایی</h4>
+        <ul><li>ADP + فسفات ← ATP</li><li>حداکثر <b>۳۰ ATP</b> از هر گلوکز در یوکاریوت</li><li>تا <b>۳۲ ATP</b> در باکتری، چون راکیزه ندارد</li></ul></div>
+    </div>
+    <p class="note"><b>جمع‌بندی کل:</b> ۱ گلوکز + ۶ O₂ ← ۶ CO₂ + ۶ H₂O + حداکثر ۳۰ ATP. بازده حدود ۳۲ درصد از ۶۸۶ کیلوکالری بر مول انرژی گلوکز.</p>
+  </div>
+
+  <div class="panel" id="t3">
+    <p class="ptitle">در کمبود یا نبود اکسیژن <span class="tag">راکیزه و زنجیرهٔ انتقال الکترون نقشی ندارند</span></p>
+    <div class="grid2">
+      <div class="card"><h4>تخمیر الکلی</h4>
+        ۲ پیرووات ← از دست دادن <span class="io ox">۲ CO₂</span> ← ۲ اتانال<br>
+        ۲ اتانال + الکترون‌های <span class="io nad">۲ NADH</span> ← ۲ اتانول<br>
+        <span style="color:var(--muted);font-size:13.5px">در مخمر نان؛ حباب CO₂ سبب ور آمدن خمیر می‌شود</span></div>
+      <div class="card"><h4>تخمیر لاکتیکی</h4>
+        ۲ پیرووات + الکترون‌های <span class="io nad">۲ NADH</span> ← ۲ لاکتات<br>بدون آزاد شدن CO₂<br>
+        <span style="color:var(--muted);font-size:13.5px">در ماهیچهٔ اسکلتی و باکتری‌های ترش‌کنندهٔ شیر</span></div>
+    </div>
+    <p class="note"><b>چرا تخمیر لازم است:</b> هدف بازسازی ⁺NAD است. بدون ⁺NAD قندکافت متوقف می‌شود. سود انرژی فقط <span class="io atp">۲ ATP</span> خالص قندکافت است.</p>
+  </div>
+</section>
+
+<section id="s2">
+  <p class="eyebrow">شکل ۲</p>
+  <h2>فتوسنتز — از انرژی نور به ماده</h2>
+  <p class="sub">برگ، سبزدیسه، واکنش‌های نوری در تیلاکوئید و چرخهٔ کالوین در بستره</p>
+
+  <div class="panel" id="t4">
+    <p class="ptitle">برگ — ساختار تخصص‌یافته برای فتوسنتز <span class="tag">نمونهٔ گیاه دولپه</span></p>
+    <div class="leaf">
+      <div class="layer"><div class="bar"></div><div class="nm">روپوست رویی</div></div>
+      <div class="layer"><div class="bar pal"></div><div class="nm">میان‌برگ نرده‌ای — فشرده، پر از سبزدیسه</div></div>
+      <div class="layer"><div class="bar spo"></div><div class="nm">میان‌برگ اسفنجی — فضای بین‌یاخته‌ای</div></div>
+      <div class="layer"><div class="bar"></div><div class="nm">روپوست زیرین و روزنه</div></div>
+    </div>
+    <p class="flow" style="text-align:right">از روزنه: <span class="io ox">ورود CO₂</span> و <span class="io ox">خروج O₂</span> — رگبرگ (دستهٔ آوندی) آب را می‌رساند</p>
+  </div>
+
+  <div class="panel" id="t5">
+    <div class="chloro">
+      <p class="zone">سبزدیسه — غشای بیرونی و درونی، بستره و سامانهٔ تیلاکوئید</p>
+      <div class="stroma">
+        <div class="split">
+          <div class="card"><h4>واکنش‌های وابسته به نور — در غشای تیلاکوئید</h4>
+            <ul>
+              <li>نور به رنگیزه‌های آنتن می‌تابد و الکترون برانگیخته می‌شود</li>
+              <li>انرژی به مرکز واکنش (سبزینهٔ a) می‌رسد و الکترون خارج می‌شود</li>
+              <li>تجزیهٔ نوری آب در فتوسیستم ۲: <span class="io ox">H₂O ← ۲⁺H + ½O₂ + ۲⁻e</span></li>
+              <li>خروجی به بستره: <span class="io atp">ATP</span> و <span class="io nad">NADPH</span></li>
+            </ul></div>
+          <div class="card"><h4>چرخهٔ کالوین — در بستره</h4>
+            <ul>
+              <li>۶ CO₂ + ۶ ریبولوزبیس‌فسفات (۵ کربنی) با آنزیم روبیسکو</li>
+              <li>← ۶ مولکول ۶ کربنی ناپایدار ← ۱۲ اسید سه‌کربنی</li>
+              <li>مصرف <span class="io atp">۱۲ ATP</span> و <span class="io nad">۱۲ NADPH</span> ← ۱۲ قند سه‌کربنی</li>
+              <li>۱۰ قند برای بازسازی ۶ ریبولوز فسفات، با <span class="io atp">۶ ATP</span> دیگر</li>
+              <li>۲ قند سه‌کربنی ← گلوکز و ترکیبات آلی دیگر</li>
+            </ul></div>
+        </div>
+        <p class="flow">بستره: دارای دنا، رنا و رِناتَن — سبزدیسه می‌تواند بعضی پروتئین‌های خود را بسازد و مستقل تقسیم شود</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel" id="t6">
+    <p class="ptitle">بزرگ‌نمایی غشای تیلاکوئید <span class="tag">ساخته شدن نوری ATP</span></p>
+    <div class="mem">
+      <div class="memzone up g">بستره — تراکم ⁺H کمتر · محل چرخهٔ کالوین</div>
+      <div class="membar green">
+        <div class="cx green"><b>فتوسیستم ۲</b><span class="s">P۶۸۰ · تجزیهٔ نوری آب</span></div>
+        <div class="cx green"><b>زنجیرهٔ انتقال</b><span class="s">پمپ ⁺H به درون</span></div>
+        <div class="cx green"><b>فتوسیستم ۱</b><span class="s">P۷۰۰ · ساخت NADPH</span></div>
+        <div class="cx green" style="border-color:var(--atp);background:var(--atpBg)"><b>آنزیم ATP ساز</b><span class="s">بازگشت ⁺H به بستره</span></div>
+      </div>
+      <div class="memzone dn g">فضای درون تیلاکوئید — تراکم ⁺H بیشتر · محل تجزیهٔ آب</div>
+    </div>
+    <div class="grid3" style="margin-top:14px">
+      <div class="card red"><h4>منبع الکترون</h4>
+        تجزیهٔ نوری آب در فتوسیستم ۲، در سطح داخلی تیلاکوئید<br>H₂O ← ۲⁺H + ½O₂ + ۲⁻e<br>الکترون کمبود سبزینهٔ a فتوسیستم ۲ را جبران می‌کند</div>
+      <div class="card blue"><h4>مسیر الکترون</h4>
+        فتوسیستم ۲ ← زنجیرهٔ اول ← فتوسیستم ۱ ← زنجیرهٔ دوم ← ⁺NADP<br>⁺NADP + ۲⁻e + ⁺H ← NADPH</div>
+      <div class="card hl"><h4>منشأ شیب پروتون</h4>
+        ⁺H از تجزیهٔ آب + ⁺H پمپ‌شده از بستره ← تجمع درون تیلاکوئید ← عبور از ATP ساز ← ATP</div>
+    </div>
+    <p class="note"><b>نکتهٔ نام‌گذاری:</b> فتوسیستم ۲ زودتر کار می‌کند ولی چون فتوسیستم ۱ زودتر کشف شده بود، نام‌ها برعکس ترتیب عملکردند.</p>
+  </div>
+</section>
+
+<section id="s3">
+  <p class="eyebrow">بخش سوم</p>
+  <h2>انواع گیاهان از نظر تثبیت کربن: C₃، C₄ و CAM</h2>
+  <p class="sub">فتوسنتز در شرایط دشوار — دمای بالا، نور شدید و کمبود آب</p>
+
+  <div class="panel" id="t7">
+    <p class="ptitle">مشکل مشترک: تنفس نوری <span class="tag">چرا اصلاً C₄ و CAM به وجود آمدند</span></p>
+    <div class="grid2">
+      <div class="card"><h4>زنجیرهٔ رخدادها</h4>
+        <ul><li>دما و نور زیاد ← روزنه‌ها برای کاهش تعرق بسته می‌شوند</li><li>تبادل گاز قطع می‌شود ولی فتوسنتز ادامه دارد</li><li>CO₂ برگ کم و O₂ آن زیاد می‌شود</li><li>نقش اکسیژنازی روبیسکو غالب می‌شود</li></ul></div>
+      <div class="card red"><h4>خودِ تنفس نوری</h4>
+        <ul><li>O₂ + ریبولوزبیس‌فسفات ← مولکول ناپایدار</li><li>← یک مولکول ۳ کربنی + یک مولکول ۲ کربنی</li><li>۳ کربنی: صرف بازسازی ریبولوزبیس‌فسفات می‌شود</li><li>۲ کربنی: از سبزدیسه خارج، بخشی از واکنش‌ها در راکیزه، CO₂ آزاد می‌شود</li><li>ماده آلی تجزیه می‌شود ولی <b>هیچ ATP تولید نمی‌شود</b></li></ul></div>
+    </div>
+  </div>
+
+  <div class="grid3">
+    <div class="panel" id="t8">
+      <h3>گیاه C₃</h3>
+      <div class="card"><h4>محل تثبیت</h4>فقط یاختهٔ میان‌برگ؛ یاختهٔ غلاف آوندی سبزدیسه ندارد</div>
+      <div class="card" style="margin-top:10px"><h4>سازوکار</h4>CO₂ مستقیم وارد چرخهٔ کالوین می‌شود، با آنزیم روبیسکو<br>اولین مادهٔ آلی پایدار: <b>ترکیب ۳ کربنی</b></div>
+      <div class="card red" style="margin-top:10px"><h4>نقطهٔ ضعف</h4>روبیسکو اختصاصی نیست و به O₂ هم تمایل دارد ← در گرما و بسته شدن روزنه، تنفس نوری زیاد می‌شود</div>
+      <p class="note">اکثر گیاهان C₃ هستند. مثال: گل رز</p>
+    </div>
+    <div class="panel" id="t9">
+      <h3>گیاه C₄ — تقسیم مکانی</h3>
+      <div class="card"><h4>مرحلهٔ ۱: یاختهٔ میان‌برگ</h4>CO₂ + فسفوانول‌پیرووات (۳ کربنی) ← <b>اسید ۴ کربنی</b> (مالات یا اگزالات)<br>آنزیم: فسفوانول‌پیرووات کربوکسیلاز — فقط با CO₂ کار می‌کند و تمایلی به O₂ ندارد</div>
+      <div class="card" style="margin-top:10px"><h4>مرحلهٔ ۲: یاختهٔ غلاف آوندی</h4>اسید ۴ کربنی از پلاسمودسم منتقل می‌شود ← CO₂ آزاد ← وارد چرخهٔ کالوین<br>اسید ۳ کربنی باقی‌مانده به میان‌برگ برمی‌گردد</div>
+      <div class="card hl" style="margin-top:10px"><h4>نتیجه</h4>CO₂ در محل روبیسکو آن‌قدر بالا می‌ماند که بازدارندهٔ تنفس نوری است</div>
+      <p class="note">در غلاف آوندی سبزدیسه دارد. بیشتر تک‌لپه‌اند ولی تاج‌خروس دولپه‌ای C₄ است. مثال: ذرت</p>
+    </div>
+    <div class="panel" id="t10">
+      <h3>گیاه CAM — تقسیم زمانی</h3>
+      <div class="card"><h4>شب — روزنه باز</h4>تثبیت اولیهٔ کربن انجام می‌شود ← مولکول ۴ کربنی ساخته و ذخیره می‌شود</div>
+      <div class="card" style="margin-top:10px"><h4>روز — روزنه بسته</h4>برای جلوگیری از هدر رفتن آب روزنه بسته است؛ CO₂ از مولکول ۴ کربنی آزاد و چرخهٔ کالوین انجام می‌شود</div>
+      <div class="card" style="margin-top:10px"><h4>تفاوت کلیدی با C₄</h4>هر دو مرحله در <b>یک یاخته</b> رخ می‌دهد، ولی در <b>دو زمان متفاوت</b></div>
+      <p class="note">ساقه یا برگ گوشتی و پرآب؛ واکوئول ترکیباتی دارد که آب را نگه می‌دارند. مثال: آناناس</p>
+    </div>
+  </div>
+
+  <div class="panel" id="t11" style="margin-top:16px">
+    <p class="ptitle">جدول مقایسه</p>
+    <table>
+      <tr><th style="width:20%"></th><th>C₃</th><th>C₄</th><th>CAM</th></tr>
+      <tr><td>اولین مادهٔ پایدار</td><td>ترکیب ۳ کربنی</td><td>اسید ۴ کربنی</td><td>مولکول ۴ کربنی (در شب)</td></tr>
+      <tr><td>آنزیم تثبیت اولیه</td><td>روبیسکو</td><td>فسفوانول‌پیرووات کربوکسیلاز</td><td>فسفوانول‌پیرووات کربوکسیلاز</td></tr>
+      <tr><td>محل چرخهٔ کالوین</td><td>میان‌برگ</td><td>غلاف آوندی</td><td>میان‌برگ (در روز)</td></tr>
+      <tr><td>نوع تفکیک</td><td>ندارد</td><td>مکانی، در دو نوع یاخته</td><td>زمانی، شب و روز</td></tr>
+      <tr><td>تنفس نوری</td><td>زیاد در گرما</td><td>به‌ندرت</td><td>بسیار کم</td></tr>
+      <tr><td>وضعیت روزنه در روز</td><td>باز، بسته در گرمای شدید</td><td>می‌تواند بسته باشد</td><td>بسته</td></tr>
+      <tr><td>مثال کتاب</td><td>گل رز</td><td>ذرت</td><td>آناناس</td></tr>
+    </table>
+  </div>
+
+  <div class="panel" id="t12" style="margin-top:16px">
+    <p class="ptitle">جانداران فتوسنتزکنندهٔ دیگر و شیمیوسنتز</p>
+    <div class="grid3">
+      <div class="card"><h4>باکتری‌های اکسیژن‌زا</h4>سیانوباکتری‌ها سبزینهٔ a دارند، مانند گیاهان از CO₂ و نور ماده آلی می‌سازند و اکسیژن تولید می‌کنند. سبزدیسه ندارند</div>
+      <div class="card"><h4>باکتری‌های غیراکسیژن‌زا</h4>باکتری‌های گوگردی ارغوانی و سبز؛ رنگیزه: باکتریوکلروفیل. منبع الکترون H₂S است نه آب، پس به‌جای اکسیژن گوگرد تولید می‌شود</div>
+      <div class="card"><h4>شیمیوسنتز</h4>بدون نور؛ انرژی از واکنش‌های اکسایش به دست می‌آید. مثال: باکتری‌های نیترات‌ساز و باکتری‌های همزیست کرم‌های لوله‌ای اعماق اقیانوس</div>
+    </div>
+    <p class="note">آغازیان مانند جلبک‌های سبز، قرمز و قهوه‌ای و اوگلنا هم فتوسنتز می‌کنند. اوگلنا در نبود نور سبزدیسه‌هایش را از دست می‌دهد و از مواد آلی تغذیه می‌کند.</p>
+  </div>
+</section>
+
+<footer>
+  اعداد قندکافت، اکسایش پیرووات و چرخهٔ کربس از شکل‌های فصل ۵ و استوکیومتری هر گلوکز استخراج شده‌اند؛ اعداد چرخهٔ کالوین دقیقاً مطابق شکل ۷ فصل ۶ است. یادآوری کتاب: طرح سؤال عددی و محاسباتی از این دو فصل ممنوع است.
+</footer>
+
+</div>
+
+<button id="fab">ابزارها</button>
+<div id="tools">
+  <h5>نمایش</h5>
+  <div class="trow"><button class="tbtn" id="themeBtn">تم تیره</button></div>
+  <div class="sep"></div>
+  <h5>هایلایت</h5>
+  <div class="trow">
+    <button class="tbtn" id="hlBtn">خاموش</button>
+    <button class="swatch" data-hl="hl-y" style="background:rgba(240,190,40,.75)"></button>
+    <button class="swatch" data-hl="hl-g" style="background:rgba(90,200,120,.75)"></button>
+    <button class="swatch" data-hl="hl-p" style="background:rgba(235,110,160,.75)"></button>
+    <button class="swatch" data-hl="hl-b" style="background:rgba(90,160,235,.75)"></button>
+  </div>
+  <div class="trow">
+    <button class="tbtn" id="hlEraseBtn">پاک‌کن هایلایت</button>
+    <button class="tbtn" id="hlClearBtn">حذف همه</button>
+  </div>
+  <p class="hint">روشن کن، بعد متن را با ماوس انتخاب کن.</p>
+  <div class="sep"></div>
+  <h5>قلم</h5>
+  <div class="trow">
+    <button class="tbtn" id="drawBtn">خاموش</button>
+    <button class="swatch" data-pen="#E24B4A" style="background:#E24B4A"></button>
+    <button class="swatch" data-pen="#378ADD" style="background:#378ADD"></button>
+    <button class="swatch" data-pen="#63991F" style="background:#63991F"></button>
+    <button class="swatch" data-pen="#8A8A85" style="background:#8A8A85"></button>
+  </div>
+  <div class="trow"><span class="hint">ضخامت</span><input type="range" id="penW" min="1" max="14" value="3"></div>
+  <div class="trow">
+    <button class="tbtn" id="penEraseBtn">پاک‌کن قلم</button>
+    <button class="tbtn" id="undoBtn">واگرد</button>
+    <button class="tbtn" id="penClearBtn">حذف همه</button>
+  </div>
+  <p class="hint">هایلایت و قلم مستقل‌اند و هم‌زمان روشن نمی‌شوند.</p>
+</div>
+
+<script>
+(function(){
+"use strict";
+var LS={theme:'zb_theme',html:'zb_html',strokes:'zb_strokes',prog:'zb_prog'};
+function get(k,d){try{var v=localStorage.getItem(k);return v===null?d:JSON.parse(v);}catch(e){return d;}}
+function set(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
+
+var themeBtn=document.getElementById('themeBtn');
+function applyTheme(t){
+  document.documentElement.setAttribute('data-theme',t);
+  themeBtn.textContent=(t==='dark')?'تم روشن':'تم تیره';
+  set(LS.theme,t);
+}
+applyTheme(get(LS.theme,'light'));
+themeBtn.onclick=function(){
+  applyTheme(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark');
+};
+
+document.getElementById('fab').onclick=function(){
+  document.getElementById('tools').classList.toggle('open');
+};
+
+var content=document.getElementById('content');
+var savedHTML=get(LS.html,null);
+if(savedHTML){try{content.innerHTML=savedHTML;}catch(e){}}
+function saveHTML(){set(LS.html,content.innerHTML);}
+
+var hlOn=false,hlErase=false,hlColor='hl-y';
+var hlBtn=document.getElementById('hlBtn'),hlEraseBtn=document.getElementById('hlEraseBtn');
+var drawOn=false,penErase=false,pen='#E24B4A',penW=3,drawing=false,cur=null;
+var drawBtn=document.getElementById('drawBtn'),penEraseBtn=document.getElementById('penEraseBtn');
+
+function setHl(on){
+  hlOn=on;
+  if(on&&drawOn) setDraw(false);
+  if(!on) hlErase=false;
+  hlBtn.textContent=on?'روشن':'خاموش';
+  hlBtn.classList.toggle('on',on);
+  document.body.classList.toggle('erasing',hlOn&&hlErase);
+  hlEraseBtn.classList.toggle('on',hlOn&&hlErase);
+}
+function setDraw(on){
+  drawOn=on;
+  if(on&&hlOn) setHl(false);
+  if(!on) penErase=false;
+  document.body.classList.toggle('drawmode',on);
+  drawBtn.textContent=on?'روشن':'خاموش';
+  drawBtn.classList.toggle('on',on);
+  penEraseBtn.classList.toggle('on',drawOn&&penErase);
+}
+hlBtn.onclick=function(){setHl(!hlOn);};
+drawBtn.onclick=function(){setDraw(!drawOn);};
+hlEraseBtn.onclick=function(){
+  if(!hlOn)setHl(true);
+  hlErase=!hlErase;
+  document.body.classList.toggle('erasing',hlErase);
+  hlEraseBtn.classList.toggle('on',hlErase);
+};
+penEraseBtn.onclick=function(){
+  if(!drawOn)setDraw(true);
+  penErase=!penErase;
+  penEraseBtn.classList.toggle('on',penErase);
+};
+[].forEach.call(document.querySelectorAll('[data-hl]'),function(b){
+  b.onclick=function(){
+    hlColor=b.getAttribute('data-hl');
+    [].forEach.call(document.querySelectorAll('[data-hl]'),function(x){x.classList.remove('on');});
+    b.classList.add('on');
+    if(!hlOn)setHl(true);
+    hlErase=false;document.body.classList.remove('erasing');hlEraseBtn.classList.remove('on');
+  };
+});
+document.querySelector('[data-hl="hl-y"]').classList.add('on');
+
+document.addEventListener('mouseup',function(){
+  if(!hlOn||hlErase)return;
+  var sel=window.getSelection();
+  if(!sel.rangeCount||sel.isCollapsed)return;
+  var r=sel.getRangeAt(0);
+  if(!content.contains(r.commonAncestorContainer))return;
+  var m=document.createElement('mark');m.className='hlmark '+hlColor;
+  try{r.surroundContents(m);}
+  catch(e){try{m.appendChild(r.extractContents());r.insertNode(m);}catch(e2){return;}}
+  sel.removeAllRanges();saveHTML();
+});
+content.addEventListener('click',function(e){
+  if(!hlOn||!hlErase)return;
+  var m=e.target.closest?e.target.closest('mark.hlmark'):null;
+  if(!m)return;
+  var p=m.parentNode;
+  while(m.firstChild)p.insertBefore(m.firstChild,m);
+  p.removeChild(m);p.normalize();saveHTML();
+});
+document.getElementById('hlClearBtn').onclick=function(){
+  if(!confirm('همهٔ هایلایت‌ها پاک شوند؟'))return;
+  [].forEach.call(content.querySelectorAll('mark.hlmark'),function(m){
+    var p=m.parentNode;while(m.firstChild)p.insertBefore(m.firstChild,m);
+    p.removeChild(m);p.normalize();
+  });
+  saveHTML();
+};
+
+var cv=document.getElementById('board'),ctx=cv.getContext('2d');
+var strokes=get(LS.strokes,[]);
+function sizeCanvas(){
+  var w=document.documentElement.scrollWidth,h=document.documentElement.scrollHeight;
+  cv.width=w;cv.height=h;cv.style.width=w+'px';cv.style.height=h+'px';redraw();
+}
+function redraw(){
+  ctx.clearRect(0,0,cv.width,cv.height);
+  strokes.forEach(function(s){
+    if(!s.p.length)return;
+    ctx.strokeStyle=s.c;ctx.lineWidth=s.w;ctx.lineCap='round';ctx.lineJoin='round';
+    ctx.beginPath();ctx.moveTo(s.p[0][0],s.p[0][1]);
+    for(var i=1;i<s.p.length;i++)ctx.lineTo(s.p[i][0],s.p[i][1]);
+    ctx.stroke();
+  });
+}
+[].forEach.call(document.querySelectorAll('[data-pen]'),function(b){
+  b.onclick=function(){
+    pen=b.getAttribute('data-pen');penErase=false;penEraseBtn.classList.remove('on');
+    [].forEach.call(document.querySelectorAll('[data-pen]'),function(x){x.classList.remove('on');});
+    b.classList.add('on');
+    if(!drawOn)setDraw(true);
+  };
+});
+document.querySelector('[data-pen="#E24B4A"]').classList.add('on');
+document.getElementById('penW').oninput=function(){penW=+this.value;};
+document.getElementById('undoBtn').onclick=function(){strokes.pop();set(LS.strokes,strokes);redraw();};
+document.getElementById('penClearBtn').onclick=function(){
+  if(!confirm('همهٔ خط‌های قلم پاک شوند؟'))return;
+  strokes=[];set(LS.strokes,strokes);redraw();
+};
+function pos(e){var r=cv.getBoundingClientRect();return [e.clientX-r.left,e.clientY-r.top];}
+function eraseAt(p){
+  var n=strokes.length;
+  strokes=strokes.filter(function(s){
+    return !s.p.some(function(q){return Math.abs(q[0]-p[0])<14&&Math.abs(q[1]-p[1])<14;});
+  });
+  if(strokes.length!==n){set(LS.strokes,strokes);redraw();}
+}
+cv.addEventListener('pointerdown',function(e){
+  if(!drawOn)return;
+  cv.setPointerCapture(e.pointerId);drawing=true;
+  var p=pos(e);
+  if(penErase){eraseAt(p);return;}
+  cur={c:pen,w:penW,p:[p]};strokes.push(cur);
+});
+cv.addEventListener('pointermove',function(e){
+  if(!drawOn||!drawing)return;
+  var p=pos(e);
+  if(penErase){eraseAt(p);return;}
+  cur.p.push(p);redraw();
+});
+cv.addEventListener('pointerup',function(){
+  if(!drawing)return;drawing=false;cur=null;set(LS.strokes,strokes);
+});
+window.addEventListener('resize',sizeCanvas);
+
+var TOPICS=[
+ {id:'t1',n:'قندکافت و ورود پیرووات به راکیزه'},
+ {id:'t2',n:'زنجیرهٔ انتقال الکترون و ATP ساز'},
+ {id:'t3',n:'تخمیر الکلی و لاکتیکی'},
+ {id:'t4',n:'ساختار برگ'},
+ {id:'t5',n:'سبزدیسه و چرخهٔ کالوین'},
+ {id:'t6',n:'واکنش‌های نوری تیلاکوئید'},
+ {id:'t7',n:'تنفس نوری'},
+ {id:'t8',n:'گیاه C₃'},
+ {id:'t9',n:'گیاه C₄'},
+ {id:'t10',n:'گیاه CAM'},
+ {id:'t11',n:'جدول مقایسهٔ C₃ و C₄ و CAM'},
+ {id:'t12',n:'باکتری‌های فتوسنتزکننده و شیمیوسنتز'}
+];
+var prog=get(LS.prog,{});
+function fa(n){return String(n).replace(/[0-9]/g,function(d){return '۰۱۲۳۴۵۶۷۸۹'[+d];});}
+function today(){try{return new Date().toLocaleDateString('fa-IR');}catch(e){return new Date().toISOString().slice(0,10);}}
+function render(){
+  var rows='<tr><th>مبحث</th><th class="c">خوانده شد</th><th class="c">تعداد دور</th><th class="c">آخرین مرور</th></tr>';
+  var done=0,tot=0;
+  TOPICS.forEach(function(t){
+    var p=prog[t.id]||{d:false,r:0,dt:''};
+    if(p.d)done++;
+    tot+=p.r;
+    rows+='<tr class="'+(p.d?'done':'')+'">'+
+      '<td><a href="#'+t.id+'">'+t.n+'</a></td>'+
+      '<td class="c"><input type="checkbox" data-chk="'+t.id+'" '+(p.d?'checked':'')+'></td>'+
+      '<td class="c"><span class="rounds"><button class="chip" data-mi="'+t.id+'">−</button><b>'+fa(p.r)+'</b><button class="chip" data-pl="'+t.id+'">+</button></span></td>'+
+      '<td class="c">'+(p.dt||'—')+'</td></tr>';
+  });
+  document.getElementById('tracker').innerHTML=rows;
+  var pct=Math.round(done/TOPICS.length*100);
+  document.getElementById('pctnum').textContent=fa(pct);
+  document.getElementById('pbarfill').style.width=pct+'%';
+  document.getElementById('summary').textContent=fa(done)+' از '+fa(TOPICS.length)+' مبحث خوانده شده · مجموع دورها: '+fa(tot);
+  bind();
+}
+function bind(){
+  [].forEach.call(document.querySelectorAll('[data-chk]'),function(c){
+    c.onchange=function(){
+      var id=c.getAttribute('data-chk'),p=prog[id]||{d:false,r:0,dt:''};
+      p.d=c.checked;
+      if(c.checked){if(p.r===0)p.r=1;p.dt=today();}
+      prog[id]=p;set(LS.prog,prog);render();
+    };
+  });
+  [].forEach.call(document.querySelectorAll('[data-pl]'),function(b){
+    b.onclick=function(){
+      var id=b.getAttribute('data-pl'),p=prog[id]||{d:false,r:0,dt:''};
+      p.r++;p.dt=today();p.d=true;prog[id]=p;set(LS.prog,prog);render();
+    };
+  });
+  [].forEach.call(document.querySelectorAll('[data-mi]'),function(b){
+    b.onclick=function(){
+      var id=b.getAttribute('data-mi'),p=prog[id]||{d:false,r:0,dt:''};
+      p.r=Math.max(0,p.r-1);
+      if(p.r===0){p.d=false;p.dt='';}
+      prog[id]=p;set(LS.prog,prog);render();
+    };
+  });
+}
+document.getElementById('resetProg').onclick=function(){
+  if(!confirm('کل پیشرفت صفر شود؟'))return;
+  prog={};set(LS.prog,prog);render();
+};
+document.getElementById('expBtn').onclick=function(){
+  var data={prog:prog,strokes:strokes,html:content.innerHTML,theme:document.documentElement.getAttribute('data-theme')};
+  var b=new Blob([JSON.stringify(data)],{type:'application/json'});
+  var a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='zist-progress.json';a.click();
+};
+document.getElementById('impBtn').onclick=function(){document.getElementById('impFile').click();};
+document.getElementById('impFile').onchange=function(e){
+  var f=e.target.files[0];if(!f)return;
+  var r=new FileReader();
+  r.onload=function(){
+    try{
+      var d=JSON.parse(r.result);
+      if(d.html){content.innerHTML=d.html;set(LS.html,d.html);}
+      if(d.prog){prog=d.prog;set(LS.prog,prog);}
+      if(d.strokes){strokes=d.strokes;set(LS.strokes,strokes);}
+      if(d.theme)applyTheme(d.theme);
+      render();sizeCanvas();
+    }catch(err){alert('فایل معتبر نیست');}
+  };
+  r.readAsText(f);
+};
+
+render();
+sizeCanvas();
+setTimeout(sizeCanvas,500);
+})();
+</script>
+</body>
+</html>
