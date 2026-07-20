@@ -160,6 +160,9 @@
 <div class="wrap" id="wrap"></div>
 <div class="fbar">
   <div class="st" id="stat"></div>
+  <span id="saveInd" style="font-size:11px;opacity:0;transition:.3s;white-space:nowrap"></span>
+  <button id="exp">⤓</button>
+  <button id="imp">⤒</button>
   <button id="expand">باز کردن همه</button>
   <button id="reset">پاک کردن</button>
 </div>
@@ -1025,11 +1028,64 @@ let ST = {reads:{}, done:{}, flag:{}, open:{}};
 const KEY = 'arabi3_v1';
 let filter = 'all', query = '';
 
+const HAS_WS = !!(typeof window !== 'undefined' && window.storage
+                  && typeof window.storage.set === 'function');
+let MODE = 'memory';
+
 async function save(){
-  try{ await window.storage.set(KEY, JSON.stringify(ST)); }catch(e){}
+  const raw = JSON.stringify(ST);
+  if(HAS_WS){
+    try{ await window.storage.set(KEY, raw); MODE='cloud'; flash(); return; }catch(e){}
+  }
+  try{ localStorage.setItem(KEY, raw); MODE='local'; flash(); return; }catch(e){}
+  MODE='memory'; flash();
 }
+
 async function load(){
-  try{ const r = await window.storage.get(KEY); if(r && r.value) ST = Object.assign(ST, JSON.parse(r.value)); }catch(e){}
+  if(HAS_WS){
+    try{
+      const r = await window.storage.get(KEY);
+      if(r && r.value){ ST = Object.assign(ST, JSON.parse(r.value)); MODE='cloud'; return; }
+      MODE='cloud';
+    }catch(e){}
+  }
+  try{
+    const v = localStorage.getItem(KEY);
+    if(v) ST = Object.assign(ST, JSON.parse(v));
+    localStorage.setItem('__t','1'); localStorage.removeItem('__t');
+    MODE='local';
+  }catch(e){ MODE='memory'; }
+}
+
+let flashT;
+function flash(){
+  const el = document.getElementById('saveInd'); if(!el) return;
+  el.textContent = MODE==='memory' ? 'ذخیره نشد' : 'ذخیره شد ✓';
+  el.style.color = MODE==='memory' ? 'var(--flag)' : 'var(--ok)';
+  el.style.opacity = '1';
+  clearTimeout(flashT);
+  flashT = setTimeout(()=>{ el.style.opacity='0'; }, 1400);
+}
+
+/* پشتیبان‌گیری دستی */
+function exportData(){
+  const blob = new Blob([JSON.stringify(ST)], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'arabi3-progress.json';
+  a.click();
+}
+function importData(){
+  const inp = document.createElement('input');
+  inp.type='file'; inp.accept='.json';
+  inp.onchange = ()=>{
+    const f = inp.files[0]; if(!f) return;
+    const rd = new FileReader();
+    rd.onload = ()=>{ try{ ST = Object.assign({reads:{},done:{},flag:{},open:{}}, JSON.parse(rd.result));
+      save(); render(); alert('پیشرفت بازگردانده شد.'); }catch(e){ alert('فایل معتبر نیست.'); } };
+    rd.readAsText(f);
+  };
+  inp.click();
 }
 
 /* ---------------- helpers ---------------- */
@@ -1210,11 +1266,16 @@ $('#expand').onclick = ()=>{
   save(); render();
 };
 
+$('#exp').onclick = exportData;
+$('#exp').title = 'گرفتن فایل پشتیبان از پیشرفت';
+$('#imp').onclick = importData;
+$('#imp').title = 'بازگرداندن پیشرفت از فایل پشتیبان';
+
 $('#reset').onclick = ()=>{
   if(!confirm('همهٔ تیک‌ها، نشان‌ها و شمارنده‌ها پاک شود؟')) return;
   ST = {reads:{},done:{},flag:{},open:{}}; save(); render();
 };
 
 /* ---------------- boot ---------------- */
-(async ()=>{ await load(); if(!Object.keys(ST.open).length) ST.open['plan']=true; render(); })();
+(async ()=>{ await load(); if(!Object.keys(ST.open).length) ST.open['plan']=true; render(); flash(); })();
 </script>
