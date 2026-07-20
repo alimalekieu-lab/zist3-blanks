@@ -161,6 +161,7 @@
 <div class="fbar">
   <div class="st" id="stat"></div>
   <span id="saveInd" style="font-size:11px;opacity:0;transition:.3s;white-space:nowrap"></span>
+  <button id="lnk" style="border-color:var(--teal);color:var(--teal)">🔗 لینک پیشرفت</button>
   <button id="exp">⤓</button>
   <button id="imp">⤒</button>
   <button id="expand">باز کردن همه</button>
@@ -1035,9 +1036,9 @@ let MODE = 'memory';
 async function save(){
   const raw = JSON.stringify(ST);
   if(HAS_WS){
-    try{ await window.storage.set(KEY, raw); MODE='cloud'; flash(); return; }catch(e){}
+    try{ await window.storage.set(KEY, raw); MODE='cloud'; flash(); syncURL(); return; }catch(e){}
   }
-  try{ localStorage.setItem(KEY, raw); MODE='local'; flash(); return; }catch(e){}
+  try{ localStorage.setItem(KEY, raw); MODE='local'; flash(); syncURL(); return; }catch(e){}
   MODE='memory'; flash();
 }
 
@@ -1065,6 +1066,66 @@ function flash(){
   el.style.opacity = '1';
   clearTimeout(flashT);
   flashT = setTimeout(()=>{ el.style.opacity='0'; }, 1400);
+}
+
+/* ---------- همگام‌سازی از راه لینک ---------- */
+/* همهٔ شناسه‌های کارت‌ها به ترتیب ثابت، تا بتوان وضعیت را بیتی فشرده کرد */
+function idList(){
+  const out=[];
+  S.forEach(sec=>{ if(sec.kind==='cards') sec.items.forEach((_,i)=>out.push(sec.id+'-'+i)); });
+  return out;
+}
+function bitsToB64(bits){
+  const bytes=new Uint8Array(Math.ceil(bits.length/8));
+  bits.forEach((b,i)=>{ if(b) bytes[i>>3] |= (1<<(i&7)); });
+  let bin=''; bytes.forEach(b=>bin+=String.fromCharCode(b));
+  return btoa(bin).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+}
+function b64ToBits(str,n){
+  try{
+    const bin=atob(str.replace(/-/g,'+').replace(/_/g,'/'));
+    const out=[];
+    for(let i=0;i<n;i++){
+      const byte=bin.charCodeAt(i>>3)||0;
+      out.push(!!(byte & (1<<(i&7))));
+    }
+    return out;
+  }catch(e){ return null; }
+}
+function encodeState(){
+  const ids=idList();
+  const d=bitsToB64(ids.map(id=>!!ST.done[id]));
+  const f=bitsToB64(ids.map(id=>!!ST.flag[id]));
+  const r=S.map(sec=>Math.min(99,ST.reads[sec.id]||0).toString(36).padStart(2,'0')).join('');
+  return 'v1.'+ids.length.toString(36)+'.'+r+'.'+d+'.'+f;
+}
+function decodeState(code){
+  try{
+    const p=code.split('.');
+    if(p[0]!=='v1') return false;
+    const ids=idList(), n=parseInt(p[1],36);
+    const dr=b64ToBits(p[3],Math.min(n,ids.length));
+    const fr=b64ToBits(p[4],Math.min(n,ids.length));
+    if(!dr||!fr) return false;
+    ST.done={}; ST.flag={};
+    dr.forEach((v,i)=>{ if(v && ids[i]) ST.done[ids[i]]=true; });
+    fr.forEach((v,i)=>{ if(v && ids[i]) ST.flag[ids[i]]=true; });
+    ST.reads={};
+    const rs=p[2]||'';
+    S.forEach((sec,i)=>{ const c=parseInt(rs.substr(i*2,2),36); if(c) ST.reads[sec.id]=c; });
+    return true;
+  }catch(e){ return false; }
+}
+/* آدرس نوار مرورگر همیشه به‌روز بماند، بدون شلوغ‌کردن تاریخچه */
+function syncURL(){
+  try{ history.replaceState(null,'', location.pathname+location.search+'#s='+encodeState()); }catch(e){}
+}
+function copyLink(){
+  const url = location.origin+location.pathname+location.search+'#s='+encodeState();
+  const done = ()=>alert('لینک پیشرفتت کپی شد.\n\nهر جا بازش کنی — هر مرورگر، هر دستگاه — تیک‌ها و نشان‌ها همان‌جا هستند.\n\nبرای خودت در تلگرام یا یادداشت‌ها بفرست.');
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(url).then(done).catch(()=>prompt('این لینک را کپی کن:',url));
+  } else prompt('این لینک را کپی کن:', url);
 }
 
 /* پشتیبان‌گیری دستی */
@@ -1266,6 +1327,8 @@ $('#expand').onclick = ()=>{
   save(); render();
 };
 
+$('#lnk').onclick = copyLink;
+$('#lnk').title = 'کپی لینکی که پیشرفتت داخلش است';
 $('#exp').onclick = exportData;
 $('#exp').title = 'گرفتن فایل پشتیبان از پیشرفت';
 $('#imp').onclick = importData;
@@ -1277,5 +1340,20 @@ $('#reset').onclick = ()=>{
 };
 
 /* ---------------- boot ---------------- */
-(async ()=>{ await load(); if(!Object.keys(ST.open).length) ST.open['plan']=true; render(); flash(); })();
+(async ()=>{
+  await load();
+  const h = location.hash.match(/#s=(.+)$/);
+  if(h){
+    if(decodeState(decodeURIComponent(h[1]))){
+      await save();
+      setTimeout(()=>{
+        const el=document.getElementById('saveInd');
+        if(el){ el.textContent='پیشرفت از لینک بازیابی شد ✓'; el.style.color='var(--ok)'; el.style.opacity='1';
+                setTimeout(()=>el.style.opacity='0',2600); }
+      },400);
+    }
+  }
+  if(!Object.keys(ST.open).length) ST.open['plan']=true;
+  render(); syncURL();
+})();
 </script>
