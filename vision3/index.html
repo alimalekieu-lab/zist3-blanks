@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vision 3 — نقشهٔ راهِ ۲۰</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0E1012;--surface:#16191C;--surface-2:#1E2226;--elev:#272C31;
+  --ink:#ECEEF0;--ink-soft:#9BA1A7;--ink-dim:#666C72;
+  --red:#FF463A;--red-deep:#C61C12;--red-soft:#2a1512;
+  --amber:#F2A93B;--amber-soft:#2a2113;--green:#3ECf8E;--green-soft:#12261e;
+  --blue:#4DA3FF;--blue-soft:#12212e;--purple:#B58Cff;--purple-soft:#20172e;
+  --line:rgba(255,255,255,.08);--line-2:rgba(255,255,255,.14);
+  --shadow:0 2px 6px rgba(0,0,0,.4),0 12px 34px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Vazirmatn',system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.75;-webkit-font-smoothing:antialiased;background-image:radial-gradient(rgba(255,255,255,.02) 1px,transparent 1.5px);background-size:22px 22px}
+.en{font-family:'Space Grotesk','Vazirmatn',sans-serif;direction:ltr;unicode-bidi:isolate}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+button:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--red);outline-offset:2px}
+.wrap{max-width:780px;margin:0 auto;padding:0 15px 130px}
+header.top{position:sticky;top:0;z-index:50;background:rgba(14,16,18,.82);backdrop-filter:saturate(1.3) blur(12px);border-bottom:1px solid var(--line)}
+.top-inner{max-width:780px;margin:0 auto;padding:11px 15px;display:flex;align-items:center;gap:12px}
+.mark{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:17px;direction:ltr}
+.mark b{color:var(--red)}
+.mark .three{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;background:var(--red);color:#fff;font-size:12px;margin-inline-start:3px;vertical-align:middle}
+.top .sub{font-size:11px;color:var(--ink-soft);font-weight:500}
+.top-actions{margin-inline-start:auto;display:flex;gap:6px}
+.iconbtn{width:34px;height:34px;border-radius:10px;background:var(--surface-2);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:15px;color:var(--ink-soft)}
+.iconbtn:hover{color:var(--red);border-color:var(--red)}
+.dash{background:linear-gradient(160deg,var(--surface-2),var(--surface));border:1px solid var(--line);border-radius:22px;padding:20px;margin-top:18px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.dash::after{content:"";position:absolute;inset-inline-end:-40px;top:-40px;width:160px;height:160px;background:radial-gradient(var(--red-soft),transparent 70%);opacity:.7}
+.dash .row1{display:flex;align-items:center;gap:18px;position:relative}
+.ring{position:relative;width:88px;height:88px;flex:0 0 auto}
+.ring svg{transform:rotate(-90deg)}
+.ring .mid{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.ring .pct{font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:700;line-height:1}
+.ring .lbl{font-size:9.5px;color:var(--ink-soft)}
+.dash h1{font-size:17px;font-weight:800;margin-bottom:3px}
+.dash .tagline{font-size:12.5px;color:var(--ink-soft)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:16px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:11px 8px;text-align:center}
+.stat .n{font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:700;line-height:1}
+.stat .k{font-size:10.5px;color:var(--ink-soft);margin-top:3px}
+.stat.danger .n{color:var(--red)}.stat.mid .n{color:var(--amber)}.stat.ok .n{color:var(--green)}
+.dash .cta{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+.encourage{text-align:center;font-size:12.5px;color:var(--green);margin-top:8px;min-height:18px}
+.btn{border-radius:12px;padding:11px 16px;font-size:13.5px;font-weight:600;display:inline-flex;align-items:center;justify-content:center;gap:7px;transition:.14s;border:1px solid transparent}
+.btn-red{background:var(--red);color:#fff}.btn-red:hover{background:var(--red-deep)}
+.btn-out{background:var(--surface-2);border-color:var(--line-2);color:var(--ink)}.btn-out:hover{border-color:var(--red);color:var(--red)}
+.btn.grow{flex:1}
+.pomo{display:flex;align-items:center;gap:10px;margin-top:14px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px 14px}
+.pomo .t{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;min-width:66px}
+.pomo .st{font-size:11px;color:var(--ink-soft);flex:1}
+.pomo button{font-size:12px;padding:6px 12px;border-radius:9px;background:var(--surface-2);border:1px solid var(--line-2)}
+.pomo button:hover{border-color:var(--red);color:var(--red)}
+.filters{display:flex;gap:7px;flex-wrap:wrap;margin:20px 0 6px;position:sticky;top:58px;z-index:20;background:rgba(14,16,18,.7);backdrop-filter:blur(6px);padding:6px 0}
+.fbtn{font-size:12.5px;padding:7px 13px;border-radius:20px;background:var(--surface-2);border:1px solid var(--line);color:var(--ink-soft)}
+.fbtn.on{background:var(--red);border-color:var(--red);color:#fff}
+.fbtn b{font-family:'Space Grotesk',sans-serif}
+.section{background:var(--surface);border:1px solid var(--line);border-radius:18px;margin:12px 0;overflow:hidden}
+.sechead{display:flex;align-items:center;gap:12px;padding:15px 16px;cursor:pointer;user-select:none}
+.sechead:hover{background:var(--surface-2)}
+.sechead .ic{width:38px;height:38px;border-radius:11px;background:var(--surface-2);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:18px;flex:0 0 auto}
+.sechead .meta{flex:1;min-width:0}
+.sechead h2{font-size:15px;font-weight:700}
+.sechead .sub{font-size:11.5px;color:var(--ink-soft)}
+.sechead .cnt{font-family:'Space Grotesk',sans-serif;font-size:12px;color:var(--ink-soft)}
+.sechead .cnt b{color:var(--green)}
+.chev{transition:.2s;color:var(--ink-dim)}
+.section.open .chev{transform:rotate(180deg)}
+.sbar{height:4px;background:rgba(255,255,255,.06)}
+.sbar span{display:block;height:100%;background:linear-gradient(90deg,var(--green),#59e0a6);transition:width .5s}
+.sbody{display:none;padding:6px 12px 14px}
+.section.open .sbody{display:block;animation:fade .2s ease}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.item{background:var(--surface-2);border:1px solid var(--line);border-radius:14px;margin:8px 0;overflow:hidden;transition:.15s}
+.item.r1{border-inline-start:3px solid var(--amber)}
+.item.done{border-inline-start:3px solid var(--green);background:var(--green-soft)}
+.item.flag{border-inline-start:3px solid var(--red)}
+.item .top-row{display:flex;align-items:center;gap:10px;padding:11px 13px}
+.item .body{flex:1;min-width:0;cursor:pointer}
+.item .front{font-size:15px;font-weight:600;display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.item .front .en{font-size:16px}
+.item .pill{font-size:9.5px;padding:2px 7px;border-radius:20px;background:var(--elev);color:var(--ink-soft);font-weight:600;white-space:nowrap}
+.item .pill.flag{background:var(--red-soft);color:var(--red)}
+.item .pill.hi{background:var(--red-soft);color:#ff8a80}
+.item .pill.mid{background:var(--amber-soft);color:var(--amber)}
+.item .pill.lo{background:var(--elev);color:var(--ink-dim)}
+.item .meaning{font-size:13.5px;color:var(--ink-soft);margin-top:2px}
+.item .detail{display:none;padding:0 13px 12px;font-size:12.8px;color:var(--ink-soft);line-height:1.85}
+.item.exp .detail{display:block}
+.item .detail .en{color:var(--ink)}
+.item .detail .ex{background:var(--bg);border-radius:9px;padding:8px 11px;margin-top:6px;direction:ltr;font-family:'Space Grotesk',sans-serif;font-size:12.5px;color:var(--ink)}
+.item .detail .ex b{color:var(--red)}
+.item .detail .mem{background:var(--purple-soft);border-radius:9px;padding:8px 11px;margin-top:7px;font-size:12.6px;color:#d4bcff}
+.item .detail .formula{direction:ltr;font-family:'Space Grotesk',sans-serif;background:#000;border:1px solid var(--line-2);border-radius:9px;padding:9px 12px;margin:8px 0;text-align:center;font-size:13.5px}
+.item .detail .formula b{color:#ff8f86}
+.item .detail ol,.item .detail ul{margin:4px 16px 0}
+.item .detail li{margin:3px 0}
+.item .detail .tech{background:var(--amber-soft);border-radius:9px;padding:9px 12px;margin-top:8px;font-size:12.5px;color:#f0c98a}
+.controls{display:flex;align-items:center;gap:6px;flex:0 0 auto}
+.revbtn{width:38px;height:38px;border-radius:11px;background:var(--elev);border:1px solid var(--line-2);display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--ink-soft);font-family:'Space Grotesk',sans-serif}
+.revbtn:hover{border-color:var(--amber);color:var(--amber)}
+.revbtn.has{background:var(--amber-soft);color:var(--amber);border-color:var(--amber);font-weight:700}
+.donebtn{width:38px;height:38px;border-radius:11px;background:var(--elev);border:1px solid var(--line-2);display:flex;align-items:center;justify-content:center;font-size:17px;color:var(--ink-dim)}
+.donebtn:hover{border-color:var(--green);color:var(--green)}
+.donebtn.on{background:var(--green);border-color:var(--green);color:#06130d}
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(24px);background:var(--elev);color:var(--ink);padding:11px 20px;border-radius:13px;font-size:13px;opacity:0;transition:.25s;z-index:90;box-shadow:var(--shadow);border:1px solid var(--line-2)}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:11px;color:var(--ink-soft);margin:16px 2px 0}
+.legend span{display:flex;align-items:center;gap:5px}
+.dot{width:10px;height:10px;border-radius:3px}
+.dot.g{background:var(--green)}.dot.a{background:var(--amber)}.dot.r{background:var(--red)}.dot.n{background:var(--line-2)}
+.footn{margin-top:26px;font-size:11px;color:var(--ink-dim);text-align:center;line-height:1.9}
+
+/* ===== visual polish v2 ===== */
+.item.enh .front{direction:ltr;justify-content:flex-start;text-align:left}
+.item.enh .meaning{direction:rtl;text-align:right}
+.item .meaning{filter:blur(5.5px);transition:filter .22s;cursor:pointer;position:relative;width:fit-content}
+.item.enh .meaning{margin-inline-start:auto}
+.item.exp .meaning{filter:none}
+.reveal-hint{font-size:9px;color:var(--ink-dim);margin-inline-start:6px}
+.item.exp .reveal-hint{display:none}
+.revminus{width:26px;height:38px;border-radius:9px;background:var(--elev);border:1px solid var(--line-2);display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--ink-dim)}
+.revminus:hover{border-color:var(--red);color:var(--red)}
+.timestat{font-size:11.5px;color:var(--ink-soft);text-align:center;margin-top:9px;background:var(--surface);border:1px solid var(--line);border-radius:11px;padding:8px 10px}
+.timestat b{font-family:'Space Grotesk',sans-serif;color:var(--ink)}
+.gramover{background:#000;border:1px solid var(--line-2);border-radius:14px;padding:12px 12px 6px;margin:4px 0 12px}
+.gramover .got{font-size:11px;color:var(--amber);margin-bottom:9px;text-align:center}
+.gramover .grow{display:flex;gap:8px;align-items:flex-start;padding:7px 2px;border-bottom:1px dashed var(--line)}
+.gramover .grow:last-child{border-bottom:none}
+.gramover .gn{flex:0 0 40%;font-size:11.5px;color:var(--ink);font-weight:600}
+.gramover .gf{flex:1;direction:ltr;font-family:'Space Grotesk',sans-serif;font-size:11.5px;color:#ff9f96;text-align:left;line-height:1.5}
+.gramover .gf b{color:#fff}
+
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="top-inner">
+    <div>
+      <div class="mark"><b>Vision</b><span class="three">3</span> · نقشهٔ راهِ ۲۰</div>
+      <div class="sub">کتاب + ورک‌بوک + ۱۰ آزمون نهایی — کاملِ کامل</div>
+    </div>
+    <div class="top-actions">
+      <button class="iconbtn" onclick="collapseAll()" title="بستنِ همه">⇕</button>
+      <button class="iconbtn" onclick="resetAll()" title="ریست">↺</button>
+    </div>
+  </div>
+</header>
+<div class="wrap">
+  <div class="dash">
+    <div class="row1">
+      <div class="ring">
+        <svg width="88" height="88"><circle cx="44" cy="44" r="38" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="7"/><circle id="ring" cx="44" cy="44" r="38" fill="none" stroke="var(--green)" stroke-width="7" stroke-linecap="round" stroke-dasharray="238.7" stroke-dashoffset="238.7"/></svg>
+        <div class="mid"><div class="pct" id="pct">0%</div><div class="lbl">مسلط شدی</div></div>
+      </div>
+      <div><h1 id="dash-title">بریم برای ۲۰ 💪</h1><div class="tagline" id="dash-tag">هر تیک یک قدم جلوتر. هیچ‌چیز جا نمی‌مونه.</div></div>
+    </div>
+    <div class="stats">
+      <div class="stat ok"><div class="n" id="s-done">0</div><div class="k">بلد شدی</div></div>
+      <div class="stat mid"><div class="n" id="s-prog">0</div><div class="k">در حال مرور</div></div>
+      <div class="stat danger"><div class="n" id="s-untouched">0</div><div class="k">هنوز نخوندی</div></div>
+    </div>
+    <div class="encourage" id="encourage"></div>
+    <div class="cta"><button class="btn btn-red grow" onclick="jumpNext()">→ بعدی چیه؟ (برو سراغ نخونده‌ها)</button></div>
+    <div class="pomo"><div class="t" id="pomo-t">25:00</div><div class="st" id="pomo-st">تایمرِ تمرکز — ۲۵ دقیقه بخون، ۵ دقیقه استراحت</div><button id="pomo-btn" onclick="pomoToggle()">شروع</button></div>
+    <div class="timestat" id="timestat">⏱ کل مطالعه: <b>۰</b> دقیقه · دورها: <b>۰</b></div>
+  </div>
+  <div class="filters" id="filters">
+    <button class="fbtn on" data-f="all" onclick="setFilter('all')">همه <b id="f-all"></b></button>
+    <button class="fbtn" data-f="untouched" onclick="setFilter('untouched')">نخونده‌ها <b id="f-untouched"></b></button>
+    <button class="fbtn" data-f="hi" onclick="setFilter('hi')">🔴 پرتکرار <b id="f-hi"></b></button>
+    <button class="fbtn" data-f="flag" onclick="setFilter('flag')">🚩 خارج از کتاب <b id="f-flag"></b></button>
+  </div>
+  <div id="sections"></div>
+  <div class="legend">
+    <span><i class="dot n"></i> نخونده</span><span><i class="dot a"></i> مرورشده</span>
+    <span><i class="dot g"></i> بلد شدم</span><span><i class="dot r"></i> 🚩 خارج از کتاب</span><span>👁 با زدن، عددِ مرور کم/زیاد می‌شود · معنی‌ها تارند، بزن تا واضح شوند</span>
+  </div>
+  <div class="footn">محتوا: کتاب دانش‌آموز + کتاب کارِ Vision 3، و ۱۰ آزمون نهایی (دی۹۷ تا خرداد۱۴۰۴) با کلید رسمی.<br>دکمهٔ عدد = دفعاتِ مرور · دکمهٔ ✓ = «بلد شدم» · 🔴🟡⚪ = میزان تکرار در امتحان‌ها · پیشرفت خودکار ذخیره می‌شود.</div>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+const DATA=[
+ {id:"method",ic:"🧠",title:"متدِ علمیِ حفظ (اول این را بخوان)",sub:"چطور طوری بخوانی که واقعاً بماند",kind:"tech",items:[
+   {t:"۱) بازیابی فعال (Active Recall)",steps:["دوباره‌خواندن حسِ دروغینِ بلد‌بودن می‌دهد. به‌جایش معنی را بپوشان و از حافظه بساز.","هر چیزی که نتوانستی از حافظه بیاوری = دقیقاً همان چیزی که هنوز بلد نیستی.","در این اپ: کارت را ببین، جواب را در ذهنت بگو، بعد باز کن و چک کن."]},
+   {t:"۲) تکرارِ فاصله‌دار (Spaced Repetition)",steps:["هر آیتم را چند بار در فاصله‌های زمانی مرور کن (نه یک‌جا).","از دکمهٔ 👁 برای شمردنِ دفعاتِ مرور استفاده کن؛ هدف: هر آیتم حداقل ۳ بار.","روز اول همه را ببین، شب دوباره سراغِ ⚪نخونده‌ها و 🟡نیمه‌کاره‌ها برو."]},
+   {t:"۳) رمزگذاریِ دوگانه / حافظهٔ تصویری (Dual Coding)",steps:["برای کلماتِ سخت یک تصویر یا داستانکِ ذهنی بساز — مغز تصویر را بهتر از حروف نگه می‌دارد.","در آیتم‌های سخت، کادرِ بنفشِ 🧠 «تصویرِ ذهنی» را ببین و در ذهنت مجسم کن.","مثال: physician = «فیزیک‌دانِ بدن» → پزشک."]},
+   {t:"۴) تکنیک فاینمن (خودت معلم شو)",steps:["هر قانونِ گرامری را با زبانِ ساده، انگار به یک نفر درس می‌دهی، توضیح بده.","هر جا گیر کردی = همان‌جا را کامل نفهمیده‌ای؛ برگرد.","کتاب هم همین را می‌خواهد: «Tell your teacher how passive voice is made»."]},
+   {t:"۵) درهم‌آمیزی (Interleaving)",steps:["موقع تمرین، سؤال‌های گرامرِ مختلف را قاطی حل کن، نه پشت‌سرهم از یک نوع.","مغز یاد می‌گیرد «تشخیص دهد کدام قانون» — همان مهارتی که سرِ جلسه لازم داری."]},
+   {t:"۶) اشباع با آزمون‌های واقعی + درایوِ املا",steps:["هر ۱۰ آزمون را با زمان بده تا هر نوع سؤال را دیده باشی.","هر غلط را جدا بنویس و همان روز چند بار دوره کن.","⚠ غلطِ املاییِ معنادار = صفرِ نمره؛ بخشِ «کلماتِ خطرناکِ املایی» را جدی بگیر."]},
+ ]},
+ {id:"predict",ic:"🔮",title:"پیش‌بینیِ امتحان بعدی (تحلیلِ الگوریتمِ طراح)",sub:"کجا پرتکرار بوده و کجای کتاب هنوز دست‌نخورده مانده",kind:"tech",items:[
+   {t:"چیزهایی که تقریباً حتماً می‌آیند (هر سال آمده‌اند)",steps:["گرامر: tag question، مجهول، مجهول با modal، جملهٔ وصفی (who/whom/which)، شرطی نوع دوم، ماضی بعید، مرتب‌کردنِ جمله.","واژگان: تطبیقِ عکس، پرکردن از جعبهٔ کلمات، تطبیقِ تعریف A/B، کاملِ کلمه با حرفِ اول.","ریدینگ: چند متنِ کوتاه + یک متنِ بلند با T/F و best-answer و ۲ سؤالِ تشریحی.","رایتینگ: حروف ربط + پاراگراف با Topic/Supporting/Concluding."]},
+   {t:"🎯 نقاطِ دست‌نخوردهٔ کتاب (احتمالِ بالای «سؤالِ جدید»)",steps:["وجهِ وصفی / جملهٔ وصفیِ کوتاه‌شده (reduced): مثل «energy resources ARE USED…» — کتاب دارد ولی کم آزموده شده.","حروفِ ربطِ هدف/تضاد: so that / in order to / although / however — در نگارشِ کتاب هست ولی معمولاً فقط and/but/or/so پرسیده‌اند.","صفتِ تفضیلی و عالی (comparative/superlative) — کم آمده.","استراتژی‌های ریدینگ به‌صورتِ سؤالِ مفهومی: Question Generation، Highlighting، Note-taking (۱۴۰۲ سراغِ note-taking رفت)."]},
+   {t:"📈 روندِ اخیر (۱۴۰۳ و ۱۴۰۴)",steps:["حجمِ واژگان و گرامر بیشتر شده؛ ریدینگ سنگین‌تر و متن‌ها تازه‌تر.","بخشِ Speaking حذف شده → وزنِ بیشتر روی Reading و Writing.","ضرب‌المثل‌های تازه چرخیده‌اند (Practice makes perfect، A burnt child dreads the fire) → دورِ بعد احتمالاً ضرب‌المثل‌های باقی‌ماندهٔ کتاب یا موارد جدید."]},
+   {t:"🔑 نتیجهٔ عملی برای تو",steps:["گرامرِ پرتکرار را صفرخطا کن (بیشترین نمرهٔ مطمئن).","بعد سراغِ «نقاطِ دست‌نخورده» برو تا حتی سؤالِ جدید هم غافلگیرت نکند — همین یک پایه بالاتر بردنِ توست.","واژه‌های 🔴پرتکرار را اول، بعد ⚪کم‌تکرارها و 🚩خارج‌ازکتاب را بزن."]},
+ ]},
+ {id:"v1",ic:"📘",title:"واژگان — درس ۱: قدردانی",sub:"کلمه · معنی · مثال · تصویرِ ذهنی",kind:"vocab",items:[
+   {t:"appreciate",m:"قدردانی کردن، سپاسگزار بودن",freq:"hi",x:"They feel honored when we <b>appreciate</b> their love. · هم‌نشین: appreciate someone's work"},
+   {t:"deserve",m:"سزاوار/لایق بودن",freq:"hi",x:"They <b>deserve</b> to be cared for. · the team <b>deserved</b> to win.",mem:"de+serve → کسی که «خدمت (serve)» کرده، سزاوار است."},
+   {t:"failure",m:"شکست، ناکامی",freq:"hi",x:"Their attempt ended in <b>failure</b>. (متضاد: success)"},
+   {t:"physician",m:"پزشک",freq:"hi",x:"Dr. Gharib was a famous <b>physician</b>. ⚠املا",mem:"«فیزیک‌دانِ بدن» — کسی که بدنت را مثل فیزیک تحلیل می‌کند = پزشک."},
+   {t:"found / founded",m:"تأسیس کردن، بنیان نهادن",freq:"hi",x:"This center was <b>founded</b> by Dr. Gharib.",mem:"🔑تله: found=پیدا کرد (find). founded=بنیان نهاد (با -ED، مثلِ بالا بردنِ یک بنا)."},
+   {t:"take (one's) temperature",m:"دمای بدن/تب را گرفتن",freq:"hi",x:"The nurse was <b>taking</b> my <b>temperature</b>. (نه make/do)"},
+   {t:"generation",m:"نسل",freq:"mid",x:"Our future <b>generation</b> will carry those values."},
+   {t:"respect",m:"احترام (گذاشتن)",freq:"mid",x:"It is important to <b>respect</b> our elders."},
+   {t:"elder / elders",m:"بزرگ‌تر، سالمند",freq:"mid",x:"<b>Elders</b> have a lot to share with us."},
+   {t:"dedicated",m:"فداکار، متعهد",freq:"mid",x:"a <b>dedicated</b> physician."},
+   {t:"distinguished",m:"برجسته، سرشناس",freq:"mid",x:"a <b>distinguished</b> professor. ⚠املا",mem:"dis-TIN-guished — با یک «قوطیِ حلبی (tin)» وسطش، متمایز شده."},
+   {t:"spare no pains",m:"از هیچ تلاشی فروگذار نکردن",freq:"mid",x:"He <b>spared no pains</b> to cure sick children."},
+   {t:"burst into tears",m:"ناگهان زیر گریه زدن",freq:"mid",x:"Aida <b>burst into tears</b> when she saw her score."},
+   {t:"forgive",m:"بخشیدن",freq:"mid",x:"Mom <b>forgave</b> me for the mistake."},
+   {t:"diary",m:"دفتر خاطرات",freq:"mid",x:"I have kept a <b>diary</b> for years.",mem:"diary با a (خاطرات) ≠ dairy با ai (لبنیات)! جای a و i را قاطی نکن."},
+   {t:"hard of hearing",m:"کم‌شنوا",freq:"mid",x:"My grandmother is <b>hard of hearing</b>. (اصطلاح)"},
+   {t:"unconditionally",m:"بی‌قید و شرط",freq:"lo",x:"They love us <b>unconditionally</b>."},
+   {t:"honored",m:"مفتخر، سربلند",freq:"lo",x:"They feel <b>honored</b> when we respect them."},
+   {t:"regard (as)",m:"به‌شمار آوردن، تلقی کردن",freq:"lo",x:"He was <b>regarded as</b> a kind doctor."},
+   {t:"generous",m:"بخشنده، سخاوتمند",freq:"lo",x:"a <b>generous</b> man."},
+   {t:"cure",m:"درمان کردن",freq:"lo",x:"to <b>cure</b> sick children."},
+   {t:"repeatedly",m:"بارها، مکرراً",freq:"lo",x:"I told him <b>repeatedly</b>."},
+   {t:"calmly",m:"آرام، با آرامش",freq:"lo",x:"He speaks <b>calmly</b>."},
+ ]},
+ {id:"v2",ic:"📗",title:"واژگان — درس ۲: فرهنگ لغت",sub:"",kind:"vocab",items:[
+   {t:"suppose",m:"گمان/فرض کردن",freq:"hi",x:"I <b>suppose</b> a monolingual one is better. (خیلی پرتکرار)"},
+   {t:"recommend",m:"توصیه/پیشنهاد کردن",freq:"hi",x:"I <b>recommend</b> a learner's dictionary."},
+   {t:"figure out",m:"سر درآوردن، فهمیدن",freq:"hi",x:"He couldn't <b>figure out</b> the problem."},
+   {t:"stand for",m:"مخفف بودنِ، نماد بودن",freq:"hi",x:"I.R. <b>stands for</b> Islamic Republic."},
+   {t:"contain",m:"دربرداشتن، شامل بودن",freq:"hi",x:"foods that <b>contain</b> fat."},
+   {t:"effectively",m:"به‌طور مؤثر",freq:"hi",x:"communicate <b>effectively</b>."},
+   {t:"arrange / arrangement",m:"مرتب کردن / چیدمان",freq:"hi",x:"<b>arrange</b> the chairs → the <b>arrangement</b> of windows."},
+   {t:"combination",m:"ترکیب",freq:"hi",x:"a <b>combination</b> of new and old styles."},
+   {t:"entry / entries",m:"مدخل، سرواژه",freq:"hi",x:"50,000 <b>entries</b>. ⚠املا",mem:"entry→entries (y به ies). «درِ ورودِ» معنیِ کلمه."},
+   {t:"dictionary",m:"فرهنگ لغت",freq:"hi",x:"lists words in alphabetical order."},
+   {t:"elementary / intermediate / advanced",m:"مقدماتی / متوسط / پیشرفته",freq:"hi",x:"سه سطحِ فرهنگ لغت."},
+   {t:"definition",m:"تعریف",freq:"mid",x:"a clear <b>definition</b>."},
+   {t:"introduction",m:"مقدمه",freq:"mid",x:"a two-page <b>introduction</b>."},
+   {t:"pronunciation / pronounce",m:"تلفظ / تلفظ کردن",freq:"mid",x:"how words are <b>pronounced</b>. ⚠املا",mem:"pro-NUN-ciation — بدونِ o دوم (نه pronounciation)؛ یک «راهبه nun» وسطش."},
+   {t:"origin",m:"ریشه، خاستگاه",freq:"mid",x:"the <b>origin</b> of words."},
+   {t:"symbol",m:"نماد، نشانه",freq:"mid",x:"C is the <b>symbol</b> for carbon."},
+   {t:"monolingual / bilingual",m:"تک‌زبانه / دوزبانه",freq:"mid",x:"a <b>monolingual</b> dictionary (only English)."},
+   {t:"jump into",m:"یکباره وارد کاری شدن",freq:"mid",x:"I <b>jumped into</b> the next part."},
+   {t:"collocation",m:"هم‌نشینیِ واژگان",freq:"mid",x:"take a photo (نه do a photo)."},
+   {t:"technical",m:"فنی، تخصصی",freq:"lo",x:"a <b>technical</b> dictionary."},
+   {t:"biography",m:"زندگی‌نامه",freq:"lo",x:"dictionaries of <b>biography</b>."},
+   {t:"IPA",m:"الفبای آوانگاریِ بین‌المللی",freq:"lo",x:"shows pronunciation."},
+ ]},
+ {id:"v3",ic:"📙",title:"واژگان — درس ۳: انرژی تجدیدپذیر",sub:"",kind:"vocab",items:[
+   {t:"generate",m:"تولید کردن (برق/انرژی)",freq:"hi",x:"turbines <b>generate</b> electricity."},
+   {t:"resource",m:"منبع",freq:"hi",x:"natural <b>resources</b>."},
+   {t:"pollute / pollution",m:"آلوده کردن / آلودگی",freq:"hi",x:"don't <b>pollute</b> the air → air <b>pollution</b>."},
+   {t:"harmful",m:"مضر، زیان‌آور",freq:"hi",x:"<b>harmful</b> to the environment."},
+   {t:"renewable / nonrenewable",m:"تجدیدپذیر / تجدیدناپذیر",freq:"hi",x:"clean energy is <b>renewable</b>. ⚠املا",mem:"re+new+able = «دوباره نو شدنی»."},
+   {t:"fossil fuels",m:"سوخت‌های فسیلی",freq:"hi",x:"coal, oil and gas."},
+   {t:"variety",m:"تنوع، انواع مختلف",freq:"hi",x:"a <b>variety</b> of forms."},
+   {t:"replace",m:"جایگزین کردن",freq:"hi",x:"cars should be <b>replaced</b> by electric ones."},
+   {t:"demand",m:"تقاضا",freq:"hi",x:"the <b>demand</b> for solar energy."},
+   {t:"convert",m:"تبدیل کردن",freq:"hi",x:"He <b>converted</b> the balcony into an office."},
+   {t:"absorb",m:"جذب کردن",freq:"hi",x:"plants <b>absorb</b> carbon dioxide.",mem:"اسفنج آب را «اَبَر-سریع» جذب می‌کند = absorb."},
+   {t:"consume",m:"مصرف کردن",freq:"hi",x:"bulbs that <b>consume</b> less electricity.",mem:"con+sume (خوردن) → لامپ برق را «می‌خورد» = مصرف."},
+   {t:"tide",m:"جزر و مد",freq:"mid",x:"two high and two low <b>tides</b>."},
+   {t:"use up",m:"تمام/مصرف کردن تا آخر",freq:"mid",x:"once we <b>use up</b> fuels, they're gone."},
+   {t:"forever",m:"برای همیشه",freq:"mid",x:"no one lives <b>forever</b>."},
+   {t:"remind",m:"یادآوری کردن",freq:"mid",x:"they <b>remind</b> me of wind towers."},
+   {t:"opposite",m:"برعکس، مخالف",freq:"mid",x:"a turbine works the <b>opposite</b> of a fan."},
+   {t:"blow",m:"وزیدن",freq:"mid",x:"when the wind doesn't <b>blow</b>."},
+   {t:"environment",m:"محیط زیست",freq:"mid",x:"protect the <b>environment</b>. ⚠املا",mem:"enviro(N)ment — یک n مخفی قبل از m."},
+   {t:"nuclear",m:"هسته‌ای",freq:"mid",x:"a <b>nuclear</b> power station. ⚠املا",mem:"nu-CLE-ar (نه nucular) — هسته = «clear core»."},
+   {t:"balcony",m:"بالکن، ایوان",freq:"mid",x:"he sits in the <b>balcony</b>."},
+   {t:"hybrid",m:"دورگه، هیبریدی",freq:"mid",x:"<b>hybrid</b> cars use gasoline + electricity."},
+   {t:"air conditioner",m:"کولر، دستگاه تهویه",freq:"mid",x:"controls the room temperature."},
+   {t:"wind turbine / wind tower",m:"توربین بادی / بادگیر",freq:"mid",x:"produce electricity / natural cooling."},
+   {t:"solar power / hydropower / sunshine",m:"خورشیدی / برق‌آبی / نور خورشید",freq:"mid",x:"انواعِ انرژیِ پاک."},
+   {t:"gadget",m:"دستگاه، وسیله",freq:"lo",x:"a bigger <b>gadget</b>."},
+ ]},
+{id:"wbx",ic:"🧩",title:"ورک‌بوک — موارد تکمیلی",sub:"متضادها، انواعِ کلمه و واژه‌های تمرین‌های ورک‌بوک",kind:"vocab",items:[
+   {t:"later",m:"بعداً، دیرتر",x:"The project will be completed two weeks <b>later</b>. (ورک‌بوک درس ۱)"},
+   {t:"antonyms: past↔present · unreal↔real · hate↔love · finish↔start",m:"متضادها (تمرینِ ورک‌بوک درس ۱)",x:"در تمرینِ «find antonyms» خواسته شده — از متن پیدا کن."},
+   {t:"effective / useful / helpful / confusing",m:"مؤثر / مفید / کمک‌کننده / گیج‌کننده",x:"صفت‌های odd-one-out درس ۲ (confusing تکِ متفاوت است، بارِ منفی دارد)."},
+   {t:"parts of speech: noun · verb · adjective · adverb · preposition",m:"اسم · فعل · صفت · قید · حرف اضافه",x:"در odd-one-out و در اطلاعاتِ دیکشنری آمده — این واژه‌ها را بشناس."},
+   {t:"spelling",m:"املا، هجی‌کردن",x:"یکی از انواعِ اطلاعاتِ کلمه در دیکشنری."},
+   {t:"waste / garbage",m:"زباله؛ هدر دادن / زباله",x:"The <b>waste</b> should be collected. (odd-one-out درس ۳)"},
+   {t:"digest",m:"هضم کردن",x:"odd-one-out: absorb / use up / generate / <b>digest</b>."},
+   {t:"motor / engine",m:"موتورِ الکتریکی / موتورِ احتراقی",x:"an electric <b>motor</b> · a gasoline <b>engine</b>."},
+   {t:"yard / roof",m:"حیاط / سقف، پشت‌بام",x:"odd-one-out درس ۳: yard / balcony / roof / motor."},
+   {t:"coal / oil / natural gas",m:"زغال‌سنگ / نفت / گازِ طبیعی",x:"نمونه‌های <b>fossil fuels</b>."},
+   {t:"gasoline",m:"بنزین",x:"Electric cars don't burn <b>gasoline</b>."},
+   {t:"battery / charge",m:"باتری / شارژ کردن",x:"To get the <b>battery</b> ready, you have to <b>charge</b> it."},
+   {t:"landfill",m:"محلِ دفنِ زباله",x:"waste sent to the <b>landfill</b>."},
+   {t:"reduce",m:"کاهش دادن",x:"the demand for fossil fuels is <b>reduced</b>."},
+ ]},
+ {id:"flag",ic:"🚩",title:"کلمات/اصطلاحاتِ خارج از کتاب (در امتحان‌ها آمده‌اند)",sub:"در متن درس نیستند ولی طراح آورده — حتماً بلد باش",kind:"vocab",items:[
+   {t:"radiation",m:"تشعشع، تابش",flag:true,freq:"mid",x:"Clouds prevent the <b>radiation</b> of Earth's heat. (۱۴۰۳ و ۱۴۰۲)",mem:"radio + آنتن → امواجِ تابشی = تشعشع."},
+   {t:"changeable",m:"متغیر، دمدمی",flag:true,freq:"lo",x:"the weather is highly <b>changeable</b>. (جوابِ درستِ ۱۴۰۴)",mem:"change+able → «قابلِ تغییر»؛ e را نگه‌دار: chang(E)able."},
+   {t:"expand",m:"گسترش دادن",flag:true,freq:"lo",x:"learn words to <b>expand</b> your vocabulary. (۱۴۰۲)"},
+   {t:"dread",m:"ترسیدن، هراس داشتن",flag:true,freq:"lo",x:"A burnt child <b>dreads</b> the fire. (ضرب‌المثلِ اضافه ۱۴۰۳)"},
+   {t:"inform / be informed",m:"آگاه کردن / آگاه‌شدن",flag:true,freq:"lo",x:"Should people <b>be informed</b> of this danger? (۱۴۰۲)"},
+   {t:"overcome",m:"غلبه کردن",flag:true,freq:"lo",x:"she wants to <b>overcome</b> the problem. (listening ۱۴۰۳)"},
+   {t:"vibration / heritage",m:"لرزش / میراث",flag:true,freq:"lo",x:"گزینه‌های انحرافیِ ۱۴۰۴ — فقط بشناس."},
+   {t:"واژه‌های متنِ ریدینگِ امتحان",m:"context = از بافت حدس بزن",flag:true,x:"systematic, compiled, aging, kidney… مجموعهٔ بازند؛ حفظشان لازم نیست، از جملهٔ اطراف حدس بزن (بخشِ «بافت — امتحان‌ها» را ببین)."},
+ ]},
+ {id:"distr",ic:"🎭",title:"گزینه‌های انحرافی (Distractors) — فقط تشخیص بده",sub:"جواب نیستند ولی برای رد‌کردن باید معنی‌شان را بدانی",kind:"vocab",items:[
+   {t:"received / created / discovered",m:"دریافت کرد / خلق کرد / کشف کرد",flag:true,x:"انحرافی‌های سؤالِ deserved (۱۴۰۴)."},
+   {t:"applied / transmitted / suggested",m:"به‌کار برد / منتقل کرد / پیشنهاد داد",flag:true,x:"انحرافی‌های سؤالِ converted (۱۴۰۴)."},
+   {t:"spoils / flocks / counts",m:"خراب می‌کند / گله می‌بندد / می‌شمارد",flag:true,x:"انحرافی‌های ضرب‌المثلِ dreads (۱۴۰۳)."},
+   {t:"invisible / comfortable / valuable",m:"نامرئی / راحت / ارزشمند",flag:true,x:"انحرافی‌های سؤالِ changeable (۱۴۰۴)."},
+   {t:"realize / report",m:"متوجه شدن / گزارش دادن",flag:true,x:"انحرافی‌های overcome (listening ۱۴۰۳)."},
+   {t:"making / doing / giving (temperature)",m:"با temperature غلط‌اند",flag:true,x:"فقط <b>take</b> temperature درست است."},
+ ]},
+ {id:"fam",ic:"🌳",title:"خانوادهٔ کلمات (Word Families)",sub:"در سؤالِ «شکلِ درستِ کلمه» و انحرافی‌ها لازم است",kind:"vocab",items:[
+   {t:"connect → connection → disconnect → disconnection",m:"وصل / اتصال / قطع / قطعی",x:"(کتاب: Word Part Families درس ۲)."},
+   {t:"success → successful → successfully → succeed",m:"موفقیت / موفق / موفقانه / موفق شدن",freq:"mid",x:"The doctor <b>successfully</b> cured them. (قید بعد از فعل) ⚠دو c، دو s، دو l"},
+   {t:"pollute → pollution → polluted",m:"آلوده کردن / آلودگی / آلوده",freq:"hi",x:"air <b>pollution</b> (اسم) vs <b>pollute</b> (فعل)."},
+   {t:"inform → information → informed",m:"آگاه کردن / اطلاعات / آگاه‌شده",x:"be <b>informed</b> (مجهول)."},
+   {t:"arrange → arrangement",m:"مرتب کردن / چیدمان",x:"special <b>arrangements</b> for guests."},
+   {t:"create → creation → creative",m:"خلق کردن / آفرینش / خلاق",x:"inventions are <b>created</b> by accident."},
+   {t:"change → changeable / unchangeable",m:"تغییر / متغیر / تغییرناپذیر",x:"weather is <b>changeable</b>."},
+   {t:"generate → generation → generator",m:"تولید / نسل، تولید / مولد",x:"دقت: generation دو معنی دارد (نسل / تولید)."},
+   {t:"communicate → communication → communicative",m:"ارتباط برقرار کردن / ارتباط / اهلِ ارتباط",x:"be able to <b>communicate</b> effectively."},
+   {t:"comprehension → comprehensible ↔ incomprehensible",m:"درک / قابل‌فهم ↔ نامفهوم",x:"reading <b>comprehension</b>."},
+ ]},
+ {id:"col",ic:"🔗",title:"هم‌نشین‌ها و اصطلاح‌ها (Collocations & Idioms)",sub:"معنی‌شان از تک‌تکِ کلمات جدا نیست",kind:"vocab",items:[
+   {t:"take (one's) temperature",m:"تب/دما گرفتن",freq:"hi",x:"take نه make/do."},
+   {t:"figure out / stand for / use up / jump into",m:"فهمیدن / مخفف بودن / تمام کردن / یکباره واردشدن",freq:"hi",x:"phrasal verbهای پرتکرار."},
+   {t:"spare no pains",m:"از هیچ تلاشی دریغ نکردن",freq:"mid",x:""},
+   {t:"burst into tears",m:"ناگهان زیر گریه زدن",freq:"mid",x:""},
+   {t:"hard of hearing",m:"کم‌شنوا",freq:"mid",x:""},
+   {t:"care for / appreciate someone's work",m:"مراقبت کردن / قدرِ کارِ کسی را دانستن",x:""},
+   {t:"meet the needs / meet different goals",m:"برآوردنِ نیازها / رسیدن به اهدافِ مختلف",flag:true,x:"hybrid cars can <b>meet different goals</b>."},
+   {t:"run a high risk of",m:"در معرضِ خطرِ بالای…",flag:true,x:"the elderly <b>run a high risk of</b> illness."},
+   {t:"ready to roll",m:"آمادهٔ کار/حرکت",x:"get the battery <b>ready to roll</b>."},
+   {t:"make a mistake / by accident",m:"اشتباه کردن / تصادفی",x:"inventions are created <b>by accident</b>."},
+ ]},
+ {id:"defbank",ic:"🅰️",title:"بانکِ تعریف A↔B (تعریفِ دقیقِ انگلیسی)",sub:"سؤالِ «تطبیقِ تعریف» عیناً از این‌ها می‌آید",kind:"vocab",items:[
+   {t:"to start something such as an organization or a company",m:"= found / establish (تأسیس کردن)",freq:"hi",x:""},
+   {t:"a place or thing that you get something from",m:"= source / resource (منبع)",freq:"hi",x:""},
+   {t:"completely important in a particular situation",m:"= essential (ضروری)",freq:"mid",x:""},
+   {t:"to advise someone that something is good/useful",m:"= recommend (توصیه کردن)",freq:"hi",x:""},
+   {t:"the amount of a product or service that people want",m:"= demand (تقاضا)",freq:"hi",x:""},
+   {t:"many different types of things or people",m:"= variety (تنوع)",freq:"hi",x:""},
+   {t:"a book in which you record what has happened every day",m:"= diary (دفتر خاطرات)",freq:"mid",x:""},
+   {t:"to suddenly decide to do something",m:"= jump into (یکباره واردشدن)",freq:"mid",x:""},
+   {t:"in a way that is successful and achieves what you want",m:"= effectively (به‌طور مؤثر)",freq:"mid",x:""},
+   {t:"to put things in a neat, attractive, or useful order",m:"= arrange (مرتب کردن)",freq:"mid",x:""},
+   {t:"to use time, goods, energy, etc.",m:"= consume (مصرف کردن)",freq:"mid",x:""},
+   {t:"unable to hear very well",m:"= hard of hearing (کم‌شنوا)",freq:"mid",x:""},
+   {t:"to finish something / to use all of it",m:"= use up (تمام کردن)",freq:"mid",x:""},
+   {t:"a lack of success in doing something",m:"= failure (شکست)",freq:"mid",x:""},
+   {t:"an arrangement in a particular order",m:"= combination (ترکیب)",freq:"mid",x:""},
+   {t:"the part at the beginning of a book giving a general idea",m:"= introduction (مقدمه)",freq:"mid",x:""},
+   {t:"all the people of about the same age within a society",m:"→ generation",freq:"mid",x:""},
+   {t:"to stop being angry with someone",m:"→ forgive",freq:"mid",x:""},
+   {t:"in a quiet way",m:"→ calmly",freq:"mid",x:""},
+   {t:"to put things in a neat, useful order / organize and put in order",m:"→ arrange",freq:"mid",x:""},
+   {t:"to be grateful for",m:"→ appreciate",freq:"mid",x:""},
+   {t:"to be worthy",m:"→ deserve",freq:"mid",x:""},
+   {t:"something that stands for something else",m:"→ symbol",freq:"mid",x:""},
+   {t:"able to be replaced by nature",m:"→ renewable",freq:"mid",x:""},
+   {t:"help somebody remember something",m:"→ remind",freq:"mid",x:""},
+   {t:"the rise and fall of the sea",m:"→ tide",freq:"mid",x:""},
+   {t:"to find a solution or arrive at an answer to",m:"→ figure out",freq:"mid",x:""},
+   {t:"to change in form or character",m:"→ convert",freq:"mid",x:""},
+   {t:"for all time",m:"→ forever",freq:"mid",x:""},
+   {t:"well-known / very successful and respected",m:"→ distinguished",freq:"mid",x:""},
+   {t:"to finish something",m:"→ use up",freq:"mid",x:""},
+   {t:"to take something in, especially gradually",m:"→ absorb",freq:"mid",x:""},
+   {t:"a word or phrase listed in alphabetical order in a dictionary",m:"→ entry",freq:"mid",x:""},
+   {t:"someone who cures sick people",m:"→ physician",freq:"mid",x:""},
+   {t:"the part at the beginning of a book that gives a general idea",m:"→ introduction",freq:"mid",x:""},
+   {t:"to make a book, list, or record",m:"→ compile",freq:"mid",x:""},
+   {t:"to increase or improve something",m:"→ boost",freq:"mid",x:""},
+   {t:"to produce or cause something",m:"→ generate",freq:"mid",x:""},
+   {t:"to do whatever you can / make every effort",m:"→ spare no pains",freq:"mid",x:""},
+ ]},
+ {id:"prov",ic:"🗣️",title:"ضرب‌المثل‌ها (Proverbs)",sub:"۴ تای کتاب + مواردِ اضافه/چرخشیِ امتحان‌ها",kind:"vocab",items:[
+   {t:"Money does not grow on trees",m:"پول علفِ خرس نیست",freq:"mid",x:""},
+   {t:"Easy come, easy go",m:"باد آورده را باد می‌برد",freq:"mid",x:"(ریدینگِ ۱۴۰۴)"},
+   {t:"There's no place like home",m:"هیچ‌جا خانهٔ خودِ آدم نمی‌شود",freq:"mid",x:""},
+   {t:"Absence makes the heart grow fonder",m:"دوری و دوستی",freq:"mid",x:""},
+   {t:"Practice makes perfect",m:"کار نیکو کردن از پر کردن است",flag:true,freq:"lo",x:"⭐ اضافه بر کتاب — ۱۴۰۲"},
+   {t:"A burnt child dreads the fire",m:"مارگزیده از ریسمانِ سیاه‌وسفید می‌ترسد",flag:true,freq:"lo",x:"⭐ اضافه بر کتاب — ۱۴۰۳"},
+   {t:"Two heads are better than one",m:"یک دست صدا ندارد",flag:true,x:"(گزینهٔ انحرافی)"},
+   {t:"Actions speak louder than words",m:"دو صد گفته چون نیم کردار نیست",flag:true,x:"احتمالِ چرخش در دورهٔ بعد"},
+   {t:"The early bird catches the worm",m:"سحرخیز باش تا کامروا شوی",flag:true,x:""},
+   {t:"No pain, no gain",m:"نابرده رنج گنج میسر نمی‌شود",flag:true,x:""},
+   {t:"A friend in need is a friend indeed",m:"دوستِ واقعی در سختی شناخته می‌شود",flag:true,x:""},
+   {t:"Kill two birds with one stone",m:"با یک تیر دو نشان زدن",flag:true,x:""},
+   {t:"When in Rome, do as the Romans do",m:"خواهی نشوی رسوا، همرنگِ جماعت شو",flag:true,x:""},
+ ]},
+ {id:"abbr",ic:"🔤",title:"مخفف‌ها (Abbreviations)",sub:"سؤالِ «مخففِ چیست؟» تکرارشونده است",kind:"vocab",items:[
+   {t:"IT",m:"Information Technology — فناوری اطلاعات",freq:"mid",x:""},
+   {t:"PC",m:"Personal Computer — رایانهٔ شخصی",freq:"mid",x:""},
+   {t:"IRIB",m:"Islamic Republic of Iran Broadcasting — صداوسیما",freq:"mid",x:""},
+   {t:"CD / DVD",m:"Compact Disc / Digital Versatile Disc",freq:"mid",x:""},
+   {t:"BC / AD",m:"Before Christ / Anno Domini — پیش/پس از میلاد",freq:"mid",x:"⚠ AD مخففِ Adverb نیست! (تلهٔ ۱۴۰۳)"},
+   {t:"IPA",m:"International Phonetic Alphabet — الفبای آوایی",freq:"lo",x:""},
+   {t:"LED / MP3",m:"دیودِ نورافشان / فرمتِ صوتی",freq:"lo",x:"(در متن ریدینگ)"},
+ ]},
+ {id:"spell",ic:"⚠️",title:"کلماتِ خطرناکِ املایی",sub:"طبق کلید، غلطِ املاییِ معنادار = نمرهٔ صفر",kind:"vocab",items:[
+   {t:"physician",m:"پزشک",freq:"hi",x:"نه phisician"},
+   {t:"pronunciation",m:"تلفظ",freq:"mid",x:"نه pronounciation!"},
+   {t:"environment",m:"محیط زیست",freq:"mid",x:"n مخفی: enviro(n)ment"},
+   {t:"distinguished",m:"برجسته",freq:"mid",x:""},
+   {t:"nonrenewable",m:"تجدیدناپذیر",freq:"hi",x:""},
+   {t:"entries",m:"مدخل‌ها",freq:"hi",x:"y → ies"},
+   {t:"nuclear",m:"هسته‌ای",freq:"mid",x:"نه nucular"},
+   {t:"successfully",m:"موفقانه",freq:"mid",x:"دو c، دو s، دو l"},
+   {t:"radiation / vibration",m:"تابش / لرزش",freq:"mid",x:""},
+   {t:"pigeon(s) / poetry / abroad / pocket / balcony",m:"کبوتر / شعر / خارج / جیبی / بالکن",freq:"mid",x:"همه در نهایی خواسته شده‌اند"},
+ ]},
+ {id:"ctxb",ic:"📖",title:"بافت — کلماتِ متن‌های کتاب",sub:"برای «حدس در بافتِ» ریدینگ‌ها و مکالمه‌ها",kind:"vocab",items:[
+   {t:"experiences / failures / successes / translate",m:"تجربه‌ها / شکست‌ها / موفقیت‌ها / ترجمه کردن",x:"Elders share their <b>experiences</b>; a dictionary can <b>translate</b> words."},
+   {t:"hence",m:"از این‌رو، بنابراین",x:"A few years <b>hence</b> we will grow older."},
+   {t:"values / duty",m:"ارزش‌ها / وظیفه",x:"It is our <b>duty</b> to carry those <b>values</b>."},
+   {t:"handle",m:"از پسِ کاری برآمدن",x:"not young enough to <b>handle</b> things."},
+   {t:"flu / diploma / homeland",m:"آنفلوانزا / دیپلم / میهن",x:"He got his <b>diploma</b>, went abroad, then returned to his <b>homeland</b>."},
+   {t:"disease(s) / textbook",m:"بیماری / کتابِ درسی",x:"the first Persian <b>textbook</b> on children's <b>diseases</b>."},
+   {t:"expressions / alphabetical",m:"عبارت‌ها / الفبایی",x:"words in <b>alphabetical order</b>."},
+   {t:"volume / origin / entered",m:"جلد / ریشه / وارد شد",x:"tells the <b>origin</b> of words."},
+   {t:"mechanical / electrical / chemical",m:"مکانیکی / الکتریکی / شیمیایی",x:"energy takes many forms."},
+   {t:"ability / clean energy",m:"توانایی / انرژیِ پاک",x:"Energy is the <b>ability</b> to do work."},
+ ]},
+ {id:"ctxw",ic:"📝",title:"بافت — کلماتِ متن‌های ورک‌بوک",sub:"ماشین برقی، مورچه‌ها، آب",kind:"vocab",items:[
+   {t:"stove / vacuum cleaner / dishwasher",m:"اجاق / جاروبرقی / ماشین ظرف‌شویی",x:"the kind of plug a <b>stove</b> or <b>vacuum cleaner</b> uses."},
+   {t:"remote-controlled / flashlight",m:"کنترل از راهِ دور / چراغ‌قوه",x:"like a <b>remote-controlled</b> car."},
+   {t:"portable device / plug in / outlet",m:"دستگاهِ قابل‌حمل / به برق زدن / پریز",x:"<b>plugged into</b> a wall <b>outlet</b>."},
+   {t:"engineer / benefit / fuel economy",m:"مهندس / مزیت / صرفه‌جوییِ سوخت",x:"combine the <b>benefits</b> of two engines."},
+   {t:"overcome",m:"غلبه کردن",flag:true,x:"to <b>overcome</b> the charging problem."},
+   {t:"hardworking / insect / colony",m:"سخت‌کوش / حشره / کلونی",x:"ants are social <b>insects</b> in <b>colonies</b>."},
+   {t:"scavenger / wingless / reproduce",m:"زباله‌خوار / بی‌بال / تولیدمثل",x:"<b>wingless</b> but grow wings to <b>reproduce</b>."},
+   {t:"essential / valuable / liquid",m:"ضروری / ارزشمند / مایع",x:"water is the most <b>valuable</b> <b>liquid</b>."},
+   {t:"waterway / goods / passengers / drought",m:"آبراه / کالا / مسافر / خشکسالی",x:"waterways carry <b>goods</b> and <b>passengers</b>."},
+ ]},
+ {id:"ctxe",ic:"🧾",title:"بافت — کلماتِ متن‌های امتحان (خارج از کتاب)",sub:"فقط بشناس، حفظِ تولیدی لازم نیست",kind:"vocab",items:[
+   {t:"attack / average / dangerous",m:"حمله / میانگین / خطرناک",flag:true,x:"sharks kill an <b>average</b> of forty people. (۱۴۰۲)"},
+   {t:"systematic / context / technique",m:"نظام‌مند / بافت / تکنیک",flag:true,x:"word-for-word notes hurt <b>systematic</b> thinking. (۱۴۰۲)"},
+   {t:"kindness / side effects / boost / inspire",m:"مهربانی / اثراتِ جانبی / تقویت / الهام",flag:true,x:"acts of <b>kindness</b> <b>boost</b> happiness. (۱۴۰۲)"},
+   {t:"charity / donate / in need / moral",m:"خیریه / اهدا / نیازمند / اخلاقی",flag:true,x:"donate to <b>charity</b> to help those <b>in need</b>."},
+   {t:"efficiently / consumption / peak / insulation",m:"کارآمد / مصرف / اوج / عایق",flag:true,x:"energy is at its <b>peak</b>. (۱۴۰۳)"},
+   {t:"abbreviation / acronym / sparingly / confuse",m:"مخفف / سرنام / کم‌واحتیاط / گیج کردن",flag:true,x:"use acronyms <b>sparingly</b>. (۱۴۰۳)"},
+   {t:"compile / arrange / synonym",m:"گردآوری / مرتب / مترادف",flag:true,x:"Asadi <b>compiled</b> the dictionary. (۱۴۰۴)"},
+   {t:"surrounded / continents / salt vs fresh water",m:"احاطه‌شده / قاره‌ها / آبِ شور و شیرین",flag:true,x:"oceans <b>surround</b> the <b>continents</b>. (۱۴۰۴)"},
+   {t:"aging / retired / income",m:"کهنسالی / بازنشسته / درآمد",flag:true,x:"problems of <b>aging</b>: health and <b>income</b>. (۱۴۰۴)"},
+   {t:"hearing / eyesight / memory / kidney / diabetes",m:"شنوایی / بینایی / حافظه / کلیه / دیابت",flag:true,x:"losses of <b>hearing, eyesight and memory</b>."},
+   {t:"cellular battery",m:"باتریِ موبایل",flag:true,x:"different from <b>cellular batteries</b>. (۱۴۰۴)"},
+ ]},
+
+ {id:"rvA",ic:"🅰️",title:"بافتِ کامل — زبان و دیکشنری",sub:"همهٔ کلماتِ متنِ ریدینگ‌های این موضوع",kind:"vocab",items:[
+   {t:"foreign learner",m:"زبان‌آموز خارجی",x:""},
+   {t:"native speaker",m:"گویشور بومی",x:""},
+   {t:"factor",m:"عامل",x:""},
+   {t:"affect",m:"تأثیر گذاشتن",x:""},
+   {t:"writing system",m:"نظام نوشتاری",x:""},
+   {t:"influence",m:"تأثیر گذاشتن",x:""},
+   {t:"Roman alphabet",m:"الفبای لاتین",x:""},
+   {t:"motivation",m:"انگیزه",x:""},
+   {t:"for a living",m:"برای امرار معاش",x:""},
+   {t:"day-to-day life",m:"زندگی روزمره",x:""},
+   {t:"Latin",m:"لاتین",x:""},
+   {t:"biography",m:"زندگی‌نامه",x:""},
+   {t:"cover",m:"پوشش دادن",x:""},
+   {t:"word information",m:"اطلاعاتِ واژه",x:""},
+   {t:"simple translation",m:"ترجمهٔ ساده",x:""},
+   {t:"confused / confusion",m:"گیج / سردرگمی",x:""},
+   {t:"clear up",m:"رفع کردن",x:""},
+   {t:"relate to",m:"مرتبط بودن با",x:""},
+   {t:"learner's dictionary",m:"فرهنگِ زبان‌آموز",x:""},
+   {t:"grammar tips",m:"نکاتِ دستوری",x:""},
+   {t:"example sentence",m:"جملهٔ نمونه",x:""},
+   {t:"detailed explanation",m:"توضیحِ مفصل",x:""},
+   {t:"high-level",m:"سطح‌بالا",x:""},
+   {t:"vast knowledge",m:"دانشِ گسترده",x:""},
+   {t:"language goals",m:"اهدافِ زبانی",x:""},
+   {t:"synonym",m:"مترادف",x:""},
+   {t:"explanation",m:"توضیح",x:""},
+   {t:"widely used",m:"پرکاربرد",x:""},
+   {t:"final letters",m:"حروفِ پایانی",x:""},
+   {t:"capital letters",m:"حروفِ بزرگ",x:""},
+   {t:"shortened form",m:"شکلِ کوتاه‌شده",x:""},
+   {t:"word limit",m:"محدودیتِ واژه",x:""},
+   {t:"lose interest",m:"علاقه را از دست دادن",x:""},
+   {t:"guess",m:"حدس زدن",x:""},
+   {t:"unnatural",m:"غیرطبیعی",x:""},
+   {t:"fixed",m:"ثابت",x:""},
+   {t:"fluent",m:"روان، مسلط",x:""},
+   {t:"rules",m:"قوانین",x:""},
+   {t:"stick to / keep to",m:"پایبند بودن به",x:""},
+   {t:"make an effort",m:"تلاش کردن",x:""},
+   {t:"expression",m:"عبارت، اصطلاح",x:""},
+   {t:"pronounced",m:"تلفظ‌شده",x:""},
+   {t:"enter / entered",m:"وارد شدن",x:""},
+ ]},
+ {id:"rvB",ic:"🔋",title:"بافتِ کامل — انرژی و محیط زیست",sub:"",kind:"vocab",items:[
+   {t:"various ways",m:"راه‌های گوناگون",x:""},
+   {t:"in progress",m:"در حال انجام",x:""},
+   {t:"giant",m:"غول‌پیکر",x:""},
+   {t:"societies",m:"جوامع",x:""},
+   {t:"biological waste",m:"پسماندِ زیستی",x:""},
+   {t:"unwanted",m:"ناخواسته",x:""},
+   {t:"service company",m:"شرکتِ خدماتی",x:""},
+   {t:"stream",m:"جویبار",x:""},
+   {t:"one-third",m:"یک‌سوم",x:""},
+   {t:"temperature difference",m:"اختلافِ دما",x:""},
+   {t:"valued",m:"ارزشمند",x:""},
+   {t:"introduce",m:"معرفی کردن",x:""},
+   {t:"nations",m:"ملت‌ها",x:""},
+   {t:"gone forever",m:"برای همیشه از بین‌رفته",x:""},
+   {t:"recent years",m:"سال‌های اخیر",x:""},
+   {t:"moving / running water",m:"آبِ جاری / روان",x:""},
+   {t:"falling",m:"سقوط، افتادن",x:""},
+   {t:"generator",m:"ژنراتور",x:""},
+   {t:"water cycle",m:"چرخهٔ آب",x:""},
+   {t:"clouds",m:"ابرها",x:""},
+   {t:"recycle",m:"بازیافت کردن",x:""},
+   {t:"recharge",m:"دوباره پر کردن، شارژ",x:""},
+   {t:"reach",m:"رسیدن",x:""},
+   {t:"space station",m:"ایستگاهِ فضایی",x:""},
+   {t:"serious issue",m:"مسئلهٔ جدی",x:""},
+   {t:"organization",m:"سازمان",x:""},
+   {t:"achieve",m:"دست یافتن",x:""},
+   {t:"purpose",m:"هدف",x:""},
+   {t:"adjust",m:"تنظیم کردن",x:""},
+   {t:"householder",m:"صاحب‌خانه",x:""},
+   {t:"washing machine",m:"ماشینِ لباس‌شویی",x:""},
+   {t:"system failure",m:"از کار افتادنِ سیستم",x:""},
+   {t:"unexpected",m:"غیرمنتظره",x:""},
+   {t:"electricity bill",m:"قبضِ برق",x:""},
+   {t:"energy efficient",m:"کم‌مصرف، بهینه",x:""},
+   {t:"protection materials",m:"موادِ محافظ",x:""},
+   {t:"carbon dioxide",m:"دی‌اکسیدِ کربن",x:""},
+   {t:"photosynthesis",m:"فتوسنتز",x:""},
+   {t:"suitable",m:"مناسب",x:""},
+   {t:"stored",m:"ذخیره‌شده",x:""},
+   {t:"environmentally friendly",m:"سازگار با محیط زیست",x:""},
+   {t:"gas station",m:"پمپِ بنزین",x:""},
+   {t:"partly",m:"تا حدی",x:""},
+   {t:"carbon gases",m:"گازهای کربنی",x:""},
+   {t:"blades",m:"پره‌ها",x:""},
+   {t:"windy",m:"بادخیز",x:""},
+   {t:"dependent",m:"وابسته",x:""},
+   {t:"highway sign",m:"تابلوی بزرگراه",x:""},
+   {t:"shiny panel",m:"پنلِ براق",x:""},
+   {t:"swimming pool",m:"استخر",x:""},
+   {t:"data centers",m:"مراکزِ داده",x:""},
+   {t:"global warming",m:"گرم‌شدنِ زمین",x:""},
+   {t:"oxygen",m:"اکسیژن",x:""},
+   {t:"burning",m:"سوختن، سوزاندن",x:""},
+   {t:"desert",m:"بیابان",x:""},
+   {t:"crops",m:"محصولاتِ زراعی",x:""},
+   {t:"wood",m:"چوب",x:""},
+   {t:"roots / leaves",m:"ریشه‌ها / برگ‌ها",x:""},
+ ]},
+ {id:"rvC",ic:"❤️",title:"بافتِ کامل — احترام، سالمندان، مهربانی",sub:"",kind:"vocab",items:[
+   {t:"acting well",m:"خوب رفتار کردن",x:""},
+   {t:"thinking highly",m:"احترام قائل شدن",x:""},
+   {t:"polite / impolite",m:"مؤدب / بی‌ادب",x:""},
+   {t:"act badly",m:"بد رفتار کردن",x:""},
+   {t:"bring into the world",m:"به دنیا آوردن",x:""},
+   {t:"strength",m:"توان، قدرت",x:""},
+   {t:"reflect",m:"نشان دادن، بازتاب",x:""},
+   {t:"level",m:"سطح",x:""},
+   {t:"meaningful",m:"بامعنا",x:""},
+   {t:"wash the dishes",m:"ظرف شستن",x:""},
+   {t:"pay attention",m:"توجه کردن",x:""},
+   {t:"go far beyond",m:"بسیار فراتر رفتن",x:""},
+   {t:"duties",m:"وظایف",x:""},
+   {t:"model",m:"الگو",x:""},
+   {t:"attempt",m:"تلاش",x:""},
+   {t:"prepared",m:"آماده",x:""},
+   {t:"classroom rules",m:"قوانینِ کلاس",x:""},
+   {t:"being helpful",m:"کمک‌کننده بودن",x:""},
+   {t:"good senses",m:"حسِ خوب",x:""},
+   {t:"health conditions",m:"وضعیتِ سلامت",x:""},
+   {t:"donating members",m:"اعضای اهداکننده",x:""},
+   {t:"human beings",m:"انسان‌ها",x:""},
+   {t:"gain",m:"به‌دست آوردن",x:""},
+   {t:"positive chain",m:"زنجیرهٔ مثبت",x:""},
+   {t:"less alone",m:"کمتر تنها",x:""},
+   {t:"deal with",m:"سروکار داشتن با",x:""},
+   {t:"national health plan",m:"طرحِ سلامتِ ملی",x:""},
+   {t:"economic issues",m:"مسائلِ اقتصادی",x:""},
+   {t:"means of transportation",m:"وسایلِ حمل‌ونقل",x:""},
+   {t:"social services",m:"خدماتِ اجتماعی",x:""},
+   {t:"hopeful",m:"امیدوار",x:""},
+   {t:"depressed",m:"افسرده",x:""},
+   {t:"stranger",m:"غریبه",x:""},
+   {t:"experiencing",m:"تجربه‌کردن",x:""},
+   {t:"responsibility",m:"مسئولیت",x:""},
+   {t:"happiness",m:"شادی",x:""},
+   {t:"stress",m:"استرس",x:""},
+   {t:"effort",m:"تلاش",x:""},
+   {t:"identity",m:"هویت",x:""},
+   {t:"sense of belonging",m:"حسِ تعلق",x:""},
+   {t:"traditional beliefs",m:"باورهای سنتی",x:""},
+   {t:"principles",m:"اصول",x:""},
+ ]},
+ {id:"rvD",ic:"🔬",title:"بافتِ کامل — علم، فناوری، یادداشت‌برداری",sub:"",kind:"vocab",items:[
+   {t:"note-making",m:"یادداشت‌سازی (با کلماتِ خود)",x:""},
+   {t:"think differently",m:"متفاوت فکر کردن",x:""},
+   {t:"written / spoken texts",m:"متونِ نوشتاری / گفتاری",x:""},
+   {t:"researching",m:"تحقیق کردن",x:""},
+   {t:"take away",m:"گرفتن، حذف کردن",x:""},
+   {t:"great men",m:"بزرگان",x:""},
+   {t:"shark",m:"کوسه",x:""},
+   {t:"snake",m:"مار",x:""},
+   {t:"forget",m:"فراموش کردن",x:""},
+   {t:"headache",m:"سردرد",x:""},
+   {t:"tiredness",m:"خستگی",x:""},
+   {t:"memory loss",m:"فراموشی",x:""},
+   {t:"electrical device",m:"دستگاهِ برقی",x:""},
+   {t:"online game",m:"بازیِ آنلاین",x:""},
+   {t:"turned off",m:"خاموش",x:""},
+   {t:"compare",m:"مقایسه کردن",x:""},
+   {t:"average",m:"میانگین",x:""},
+   {t:"technique",m:"تکنیک، فن",x:""},
+ ]},
+ {id:"rvE",ic:"🐜",title:"بافتِ کامل — طبیعت، حیوانات، افراد و داستان",sub:"",kind:"vocab",items:[
+   {t:"tiny insect",m:"حشرهٔ ریز",x:""},
+   {t:"highly organized",m:"بسیار سازمان‌یافته",x:""},
+   {t:"complicated",m:"پیچیده",x:""},
+   {t:"queen ant",m:"مورچهٔ ملکه",x:""},
+   {t:"lay eggs",m:"تخم گذاشتن",x:""},
+   {t:"worker / soldier",m:"کارگر / سرباز",x:""},
+   {t:"defend",m:"دفاع کردن",x:""},
+   {t:"enemy",m:"دشمن",x:""},
+   {t:"ground",m:"زمین",x:""},
+   {t:"body weight",m:"وزنِ بدن",x:""},
+   {t:"muscle",m:"عضله",x:""},
+   {t:"entry point",m:"نقطهٔ ورود",x:""},
+   {t:"entire",m:"کل، تمام",x:""},
+   {t:"bite",m:"نیش، گاز",x:""},
+   {t:"ocean / lake",m:"اقیانوس / دریاچه",x:""},
+   {t:"grass",m:"چمن، علف",x:""},
+   {t:"artist / painter",m:"هنرمند / نقاش",x:""},
+   {t:"artistic ability",m:"تواناییِ هنری",x:""},
+   {t:"attend",m:"شرکت کردن",x:""},
+   {t:"surprising",m:"شگفت‌انگیز",x:""},
+   {t:"bored",m:"بی‌حوصله",x:""},
+   {t:"teachings",m:"آموزه‌ها",x:""},
+   {t:"create",m:"خلق کردن",x:""},
+   {t:"wonderful drawing",m:"طرحِ شگفت‌انگیز",x:""},
+   {t:"movement",m:"جنبش",x:""},
+   {t:"lifetime",m:"طولِ عمر",x:""},
+   {t:"century",m:"قرن",x:""},
+   {t:"die",m:"مُردن",x:""},
+   {t:"pull over",m:"کنار زدنِ ماشین",x:""},
+   {t:"driver",m:"راننده",x:""},
+   {t:"wave",m:"دست تکان دادن",x:""},
+   {t:"client",m:"مشتری",x:""},
+   {t:"upset",m:"ناراحت",x:""},
+   {t:"worried",m:"نگران",x:""},
+   {t:"document",m:"سند",x:""},
+   {t:"suitcase",m:"چمدان",x:""},
+   {t:"apologize",m:"عذرخواهی کردن",x:""},
+   {t:"anger",m:"خشم",x:""},
+   {t:"poet",m:"شاعر",x:""},
+ ]},
+ {id:"vplus",ic:"➕",title:"واژگانِ تکمیلی (از تحلیلِ ۱۳ آزمون)",sub:"کلماتِ نمره‌دارِ اضافه، با باهم‌آیی",kind:"vocab",items:[
+   {t:"wisdom",m:"خِرد، دانایی",freq:"mid",x:"learn from their <b>wisdom</b>."},
+   {t:"boost",m:"تقویت کردن، بالا بردن",freq:"mid",x:"kindness <b>boosts</b> energy in elderly people."},
+   {t:"overcome",m:"غلبه کردن",flag:true,freq:"lo",x:"<b>overcome</b> the problem."},
+   {t:"communicative",m:"خوش‌سخن، اهل ارتباط",freq:"mid",x:"⚠ بعد از isn't → صفت لازم است: she <b>isn't communicative</b>."},
+   {t:"teenagers",m:"نوجوانان (۱۳ تا ۱۹ سال)",freq:"lo",x:"تعریف: people between 13 and 19."},
+   {t:"hug",m:"در آغوش گرفتن",freq:"lo",x:"people <b>hug</b> each other when they meet."},
+   {t:"trustworthy",m:"قابل‌اعتماد",freq:"lo",x:""},
+   {t:"increasingly",m:"به‌طور فزاینده (قید)",freq:"lo",x:""},
+   {t:"guide words",m:"کلماتِ راهنما",freq:"lo",x:"دو کلمهٔ بالای هر صفحهٔ دیکشنری."},
+   {t:"native language / native speaker",m:"زبانِ مادری / گویشورِ بومی",freq:"lo",x:""},
+   {t:"geothermal (power)",m:"زمین‌گرمایی",freq:"lo",x:"the heat from the earth."},
+   {t:"hydroelectric / hydropower",m:"برق‌آبی",freq:"mid",x:"from streams and rivers."},
+   {t:"kinetic energy",m:"انرژیِ جنبشی",freq:"lo",x:"turbines convert <b>kinetic energy</b> into electricity."},
+   {t:"endanger / endangered",m:"به خطر انداختن / در خطرِ انقراض",freq:"lo",x:""},
+   {t:"die out",m:"منقرض شدن",freq:"lo",x:""},
+   {t:"get rid of",m:"خلاص شدن از",freq:"lo",x:""},
+   {t:"waves / solar panel / collector",m:"امواج / پنل / جمع‌کنندهٔ خورشیدی",freq:"mid",x:"collectors <b>collect heat by absorbing sunlight</b>."},
+   {t:"compile / compiled",m:"گردآوری/تألیف کردن",flag:true,freq:"lo",x:"Asadi <b>compiled</b> the first Persian dictionary."},
+   {t:"part of speech",m:"نقشِ دستوریِ کلمه (اسم/فعل/…)",freq:"mid",x:"check a word's <b>part of speech</b>."},
+   {t:"incomprehensible",m:"نامفهوم",flag:true,freq:"lo",x:"made the text <b>incomprehensible</b>."},
+   {t:"avoid",m:"اجتناب کردن",freq:"lo",x:"<b>avoid</b> foods that contain fat."},
+   {t:"born / poetry",m:"متولد شدن / شعر",freq:"mid",x:"Ferdowsi was <b>born</b> in Toos; learn <b>poetry</b> by heart."},
+   {t:"retire / retired / income",m:"بازنشسته شدن / بازنشسته / درآمد",flag:true,freq:"lo",x:"retired people earn about half the <b>income</b>."},
+ ]},
+ {id:"provx",ic:"💬",title:"ضرب‌المثل‌های بیشتر (از امتحان‌ها)",sub:"علاوه بر ۴ ضرب‌المثلِ کتاب",kind:"vocab",items:[
+   {t:"God helps those who help themselves",m:"از تو حرکت، از خدا برکت",flag:true,x:""},
+   {t:"Two heads are better than one",m:"یک دست صدا ندارد",flag:true,x:""},
+   {t:"Actions speak louder than words",m:"دوصد گفته چون نیم کردار نیست",flag:true,x:""},
+   {t:"Out of sight, out of mind",m:"از دل برود هر آنکه از دیده برفت",flag:true,x:""},
+   {t:"The early bird catches the worm",m:"سحرخیز باش تا کامروا شوی",flag:true,x:"پاسخِ حرف‌اول‌دار: worm."},
+   {t:"A friend in need is a friend indeed",m:"دوست آن باشد که گیرد دستِ دوست",flag:true,x:""},
+   {t:"No pain, no gain",m:"نابرده رنج گنج میسر نمی‌شود",flag:true,x:""},
+   {t:"Birds of a feather flock together",m:"کبوتر با کبوتر، باز با باز",flag:true,x:""},
+   {t:"Kill two birds with one stone",m:"با یک تیر دو نشان زدن",flag:true,x:""},
+   {t:"Cut your coat according to your cloth",m:"پا را به‌اندازهٔ گلیم دراز کن",flag:true,x:""},
+ ]},
+ {id:"traps",ic:"🪤",title:"تله‌ها — خانوادهٔ کلمات و گزینه‌های انحرافی",sub:"جایی که «یک پله سخت‌تر» می‌شود و نمره می‌رود",kind:"grammar",items:[
+   {t:"found در برابر founded",m:"تأسیس کرد ≠ پیدا کرد",freq:"hi",f:'found/founded/founded = تأسیس کردن &nbsp;|&nbsp; find/found/found = پیدا کردن',x:"«مرکز/رستوران تأسیس شد» → <b>was founded</b>. گزینهٔ was found (پیدا شد) تله است.",tech:"اگر معنی «بنیان‌گذاشتن» است، از found/founded/founded استفاده کن."},
+   {t:"نقشِ کلمه در جمله (communicative / incomprehensible)",m:"صفت یا اسم یا قید؟",freq:"mid",f:"is/isn't/seems + <b>صفت</b> · make + مفعول + <b>صفت</b> · جای فاعل/مفعول = <b>اسم</b> · توصیفِ فعل = <b>قید</b>",x:"she isn't <b>communicative</b> (صفت) · made it <b>incomprehensible</b> (صفت بعد از make).",tech:"اول جای خالی را نگاه کن: بعد از فعلِ ربطی → صفت؛ جای فاعل/مفعول → اسم."},
+   {t:"گزینه‌های انحرافیِ پرتکرار (فقط بشناس)",m:"این‌ها معمولاً جوابِ غلط‌اند",x:"invisible(نامرئی) · valuable(ارزشمند) · comfortable(راحت) · vibration(ارتعاش) · heritage(میراث) · transmit(انتقال) · apply(به‌کاربردن) · radiation(تابش) · compile(تألیف) · generous(سخاوتمند) · contains · essentially · completely."},
+   {t:"تلهٔ افعالِ دوکلمه‌ای (حرف اضافه نمره دارد)",m:"phrasal verbها",freq:"mid",x:"burst <b>into</b> tears · jump <b>into</b> · keep <b>to</b> oneself · figure <b>out</b> · stand <b>for</b> · use <b>up</b> · get rid <b>of</b>.",tech:"حرف اضافهٔ هر فعلِ دوکلمه‌ای را جدا حفظ کن؛ در جای‌خالی همان را می‌خواهند."},
+ ]},
+ {id:"gram",ic:"📐",title:"گرامر — همهٔ قوانین + تکنیکِ حلِ سؤال",sub:"مستقیم و غیرمستقیم و نقاطِ دست‌نخورده",kind:"grammar",items:[
+   {t:"Passive Voice — مجهول",m:"be + past participle",freq:"hi",f:'subject + <b>be</b>(همان زمان) + <b>p.p.</b> (+ by agent)',x:"Active: The hunter <b>killed</b> the gazelle. → Passive: The gazelle <b>was killed</b> by the hunter.<br>زمان‌ها: is/are done · was/were done · has/have been done · will be done.",tech:"۱) مفعول را فاعل کن ۲) be را در همان زمان بیاور ۳) فعل را p.p. کن ۴) اگر عامل مهم است by بگذار."},
+   {t:"Passive with Modals — مجهول با افعال کمکی",m:"modal + be + p.p.",freq:"hi",f:'can / should / must / may + <b>be</b> + <b>p.p.</b>',x:"Power can <b>be generated</b>. Rules must <b>be obeyed</b>. People should <b>be informed</b>.",tech:"modal تغییر نمی‌کند؛ فقط be + p.p. بعدش (نه being، نه to be)."},
+   {t:"Tag Questions — سؤال کوتاه",m:"مثبت→تگ منفی، منفی→تگ مثبت",freq:"hi",f:'positive , <b>negative tag?</b> / negative , <b>positive tag?</b>',x:"It's cold, <b>isn't it?</b> · You haven't eaten, <b>have you?</b> · There is a plan, <b>isn't there?</b>",tech:"دام: never/hardly/no one/nothing جمله را منفی می‌کنند → تگِ مثبت (He never calls, <b>does he?</b>). با «I am» → <b>aren't I?</b>"},
+   {t:"Relative Clauses — جملات وصفی",m:"who / whom / which",freq:"hi",f:'noun + <b>who</b>(فاعلِ انسان) / <b>whom</b>(مفعولِ انسان) / <b>which</b>(اشیاء)',x:"The man <b>who</b> lives next door. · The teacher <b>whom</b> John met. · The DVD <b>which</b> he bought.",tech:"🔑تله: ضمیرِ اضافه را حذف کن! «the woman whom you met <s>her</s>» غلط. اگر بعدِ جای‌خالی فعل بیاید→who/which؛ اگر فاعل+فعل بیاید→whom/which."},
+   {t:"Conditional Type II — شرطی نوع دوم",m:"موقعیتِ خیالی/غیرواقعی در حال",freq:"hi",f:'If + <b>past simple</b> , <b>would/could/might</b> + base',x:"If I <b>had</b> money, I <b>would buy</b> it. · If he <b>were</b> stronger, he <b>would help</b>.",tech:"if→گذشتهٔ ساده؛ جواب→would+شکلِ ساده. برای همهٔ فاعل‌ها <b>were</b> (If I were you)."},
+   {t:"Past Perfect — ماضی بعید",m:"had + p.p. برای کارِ قدیمی‌تر",freq:"hi",f:'had + <b>p.p.</b> (کارِ اول) … past simple (کارِ دوم)',x:"I <b>had eaten</b> before I <b>went</b> out. · she had already <b>fallen</b> asleep.",tech:"نشانه‌ها: before/after/already/when. جای already بینِ had و p.p. است (had already gone)."},
+   {t:"Word Order — مرتب‌کردنِ جملهٔ درهم",m:"S + V + O",freq:"hi",f:'خبری: Subject+Verb+Object · سؤالی: aux/modal اول',x:"«should/be/garbage/taken»→ <b>Should</b> garbage <b>be taken</b>…? · مجهول: be+p.p.",tech:"۱) فاعل و فعل ۲) اگر «?» هست سؤالی است (کمکی اول) ۳) صفت قبل از اسم ۴) قید معمولاً آخر ۵) علائم نگارشی."},
+   {t:"Compound Sentences — جملات مرکب",m:"and / but / or / so",freq:"hi",f:'and=افزودن · but=تضاد · or=انتخاب · so=نتیجه',x:"I'm hungry, <b>but</b> there's no food. · It's late, <b>so</b> I'll sleep.",tech:"رابطهٔ دو جمله را پیدا کن: هم‌جهت؟and · مخالف؟but · دو گزینه؟or · علت→معلول؟so."},
+   {t:"🎯 Reduced / Participle — جملهٔ وصفیِ کوتاه‌شده (دست‌نخورده)",m:"حذفِ who is / which is",freq:"lo",f:'the man <s>who is</s> <b>standing</b> there / the letter <s>which was</s> <b>written</b> by him',x:"The energy resources <b>used</b> here are clean. (= that are used)",tech:"اگر معلوم و در حال انجام: -ing؛ اگر مجهول: p.p. این نکته کم آمده و ممکن است تازه بیاید."},
+   {t:"🎯 Purpose & Contrast — هدف و تضاد (دست‌نخورده)",m:"so that / in order to · although / however",freq:"lo",f:'in order to / so that = برای اینکه · although / however = اگرچه/بااین‌حال',x:"He studied hard <b>in order to</b> pass. · <b>Although</b> it was late, he stayed.",tech:"در نگارشِ کتاب هست ولی کم پرسیده شده — احتمالِ سؤالِ جدید."},
+ ]},
+
+ {id:"readsyn",ic:"🔁",title:"ریدینگ — بانکِ مترادف/متضاد و مرجع ضمیر",sub:"سؤالِ closest-in-meaning و opposite و «it/they به چه برمی‌گردد» تکراری است",kind:"vocab",items:[
+   {t:"closest in meaning (مترادف‌های تکراری)",m:"معنیِ نزدیک در بافت",freq:"mid",x:"exist = <b>live</b> · grow = <b>increase</b> · benefit = <b>advantage</b> · spin = <b>turn</b> · suppose = <b>imagine</b> · essential = <b>necessary</b> · take in = <b>absorb</b> · portable = <b>moveable</b>."},
+   {t:"opposites (متضادهای تکراری)",m:"سؤالِ opposite",freq:"mid",x:"available ↔ <b>out of reach</b> · renewable ↔ <b>nonrenewable</b> · harmful ↔ <b>harmless</b> · comprehensible ↔ <b>incomprehensible</b>."},
+   {t:"مرجعِ ضمیر (it / them / they)",m:"به چه برمی‌گردد؟",freq:"hi",x:"معمولاً به <b>نزدیک‌ترین اسمِ قبل</b> از ضمیر. نمونه‌ها: it→seat/nonrenewable energy · them→unknown words · they→humans / electric cars."},
+   {t:"ایدهٔ اصلی / بهترین عنوان",m:"main idea / title",freq:"mid",x:"عنوان = موضوعِ کلیِ همهٔ پاراگراف‌ها (مثلاً Internet Pollution، kindness)، نه یک جزئیات."},
+   {t:"⭐ قانونِ سؤالِ تشریحیِ ریدینگ",m:"مهم‌ترین نکته برای نمرهٔ کامل",flag:true,x:"جملهٔ <b>دقیقِ</b> متن را پیدا کن و <b>فقط همان</b> را بنویس. اطلاعِ اضافه = نمرهٔ صفر (طبق کلید رسمی)."},
+ ]},
+ {id:"read",ic:"🔎",title:"مهارت خواندن — استراتژی‌ها و تکنیک",sub:"همان‌هایی که کتاب آموزش داده",kind:"tech",items:[
+   {t:"Question Generation — سؤال‌سازی (استراتژیِ درس ۱)",steps:["حین خواندن خودت سؤال بساز (Why/How/What/Who).","بعد جوابشان را در متن پیدا کن.","درک و تمرکز را بالا می‌برد."]},
+   {t:"Highlighting — هایلایت‌کردن (استراتژیِ درس ۲)",steps:["فقط ایده‌های مهم و کلماتِ کلیدی را برجسته کن، نه همه‌چیز را.","مرورِ بعدی را سریع می‌کند.","اگر همه‌چیز را هایلایت کنی، انگار هیچ‌چیز را نکرده‌ای."]},
+   {t:"Note-taking — یادداشت‌برداری (استراتژیِ درس ۳)",steps:["نکات را با کلماتِ خودت بنویس (note-making).","بهتر از تکیه بر حافظه است.","حقایقِ خشکِ بدونِ بافت را ننویس."]},
+   {t:"Skimming / Scanning",steps:["Skimming: جملهٔ اولِ پاراگراف‌ها را بخوان برای ایدهٔ کلی و عنوان.","Scanning: اول سؤال را بخوان، بعد دنبالِ همان کلمهٔ کلیدی بگرد.","برای main idea از skimming، برای جزئیات از scanning."]},
+   {t:"Pronoun Reference — مرجعِ ضمیر",steps:["ضمیر معمولاً به نزدیک‌ترین اسمِ قبلش برمی‌گردد.","جمله را با اسمِ حدس‌زده بخوان؛ اگر معنی داد درست است.","«Kind people… They…» → they = kind people."]},
+   {t:"Guess from Context — حدسِ معنی از بافت",steps:["جملهٔ قبل و بعد را بخوان؛ مثبت است یا منفی؟","مترادف/متضادی نزدیکش هست؟","لازم نیست همهٔ کلماتِ متن را بدانی."]},
+   {t:"True/False و EXCEPT/NOT",steps:["T/F: جملهٔ دقیق را پیدا کن؛ اگر متن برعکس گفت→False. مواظبِ not/only/all باش.","EXCEPT: سه گزینه در متن هستند، یکی نیست — همان یکی جواب است."]},
+   {t:"سؤالِ تشریحیِ ریدینگ (short-answer)",steps:["با یک جملهٔ کامل جواب بده.","بخشِ مربوطهٔ متن را بازنویسی کن.","⚠ طبق کلید: اطلاعِ اضافه و بی‌ربط = صفرِ نمره."]},
+ ]},
+
+ {id:"paras",ic:"📄",title:"پاراگراف‌های آمادهٔ رایتینگ (موضوع‌های تکراری)",sub:"قالبِ Topic + سه Supporting + Concluding — حفظ کن و سرِ جلسه پیاده کن",kind:"vocab",items:[
+   {t:"Pollution (آلودگی)",m:"موضوعِ خرداد ۱۴۰۴",freq:"hi",x:"Pollution is one of the most serious problems in the world today. First, air and water pollution are increasing because of factories and cars. Second, this pollution causes many dangerous diseases for people and animals. In addition, it destroys nature and makes the earth a worse place to live. In short, we must all work together to reduce pollution and protect our planet."},
+   {t:"Technology (فناوری)",m:"شهریور ۱۴۰۲",freq:"mid",x:"Technology plays an important role in our daily life. First, it is the way of using scientific knowledge in real life. Second, it includes machines and techniques that make our work easier and faster. In addition, technology meets human needs and solves human problems. Thus, technology is a powerful tool that improves the quality of our lives."},
+   {t:"Electric cars (خودروی برقی)",m:"تابستان ۱۴۰۴",freq:"mid",x:"Electric cars are one of the best inventions of the modern world. First, they use renewable energy, so they help us save fossil fuels. Second, they don't pollute the air, which makes our cities cleaner and healthier. In addition, they can be charged easily at home and make less noise. Thus, electric cars are a great choice for a better future."},
+   {t:"Save our Earth (نجاتِ زمین)",m:"خرداد ۱۳۹۸",freq:"mid",x:"We should all do our best to save our Earth. First, we can plant trees because they give us fresh and clean air. Second, we should use less fossil fuels to reduce air pollution. Moreover, we can increase the use of solar and wind energy and change waste to energy. In conclusion, protecting our planet is everyone's duty."},
+   {t:"Smoking (سیگار)",m:"شهریور ۱۳۹۸",freq:"mid",x:"Smoking is a common terrible habit among many people. First, it is very harmful because it causes serious diseases such as lung cancer. Second, instead of helping people relax, it increases stress and depression. In addition, smoking is addictive, so it is very hard to quit. Thus, people should stay away from smoking to have a healthier life."},
+   {t:"Charity (نیکوکاری)",m:"",freq:"mid",x:"Charity is a kind and valuable act that helps people in need. First, it is a type of voluntary work that anyone can do. Second, helping others gives us a real sense of happiness. In addition, charity helps poor people have a better life. In short, we should all take part in charity to build a better society."},
+   {t:"The Persian Gulf (خلیج فارس)",m:"دی ۱۴۰۴",freq:"mid",x:"The Persian Gulf is one of the most important seas in the world. First, it is the most important sea in Asia because many countries depend on it. Second, it is surrounded by Iran and some Arab countries. Moreover, it is a large sea in the south of Iran and is rich in natural resources such as oil and gas. In conclusion, the Persian Gulf is a valuable sea that we should protect."},
+   {t:"Solar energy (انرژی خورشیدی)",m:"",freq:"mid",x:"Solar energy is one of the most common types of clean energy. First, people have used the sun as a heat source for thousands of years. Second, it can be used for heating water and air in buildings. In addition, it does not pollute the environment like fossil fuels. In short, solar energy is a clean and useful source of power for the future."},
+   {t:"Sport / Healthy lifestyle (ورزش/سبک زندگی سالم)",m:"",freq:"lo",x:"Sport is a very useful activity that has many benefits. First, there are different types of sport such as football and swimming. Second, doing sport keeps our body in good shape. In addition, it gives us a healthier heart and more energy. Thus, everyone should do some sport to stay healthy."},
+   {t:"Hafez / یک شاعر (Ferdowsi, Saadi هم همین قالب)",m:"دی ۱۴۰۴",freq:"mid",x:"Hafez was one of the greatest Iranian poets of all time. First, he was born in Shiraz in the fourteenth century. Second, his most famous book is called Divan. In addition, he is well-known for a type of poetry called Ghazal. Thus, Hafez is still loved and respected all around the world."},
+   {t:"جمله‌های آمادهٔ شروع (frames)",m:"برای هر موضوعی",x:"Topic: <b>X is one of the most important/useful … in our life.</b> · Supporting: <b>First, / Second, / In addition, / Moreover, / For example,</b> · Concluding: <b>In short, / Thus, / Therefore, / In conclusion,</b> + بازنویسیِ جملهٔ اول."},
+ ]},
+ {id:"write",ic:"✍️",title:"نگارش — قالب، نمره‌دهی و پاراگراف‌های آماده",sub:"قالبِ درست = نمرهٔ کامل",kind:"tech",items:[
+   {t:"ساختارِ پاراگراف (حفظ کن)",steps:["۱) Topic Sentence = موضوع + ایدهٔ کنترلی.","۲) سه Supporting Sentence (First…, Second…, In addition…).","۳) Concluding Sentence با In short / Thus / Therefore."]},
+   {t:"نمره‌دهیِ پاراگراف (طبق کلید)",steps:["Topic sentence ≈ ۰٫۵ · هر supporting ≈ ۰٫۵ · concluding ≈ ۰٫۵ · قالب/نگارش/نقطه‌گذاری ≈ ۰٫۵.","حرفِ بزرگِ اولِ جمله و نقطهٔ آخر را فراموش نکن — نمرهٔ آسان است.","از جمله‌های ساده و درست استفاده کن، نه جمله‌های پیچیدهٔ پرغلط."]},
+   {t:"حروف ربطِ رایتینگ",steps:["and=افزودن · but=تضاد · or=انتخاب · so=نتیجه.","معمولاً یک حرفِ ربطِ «اضافه» است که استفاده نمی‌شود.","به معنیِ کلِ جمله دقت کن، نه نیم‌جمله."]},
+   {t:"مرتب‌کردنِ جملاتِ پاراگراف",steps:["Topic اول.","Supportingها به‌ترتیبِ منطقی.","جملهٔ However/In short معمولاً آخر."]},
+   {t:"📄 پاراگرافِ نمونه — Technology",steps:["Topic: Technology has helped education a lot.","Support: It gives students access to online resources; it makes learning faster; teachers can share materials easily.","Concluding: Therefore, technology is helpful for teachers and learners."]},
+   {t:"📄 پاراگرافِ نمونه — Pollution",steps:["Topic: Pollution is a serious problem in the world today.","Support: Air and water pollution cause many diseases; they destroy nature; they harm living things.","Concluding: Thus, we must all work together to reduce pollution."]},
+   {t:"📄 پاراگرافِ نمونه — Charity",steps:["Topic: Charity is the act of giving help to those in need.","Support: It helps the poor live better; it brings happiness to the giver; it strengthens society.","Concluding: In short, charity benefits both givers and receivers."]},
+   {t:"📄 پاراگرافِ نمونه — معرفی یک شخص (Hafez/Ferdowsi)",steps:["X was a great Iranian poet.","He was born in [شهر] around [سال]; his famous book is [کتاب]; he wrote [نوعِ شعر].","In short, X is one of the most beloved poets of Iran."]},
+   {t:"📄 پاراگرافِ نمونه — Saving energy / Electric cars",steps:["Topic: Saving energy is very important these days.","Support: turn off unused lights; use energy-efficient devices; use clean energy like solar power.","Concluding: Thus, saving energy protects both our money and the environment."]},
+ ]},
+ {id:"lrev",ic:"🎧",title:"مرور بخش Listening (سه سال + کلید رسمی)",sub:"فایل صوتی را از azmoon.medu.ir بگیر و همراهش تمرین کن",kind:"vocab",items:[
+   {t:"۱۴۰۲ · «کار و سلامتی» (Behzad↔Amin)",m:"True/False",x:"1) Amin working on a new project→<b>True</b> · 2) Health more important than work for Amin→<b>False</b> · 3) Behzad thinks money is on top→<b>False</b>."},
+   {t:"۱۴۰۲ · مکالمهٔ زن و مرد",m:"چهارگزینه‌ای",x:"4) both like→<b>pizza</b> · 5) '1984'→<b>gives a lot to think about</b> · 6) sport→<b>swimming</b> · 7) likes→<b>morning</b>."},
+   {t:"۱۴۰۲ · رستوران (جای خالی)",m:"dictation",x:"8)<b>water</b> 9)<b>ready</b> 10)<b>salad</b> 11)<b>else</b> 12)<b>meal</b>."},
+   {t:"۱۴۰۲ · انرژیِ خورشیدی (جای خالی)",m:"dictation",x:"13)<b>power</b> 14)<b>radiation</b> 15)<b>source</b> 16)<b>arrangements</b> 17)<b>materials</b> 18)<b>seasons</b>."},
+   {t:"۱۴۰۳ · توربینِ بادی (Emad)",m:"True/False",x:"1)saw small fans→<b>False</b> · 2)read about wind power in Yazd→<b>True</b> · 3)wind towers cool naturally→<b>True</b> · 4)go to Yazd in summer→<b>False</b>."},
+   {t:"۱۴۰۳ · آلودگیِ هوا (Sara)",m:"چهارگزینه‌ای",x:"5)read→<b>recently</b> · 6)worried about→<b>environment</b> · 7)polluted by→<b>harmful</b> gases · 8)wants to→<b>overcome</b> · 9)use fewer→<b>fossil</b> fuels."},
+   {t:"۱۴۰۳ · کامپیوتر (جای خالی)",m:"dictation",x:"10)<b>personal</b> 11)<b>joined</b> 12)<b>shop</b> 13)<b>besides</b> 14)<b>smartphone</b>."},
+   {t:"۱۴۰۳ · Dr. Asadi، احترام به سالمندان (جای خالی)",m:"dictation",x:"15)<b>think</b> 16)<b>accept</b> 17)<b>knowledge</b> 18)<b>come</b>."},
+   {t:"۱۴۰۴ · فرهنگ لغت (Majid & Iranmehr)",m:"T/F + MCQ",x:"1)knows how to use→<b>False</b> · 2)elementary suits→<b>True</b> · 3)prefers online→<b>False</b> · 4)→<b>a free online dictionary</b> · 5)→<b>many factors when buying</b>."},
+   {t:"۱۴۰۴ · رستوران (Rasoul & Amir)",m:"True/False",x:"6)new restaurant→<b>False</b> · 7)soup instead of rice→<b>False</b> · 8)special sauce→<b>True</b> · 9)tried pomegranate sauce before→<b>True</b> · 10)not expensive→<b>True</b>."},
+   {t:"۱۴۰۴ · مهربانی با غریبه‌ها (Sara & friend)",m:"چهارگزینه‌ای",x:"11)→<b>acts of kindness to strangers</b> · 12)→<b>makes someone happy and less alone</b> · 13)→<b>create a positive chain</b> · 14)→<b>understand what they experience</b>."},
+   {t:"تکنیک + آماده‌شدن",m:"چطور بخوانی",x:"موضوع‌ها همیشه از دنیای کتاب‌اند (فرهنگ لغت، رستوران، انرژی، کار/سلامتی، مهربانی). مکالمه‌های کتاب را بلند بخوان و Shadow کن؛ جای‌خالی را با <b>املای درست</b> بنویس."},
+ ]},
+ {id:"types",ic:"🎯",title:"تکنیکِ حلِ هر «نوع» سؤالِ نهایی",sub:"اصولی و منطقی",kind:"tech",items:[
+   {t:"تطبیقِ عکس با جمله (Vocabulary)",steps:["شیءِ داخلِ عکس را تشخیص بده (کولر؟ مبل؟ پنل؟).","کلمهٔ کلیدیِ همان شیء را در جمله‌ها پیدا کن.","همیشه یک جملهٔ «اضافه» هست."]},
+   {t:"پرکردن از جعبهٔ کلمات",steps:["نوعِ کلمهٔ لازم را بفهم (اسم/فعل/صفت؟).","به هم‌نشین دقت کن (make+perfect، expand+vocabulary).","یک کلمهٔ اضافه هست؛ آخر چک کن چیزی جا نماند."]},
+   {t:"تطبیقِ تعریف A/B",steps:["اول آن‌هایی را بزن که مطمئنی.","با حذفِ گزینه‌های استفاده‌شده، بقیه ساده می‌شوند.","یک تعریفِ اضافه در ستون B هست."]},
+   {t:"شکلِ درستِ فعل (fill the verb)",steps:["زمان/وجه را از نشانه‌ها بفهم (ago→گذشته، since→حال کامل، before→ماضی بعید).","فاعل مجهول است؟ → be + p.p.","مفرد/جمعِ فاعل را برای be رعایت کن."]},
+   {t:"چهارگزینه‌ایِ گرامر",steps:["اول تشخیص بده چه سنجیده می‌شود (تگ؟ مجهول؟ وصفی؟ شرطی؟).","قانونِ همان مبحث را اعمال کن.","گزینه‌های غلط یک اشتباهِ کوچک دارند (زمان، ضمیرِ اضافه، جای already)."]},
+   {t:"جمع‌بندیِ طلاییِ سرِ جلسه",steps:["اول سؤال‌های مطمئن و کم‌وقت (واژگان/گرامر).","ریدینگ: سؤال را قبل از متن بخوان.","تشریحی: جملهٔ کامل، بدونِ اطلاعِ اضافه.","۱۰ دقیقهٔ آخر: چک کن جای‌خالی نمانده و املاها درست‌اند."]},
+ ]},
+];
+const KEY="vision3_master";
+let ST={items:{},v:1};
+let hasStorage=(typeof window!=="undefined"&&window.storage&&typeof window.storage.get==="function");
+let filter="all";
+const ALL=[]; DATA.forEach(s=>s.items.forEach((it,i)=>{it._id=s.id+"_"+i;it._sec=s.id;it._flag=it.flag||s.flagSec;ALL.push(it);}));
+function ensure(){ALL.forEach(it=>{if(!ST.items[it._id])ST.items[it._id]={r:0,d:false};});}
+async function load(){if(hasStorage){try{const r=await window.storage.get(KEY);if(r&&r.value)ST=JSON.parse(r.value);}catch(e){}}if(ST.totalSec==null)ST.totalSec=0;if(ST.rounds==null)ST.rounds=0;ensure();}
+let saveT;
+function save(){ensure();if(hasStorage){clearTimeout(saveT);saveT=setTimeout(async()=>{try{await window.storage.set(KEY,JSON.stringify(ST));}catch(e){hasStorage=false;}},250);}}
+const $=s=>document.querySelector(s);
+function toast(m){const t=$("#toast");t.textContent=m;t.classList.add("show");clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove("show"),1500);}
+const ENC=["🔥 عالی پیش می‌ری!","💪 همینه، ادامه بده","⭐ داری می‌ترکونی","🚀 نزدیک‌تر شدی به ۲۰","👏 کارِت درسته","🎯 قدم‌به‌قدم"];
+function stats(){let done=0,prog=0,unt=0;ALL.forEach(it=>{const s=ST.items[it._id];if(s.d)done++;else if(s.r>0)prog++;else unt++;});return {done,prog,unt,total:ALL.length};}
+function renderDash(){
+  const {done,prog,unt,total}=stats();const pct=Math.round(done/total*100);
+  $("#pct").textContent=pct+"%";$("#ring").style.strokeDashoffset=238.7-(238.7*pct/100);
+  $("#s-done").textContent=done;$("#s-prog").textContent=prog;$("#s-untouched").textContent=unt;
+  $("#f-all").textContent=total;$("#f-untouched").textContent=unt;
+  $("#f-hi").textContent=ALL.filter(i=>i.freq==="hi").length;$("#f-flag").textContent=ALL.filter(i=>i._flag).length;
+  if(pct===0){$("#dash-title").textContent="بریم برای ۲۰ 💪";$("#dash-tag").textContent="هر تیک یک قدم جلوتر. هیچ‌چیز جا نمی‌مونه.";}
+  else if(pct<40){$("#dash-title").textContent="شروعِ خوبیه";$("#dash-tag").textContent=done+" تا بلد شدی · "+unt+" تا مونده.";}
+  else if(pct<75){$("#dash-title").textContent="نصفِ راهو رفتی 🙌";$("#dash-tag").textContent="فقط "+unt+" تا نخونده مونده.";}
+  else if(pct<100){$("#dash-title").textContent="خیلی نزدیکی 🔥";$("#dash-tag").textContent="فقط "+(total-done)+" آیتم تا تسلطِ کامل!";}
+  else{$("#dash-title").textContent="تمومه! ۲۰ مالِ توئه 🏆";$("#dash-tag").textContent="کلِ مجموعهٔ بسته رو بستی.";}
+}
+function passFilter(it){const s=ST.items[it._id];
+  if(filter==="all")return true;
+  if(filter==="untouched")return s.r===0&&!s.d;
+  if(filter==="hi")return it.freq==="hi";
+  if(filter==="flag")return it._flag;
+  return true;}
+const FREQLBL={hi:'🔴 پرتکرار',mid:'🟡 چندبار',lo:'⚪ کم‌تکرار'};
+function itemHTML(it){
+  const s=ST.items[it._id];
+  const isEn=!(it.steps||it.f);
+  const cls=(it._flag?"flag":(s.d?"done":(s.r>0?"r1":"")))+(isEn?" enh":"");
+  let detail="";
+  if(it.kind==="grammar"||it.f||it.tech){
+    detail='<div class="detail">'+(it.x?'<div class="en">'+it.x+'</div>':'')+(it.f?'<div class="formula">'+it.f+'</div>':'')+(it.tech?'<div class="tech">🛠 '+it.tech+'</div>':'')+'</div>';
+  } else if(it.steps){
+    detail='<div class="detail"><ol>'+it.steps.map(x=>'<li>'+x+'</li>').join("")+'</ol></div>';
+  } else {
+    detail='<div class="detail">'+(it.x?'<div class="ex">'+it.x+'</div>':'<div class="en">'+it.m+'</div>')+(it.mem?'<div class="mem">🧠 <b>تصویرِ ذهنی:</b> '+it.mem+'</div>':'')+'</div>';
+  }
+  const front = isEn ? '<span class="en">'+it.t+'</span>' : '<span>'+it.t+'</span>';
+  const freqPill = it.freq ? '<span class="pill '+it.freq+'">'+FREQLBL[it.freq]+'</span>' : '';
+  const flagPill = it._flag ? '<span class="pill flag">🚩 خارج از کتاب</span>' : '';
+  const meaning = it.m?'<div class="meaning">'+it.m+'</div><span class="reveal-hint">🔍 بزن</span>':"";
+  return '<div class="item '+cls+'" id="it_'+it._id+'" data-sec="'+it._sec+'">'
+    +'<div class="top-row"><div class="body" onclick="toggleExp(\''+it._id+'\')">'
+    +'<div class="front">'+front+freqPill+flagPill+'</div>'+meaning+'</div>'
+    +'<div class="controls">'
+    +'<button class="revminus" style="display:'+(s.r>0?'flex':'none')+'" onclick="reviewDown(\''+it._id+'\')" title="کم کردن">−</button>'
+    +'<button class="revbtn '+(s.r>0?'has':'')+'" onclick="review(\''+it._id+'\')" title="یک بار مرور کردم">'+(s.r>0?'×'+s.r:'👁')+'</button>'
+    +'<button class="donebtn '+(s.d?'on':'')+'" onclick="toggleDone(\''+it._id+'\')" title="بلد شدم">✓</button>'
+    +'</div></div>'+detail+'</div>';
+}
+function gramOverview(sec){return '<div class="gramover"><div class="got">🧠 همهٔ ساختارها در یک نگاه</div>'+sec.items.filter(i=>i.f).map(i=>'<div class="grow"><div class="gn">'+i.t.replace(/ —.*/,'').replace(/^🎯 /,'🎯')+'</div><div class="gf">'+i.f+'</div></div>').join('')+'</div>';}
+function secStats(sec){const items=ALL.filter(i=>i._sec===sec.id);const done=items.filter(i=>ST.items[i._id].d).length;return {done,total:items.length,pct:Math.round(done/items.length*100)};}
+function renderSections(){
+  const box=$("#sections");box.innerHTML="";
+  DATA.forEach(sec=>{
+    const visItems=sec.items.filter(passFilter);
+    if(filter!=="all"&&visItems.length===0)return;
+    const ss=secStats(sec);const open=(filter!=="all")||sec._open;
+    const el=document.createElement("div");el.className="section"+(open?" open":"");el.dataset.sec=sec.id;
+    el.innerHTML='<div class="sechead" onclick="toggleSec(\''+sec.id+'\')"><div class="ic">'+sec.ic+'</div>'
+      +'<div class="meta"><h2>'+sec.title+'</h2><div class="sub">'+(sec.sub||"")+'</div></div>'
+      +'<div class="cnt"><b>'+ss.done+'</b>/'+ss.total+'</div><span class="chev">▾</span></div>'
+      +'<div class="sbar"><span style="width:'+ss.pct+'%"></span></div>'
+      +'<div class="sbody">'+(sec.id==="gram"&&filter==="all"?gramOverview(sec):"")+visItems.map(itemHTML).join("")+'</div>';
+    box.appendChild(el);
+  });
+}
+function toggleSec(id){const sec=DATA.find(s=>s.id===id);sec._open=!sec._open;document.querySelector('.section[data-sec="'+id+'"]').classList.toggle("open");}
+function toggleExp(id){$("#it_"+id).classList.toggle("exp");}
+function review(id){ST.items[id].r++;save();refreshItem(id);renderDash();bump();}
+function reviewDown(id){const s=ST.items[id];if(s.r>0)s.r--;save();refreshItem(id);renderDash();}
+function toggleDone(id){const s=ST.items[id];s.d=!s.d;if(s.d&&s.r===0)s.r=1;save();refreshItem(id);renderDash();bumpSec(id);if(s.d)bump();}
+function refreshItem(id){
+  const it=ALL.find(x=>x._id===id);const s=ST.items[id];const el=$("#it_"+id);if(!el)return;
+  const exp=el.classList.contains("exp");const isEn=!(it.steps||it.f);
+  el.className="item "+(it._flag?"flag":(s.d?"done":(s.r>0?"r1":"")))+(isEn?" enh":"")+(exp?" exp":"");
+  const rev=el.querySelector(".revbtn");rev.className="revbtn "+(s.r>0?"has":"");rev.textContent=s.r>0?'×'+s.r:'👁';
+  const rm=el.querySelector(".revminus");if(rm)rm.style.display=s.r>0?"flex":"none";
+  el.querySelector(".donebtn").className="donebtn "+(s.d?"on":"");
+}
+function bumpSec(id){const sec=id.split("_").slice(0,-1).join("_");const s=DATA.find(x=>x.id===sec);const el=document.querySelector('.section[data-sec="'+sec+'"]');if(!el)return;const ss=secStats(s);el.querySelector(".cnt").innerHTML='<b>'+ss.done+'</b>/'+ss.total;el.querySelector(".sbar span").style.width=ss.pct+'%';}
+let bumpN=0;
+function bump(){bumpN++;if(bumpN%4===0){$("#encourage").textContent=ENC[Math.floor(Math.random()*ENC.length)];clearTimeout(bump._t);bump._t=setTimeout(()=>$("#encourage").textContent="",2600);}}
+function setFilter(f){filter=f;document.querySelectorAll(".fbtn").forEach(b=>b.classList.toggle("on",b.dataset.f===f));renderSections();if(f!=="all")window.scrollTo({top:$("#sections").offsetTop-120,behavior:"smooth"});}
+function jumpNext(){
+  const next=ALL.find(it=>{const s=ST.items[it._id];return s.r===0&&!s.d;});
+  if(!next){toast("هیچ نخونده‌ای نمونده! 🎉 برو آزمون بزن.");return;}
+  const sec=DATA.find(s=>s.id===next._sec);sec._open=true;
+  filter="all";document.querySelectorAll(".fbtn").forEach(b=>b.classList.toggle("on",b.dataset.f==="all"));
+  renderSections();
+  setTimeout(()=>{const el=$("#it_"+next._id);if(el){el.scrollIntoView({behavior:"smooth",block:"center"});el.style.boxShadow="0 0 0 2px var(--red)";setTimeout(()=>el.style.boxShadow="",1400);}},60);
+}
+function collapseAll(){DATA.forEach(s=>s._open=false);renderSections();window.scrollTo({top:0,behavior:"smooth"});}
+let pomoInt=null,pomoLeft=1500,onBreak=false,tickN=0;
+function fmt(s){const m=Math.floor(s/60),ss=s%60;return String(m).padStart(2,"0")+":"+String(ss).padStart(2,"0");}
+function faNum(n){return String(n).replace(/[0-9]/g,d=>"۰۱۲۳۴۵۶۷۸۹"[d]);}
+function renderTime(){const sec=ST.totalSec||0;const h=Math.floor(sec/3600),m=Math.floor((sec%3600)/60);const t=h>0?faNum(h)+" ساعت و "+faNum(m)+" دقیقه":faNum(m)+" دقیقه";const el=$("#timestat");if(el)el.innerHTML='⏱ کل مطالعه: <b>'+t+'</b> · دورها: <b>'+faNum(ST.rounds||0)+'</b>';}
+function pomoToggle(){
+  if(pomoInt){clearInterval(pomoInt);pomoInt=null;$("#pomo-btn").textContent="ادامه";save();return;}
+  $("#pomo-btn").textContent="توقف";
+  pomoInt=setInterval(()=>{
+    pomoLeft--;$("#pomo-t").textContent=fmt(pomoLeft);
+    if(!onBreak){ST.totalSec=(ST.totalSec||0)+1;tickN++;if(tickN%5===0){renderTime();save();}}
+    if(pomoLeft<=0){clearInterval(pomoInt);pomoInt=null;
+      if(!onBreak)ST.rounds=(ST.rounds||0)+1;
+      onBreak=!onBreak;pomoLeft=(onBreak?300:1500);$("#pomo-t").textContent=fmt(pomoLeft);
+      $("#pomo-st").textContent=onBreak?"وقتِ استراحت — ۵ دقیقه پاشو یه چرخ بزن ☕":"دورِ جدید — ۲۵ دقیقه تمرکزِ خالص";
+      $("#pomo-btn").textContent="شروع";renderTime();save();toast(onBreak?"آفرین! یک دورِ کامل تمومه 🎉":"استراحت تموم — بریم!");}
+  },1000);
+}
+async function resetAll(){
+  if(!confirm("همهٔ تیک‌ها و شمارنده‌ها پاک بشن؟"))return;
+  ST={items:{},v:1,totalSec:0,rounds:0};ensure();renderTime();if(hasStorage){try{await window.storage.delete(KEY);}catch(e){}}
+  DATA.forEach(s=>s._open=false);toast("ریست شد");renderDash();renderSections();
+}
+(async function(){await load();DATA[0]._open=true;renderDash();renderSections();renderTime();})();
+</script>
+</body>
+</html>
