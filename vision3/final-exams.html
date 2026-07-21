@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vision 3 — تمرین آزمون نهایی</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#E8E9EB;--surface:#F6F6F7;--surface-2:#FDFDFD;--ink:#16171A;--ink-soft:#5A5D64;
+  --red:#E1251B;--red-deep:#A5140C;--teal:#1C6E62;--teal-soft:#e3f0ed;
+  --line:rgba(0,0,0,.12);--line-soft:rgba(0,0,0,.06);
+  --shadow:0 1px 2px rgba(0,0,0,.06),0 8px 24px rgba(0,0,0,.06);--shadow-lg:0 12px 40px rgba(0,0,0,.14);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Vazirmatn',system-ui,sans-serif;background:var(--paper);color:var(--ink);line-height:1.75;-webkit-font-smoothing:antialiased}
+.en{font-family:'Space Grotesk','Vazirmatn',sans-serif;direction:ltr;unicode-bidi:isolate}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+button:focus-visible{outline:2px solid var(--red);outline-offset:3px}
+.wrap{max-width:840px;margin:0 auto;padding:0 18px 120px}
+
+header.top{position:sticky;top:0;z-index:40;background:rgba(232,233,235,.88);backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid var(--line-soft)}
+.top-inner{max-width:840px;margin:0 auto;padding:12px 18px;display:flex;align-items:center;gap:12px}
+.mark{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:18px;color:var(--ink);direction:ltr;cursor:pointer}
+.mark b{color:var(--red)}
+.mark .three{display:inline-flex;align-items:center;justify-content:center;width:21px;height:21px;border-radius:50%;background:var(--red);color:#fff;font-size:12px;margin-inline-start:4px;vertical-align:middle}
+.top .sub{font-size:11.5px;color:var(--ink-soft);font-weight:500}
+.dots{height:14px;background-image:radial-gradient(var(--red) 1.4px,transparent 1.5px);background-size:12px 12px;background-position:center;opacity:.5;margin:2px 0}
+
+.hero{padding:32px 0 8px;text-align:center}
+.eyebrow{font-size:12px;letter-spacing:.14em;color:var(--red);font-weight:700}
+.hero h1{font-size:26px;font-weight:800;margin:8px 0 6px}
+.hero p{color:var(--ink-soft);font-size:14.5px;max-width:540px;margin:0 auto}
+
+.section-label{display:flex;align-items:center;gap:10px;margin:28px 0 14px}
+.section-label h2{font-size:15px;font-weight:700}
+.section-label .rule{flex:1;height:1px;background:var(--line)}
+
+.exams{display:grid;gap:14px;grid-template-columns:1fr 1fr}
+@media(max-width:600px){.exams{grid-template-columns:1fr}}
+.ecard{background:var(--surface);border:1px solid var(--line-soft);border-radius:18px;padding:20px;box-shadow:var(--shadow);transition:transform .18s,box-shadow .18s;position:relative;overflow:hidden}
+.ecard:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg)}
+.ecard .cal{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--red-deep);background:#fbe9e8;padding:4px 11px;border-radius:20px;font-weight:600;margin-bottom:12px}
+.ecard h3{font-size:19px;font-weight:800;margin-bottom:2px}
+.ecard .grade{font-size:12.5px;color:var(--ink-soft);margin-bottom:12px}
+.ecard .best{font-size:12px;color:var(--teal);font-weight:600;min-height:18px;margin-bottom:12px}
+.ecard .best span{font-family:'Space Grotesk',sans-serif}
+.btn{border-radius:11px;padding:10px 16px;font-size:14px;font-weight:600;display:inline-flex;align-items:center;justify-content:center;gap:7px;transition:.15s;border:1px solid transparent}
+.btn-red{background:var(--red);color:#fff}.btn-red:hover{background:var(--red-deep)}
+.btn-out{background:var(--surface-2);border-color:var(--line);color:var(--ink)}.btn-out:hover{border-color:var(--red);color:var(--red)}
+.btn-teal{background:var(--teal);color:#fff}.btn-teal:hover{filter:brightness(1.08)}
+.btn-ghost{color:var(--ink-soft)}.btn-ghost:hover{color:var(--red)}
+.btn.full{width:100%}
+
+.note{background:var(--surface);border:1px solid var(--line-soft);border-radius:14px;padding:14px 16px;display:flex;gap:12px;align-items:flex-start;margin-top:16px}
+.note .ic{flex:0 0 auto;width:34px;height:34px;border-radius:10px;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;font-size:16px}
+.note p{font-size:12.6px;color:var(--ink-soft)}
+.note b{color:var(--ink)}
+
+/* screens */
+.screen{display:none}.screen.on{display:block;animation:fade .25s ease}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.crumb{display:flex;align-items:center;gap:10px;padding:22px 0 4px;flex-wrap:wrap}
+.crumb button{font-size:13px;color:var(--ink-soft);display:flex;align-items:center;gap:5px}
+.crumb button:hover{color:var(--red)}
+.crumb h2{font-size:17px;font-weight:700}
+
+/* section nav */
+.snav{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 6px}
+.snav button{font-size:13px;padding:8px 14px;border-radius:11px;border:1px solid var(--line);background:var(--surface-2);color:var(--ink-soft);display:flex;align-items:center;gap:7px}
+.snav button.on{background:var(--red);border-color:var(--red);color:#fff}
+.snav button .bar{font-family:'Space Grotesk',sans-serif;font-size:11px;opacity:.8}
+
+.sechead{margin:16px 0 4px}
+.sechead .en{font-size:20px;font-weight:600;color:var(--ink)}
+.sechead .fa{font-size:13px;color:var(--ink-soft)}
+.sec-mark{font-size:12px;color:var(--ink-soft)}
+
+/* passage */
+.passage{background:var(--surface);border:1px solid var(--line-soft);border-radius:16px;padding:18px 20px;margin:14px 0;direction:ltr;font-family:'Space Grotesk',sans-serif;font-size:13.5px;line-height:1.85;color:#25272b}
+.passage h4{font-family:'Space Grotesk',sans-serif;font-size:14px;color:var(--red-deep);margin-bottom:8px;font-weight:700}
+
+/* question */
+.q{background:var(--surface-2);border:1px solid var(--line-soft);border-radius:14px;padding:16px 18px;margin:12px 0;box-shadow:var(--shadow)}
+.q .stem{font-size:14.5px;margin-bottom:12px;direction:ltr;font-family:'Space Grotesk',sans-serif;line-height:1.8}
+.q .stem .num{display:inline-flex;align-items:center;justify-content:center;min-width:24px;height:24px;padding:0 6px;border-radius:7px;background:var(--paper);color:var(--red-deep);font-weight:700;font-size:12px;margin-inline-end:8px}
+.q .blank{display:inline-block;min-width:70px;border-bottom:2px solid var(--red);text-align:center;color:var(--red)}
+.opts{display:grid;gap:8px}
+.opt{text-align:start;border:1.5px solid var(--line);border-radius:11px;padding:11px 14px;background:var(--surface-2);font-size:14px;transition:.12s;display:flex;align-items:center;gap:10px;direction:ltr;font-family:'Space Grotesk',sans-serif;line-height:1.5}
+.opt .k{width:22px;height:22px;border-radius:7px;background:var(--paper);display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--ink-soft);flex:0 0 auto}
+.opt.sel{border-color:var(--red)}
+.opt.correct{border-color:var(--teal);background:var(--teal-soft)}
+.opt.correct .k{background:var(--teal);color:#fff}
+.opt.wrong{border-color:var(--red);background:#fbe9e8}
+.opt.wrong .k{background:var(--red);color:#fff}
+.tfrow{display:flex;gap:10px}
+.tfrow .opt{flex:1;justify-content:center}
+.fillin{width:100%;border:1.5px solid var(--line);border-radius:11px;padding:11px 14px;font-size:15px;direction:ltr;font-family:'Space Grotesk',sans-serif;background:var(--surface-2)}
+.fillin:focus{outline:none;border-color:var(--red)}
+.fillin.correct{border-color:var(--teal);background:var(--teal-soft)}
+.fillin.wrong{border-color:var(--red);background:#fbe9e8}
+.fx{margin-top:10px;font-size:12.8px;padding:9px 12px;border-radius:10px;display:none}
+.fx.on{display:block}
+.fx.ok{background:var(--teal-soft);color:var(--teal)}
+.fx.no{background:#fbe9e8;color:var(--red-deep)}
+.fx .en{color:inherit}
+.fx .key{font-weight:700}
+
+.checkbar{position:sticky;bottom:14px;z-index:30;display:flex;gap:10px;margin-top:20px;background:rgba(232,233,235,.9);backdrop-filter:blur(8px);padding:10px;border-radius:16px;border:1px solid var(--line-soft)}
+.checkbar .btn{flex:1}
+.scorepill{display:none;align-items:center;justify-content:center;font-weight:700;font-size:14px;padding:0 16px;border-radius:11px;background:var(--ink);color:#fff}
+.scorepill.on{display:flex}
+.scorepill.good{background:var(--teal)}
+.scorepill.mid{background:var(--red)}
+
+/* model answers */
+.model{background:var(--surface);border:1px dashed var(--line);border-radius:14px;padding:16px 18px;margin:12px 0}
+.model .qn{font-size:13px;color:var(--ink-soft);direction:ltr;font-family:'Space Grotesk',sans-serif;margin-bottom:6px}
+.model .ans{font-size:14px;direction:ltr;font-family:'Space Grotesk',sans-serif;color:var(--teal);font-weight:600;line-height:1.7}
+.model .ans::before{content:"✓ ";color:var(--teal)}
+
+.foot{margin-top:34px;padding-top:18px;border-top:1px solid var(--line-soft);display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.foot p{font-size:11.5px;color:var(--ink-soft)}
+.reset{font-size:12px;color:var(--ink-soft)}.reset:hover{color:var(--red)}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;padding:11px 20px;border-radius:12px;font-size:13px;opacity:0;transition:.25s;z-index:80;box-shadow:var(--shadow-lg)}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.result{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:30px 24px;text-align:center;margin-top:16px}
+.result .big{font-size:40px;margin-bottom:4px}
+.result .n{font-family:'Space Grotesk',sans-serif;font-size:34px;font-weight:700}
+.result p{color:var(--ink-soft);font-size:13.5px;max-width:440px;margin:6px auto 16px}
+.bd{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:16px}
+.bd .b{font-size:11.5px;padding:5px 11px;border-radius:20px;background:var(--surface-2);border:1px solid var(--line);color:var(--ink-soft)}
+.bd .b b{color:var(--ink);font-family:'Space Grotesk',sans-serif}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-inner">
+    <div>
+      <div class="mark" onclick="go('home')"><b>Vision</b><span class="three">3</span> · Finals</div>
+      <div class="sub">تمرین آزمون نهایی · با کلید رسمی</div>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<!-- HOME -->
+<section id="home" class="screen on">
+  <div class="hero">
+    <div class="eyebrow">امتحان نهایی · دورهٔ دوم متوسطه</div>
+    <h1>با سؤال‌های واقعیِ نهایی تمرین کن</h1>
+    <p>دو آزمونِ سراسریِ خرداد ۱۴۰۳ و ۱۴۰۴ (زبان انگلیسی ۳)، بخش‌بندی‌شده و با تصحیح خودکار طبق کلیدِ رسمی. جواب‌های تشریحی و رایتینگ هم به‌صورت پاسخ نمونه هست.</p>
+  </div>
+
+  <div class="dots"></div>
+
+  <div class="section-label"><h2>آزمون‌ها</h2><div class="rule"></div></div>
+  <div class="exams" id="exam-cards"></div>
+
+  <div class="note">
+    <div class="ic">♪</div>
+    <div>
+      <p><b>بخش Listening</b> نیاز به فایل صوتیِ رسمی داره، پس در تمرینِ تعاملی نیامده. تمرکز این‌جا روی Vocabulary، Grammar، Reading و Writing هست که خودشون کامل و قابل‌تصحیح‌ان. فایل صوتی نهایی از <span class="en">azmoon.medu.ir</span> در دسترسه.</p>
+    </div>
+  </div>
+
+  <div class="foot">
+    <p>سؤال‌ها و کلید: آزمون نهایی زبان انگلیسی ۳ — مرکز ارزشیابی، خرداد ۱۴۰۳ و ۱۴۰۴.</p>
+    <button class="reset" onclick="resetAll()">پاک‌کردن رکوردها</button>
+  </div>
+</section>
+
+<!-- EXAM -->
+<section id="exam" class="screen">
+  <div class="crumb">
+    <button onclick="go('home')">→ آزمون‌ها</button>
+    <h2 id="exam-title"></h2>
+  </div>
+  <div class="snav" id="snav"></div>
+  <div id="sec-body"></div>
+</section>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* =======================================================================
+   REAL FINAL EXAMS — Vision 3 (English 3), grade 12
+   Sources: national finals, Khordad 1403 & 1404, with official answer keys.
+   Item types: mc | tf | fill | passage | model
+   ======================================================================= */
+const EXAMS={
+ "1402":{date:"خرداد ۱۴۰۲ (۱۴۰۲/۰۳/۰۹)",label:"June 2023",
+  sections:[
+   {name:"Vocabulary",fa:"واژگان",mark:6,items:[
+     {t:"mc",n:19,stem:"(تصویر: کمک/اهدا به دیگران)  کدام جمله؟",opts:["The air conditioner controls the room temperature.","Solar collectors provide electricity for highway lights.","Garbage is taken to the landfill every day.","I couldn't figure out how to solve the math problem.","We can help people by donating what they need."],a:4,fx:"تصویرِ کمک/اهدا → گزینهٔ e."},
+     {t:"mc",n:20,stem:"(تصویر: چراغ خیابانیِ خورشیدی)  کدام جمله؟",opts:["The air conditioner controls the room temperature.","Solar collectors provide electricity for highway lights.","Garbage is taken to the landfill every day.","I couldn't figure out how to solve the math problem.","We can help people by donating what they need."],a:1,fx:"کلکتورِ خورشیدیِ چراغ خیابان → b."},
+     {t:"mc",n:21,stem:"(تصویر: کولر/تهویه)  کدام جمله؟",opts:["The air conditioner controls the room temperature.","Solar collectors provide electricity for highway lights.","Garbage is taken to the landfill every day.","I couldn't figure out how to solve the math problem.","We can help people by donating what they need."],a:0,fx:"کولر دمای اتاق را کنترل می‌کند → a."},
+     {t:"mc",n:22,stem:"(تصویر: کودکِ سردرگم با ریاضی)  کدام جمله؟",opts:["The air conditioner controls the room temperature.","Solar collectors provide electricity for highway lights.","Garbage is taken to the landfill every day.","I couldn't figure out how to solve the math problem.","We can help people by donating what they need."],a:3,fx:"سردرگمی با مسئلهٔ ریاضی → d. (گزینهٔ c اضافه است)"},
+     {t:"fill",n:23,stem:"Try to learn words in combination to ______ your vocabulary. (perfect/opposite/expand/blow)",a:["expand"],fx:"expand — گسترش دادن."},
+     {t:"fill",n:24,stem:"Practice your English skills. Practice makes ______ .",a:["perfect"],fx:"Practice makes perfect — کار نیکو کردن از پر کردن است."},
+     {t:"fill",n:25,stem:"When the wind doesn't ______, the wind turbines cannot work.",a:["blow"],fx:"blow — وزیدن. (opposite اضافه است)"},
+     {t:"mc",n:26,stem:"The new light bulbs <b>consume</b> less electricity.  →  تعریفِ consume:",opts:["unable to hear very well","to finish something","to use time, goods, energy, etc.","in a way that is successful and achieves what you want"],a:2,fx:"consume = مصرف کردن → c."},
+     {t:"mc",n:27,stem:"My grandmother is <b>hard of hearing</b>.  →  تعریف:",opts:["unable to hear very well","to finish something","to use time, goods, energy, etc.","in a way that is successful"],a:0,fx:"hard of hearing = کم‌شنوا → a."},
+     {t:"mc",n:28,stem:"Children have to learn to communicate <b>effectively</b>.  →  تعریفِ effectively:",opts:["unable to hear very well","to finish something","to use time, goods, energy, etc.","in a way that is successful and achieves what you want"],a:3,fx:"effectively = به‌طور مؤثر → d."},
+     {t:"fill",n:29,stem:"Dr. Gharib went a______ to study medicine and then came back. (اولین حرف: a)",a:["abroad"],fx:"abroad — به خارج از کشور."},
+     {t:"fill",n:30,stem:"You can carry a p______ dictionary wherever you go. (اولین حرف: p)",a:["pocket"],fx:"pocket dictionary — فرهنگ لغتِ جیبی."},
+   ]},
+   {name:"Grammar",fa:"گرامر",mark:7,items:[
+     {t:"mc",n:31,stem:"When I arrived at the party, my grandparents ______ home.",opts:["already hadn't gone","hadn't gone already","had already gone","had gone already"],a:2,fx:"ماضی بعید با جای درستِ already → <b>had already gone</b>."},
+     {t:"mc",n:32,stem:"Should people ______ of this danger and warned about the possible harms?",opts:["informed","inform","are informed","be informed"],a:3,fx:"مجهول با should → <b>be informed</b>."},
+     {t:"mc",n:33,stem:"The woman ______ yesterday is coming to dinner.",opts:["that you met her","who you met her","whom met","whom you met"],a:3,fx:"مفعولِ انسان، بدون ضمیرِ اضافه → <b>whom you met</b>."},
+     {t:"mc",n:34,stem:"Leila never forgets to call you, ______?",opts:["does she","doesn't she","doesn't Leila","does Leila"],a:0,fx:"«never» منفی است + ضمیر she → <b>does she?</b>"},
+     {t:"mc",n:35,stem:"If he ______ stronger, he ______ you carry the piano.",opts:["was / could be helped","were / would help","were / helped","is / would help"],a:1,fx:"شرطی نوع دوم → <b>were / would help</b>."},
+     {t:"fill",n:36,stem:"We flew our kites after we ______ our lunch. (to eat)",a:["had eaten"],fx:"کارِ قبل از گذشته → <b>had eaten</b>."},
+     {t:"fill",n:37,stem:"Some inventions ______ by accident or scientists' mistakes every year. (to create)",a:["are created"],fx:"حال سادهٔ مجهول → <b>are created</b>."},
+     {t:"fill",n:38,stem:"مرتب کن:  lives / was drinking / which / milk / the cat / near us",a:["the cat which lives near us was drinking milk","the cat which lives near us was drinking milk.","the cat which was drinking milk lives near us","the cat which was drinking milk lives near us."],fx:"<b>The cat which lives near us was drinking milk.</b> (یا: The cat which was drinking milk lives near us.)"},
+     {t:"fill",n:39,stem:"(تصویر: پسری گلدان را شکسته)  What was done by the boy?  The vase ______ .",a:["was broken by the boy yesterday","was broken by the boy","was broken"],fx:"مجهول: <b>The vase was broken by the boy yesterday.</b>"},
+     {t:"fill",n:40,stem:"The boy ______ yesterday was very sad. (با who/whom/which)",a:["who broke the vase"],fx:"جملهٔ وصفی: <b>The boy who broke the vase yesterday was very sad.</b>"},
+   ]},
+   {name:"Reading",fa:"درک مطلب",mark:10,items:[
+     {t:"passage",title:"Passages (short)",text:"41) The best way to learn how to use your dictionary effectively is to read its introduction. This section explains how entries are arranged, what information is offered in entries, and what abbreviations and pronunciation symbols are used.  •  42) Sharks are not all the same — there are nearly 400 kinds. Most sharks never attack people; only a special group can be dangerous. They kill about forty people a year. Snakes kill about 60,000 people a year. And people kill 25,000,000 sharks a year.  •  43) Elders have a lot to share with us: their life experiences, failures and successes. Thus we need to care for them because they deserve to be cared for.  •  44) Engineers are trying to make better batteries. Hybrid cars are also available; they combine the benefits of gasoline engines and electric motors and can be designed to meet different goals, such as better fuel economy or more energy."},
+     {t:"mc",n:41,stem:"The introduction section in dictionaries doesn't explain ______ .",opts:["word arrangement","word information","entry abbreviations","symbol pronunciation"],a:3,fx:"متن دربارهٔ «تلفظِ نمادها» چیزی نمی‌گوید → d."},
+     {t:"mc",n:42,stem:"From the sharks/snakes paragraph we understand that ______ .",opts:["snakes are more dangerous than sharks","all groups of sharks are dangerous","sharks are more dangerous than snakes","most dangerous snakes never attack people"],a:0,fx:"مارها سالانه ۶۰٬۰۰۰ نفر را می‌کشند در برابر ۴۰ نفر برای کوسه → a."},
+     {t:"mc",n:43,stem:"We have to care for our elders because ______ .",opts:["their failures are less important","they respect us as their teachers","they share their life experience with us","their successes are not important"],a:2,fx:"چون تجربهٔ زندگی‌شان را با ما در میان می‌گذارند → c."},
+     {t:"mc",n:44,stem:"Hybrid cars ______ .",opts:["are designed to meet different goals","only use gasoline in their engines","only use electricity in their engines","hold more energy for a short time"],a:0,fx:"برای اهدافِ مختلف طراحی می‌شوند → a."},
+     {t:"passage",title:"Passage · Note-taking",text:"Note-taking is a necessary part of language learning. It helps students learn, keep, and remember information. Taking notes makes them think differently about the subject. It also helps them pay attention during class because they are actively listening and experiencing in the classroom. Writing some parts in their own words, also called note-making, makes everything clear when looking back at the text — a much better technique than just depending on your own memory. Remember that word-for-word note-taking can hurt systematic thinking, as it takes away the time of explaining ideas through examples and pictures by just writing down facts without context. It is why Isaac Newton said that he did great things just because he was sitting in the great men's classes and taking notes."},
+     {t:"tf",n:45,stem:"Note-taking makes learners different in thinking.",a:true,fx:"«think differently about the subject» → True."},
+     {t:"tf",n:46,stem:"You should write in your own words when taking notes.",a:true,fx:"note-making = نوشتن با کلماتِ خودت → True."},
+     {t:"mc",n:47,stem:"Which of the following is NOT true about note-taking?",opts:["It helps learners check interesting points","It is used for written and spoken texts","It helps learners pay attention during class","It depends on your memory"],a:3,fx:"یادداشت‌برداری بهتر از تکیه بر حافظه است → d نادرست است."},
+     {t:"mc",n:48,stem:"Word-for-word note-taking can hurt systematic thinking because ______ .",opts:["it explains ideas through pictures","it takes away the time of people","it is writing down facts without context","it depends on active listening"],a:2,fx:"چون فقط حقایق را بدون بافت می‌نویسد → c."},
+     {t:"passage",title:"Passage · Kindness & charity",text:"Being helpful is what we know as kindness. Kind people improve the lives of those around them and generally enjoy better health. Studies show that acts of kindness can have positive side effects: they can increase good senses, improve health conditions and feelings, and increase relationships with others. Kind people can boost their feelings of control, happiness and responsibility. They may also inspire others to repeat the good acts. Most of us think of charities as trying to help others. Donating food is the best way to help others because it is essential for human beings. Not only do charities benefit from the donations, but you also gain a lot from them. Thousands of people donate to charity to support the people in need and meet their moral needs."},
+     {t:"tf",n:51,stem:"Donators help others who enjoy better health.",a:false,fx:"کمک‌کننده‌ها به نیازمندان کمک می‌کنند، نه به کسانی که سلامت بهتری دارند → False."},
+     {t:"tf",n:52,stem:"The world will be a happier place when we are kind.",a:true,fx:"مهربانی دنیا را شادتر می‌کند → True."},
+     {t:"mc",n:53,stem:"Kind people cannot improve the feeling of ______ .",opts:["happiness","responsibility","control","donation"],a:3,fx:"متن از happiness/control/responsibility می‌گوید، نه donation → d."},
+     {t:"mc",n:54,stem:"What does 'they' in the fifth line refer to?",opts:["human beings","happier people","kind people","others"],a:2,fx:"«Kind people ... They may also inspire others» → c."},
+   ]},
+   {name:"Writing",fa:"نگارش",mark:8,items:[
+     {t:"mc",n:57,stem:"I spent three hours in the gym, ______ .",opts:["and I'm not a good player","so I'm really tired now","but I'm hungry","or I leave it now"],a:1,fx:"نتیجهٔ منطقی → <b>so I'm really tired now</b>."},
+     {t:"mc",n:58,stem:"There are a lot of clouds in the sky, ______ .",opts:["but it's going to rain","so it's very funny","or you can go outside","and you can't see the sun"],a:3,fx:"افزودنِ نتیجهٔ همسو → <b>and you can't see the sun</b>."},
+     {t:"fill",n:59,stem:"You can have the blue pen, ______ you can have the red one. (so/but/or)",a:["or"],fx:"انتخاب بین دو گزینه → <b>or</b>."},
+     {t:"fill",n:60,stem:"I'm very good at sport, ______ I'm terrible at math.",a:["but"],fx:"تضاد → <b>but</b>."},
+     {t:"mc",n:63,stem:"The supporting sentences of the video-games paragraph ______ .",opts:["explain the topic","give examples","tell a short story","give reasons"],a:3,fx:"با First/Second/Third دلیل می‌آورد → <b>give reasons</b>."},
+     {t:"model",n:"39/40 key",qn:"(گرامر ۳۹/۴۰) پاسخ‌های تصویری:",ans:"39. The vase was broken by the boy yesterday.  /  40. The boy who broke the vase yesterday was very sad."},
+     {t:"model",n:"49",qn:"Why did Isaac Newton do great things?",ans:"Because he was sitting in the great men's classes and taking notes."},
+     {t:"model",n:"50",qn:"Why does note-taking help students pay attention during class?",ans:"Because they are actively listening and experiencing in the classroom."},
+     {t:"model",n:"55",qn:"What is the best way to help others? Why?",ans:"Donating food is the best way to help others because it is essential for human beings."},
+     {t:"model",n:"56",qn:"Why do people donate to charity?",ans:"To support the people in need and meet their moral needs."},
+     {t:"model",n:"61/62",qn:"Energy paragraph — topic + concluding:",ans:"Topic: Energy is very important in our life.  /  Concluding: Thus, energy is at the heart of everybody's life."},
+     {t:"model",n:"64/65/66",qn:"Video-games paragraph — topic / controlling idea / concluding:",ans:"Topic word: videogames  /  Controlling idea: children shouldn't play  /  Concluding: In short, physical activities are better for children than playing videogames."},
+     {t:"model",n:"67",qn:"Paragraph — Hafez (great Iranian poet, Shiraz, Divan, Ghazal):",ans:"Hafez was a great Iranian poet. He was born in Shiraz sometime between 1310 and 1337 A.D. His famous book is called the Divan, and he mostly wrote a type of poetry called Ghazal. In short, Hafez is one of the most beloved poets of Iran."},
+   ]},
+  ]},
+ "1403":{date:"خرداد ۱۴۰۳ (۱۴۰۳/۰۳/۲۴)",label:"June 2024",
+  sections:[
+   {name:"Vocabulary",fa:"واژگان",mark:9,items:[
+     {t:"fill",n:19,stem:"My grandfather feeds his ______ in the yard every morning.",a:["pigeons","pigeon"],fx:"pigeon(s) — کبوتر (از تصویرِ سؤال)."},
+     {t:"fill",n:20,stem:"The distinguished student started learning ______ by heart at a young age.",a:["poetry"],fx:"poetry — شعر."},
+     {t:"fill",n:21,stem:"They are going to build a new ______ power station.",a:["nuclear"],fx:"nuclear — هسته‌ای (از تصویرِ اتم)."},
+     {t:"mc",n:22,stem:"It is <b>essential</b> to use less nonrenewable energy.  →  تعریفِ essential:",opts:["to start something such as an organization","to advise someone to do something","a thing you get something from","completely important in a particular situation"],a:3,fx:"essential = کاملاً ضروری/مهم → گزینهٔ d."},
+     {t:"mc",n:23,stem:"Jabbar Baghcheban <b>founded</b> the first school for the deaf.  →  تعریفِ found/founded:",opts:["to start something such as an organization or a company","to advise someone to do something","a thing you get something from","completely important for a special activity"],a:0,fx:"found = تأسیس کردن → گزینهٔ a."},
+     {t:"mc",n:24,stem:"The main <b>sources</b> of clean energy are wind, water and sun.  →  تعریفِ source:",opts:["to start something such as a company","to advise someone to do something","a place or thing that you get something from","completely important in a particular situation"],a:2,fx:"source = منبع → گزینهٔ c."},
+     {t:"mc",n:25,stem:"While I was in the hospital, the nurse was ______ my temperature.",opts:["making","taking","doing","giving"],a:1,fx:"collocation ثابت: <b>take (one's) temperature</b>."},
+     {t:"mc",n:26,stem:"The doctor ______ cured a number of patients with the new drugs.",opts:["successfully","successful","success","succeed"],a:0,fx:"قید لازم است تا فعل cured را توصیف کند → <b>successfully</b>."},
+     {t:"mc",n:27,stem:"As you know, a burnt child ______ the fire. (ضرب‌المثل)",opts:["counts","spoils","dreads","flocks"],a:2,fx:"a burnt child dreads the fire = مارگزیده از ریسمانِ سیاه‌و‌سفید می‌ترسد → <b>dreads</b>."},
+     {t:"fill",n:28,stem:"Clouds prevent the ______ of Earth's heat into space. (deserve/entries/radiation/tides)",a:["radiation"],fx:"radiation — تشعشع/تابش."},
+     {t:"fill",n:29,stem:"After all that hard work, you ______ a holiday.",a:["deserve"],fx:"deserve — سزاوار بودن."},
+     {t:"fill",n:30,stem:"They updated a lot of ______ in the most recent dictionaries.",a:["entries"],fx:"entries — مدخل‌های لغت‌نامه."},
+   ]},
+   {name:"Grammar",fa:"گرامر",mark:6.5,items:[
+     {t:"mc",n:31,stem:"That's another planet in the solar system, ______?",opts:["isn't it","isn't that","is it","is that"],a:0,fx:"جملهٔ مثبت با is و فاعل it → پرسشِ منفی: <b>isn't it?</b>"},
+     {t:"mc",n:32,stem:"Nezami's poems ______ into countless languages since the last century.",opts:["has been translated","were translated","had translated","have been translated"],a:3,fx:"«since» + مجهولِ حال کامل با فاعلِ جمع → <b>have been translated</b>."},
+     {t:"mc",n:33,stem:"The client was worried because he ______ his documents.",opts:["loses","will lose","had lost","has lost"],a:2,fx:"کارِ قبل از گذشتهٔ دیگر → ماضی بعید: <b>had lost</b>."},
+     {t:"mc",n:34,stem:"What ______ happen if you ______ too much food?",opts:["will / ate","would / ate","will / were eating","would / are eating"],a:1,fx:"شرطی نوع دوم: would + base ، و if + past simple → <b>would / ate</b>."},
+     {t:"mc",n:35,stem:"We appreciate those ______ our cultural values to our next generations.",opts:["that carries","who carry","who they carry","whom they carry"],a:1,fx:"فاعلِ انسانِ جمع → <b>who carry</b> (بدون ضمیر اضافه)."},
+     {t:"fill",n:36,stem:"The robber ______ by the police two months ago, wasn't he? (to catch)",a:["was caught"],fx:"گذشتهٔ مجهول → <b>was caught</b>."},
+     {t:"fill",n:37,stem:"After the children had eaten their breakfast, they ______ their kites. (to fly)",a:["flew"],fx:"کارِ بعدی در گذشته → گذشتهٔ ساده: <b>flew</b>."},
+     {t:"fill",n:38,stem:"مرتب کن:  fuel / can be / types of waste / not all / to produce / used",a:["not all types of waste can be used to produce fuel","not all types of waste can be used to produce fuel."],fx:"<b>Not all types of waste can be used to produce fuel.</b>"},
+     {t:"fill",n:39,stem:"If he ______ (to have) more time, he ______ (to practice) French. [دو فعل با فاصله]",a:["had would practice","had , would practice","had would/could/might practice","had, would practice"],fx:"شرطی نوع دوم: <b>had</b> ... <b>would/could/might practice</b>."},
+     {t:"fill",n:40,stem:"با who/whom/which یکی کن:  The dictionary has many explanations. The dictionary was used by young writers.",a:["the dictionary which was used by young writers has many explanations","the dictionary that was used by young writers has many explanations","the dictionary which was used by young writers has many explanations.","the dictionary that was used by young writers has many explanations."],fx:"<b>The dictionary which/that was used by young writers has many explanations.</b>"},
+   ]},
+   {name:"Reading",fa:"درک مطلب",mark:10,items:[
+     {t:"passage",title:"Passages A (short)",text:"41) Big shiny panels on the roof are solar collectors that collect heat by absorbing sunlight and produce solar power.  •  42) When using a dictionary to find out how to say something in another language, one has to be careful to choose the right meaning.  •  43) Good notes can help you remember and review a text you have read. There is no magic formula to taking notes when reading. You have to find out what works best for you.  •  44) You may or may not know of all the ups and downs our parents have faced, but they have gained experience that is worth respecting and learning from."},
+     {t:"mc",n:41,stem:"Big shiny panels ...",opts:["produce lots of sunlight.","generate electricity by collecting heat.","absorb electricity on the roof.","are made with solar power on the roof."],a:1,fx:"پنل‌ها با جذب گرما برق تولید می‌کنند → b."},
+     {t:"mc",n:42,stem:"About the dictionary sentence:",opts:["Each word has only one meaning in different dictionaries.","There are different meanings for a word in a dictionary.","Dictionaries rarely provide the right meaning of words.","We use other languages to understand a dictionary."],a:1,fx:"باید معنی درست را انتخاب کنی چون یک واژه چند معنی دارد → b."},
+     {t:"mc",n:43,stem:"About taking notes:",opts:["Taking notes does not follow any fixed formula.","Taking good notes requires knowing a magic formula.","To remember things better, take notes in the same way.","To find what works best, remember and review the notes."],a:0,fx:"«no magic formula» → روش ثابتی ندارد → a."},
+     {t:"mc",n:44,stem:"About our parents:",opts:["Life has been easy for our parents, so we should respect them.","Our parents do not prefer to share their experiences.","We know everything about our parents' experience.","There are valuable things to learn from our parents."],a:3,fx:"تجربهٔ ارزشمندشان قابل یادگیری است → d."},
+     {t:"passage",title:"Passage · Saving energy",text:"Energy has become a serious issue in recent century and many solutions have been offered by some organizations. They may ask people to consider saving energy. To achieve this purpose, we need to make small changes in our lifestyles. We should do everything efficiently, with no waste of time or energy. It can be possible by turning off lights when they are not needed, or unplugging TVs and computers when not using them. Managing inside temperature can also help. Another important factor for householders is knowing the time when the energy is at its peak — when the energy consumption is generally high. For example, in summer, when all cooling systems are in use, adding a washing machine to the cycle results in system failure or an unexpected high electricity bill. Another way to save energy is replacing devices and windows with energy efficient ones."},
+     {t:"tf",n:45,stem:"It is not easy to change our daily lives to save energy.",a:false,fx:"متن می‌گوید تغییرها کوچک‌اند → False."},
+     {t:"tf",n:46,stem:"Saving energy meets the economic and environmental needs.",a:true,fx:"صرفه‌جویی هم پول و هم محیط زیست را حفظ می‌کند → True."},
+     {t:"mc",n:47,stem:"The passage answers all the following EXCEPT:",opts:["What does 'efficiently' mean?","When should we turn off lights?","Why is it necessary to check our home temperature?","How can we measure the inside temperature?"],a:3,fx:"روشِ اندازه‌گیریِ دما در متن نیامده → d."},
+     {t:"mc",n:48,stem:"The author recommends ______ as one of the ways to save energy.",opts:["using devices which consume less energy","taking the protection materials away","using washing machines during the peak time","making more openings and windows"],a:0,fx:"جایگزینی با وسایلِ کم‌مصرف → a."},
+     {t:"passage",title:"Passage · Abbreviations & acronyms",text:"When reading, you may find some words often written in capital letters. Abbreviations and acronyms are two examples of such words. They are short forms of words and phrases. An abbreviation is a shortened form of a word (e.g., Adj for Adjective). An acronym is a word formed from the first letters of the words in a phrase or name (e.g., IRIB for Islamic Republic of Iran Broadcasting). Sometimes, authors create new acronyms when they invent a new technique and want to make it sound cool. This helps people remember the technique more easily. However, using too many of them can make the text harder to read and confuse readers."},
+     {t:"tf",n:51,stem:"Abbreviations and acronyms are formed in different ways.",a:true,fx:"روشِ ساختشان فرق دارد → True."},
+     {t:"tf",n:52,stem:"Using acronyms makes a text easy for both writers and readers.",a:false,fx:"زیاده‌روی متن را سخت‌خوان می‌کند → False."},
+     {t:"mc",n:53,stem:"The underlined word 'they' in the first paragraph refers to:",opts:["readers","acronyms","authors","words"],a:2,fx:"«authors create ... they invent» → c (authors)."},
+     {t:"mc",n:54,stem:"According to the explanation, which one is false?",opts:["PC (Personal Computer)","AD (Anno Domini)","BC (Before Christ)","AD (Adverb)"],a:3,fx:"AD مخففِ Adverb نیست → d."},
+   ]},
+   {name:"Writing",fa:"نگارش",mark:6.5,items:[
+     {t:"fill",n:57,stem:"Trees take carbon dioxide from the atmosphere, ______ fill it with oxygen. (and/but/or/so)",a:["and"],fx:"دو کارِ همسو → <b>and</b>."},
+     {t:"fill",n:58,stem:"Carbon dioxide is harmful to nature, ______ oxygen keeps it alive.",a:["but"],fx:"تضاد → <b>but</b>."},
+     {t:"fill",n:59,stem:"They supply us with many necessary things, ______ trees are the best friends of man.",a:["so"],fx:"نتیجه → <b>so</b>."},
+     {t:"mc",n:62,stem:"(ترتیب پاراگراف) جملهٔ ۶۲:",opts:["A good teacher is a great help...","Others travel to the country...","Some people try to learn a new language at home...","However, most people don't have enough money..."],a:2,fx:"طبق کلید: 62=c، 63=b، 64=d، 65=a."},
+     {t:"mc",n:63,stem:"جملهٔ ۶۳:",opts:["A good teacher is a great help...","Others travel to the country where the language is spoken...","Some people try to learn a new language at home...","However, most people don't have enough money..."],a:1,fx:"63 = b."},
+     {t:"mc",n:64,stem:"جملهٔ ۶۴:",opts:["A good teacher is a great help...","Others travel to the country...","Some people try to learn a new language at home...","However, most people don't have enough money to go to foreign countries."],a:3,fx:"64 = d."},
+     {t:"mc",n:65,stem:"جملهٔ ۶۵:",opts:["A good teacher is a great help whether the language is learnt at home or by travelling.","Others travel to the country...","Some people try to learn a new language at home...","However, most people don't have enough money..."],a:0,fx:"65 = a."},
+     {t:"model",n:"49",qn:"How does the passage define 'peak' time?",ans:"It is when the energy consumption is generally high."},
+     {t:"model",n:"50",qn:"Author's suggestion about replacing devices/windows?",ans:"(It is) Replacing them with energy efficient ones."},
+     {t:"model",n:"55",qn:"How are abbreviations and acronyms similar?",ans:"They are short forms of words and phrases."},
+     {t:"model",n:"56",qn:"Why do authors use acronyms for a new technique?",ans:"Because they want to make it sound cool and help people remember the technique more easily."},
+     {t:"model",n:"60/61",qn:"Topic + concluding sentence for the Technology paragraph:",ans:"Topic: Technology has helped education a lot.  /  Concluding: Therefore, technology is helpful for teachers and learners."},
+     {t:"model",n:"66",qn:"Paragraph — Charity (Topic + supporting + concluding):",ans:"Charity is the act of giving help to those in need. It is a kind of voluntary work. Helping the poor to have a better living gives us a sense of happiness. In short, charity is a valuable act that benefits both givers and receivers."},
+   ]},
+  ]},
+
+ "1404":{date:"خرداد ۱۴۰۴ (۱۴۰۴/۰۳/۰۶)",label:"June 2025",
+  sections:[
+   {name:"Vocabulary",fa:"واژگان",mark:8.5,items:[
+     {t:"mc",n:15,stem:"(تصویر: مبل)  کدام جمله؟",opts:["Ali's cellphone consumes a lot of electricity.","Some of its apps don't work properly today.","Whenever he can't figure out the problem, he puts his cellphone away.","Now he's sitting on the sofa and checking online shops."],a:3,fx:"تصویرِ مبل → نشستن روی مبل → e (اینجا گزینهٔ d)."},
+     {t:"mc",n:16,stem:"(تصویر: آیکن اپ‌ها)  کدام جمله؟",opts:["Ali's cellphone consumes a lot of electricity.","Some of its apps don't work properly today.","Whenever he can't figure out the problem, he puts his cellphone away.","Now he's sitting on the sofa and checking online shops."],a:1,fx:"تصویرِ اپ‌ها → b."},
+     {t:"mc",n:17,stem:"(تصویر: کنار گذاشتنِ گوشی)  کدام جمله؟",opts:["Ali's cellphone consumes a lot of electricity.","Some of its apps don't work properly today.","Whenever he can't figure out the problem, he puts his cellphone away.","Now he's sitting on the sofa and checking online shops."],a:2,fx:"→ c (figure out / puts it away)."},
+     {t:"mc",n:18,stem:"(تصویر: برچسب مصرف انرژی kWh)  کدام جمله؟",opts:["Ali's cellphone consumes a lot of electricity.","Some of its apps don't work properly today.","Whenever he can't figure out the problem, he puts his cellphone away.","Now he's sitting on the sofa and checking online shops."],a:0,fx:"برچسبِ مصرف برق → a."},
+     {t:"fill",n:19,stem:"Did you know that Dr. Gharib ______ the first children's medical center? (forever/founded/recommended/physician)",a:["founded"],fx:"founded — تأسیس کرد."},
+     {t:"fill",n:20,stem:"Sure, he was also a dedicated ______ .",a:["physician"],fx:"physician — پزشک."},
+     {t:"fill",n:21,stem:"Not surprisingly, people will remember him ______ .",a:["forever"],fx:"forever — برای همیشه. (recommended اضافه است)"},
+     {t:"mc",n:22,stem:"I kept a <b>diary</b> every day.  →  تعریفِ diary:",opts:["the amount of a product people want","a lack of success in doing something","a book in which you record what has happened every day","many different types of things or people"],a:2,fx:"diary = دفتر خاطرات → c."},
+     {t:"mc",n:23,stem:"He <b>jumped into</b> using the dictionary...  →  تعریف:",opts:["the amount of a product people want","many different types of things or people","a book you record events in","to suddenly decide to do something"],a:3,fx:"jump into → e (یکباره تصمیم گرفتن)."},
+     {t:"mc",n:24,stem:"The <b>demand</b> for solar energy is increasing.  →  تعریفِ demand:",opts:["the amount of a product or service that people want","a lack of success in doing something","a book you record events in","many different types of things"],a:0,fx:"demand = تقاضا → a."},
+     {t:"mc",n:25,stem:"You can order a <b>variety</b> of seafood.  →  تعریفِ variety:",opts:["the amount of a product people want","a lack of success in doing something","a book you record events in","many different types of things or people"],a:3,fx:"variety = تنوع → d."},
+     {t:"mc",n:26,stem:"Despite playing badly, the team ______ to win the league.",opts:["deserved","received","created","discovered"],a:0,fx:"لیاقتش را داشت → <b>deserved</b>."},
+     {t:"mc",n:27,stem:"That's why I have ______ the balcony into a small office.",opts:["applied","converted","transmitted","suggested"],a:1,fx:"convert ... into → تبدیل کردن → <b>converted</b>."},
+     {t:"mc",n:28,stem:"It's spring and the weather is highly ______ .",opts:["invisible","comfortable","valuable","changeable"],a:3,fx:"هوای بهار متغیر است → <b>changeable</b>."},
+     {t:"mc",n:29,stem:"\"All people might experience ______ , but the first step to success is to accept it.\"",opts:["radiation","failure","vibration","heritage"],a:1,fx:"تجربهٔ شکست → <b>failure</b>."},
+     {t:"fill",n:30,stem:"After an hour in the gym, your body starts to a______ protein. (اولین حرف: a)",a:["absorb","accept"],fx:"absorb — جذب کردن (accept هم پذیرفته شده)."},
+   ]},
+   {name:"Grammar",fa:"گرامر",mark:6,items:[
+     {t:"mc",n:31,stem:"They know that you're right, but this idea will never help them, ______?",opts:["won't it","aren't you","will it","don't they"],a:2,fx:"«never» جمله را منفی می‌کند → پرسشِ مثبت با فاعل it: <b>will it?</b>"},
+     {t:"mc",n:32,stem:"Divan-e-Hafez ______ into many languages since the 8th century.",opts:["translates","translated","was translated","has been translated"],a:3,fx:"since + مجهولِ حال کامل → <b>has been translated</b>."},
+     {t:"mc",n:33,stem:"B: I ______ more money if I ______ you.",opts:["saved / was","saved / were","would save / were","saved / would be"],a:2,fx:"شرطی نوع دوم: <b>would save / were</b>."},
+     {t:"mc",n:34,stem:"Mina and her classmates bought some student books ______ their teacher suggested.",opts:["which","who","whom","what"],a:0,fx:"مرجعِ اشیاء (books) → <b>which</b>."},
+     {t:"fill",n:35,stem:"When I got home, my son ______ already ______ asleep. (to fall)",a:["had fallen","had already fallen"],fx:"ماضی بعید → <b>had (already) fallen</b>."},
+     {t:"fill",n:36,stem:"What would you do if you ______ lost in a foreign country? (to get)",a:["got"],fx:"شرطی نوع دوم، بخشِ if → <b>got</b>."},
+     {t:"fill",n:37,stem:"In big cities, the traffic rules ______ by everyone. (must / obey)",a:["must be obeyed"],fx:"مجهول با modal → <b>must be obeyed</b>."},
+     {t:"fill",n:38,stem:"Their father often ______ two pizzas for lunch on the weekend, doesn't he? (to have)",a:["has"],fx:"حال سادهٔ سوم‌شخص → <b>has</b>."},
+     {t:"fill",n:39,stem:"مرتب کن:  to landfill / by workers / should / taken / garbage / be / ?",a:["should garbage be taken to landfill by workers","should garbage be taken to landfill by workers?"],fx:"<b>Should garbage be taken to landfill by workers?</b>"},
+     {t:"fill",n:40,stem:"مرتب کن:  Vahid met / whom / the patient / before / to the doctor / talked / .",a:["the patient talked to the doctor whom vahid met before","the patient talked to the doctor whom vahid met before."],fx:"<b>The patient talked to the doctor whom Vahid met before.</b>"},
+   ]},
+   {name:"Reading",fa:"درک مطلب",mark:10,items:[
+     {t:"passage",title:"Passages (short)",text:"43) A distinguished Iranian poet, Asadi Tusi, compiled the first Persian dictionary and called it Loghat-e-Fors. He arranged the entries according to the final letters of the words. This dictionary has synonyms and explanations that young poets after him have widely used. They have added many words to it, as well.  •  44) When you get money quickly, like by winning it, it's easy to spend it or lose it quickly as well.  •  45) Oceans and lakes have much in common, but they differ: oceans are very large bodies of salt water, while lakes are smaller bodies of fresh water. Lakes are usually surrounded by land, while oceans are what surround continents."},
+     {t:"mc",n:43,stem:"About Loghat-e-Fors:",opts:["Loghat-e-Fors has no special arrangement of the words.","Young poets use synonyms and explanations in Loghat-e-Fors.","The poets after Asadi Tusi didn't know how to use his dictionary.","Loghat-e-Fors only contains words young poets wrote first."],a:1,fx:"شاعران جوان از مترادف‌ها و توضیحاتش استفاده کردند → b."},
+     {t:"mc",n:44,stem:"«...people usually say, ______»",opts:["Easy come, easy go","Two heads are better than one","Money does not grow on trees","Absence makes the heart grow fonder"],a:0,fx:"پول بادآورده باد می‌برد → <b>Easy come, easy go</b>."},
+     {t:"mc",n:45,stem:"About oceans and lakes:",opts:["Lakes surround lands.","Oceans and lakes are totally different.","Lakes have salt water.","Oceans are large bodies of water around continents."],a:3,fx:"اقیانوس‌ها قاره‌ها را احاطه می‌کنند → d."},
+     {t:"passage",title:"Passage · Elderly people",text:"Elderly people have to deal with the problems of aging, especially those related to health and income. Health-related issues commonly include normal losses of hearing, eyesight and memory. In addition, the elderly run a high risk of developing some serious illnesses such as kidney problem, stomach cancer, diabetes, and heart disease. Nowadays, elderly people receive better medical care as most governments have national health plans for them. Income is another important problem. Most of these people are retired and usually earn about half the money that working people make. As a result, they may face various economic issues, and they find it difficult to keep their social relationships."},
+     {t:"tf",n:46,stem:"National health plans offer the elderly better medical care.",a:true,fx:"دولت‌ها برنامهٔ سلامت ملی دارند → True."},
+     {t:"tf",n:47,stem:"Keeping social relationships is hard in old age.",a:true,fx:"متن: حفظِ روابط اجتماعی سخت می‌شود → True."},
+     {t:"mc",n:48,stem:"The two main problems of getting old are:",opts:["experience and social services","health and income","cancer and sickness","limitations and retirement"],a:1,fx:"سلامت و درآمد → b."},
+     {t:"mc",n:49,stem:"Many elderly people deal with health problems by ______ .",opts:["being socially less active","not working any more","having several economic issues","getting help from their government"],a:3,fx:"کمکِ دولت (برنامهٔ سلامت ملی) → d."},
+     {t:"passage",title:"Passage · Electric cars",text:"Electric cars will make gasoline cars less popular in the future. They use electricity stored in car batteries and do not use any fossil fuels. Hence, they are environmentally friendly. These cars have 12 or 24 batteries which might be similar to the batteries in flashlights or regular gasoline cars, but are completely different from cellular batteries. To get them ready to roll, you charge them just the way you charge the portable devices you carry every day. You can recharge these batteries either at home or at gas stations. Until better batteries are available, hybrid cars can be very helpful. Hybrid cars run partly on gasoline and partly on electricity."},
+     {t:"tf",n:52,stem:"Electric cars have batteries which are like cellular batteries.",a:false,fx:"«completely different from cellular batteries» → False."},
+     {t:"tf",n:53,stem:"You need to recharge your electric car only at gas stations.",a:false,fx:"در خانه هم می‌شود → False."},
+     {t:"mc",n:54,stem:"What does 'they' in the third line refer to?",opts:["electric cars","batteries","fossil fuels"],a:0,fx:"«they are environmentally friendly» → electric cars → a."},
+     {t:"mc",n:55,stem:"The word 'portable' is similar in meaning to:",opts:["rechargeable","suitable","moveable"],a:2,fx:"portable ≈ قابل‌حمل → <b>moveable</b> → c."},
+     {t:"mc",n:56,stem:"Electric cars are environmentally friendly because of ______ .",opts:["using a lot of gasoline","not polluting the air","being available in the market"],a:1,fx:"چون هوا را آلوده نمی‌کنند → b."},
+   ]},
+   {name:"Writing",fa:"نگارش",mark:6.5,items:[
+     {t:"fill",n:59,stem:"...they stick to the sweet ______ carry it to their home. (and/but/or/so)",a:["and"],fx:"دو کارِ همسو → <b>and</b>."},
+     {t:"fill",n:60,stem:"They are usually wingless, ______ they develop wings when they reproduce.",a:["but"],fx:"تضاد → <b>but</b>."},
+     {t:"fill",n:61,stem:"They live in groups or colonies, ______ they are social insects.",a:["so"],fx:"نتیجه → <b>so</b>."},
+     {t:"fill",n:62,stem:"In our town, people usually ride their bicycles, ______ to work. (or/so)",a:["or drive their cars","or drive to work","or drive","so they don't drive to work","so they try not to drive their car"],fx:"مثلاً <b>or drive their cars</b> (یا با so: so, they don't drive to work)."},
+     {t:"model",n:"41",qn:"We ______ three days off. (boss gave for hard work)",ans:"have been given / have got / have taken / have had / got"},
+     {t:"model",n:"42",qn:"If we were free for two weeks, ______ (to travel)",ans:"we would / could / might travel to + [مکان مناسب] (e.g., the Persian Gulf, the south of Iran)."},
+     {t:"model",n:"50",qn:"What serious health-related problems do the elderly face?",ans:"They face some serious illnesses such as kidney problem, stomach cancer, diabetes, and heart disease."},
+     {t:"model",n:"51",qn:"How much do retired people earn?",ans:"They (retired people) usually earn about half the money that working people make."},
+     {t:"model",n:"57",qn:"What types of fuels can hybrid cars use?",ans:"Hybrid cars run partly on gasoline and partly on electricity."},
+     {t:"model",n:"58",qn:"What are car engineers trying to do?",ans:"They are trying to use batteries that hold more energy and last longer."},
+     {t:"model",n:"63/64/65",qn:"Electricity paragraph — topic / supporting type / concluding:",ans:"Topic: Saving electricity seems very essential these days.  /  Supporting sentences: (b) explain the idea / (c) give reasons.  /  Concluding: Thus, saving electricity is important to everyone."},
+     {t:"model",n:"66",qn:"Paragraph — Pollution (Topic + 3 supporting + concluding):",ans:"Pollution is a serious problem in the world today. Air and water pollution are causing many diseases. They are also destroying nature and harming living things. Therefore, we must all work together to reduce pollution and protect our planet."},
+   ]},
+  ]},
+};
+
+/* ================= STATE / STORAGE ================= */
+const KEY="vision3_finals";
+let STATE={best:{}};
+let hasStorage=(typeof window!=="undefined"&&window.storage&&typeof window.storage.get==="function");
+async function load(){ if(hasStorage){ try{const r=await window.storage.get(KEY);if(r&&r.value)STATE=JSON.parse(r.value);}catch(e){} } }
+async function save(){ if(hasStorage){ try{await window.storage.set(KEY,JSON.stringify(STATE));}catch(e){hasStorage=false;} } }
+
+const $=s=>document.querySelector(s);
+function go(id){document.querySelectorAll(".screen").forEach(s=>s.classList.remove("on"));$("#"+id).classList.add("on");window.scrollTo({top:0,behavior:"smooth"});}
+function toast(m){const t=$("#toast");t.textContent=m;t.classList.add("show");clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove("show"),1700);}
+const kb=["a","b","c","d","e","f"];
+function norm(s){return (s||"").toLowerCase().trim().replace(/[.,!?]/g,"").replace(/\s+/g," ");}
+
+/* ================= HOME ================= */
+function renderHome(){
+  const box=$("#exam-cards");box.innerHTML="";
+  Object.keys(EXAMS).forEach(id=>{
+    const E=EXAMS[id];
+    const best=STATE.best&&STATE.best[id];
+    const el=document.createElement("div");
+    el.className="ecard";
+    el.innerHTML=`
+      <div class="cal">📅 ${E.date}</div>
+      <h3>آزمون نهایی</h3>
+      <div class="grade">زبان انگلیسی ۳ · پایهٔ دوازدهم</div>
+      <div class="best">${best?`بهترین رکورد شما: <span>${best.pct}%</span> (${best.right}/${best.total})`:"هنوز امتحان ندادی"}</div>
+      <button class="btn btn-red full" onclick="openExam('${id}')">شروع تمرین</button>`;
+    box.appendChild(el);
+  });
+}
+
+/* ================= EXAM ================= */
+let curExam=null, curSec=0;
+function openExam(id){ curExam=id; curSec=0; $("#exam-title").textContent=EXAMS[id].date; renderSnav(); renderSection(); go("exam"); }
+function renderSnav(){
+  const E=EXAMS[curExam]; const nav=$("#snav"); nav.innerHTML="";
+  E.sections.forEach((s,i)=>{
+    const b=document.createElement("button");
+    b.className=i===curSec?"on":"";
+    b.innerHTML=`<span class="en">${s.name}</span><span class="bar">${s.mark}</span>`;
+    b.onclick=()=>{curSec=i;renderSnav();renderSection();};
+    nav.appendChild(b);
+  });
+}
+function renderSection(){
+  const S=EXAMS[curExam].sections[curSec];
+  let html=`<div class="sechead"><div class="en">${S.name}</div><div class="fa">${S.fa} · بارم ${S.mark} از ۴۰</div></div>`;
+  S.items.forEach((it,idx)=>{
+    const qid=`q_${curSec}_${idx}`;
+    if(it.t==="passage"){
+      html+=`<div class="passage"><h4>${it.title}</h4>${it.text}</div>`;
+    } else if(it.t==="model"){
+      html+=`<div class="model"><div class="qn"><b>${it.n})</b> ${it.qn}</div><div class="ans">${it.ans}</div></div>`;
+    } else if(it.t==="mc"){
+      html+=`<div class="q" id="${qid}" data-type="mc" data-a="${it.a}">
+        <div class="stem"><span class="num">${it.n}</span>${it.stem}</div>
+        <div class="opts">${it.opts.map((o,k)=>`<button class="opt" data-k="${k}" onclick="pick('${qid}',${k})"><span class="k">${kb[k]}</span><span>${o}</span></button>`).join("")}</div>
+        <div class="fx" id="fx_${qid}"></div></div>`;
+    } else if(it.t==="tf"){
+      html+=`<div class="q" id="${qid}" data-type="tf" data-a="${it.a}">
+        <div class="stem"><span class="num">${it.n}</span>${it.stem}</div>
+        <div class="tfrow">
+          <button class="opt" data-k="true" onclick="pick('${qid}','true')"><span class="k">T</span><span>True</span></button>
+          <button class="opt" data-k="false" onclick="pick('${qid}','false')"><span class="k">F</span><span>False</span></button>
+        </div>
+        <div class="fx" id="fx_${qid}"></div></div>`;
+    } else if(it.t==="fill"){
+      html+=`<div class="q" id="${qid}" data-type="fill" data-a='${JSON.stringify(it.a).replace(/'/g,"&#39;")}'>
+        <div class="stem"><span class="num">${it.n}</span>${it.stem}</div>
+        <input class="fillin" placeholder="پاسخ را انگلیسی بنویس..." oninput="clearFx('${qid}')">
+        <div class="fx" id="fx_${qid}"></div></div>`;
+    }
+  });
+  // check bar only if section has gradable items
+  const gradable=S.items.some(i=>["mc","tf","fill"].includes(i.t));
+  html+=`<div class="checkbar">
+      ${gradable?`<button class="btn btn-red" onclick="checkSection()">بررسی و نمره</button>`:``}
+      <div class="scorepill" id="scorepill"></div>
+      <button class="btn btn-out" onclick="nextSection()">بخش بعد ←</button>
+    </div>`;
+  $("#sec-body").innerHTML=html;
+  window.scrollTo({top:120,behavior:"smooth"});
+}
+function pick(qid,k){
+  const q=$("#"+qid); if(q.dataset.locked) return;
+  q.querySelectorAll(".opt").forEach(o=>o.classList.remove("sel"));
+  q.querySelector(`.opt[data-k="${k}"]`).classList.add("sel");
+  q.dataset.pick=k;
+}
+function clearFx(qid){ const q=$("#"+qid); if(q.dataset.locked)return; $("#fx_"+qid).className="fx"; q.querySelector(".fillin").classList.remove("correct","wrong"); }
+
+function checkSection(){
+  const S=EXAMS[curExam].sections[curSec];
+  let right=0,total=0;
+  document.querySelectorAll("#sec-body .q").forEach(q=>{
+    const type=q.dataset.type; total++;
+    q.dataset.locked="1";
+    const fx=$("#fx_"+q.id);
+    let ok=false, keyText="";
+    if(type==="mc"){
+      const a=+q.dataset.a, pick=q.dataset.pick!==undefined?+q.dataset.pick:null;
+      q.querySelectorAll(".opt").forEach(o=>{const k=+o.dataset.k;o.style.pointerEvents="none";if(k===a)o.classList.add("correct");if(k===pick&&pick!==a)o.classList.add("wrong");});
+      ok=pick===a; keyText=`گزینهٔ صحیح: ${kb[a]}`;
+    } else if(type==="tf"){
+      const a=q.dataset.a==="true", pick=q.dataset.pick;
+      q.querySelectorAll(".opt").forEach(o=>{const k=o.dataset.k==="true";o.style.pointerEvents="none";if(k===a)o.classList.add("correct");if(o.dataset.k===pick&&(pick==="true")!==a)o.classList.add("wrong");});
+      ok=(pick==="true")===a && pick!==undefined; keyText=`صحیح: ${a?"True":"False"}`;
+    } else if(type==="fill"){
+      const accepted=JSON.parse(q.dataset.a.replace(/&#39;/g,"'")).map(norm);
+      const inp=q.querySelector(".fillin"); const val=norm(inp.value);
+      ok=accepted.includes(val); 
+      inp.disabled=true; inp.classList.add(ok?"correct":"wrong");
+      keyText=`کلید: ${JSON.parse(q.dataset.a.replace(/&#39;/g,"'"))[0]}`;
+    }
+    if(ok)right++;
+    // find explanation from data model
+    const idx=+q.id.split("_")[2];
+    const it=S.items.filter(i=>["mc","tf","fill"].includes(i.t))[[...document.querySelectorAll("#sec-body .q")].indexOf(q)];
+    const exp=it&&it.fx?it.fx:"";
+    fx.className="fx on "+(ok?"ok":"no");
+    fx.innerHTML=(ok?"✓ درست. ":`✗ <span class="key">${keyText}.</span> `)+exp;
+  });
+  const pct=Math.round(right/total*100);
+  const pill=$("#scorepill");
+  pill.className="scorepill on "+(pct>=70?"good":"mid");
+  pill.textContent=`${right}/${total} · ${pct}%`;
+  // record best across all gradable sections of this exam (aggregate simple: store per-attempt of this section into exam best by summing? keep simple: track section-agnostic best of last full pass)
+  recordSection(right,total);
+}
+let attemptTally={right:0,total:0};
+function recordSection(r,t){
+  // accumulate for the exam's best snapshot (best single-section not ideal; store cumulative best of whole exam if all sections done)
+  const id=curExam;
+  if(!STATE.best) STATE.best={};
+  const prev=STATE.best[id]||{right:0,total:0,pct:0};
+  // simple heuristic: keep the highest total answered with its ratio
+  const newRight=r, newTotal=t;
+  // store best by pct on largest sample
+  if(newTotal>=prev.total || (newRight/newTotal)*100>prev.pct){
+    STATE.best[id]={right:newRight,total:newTotal,pct:Math.round(newRight/newTotal*100)};
+    save();
+    renderHome();
+  }
+}
+function nextSection(){ curSec=(curSec+1)%EXAMS[curExam].sections.length; renderSnav(); renderSection(); }
+
+async function resetAll(){
+  if(!confirm("همهٔ رکوردهای آزمون پاک شود؟")) return;
+  STATE={best:{}};
+  if(hasStorage){try{await window.storage.delete(KEY);}catch(e){}}
+  toast("رکوردها پاک شد"); renderHome();
+}
+
+(async function(){ await load(); renderHome(); })();
+</script>
+</body>
+</html>
